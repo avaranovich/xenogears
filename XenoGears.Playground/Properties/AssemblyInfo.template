@@ -1,0 +1,22 @@
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using XenoGears.Versioning;
+
+[assembly: AssemblyProduct("XenoGears")]
+[assembly: AssemblyTitle("XenoGears.Playground" +
+    "built from $CODEBASE$ (rev=$REVISION$, hash=$CODEHASH$), " +
+    "built at $TIMESTAMP$, " +
+    "built by $USERHASH$, " +
+    "built on $MACHINEHASH$)")]
+[assembly: AssemblyCopyright("Copyright © 2009-2010 xeno.by")]
+
+[assembly: ComVisible(false)]
+//[assembly: InternalsVisibleTo("")]
+
+[assembly: Guid("b7091dba-4878-41f3-8685-fa9398459508")]
+[assembly: AssemblyVersion("0.0.$REVISION$.0")]
+[assembly: AssemblyBuiltFrom(Repository = "$CODEBASE$", Revision = "$REVISION$", CodebaseHash = "$CODEHASH$")]
+[assembly: AssemblyBuiltAt(Timestamp = "$TIMESTAMP$")]
+[assembly: AssemblyBuiltBy(UserHash = "$USERHASH$")]
+[assembly: AssemblyBuiltOn(MachineHash = "$MACHINEHASH$")]

@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9435C2AB-D46A-481C-B485-BD74EFAE7D3E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XenoGears</RootNamespace>
+    <AssemblyName>XenoGears</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ISymWrapper" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Functional\EnumerableExtensions.Stack.cs" />
+    <Compile Include="Reflection\ActivatorExtensions.cs" />
+    <Compile Include="Collections\Virtual\VirtualList.cs" />
+    <Compile Include="ComponentModel\INotifyPropertyChanged.cs" />
+    <Compile Include="ComponentModel\INotifyPropertyChanging.cs" />
+    <Compile Include="ComponentModel\PropertyChangeEventArgs.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Annotations.cs" />
+    <Compile Include="FluencyHelper.cs" />
+    <Compile Include="Reflection\DelegateHelper.cs" />
+    <Compile Include="Reflection\Emit\ILTrait.Raw.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reflection\Emit\PredicateType.cs" />
+    <Compile Include="Reflection\EnumHelper.cs" />
+    <Compile Include="Reflection\Generics\GenericArgsHelper.cs" />
+    <Compile Include="Reflection\Generics\Ptr.cs" />
+    <Compile Include="Reflection\Generics\Ref.cs" />
+    <Compile Include="Reflection\SpecialNamesHelper.cs" />
+    <Compile Include="Reflection\Typed\ApiExtensions.cs" />
+    <Compile Include="Reflection\Visibility.cs" />
+    <Compile Include="Reflection\VisibilityHelper.cs" />
+    <Compile Include="Traits\Cloneable\ICloneable2Trait.cs" />
+    <Compile Include="Traits\Disposable\DisposableAction.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Closure.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Set.cs" />
+    <Compile Include="Functional\EnumerableExtensions.SQOv2.OrCustomDefault.cs" />
+    <Compile Include="Functional\EnumerableExtensions.SQOv2.OrDefault.cs" />
+    <Compile Include="Functional\EnumerableExtensions.SQOv2.Order.cs" />
+    <Compile Include="Functional\EnumerableExtensions.SQOv2.Product.cs" />
+    <Compile Include="Functional\EnumerableExtensions.SQOv2.Seq.cs" />
+    <Compile Include="Functional\EnumerableExtensions.SQOv2.Set.cs" />
+    <Compile Include="Exceptions\DeferredException.cs" />
+    <Compile Include="Reflection\Anonymous\AnonymousTypeBuilder.cs" />
+    <Compile Include="Reflection\Anonymous\AnonymousTypesCache.cs" />
+    <Compile Include="Reflection\Anonymous\AnonymousTypesHelper.cs" />
+    <Compile Include="Reflection\Anonymous\DynamicAssemblyHolder.cs" />
+    <Compile Include="Reflection\Anonymous\SampleAnonymousType.cs" />
+    <Compile Include="Reflection\Attributes\Codebase\CodebaseRegistry.cs" />
+    <Compile Include="Reflection\Attributes\Snippets\Snippet.cs" />
+    <Compile Include="Reflection\Attributes\Snippets\SnippetAnnotationAnnotationAttribute.cs" />
+    <Compile Include="Reflection\Attributes\Snippets\SnippetRegistry.cs" />
+    <Compile Include="Reflection\Attributes\Weight\WeightedAttribute.cs" />
+    <Compile Include="Reflection\Attributes\Weight\WeightedMetadataExtensions.cs" />
+    <Compile Include="Reflection\Generics\GenericArgsInferenceHelper.cs" />
+    <Compile Include="Reflection\PropertyBagHelper.cs" />
+    <Compile Include="AppdHelper.cs" />
+    <Compile Include="Assertions\AssertionFailedException.cs" />
+    <Compile Include="Assertions\AssertionHelper.cs" />
+    <Compile Include="Collections\Virtual\VirtualDictionary.cs" />
+    <Compile Include="Collections\ThreadSafe\IThreadSafeDictionary.cs" />
+    <Compile Include="Collections\ThreadSafe\Locks.cs" />
+    <Compile Include="Collections\ThreadSafe\StackList.cs" />
+    <Compile Include="Collections\ThreadSafe\ThreadSafeDictionary.cs" />
+    <Compile Include="Collections\ThreadSafe\ThreadSafeHashSet.cs" />
+    <Compile Include="Collections\ThreadSafe\ThreadSafeQueue.cs" />
+    <Compile Include="Collections\ThreadSafe\ThreadSafeStackList.cs" />
+    <Compile Include="Collections\InitOnlyDictionary.cs" />
+    <Compile Include="Collections\ReadOnlyDictionary.cs" />
+    <Compile Include="Collections\Observable\ChangesetHelper.cs" />
+    <Compile Include="ComponentModel\INotifyListChanged.cs" />
+    <Compile Include="ComponentModel\INotifyListChanging.cs" />
+    <Compile Include="Collections\Observable\IObservableList.cs" />
+    <Compile Include="ComponentModel\ListChangeAction.cs" />
+    <Compile Include="ComponentModel\ListChangeEventArgs.cs" />
+    <Compile Include="Collections\Observable\ObservableList.cs" />
+    <Compile Include="Collections\Observable\ObservableLists.cs" />
+    <Compile Include="Collections\BaseDictionary.cs" />
+    <Compile Include="Collections\Weak\WeakKeyComparer.cs" />
+    <Compile Include="Collections\Weak\WeakKeyDictionary.cs" />
+    <Compile Include="Collections\Weak\WeakKeyReference.cs" />
+    <Compile Include="Collections\Weak\WeakKeyWeakValueDictionary.cs" />
+    <Compile Include="Collections\Weak\WeakNullReference.cs" />
+    <Compile Include="Collections\Weak\WeakReference.cs" />
+    <Compile Include="Functional\Combinatorics.cs" />
+    <Compile Include="Strings\ToFromStringHelper.cs" />
+    <Compile Include="Core\Func.cs" />
+    <Compile Include="Core\Impl\MutableTupleElements.cs" />
+    <Compile Include="Core\IMutableTuple.cs" />
+    <Compile Include="Core\MutableTuple!1.cs" />
+    <Compile Include="Core\MutableTuple!2.cs" />
+    <Compile Include="Core\MutableTuple!3.cs" />
+    <Compile Include="Core\MutableTuple!4.cs" />
+    <Compile Include="Core\MutableTuple!5.cs" />
+    <Compile Include="Core\MutableTuple!6.cs" />
+    <Compile Include="Core\MutableTuple!7.cs" />
+    <Compile Include="Core\MutableTuple!8.cs" />
+    <Compile Include="Core\MutableTuple.cs" />
+    <Compile Include="Traits\Disposable\Disposable.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Chop.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Fold.cs" />
+    <Compile Include="Functional\EnumerableExtensions.IndexOf.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Intersperse.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Nth.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Ranges.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Shift.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Slide.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Generators.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Scan.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Strings.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Flatten.cs" />
+    <Compile Include="Functional\EnumerableExtensions.SQOv2.cs" />
+    <Compile Include="Functional\EnumerableExtensions.ForEach.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Construction.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Slice.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Zip.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Dictionaries.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Predicates.cs" />
+    <Compile Include="Core\ActionsAndFuncs.cs" />
+    <Compile Include="Core\IStructuralComparable.cs" />
+    <Compile Include="Core\IStructuralEquatable.cs" />
+    <Compile Include="Core\ITuple.cs" />
+    <Compile Include="Core\Impl\ITupleImpl.cs" />
+    <Compile Include="Core\Tuple!1.cs" />
+    <Compile Include="Core\Tuple!2.cs" />
+    <Compile Include="Core\Tuple!3.cs" />
+    <Compile Include="Core\Tuple!4.cs" />
+    <Compile Include="Core\Tuple!5.cs" />
+    <Compile Include="Core\Tuple!6.cs" />
+    <Compile Include="Core\Tuple!7.cs" />
+    <Compile Include="Core\Tuple!8.cs" />
+    <Compile Include="Core\Impl\TupleImplHelper.cs" />
+    <Compile Include="Core\Tuple.cs" />
+    <Compile Include="Exceptions\BaseException.cs" />
+    <Compile Include="Exceptions\ExceptionWhenHandlingException.cs" />
+    <Compile Include="Exceptions\IncludeInMessageAttribute.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Attributes\AttributeHelper.cs" />
+    <Compile Include="Reflection\ClassificationHelper.cs" />
+    <Compile Include="Reflection\Emit2\Codegen.cs" />
+    <Compile Include="Reflection\Emit2\CodegenUnit.cs" />
+    <Compile Include="Reflection\Emit\CustomAttributeBuilderTrait.cs" />
+    <Compile Include="Reflection\Emit\DefineMethodHelper.cs" />
+    <Compile Include="Reflection\Emit\FromLambda.cs" />
+    <Compile Include="Reflection\Emit\Hackarounds\FixEmitMethodToken_WithHackaround.cs" />
+    <Compile Include="Reflection\Emit\Hackarounds\FixMethodBuilderSignature_WithHackaround.cs" />
+    <Compile Include="Reflection\Emit\Hackarounds\ILTrait_WithHackaround.cs" />
+    <Compile Include="Reflection\Emit\Hackarounds\SignatureHelper_WithHackaround.cs" />
+    <Compile Include="Reflection\Emit\ILTrait.Conversions.cs" />
+    <Compile Include="Reflection\Emit\ILTrait.Macros.cs" />
+    <Compile Include="Reflection\Emit\ILTrait.Core.cs" />
+    <Compile Include="Reflection\Emit\InterfaceMappingTrait.cs" />
+    <Compile Include="Reflection\Emit\Hackarounds\SafeTypeForEmitHelper.cs" />
+    <Compile Include="Reflection\Emit\MethodBuilderTrait.cs" />
+    <Compile Include="Reflection\Emit\MethodInfoTrait.cs" />
+    <Compile Include="Reflection\Emit\MyTrait.cs" />
+    <Compile Include="Reflection\Emit\OverrideMethodHelper.cs" />
+    <Compile Include="Reflection\Emit\TypeTrait.cs" />
+    <Compile Include="Reflection\Generics\FTypesHelper.cs" />
+    <Compile Include="Reflection\Generics\GenericsHelper.cs" />
+    <Compile Include="Reflection\ReflectionHelper.cs" />
+    <Compile Include="Reflection\Shortcuts\BF.cs" />
+    <Compile Include="Reflection\Shortcuts\CC.cs" />
+    <Compile Include="Reflection\Shortcuts\FA.cs" />
+    <Compile Include="Reflection\Shortcuts\MA.cs" />
+    <Compile Include="Reflection\Shortcuts\ParmA.cs" />
+    <Compile Include="Reflection\Shortcuts\PropA.cs" />
+    <Compile Include="Reflection\Shortcuts\TA.cs" />
+    <Compile Include="Reflection\Simple\SimpleApi.cs" />
+    <Compile Include="Reflection\Generics\StructuralTrees\GenericArgsMappingHelper.cs" />
+    <Compile Include="Reflection\Generics\StructuralTrees\MethodStructuralTree.cs" />
+    <Compile Include="Reflection\Generics\StructuralTrees\TypeStructuralTree.cs" />
+    <Compile Include="Reflection\Generics\StructuralTrees\TypeStructuralTreeHelper.cs" />
+    <Compile Include="Reflection\Typed\Api.Methods.Action.cs" />
+    <Compile Include="Reflection\Typed\Api.Methods.cs" />
+    <Compile Include="Reflection\Typed\Api.Methods.Func.cs" />
+    <Compile Include="Reflection\Typed\Api.Slots.cs" />
+    <Compile Include="Reflection\Typed\Slot.cs" />
+    <Compile Include="Reflection\Typed\_.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Seq.cs" />
+    <Compile Include="Strings\CSharpStringHelper.cs" />
+    <Compile Include="Strings\ToCSharpOptions.cs" />
+    <Compile Include="Strings\JsonStringHelper.cs" />
+    <Compile Include="Strings\NameQualifiers.cs" />
+    <Compile Include="Strings\ToStringHelper.CSharp.Core.cs" />
+    <Compile Include="Strings\ToStringHelper.CSharp.Clauses.cs" />
+    <Compile Include="Traits\Cloneable\ICloneable2.cs" />
+    <Compile Include="Traits\Dumpable\DumpFormatAttribute.cs" />
+    <Compile Include="Traits\Dumpable\IDumpableAsImage.cs" />
+    <Compile Include="Traits\Dumpable\IDumpableAsText.cs" />
+    <Compile Include="Traits\Dumpable\IDumpableAsTextTrait.cs" />
+    <Compile Include="Traits\Equivatable\IEquivatable.cs" />
+    <Compile Include="Traits\Equivatable\EquivatableTrait.cs" />
+    <Compile Include="Traits\Freezable\Freezable.cs" />
+    <Compile Include="Traits\Freezable\IFreezable.cs" />
+    <Compile Include="Traits\Freezable\IFreezableTrait.cs" />
+    <Compile Include="Traits\Hierarchy\Hierarchy.cs" />
+    <Compile Include="Traits\Hierarchy\IHierarchy.cs" />
+    <Compile Include="Traits\Hierarchy\IHierarchy2.cs" />
+    <Compile Include="Traits\Hierarchy\IHierarchyExtensions.cs" />
+    <Compile Include="Traits\Hierarchy\IImmutableHierarchy.cs" />
+    <Compile Include="Traits\Hierarchy\IImmutableHierarchy2.cs" />
+    <Compile Include="UnitTest.cs" />
+    <Compile Include="SafetyTools.cs" />
+    <Compile Include="StreamUtilities.cs" />
+    <Compile Include="Strings\StringHelper.cs" />
+    <Compile Include="TlsHelper.cs" />
+    <Compile Include="Strings\ToStringHelper.Miscellaneous.cs" />
+    <Compile Include="Functional\EnumerableExtensions.Lists.cs" />
+    <Compile Include="Unsafe\PointerToPinnedObject.cs" />
+    <Compile Include="Unsafe\SizeofHelper.cs" />
+    <Compile Include="Unsafe\UnsafeHelper.cs" />
+    <Compile Include="Versioning\AssemblyBuiltByAttribute.cs" />
+    <Compile Include="Versioning\AssemblyBuiltFromAttribute.cs" />
+    <Compile Include="Versioning\AssemblyBuiltOnAttribute.cs" />
+    <Compile Include="Versioning\AssemblyBuiltAtAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AssemblyInfo.template" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <PreBuildEvent>"$(ProjectDir)..\ThirdPartyStuff\autoversioner\AutoVersioner.exe" "$(ProjectDir)$(ProjectFileName)" "$(ProjectDir)Properties\AssemblyInfo.template" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
+  </PropertyGroup>
+</Project>

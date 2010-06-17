@@ -1,0 +1,11 @@
+glob:*.user
+glob:*.suo
+glob:XenoGears/bin/
+glob:XenoGears/obj/
+glob:XenoGears.DebuggerVisualizers/bin/
+glob:XenoGears.DebuggerVisualizers/obj/
+glob:XenoGears.Playground/bin/
+glob:XenoGears.Playground/obj/
+glob:XenoGears.Ogre/bin/
+glob:XenoGears.Ogre/obj/
+glob:*AssemblyInfo.cs

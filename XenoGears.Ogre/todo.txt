@@ -1,0 +1,4 @@
+﻿// todo.
+
+1. Implement serialization/deserialization of the graph
+2. Implement browser for serialized graph - useful for logging exceptional state and browsing it later
