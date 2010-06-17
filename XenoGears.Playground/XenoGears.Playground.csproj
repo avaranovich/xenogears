@@ -59,10 +59,6 @@
     <Compile Include="Strings\ToStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XenoGears.Ogre\XenoGears.Ogre.csproj">
-      <Project>{167873DF-615D-40D2-BFA0-96074B9DEC01}</Project>
-      <Name>XenoGears.Ogre</Name>
-    </ProjectReference>
     <ProjectReference Include="..\XenoGears\XenoGears.csproj">
       <Project>{9435C2AB-D46A-481C-B485-BD74EFAE7D3E}</Project>
       <Name>XenoGears</Name>
