@@ -8,7 +8,7 @@ using XenoGears.Functional;
 
 namespace XenoGears.Reflection.Emit
 {
-//    [DebuggerNonUserCode]
+    [DebuggerNonUserCode]
     public static class MethodInfoTrait
     {
         public static bool IsInvariantTo(this MethodBase source, MethodBase method)

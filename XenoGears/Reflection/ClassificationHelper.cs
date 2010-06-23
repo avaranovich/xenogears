@@ -14,7 +14,7 @@ using XenoGears.Reflection.Shortcuts;
 
 namespace XenoGears.Reflection
 {
-//    [DebuggerNonUserCode]
+    [DebuggerNonUserCode]
     public static class ClassificationHelper
     {
         public static bool IsArray(this Object o)
