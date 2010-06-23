@@ -406,6 +406,7 @@ namespace XenoGears.Reflection.Emit
 
         public static ILGenerator ldfld(this ILGenerator il, FieldInfo field)
         {
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(field.IsStatic ? OpCodes.Ldsfld : OpCodes.Ldfld, field);
             return il;
         }
@@ -457,6 +458,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (type == null) throw new ArgumentNullException("type");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Ldtoken, type);
             return il;
         }
@@ -465,6 +467,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (methodBase == null) throw new ArgumentNullException("methodBase");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Ldtoken, methodBase.AssertCast<MethodInfo>());
             return il;
         }
@@ -473,6 +476,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (fieldInfo == null) throw new ArgumentNullException("fieldInfo");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Ldtoken, fieldInfo);
             return il;
         }
@@ -611,6 +615,7 @@ namespace XenoGears.Reflection.Emit
 
         public static ILGenerator stfld(this ILGenerator il, FieldInfo field)
         {
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(field.IsStatic ? OpCodes.Stsfld : OpCodes.Stfld, field);
             return il;
         }

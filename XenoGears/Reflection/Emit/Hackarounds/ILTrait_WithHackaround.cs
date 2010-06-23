@@ -46,12 +46,8 @@ namespace XenoGears.Reflection.Emit.Hackarounds
 
         public static ILGenerator EmitCall_Hackaround(this ILGenerator il, OpCode opcode, MethodBase mb)
         {
-            if (il.GetType().Name == "DynamicILGenerator")
-            {
-                il.EmitCall(opcode, mb.AssertCast<MethodInfo>(), null);
-                return il;
-            }
-            else
+            var mscorlib_ver = typeof(String).Assembly.GetName().Version;
+            if (mscorlib_ver.Major < 4)
             {
                 if (mb.IsSafeForEmit())
                 {
@@ -60,13 +56,26 @@ namespace XenoGears.Reflection.Emit.Hackarounds
                 }
                 else
                 {
-                    // todo #1. also take into account that we need to update stacksize
-                    // todo #2. what is RecordTokenFixup()?
+                    if (il.GetType().Name == "DynamicILGenerator")
+                    {
+                        il.EmitCall(opcode, mb.AssertCast<MethodInfo>(), null);
+                        return il;
+                    }
+                    else
+                    {
+                        // todo #1. also take into account that we need to update stacksize
+                        // todo #2. what is RecordTokenFixup()?
 
-                    var token = il.GetMethodToken_Hackaround(mb);
-                    var operand = BitConverter.GetBytes(token);
-                    return il.raw(opcode, operand);
+                        var token = il.GetMethodToken_Hackaround(mb);
+                        var operand = BitConverter.GetBytes(token);
+                        return il.raw(opcode, operand);
+                    }
                 }
+            }
+            else
+            {
+                il.EmitCall(opcode, mb.AssertCast<MethodInfo>(), null);
+                return il;
             }
         }
         public static MethodBuilder OverrideMethod_WithHackaround(this TypeBuilder source, MethodBase parentMethod)

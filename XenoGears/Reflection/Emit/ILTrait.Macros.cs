@@ -46,6 +46,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (fieldInfo == null) throw new ArgumentNullException("fieldInfo");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Ldtoken, fieldInfo);
             il.Emit(OpCodes.Ldtoken, fieldInfo.DeclaringType);
             il.EmitCall(OpCodes.Call, typeof(FieldInfo).GetMethod("GetFieldFromHandle", new[] { typeof(RuntimeFieldHandle), typeof(RuntimeTypeHandle) }), null);
@@ -58,6 +59,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (methodBase == null) throw new ArgumentNullException("methodBase");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Ldtoken, methodBase.AssertCast<MethodInfo>());
             il.Emit(OpCodes.Ldtoken, methodBase.DeclaringType);
             il.EmitCall(OpCodes.Call, typeof(MethodBase).GetMethod("GetMethodFromHandle", new[] { typeof(RuntimeMethodHandle), typeof(RuntimeTypeHandle) }), null);
@@ -69,6 +71,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (typeInfo == null) throw new ArgumentNullException("typeInfo");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Ldtoken, typeInfo);
             il.EmitCall(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new[] { typeof(RuntimeTypeHandle) }), null);
 

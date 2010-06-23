@@ -37,6 +37,8 @@ namespace XenoGears.Reflection.Emit.Hackarounds
 
         public static bool IsSafeForEmit(this Type t)
         {
+            if (t == null) return true;
+            if (!t.XGetGenericArguments().All(garg => garg.IsSafeForEmit())) return false;
             return !t.IsRectMdArray();
         }
 
@@ -44,12 +46,15 @@ namespace XenoGears.Reflection.Emit.Hackarounds
         {
             if (f == null) return true;
             if (f is FieldBuilder) return false;
+            if (!f.DeclaringType.IsSafeForEmit()) return false;
             return f.FieldType.IsSafeForEmit();
         }
 
         public static bool IsSafeForEmit(this MethodBase m)
         {
             if (m is MethodBuilder) return false;
+            if (!m.DeclaringType.IsSafeForEmit()) return false;
+            if (!m.XGetGenericArguments().All(garg => garg.IsSafeForEmit())) return false;
             return m.Ret().IsSafeForEmit() && m.Params().All(p => p.IsSafeForEmit());
         }
 
@@ -57,6 +62,7 @@ namespace XenoGears.Reflection.Emit.Hackarounds
         {
             if (p == null) return true;
             if (p is PropertyBuilder) return false;
+            if (!p.DeclaringType.IsSafeForEmit()) return false;
             return p.PropertyType.IsSafeForEmit();
         }
     }
