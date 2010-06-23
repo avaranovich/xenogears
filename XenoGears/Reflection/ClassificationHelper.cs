@@ -24,6 +24,7 @@ namespace XenoGears.Reflection
 
         public static bool IsArray(this Type t)
         {
+            if (t == null) return false;
             return t != null && t.IsArray;
         }
 
@@ -34,6 +35,7 @@ namespace XenoGears.Reflection
 
         public static bool Is1dArray(this Type t)
         {
+            if (t == null) return false;
             return t.IsArray && t.GetArrayRank() == 1 && !t.GetElementType().IsArray;
         }
 
@@ -44,6 +46,7 @@ namespace XenoGears.Reflection
 
         public static bool IsRectMdArray(this Type t)
         {
+            if (t == null) return false;
             return t.IsArray && t.GetArrayRank() > 1;
         }
 
@@ -54,6 +57,7 @@ namespace XenoGears.Reflection
 
         public static bool IsJaggedMdArray(this Type t)
         {
+            if (t == null) return false;
             return t.IsArray && t.GetArrayRank() == 1 && t.GetElementType().IsArray;
         }
 

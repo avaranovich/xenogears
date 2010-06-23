@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using XenoGears.Assertions;
+using XenoGears.Reflection.Generics;
 
 namespace XenoGears.Reflection.Emit.Hackarounds
 {
@@ -40,17 +43,20 @@ namespace XenoGears.Reflection.Emit.Hackarounds
         public static bool IsSafeForEmit(this FieldInfo f)
         {
             if (f == null) return true;
+            if (f is FieldBuilder) return false;
             return f.FieldType.IsSafeForEmit();
         }
 
         public static bool IsSafeForEmit(this MethodBase m)
         {
-            return false;
+            if (m is MethodBuilder) return false;
+            return m.Ret().IsSafeForEmit() && m.Params().All(p => p.IsSafeForEmit());
         }
 
         public static bool IsSafeForEmit(this PropertyInfo p)
         {
             if (p == null) return true;
+            if (p is PropertyBuilder) return false;
             return p.PropertyType.IsSafeForEmit();
         }
     }
