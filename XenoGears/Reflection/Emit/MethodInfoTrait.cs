@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -26,19 +27,20 @@ namespace XenoGears.Reflection.Emit
             return true;
         }
 
-        public static IEnumerable<MethodBase> Declarations(this MethodInfo m)
+        private static readonly Dictionary<MethodInfo, ReadOnlyCollection<MethodBase>> _declarationsCache = new Dictionary<MethodInfo, ReadOnlyCollection<MethodBase>>();
+        public static ReadOnlyCollection<MethodBase> Declarations(this MethodInfo m)
         {
-            if (m == null) return new MethodInfo[0];
-            if (m.DeclaringType == null) return new MethodInfo[0];
-            if (m.DeclaringType.IsInterface) return new MethodInfo[0];
-            return m.DeclarationsImpl();
+            if (m == null) return null;
+            if (m.DeclaringType == null) return Seq.Empty<MethodBase>().ToReadOnly();
+            if (m.DeclaringType.IsInterface) return Seq.Empty<MethodBase>().ToReadOnly();
+            return _declarationsCache.GetOrCreate(m, () => m.DeclarationsImpl().ToReadOnly());
         }
 
         private static IEnumerable<MethodBase> DeclarationsImpl(this MethodInfo m)
         {
             foreach (var t_iface in m.DeclaringType.GetInterfaces())
             {
-                var map = m.DeclaringType.GetInterfaceMap(t_iface).MapImplToInterface();
+                var map = m.DeclaringType.MapImplsToInterfaces(t_iface);
 
                 // note. here I've faced a strange bug
                 // when m is an explicit interface implementation, map ain't contain it :O

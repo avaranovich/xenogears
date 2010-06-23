@@ -183,7 +183,7 @@
     <Compile Include="Reflection\Emit\ILTrait.Conversions.cs" />
     <Compile Include="Reflection\Emit\ILTrait.Macros.cs" />
     <Compile Include="Reflection\Emit\ILTrait.Core.cs" />
-    <Compile Include="Reflection\Emit\InterfaceMappingTrait.cs" />
+    <Compile Include="Reflection\InterfaceMappingHelper.cs" />
     <Compile Include="Reflection\Emit\Hackarounds\SafeTypeForEmitHelper.cs" />
     <Compile Include="Reflection\Emit\MethodInfoTrait.cs" />
     <Compile Include="Reflection\Emit\MyTrait.cs" />
