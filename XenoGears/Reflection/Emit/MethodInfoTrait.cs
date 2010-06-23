@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using XenoGears.Reflection.Generics;
+using XenoGears.Functional;
 
 namespace XenoGears.Reflection.Emit
 {
-    [DebuggerNonUserCode]
+//    [DebuggerNonUserCode]
     public static class MethodInfoTrait
     {
-        public static bool IsInvariantTo(this MethodInfo source, MethodInfo method)
+        public static bool IsInvariantTo(this MethodBase source, MethodBase method)
         {
             if (source.IsGenericMethod || method.IsGenericMethod) throw new NotImplementedException(); // TODO: implement it somewhen
 
             var me = source.GetParameters();
             var he = method.GetParameters();
 
-            if (source.ReturnType != method.ReturnType && !source.ReturnType.IsAssignableFrom(method.ReturnType)) return false;
+            if (source.Ret() != method.Ret() && !source.Ret().IsAssignableFrom(method.Ret())) return false;
             if (me.Length != he.Length) return false;
             for (var i = 0; i < me.Length; i++)
                 if (he[i].ParameterType != me[i].ParameterType && !he[i].ParameterType.IsAssignableFrom(me[i].ParameterType)) return false;
@@ -26,48 +26,31 @@ namespace XenoGears.Reflection.Emit
             return true;
         }
 
-//        private static Dictionary<Tuple<Type, Type>, InterfaceMapping> _mapCache = 
-//            new Dictionary<Tuple<Type, Type>, InterfaceMapping>();
-
-        public static IEnumerable<MethodInfo> Declarations(this MethodInfo source)
+        public static IEnumerable<MethodBase> Declarations(this MethodInfo m)
         {
-            if (source == null) return new MethodInfo[0];
-            if (source.DeclaringType == null) return new MethodInfo[0];
-            if (source.DeclaringType.IsInterface) return new MethodInfo[0];
-
-            return (from iface in source.DeclaringType.GetInterfaces() 
-//            let cacheKey = Tuple.New(source.DeclaringType, iface)
-//            let map = _mapCache.GetOrCreate(cacheKey, _ => source.DeclaringType.GetInterfaceMap(iface))
-//            from entry in map.MapInterfaceToImpl()
-            from entry in source.DeclaringType.GetInterfaceMap(iface).MapInterfaceToImpl()
-            where entry.Value == source
-            select entry.Key).Cast<MethodInfo>();
+            if (m == null) return new MethodInfo[0];
+            if (m.DeclaringType == null) return new MethodInfo[0];
+            if (m.DeclaringType.IsInterface) return new MethodInfo[0];
+            return m.DeclarationsImpl();
         }
 
-        public static String ToShortString(this MethodInfo source)
+        private static IEnumerable<MethodBase> DeclarationsImpl(this MethodInfo m)
         {
-            var buff = new StringBuilder(256);
-            buff.Append(source.DeclaringType != null ? source.DeclaringType.ToShortString() : "none")
-                .Append("::");
-
-            if (source.IsGenericMethod)
+            foreach (var t_iface in m.DeclaringType.GetInterfaces())
             {
-                buff.Append(source.Name.Substring(0, source.Name.IndexOf('`')))
-                    .Append('<')
-                    .Append(String.Join(",", source.XGetGenericArguments().Select(x => x.ToShortString()).ToArray()))
-                    .Append('>');
-            }
-            else
-            {
-                buff.Append(source.Name);
-            }
+                var map = m.DeclaringType.GetInterfaceMap(t_iface).MapImplToInterface();
 
-            buff.Append('(')
-                .Append(String.Join(", ", source.GetParameters().Select(x => x.ParameterType.ToShortString()).ToArray()))
-                .Append("): ")
-                .Append(source.ReturnType.ToShortString());
+                // note. here I've faced a strange bug
+                // when m is an explicit interface implementation, map ain't contain it :O
+                // so the line below refuses to work!
+//                var m_iface = map.GetOrDefault(m);
+                var m_iface = map.SingleOrDefault(kvp => kvp.Key.MethodHandle == m.MethodHandle).Value;
 
-            return buff.ToString();
+                if (m_iface != null)
+                {
+                    yield return m_iface;
+                }
+            }
         }
     }
 }

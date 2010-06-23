@@ -8,12 +8,13 @@ using System.Text.RegularExpressions;
 using XenoGears.Assertions;
 using XenoGears.Functional;
 using XenoGears.Reflection.Attributes;
+using XenoGears.Reflection.Emit;
 using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
 
 namespace XenoGears.Reflection
 {
-    [DebuggerNonUserCode]
+//    [DebuggerNonUserCode]
     public static class ClassificationHelper
     {
         public static bool IsArray(this Object o)
@@ -493,6 +494,43 @@ namespace XenoGears.Reflection
         public static bool HasBody(this MethodBase mb)
         {
             return mb.GetMethodBody() != null;
+        }
+
+        public static MethodBase ImplOf(this MethodBase mb)
+        {
+            var mi = mb as MethodInfo;
+            if (mi == null) return null;
+
+            var implOf = mi.Declarations();
+            return implOf.FirstOrDefault();
+        }
+
+        // note. this is C#-specific
+        public static bool IsExplicitImpl(this MethodBase mb)
+        {
+            var implOf = mb.ImplOf();
+            if (implOf == null) return false;
+
+            var t_iface = implOf.DeclaringType.AssertThat(t => t.IsInterface);
+            var cs_explicitImplName = t_iface.FullName + "." + implOf.Name;
+            return cs_explicitImplName == mb.Name;
+        }
+
+        public static MethodBase ExplicitImplOf(this MethodBase mb)
+        {
+            return mb.IsExplicitImpl() ? mb.ImplOf() : null;
+        }
+
+        public static bool IsImplicitImpl(this MethodBase mb)
+        {
+            var implOf = mb.ImplOf();
+            if (implOf == null) return false;
+            return !mb.IsExplicitImpl();
+        }
+
+        public static MethodBase ImplicitImplOf(this MethodBase mb)
+        {
+            return mb.IsImplicitImpl() ? mb.ImplOf() : null;
         }
     }
 }

@@ -174,7 +174,7 @@ namespace XenoGears.Reflection
                     yield return current;
 
                     foreach (var declaration in current.Declarations()) 
-                        yield return declaration;
+                        yield return (MethodInfo)declaration;
                 }
             }
         }

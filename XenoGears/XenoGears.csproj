@@ -185,11 +185,9 @@
     <Compile Include="Reflection\Emit\ILTrait.Core.cs" />
     <Compile Include="Reflection\Emit\InterfaceMappingTrait.cs" />
     <Compile Include="Reflection\Emit\Hackarounds\SafeTypeForEmitHelper.cs" />
-    <Compile Include="Reflection\Emit\MethodBuilderTrait.cs" />
     <Compile Include="Reflection\Emit\MethodInfoTrait.cs" />
     <Compile Include="Reflection\Emit\MyTrait.cs" />
     <Compile Include="Reflection\Emit\OverrideMethodHelper.cs" />
-    <Compile Include="Reflection\Emit\TypeTrait.cs" />
     <Compile Include="Reflection\Generics\FTypesHelper.cs" />
     <Compile Include="Reflection\Generics\GenericsHelper.cs" />
     <Compile Include="Reflection\ReflectionHelper.cs" />
