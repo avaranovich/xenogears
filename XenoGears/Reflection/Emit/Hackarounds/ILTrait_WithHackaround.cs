@@ -53,12 +53,20 @@ namespace XenoGears.Reflection.Emit.Hackarounds
             }
             else
             {
-                // todo #1. also take into account that we need to update stacksize
-                // todo #2. what is RecordTokenFixup()?
+                if (mb.IsSafeForEmit())
+                {
+                    il.EmitCall(opcode, mb.AssertCast<MethodInfo>(), null);
+                    return il;
+                }
+                else
+                {
+                    // todo #1. also take into account that we need to update stacksize
+                    // todo #2. what is RecordTokenFixup()?
 
-                var token = il.GetMethodToken_Hackaround(mb);
-                var operand = BitConverter.GetBytes(token);
-                return il.raw(opcode, operand);
+                    var token = il.GetMethodToken_Hackaround(mb);
+                    var operand = BitConverter.GetBytes(token);
+                    return il.raw(opcode, operand);
+                }
             }
         }
         public static MethodBuilder OverrideMethod_WithHackaround(this TypeBuilder source, MethodBase parentMethod)

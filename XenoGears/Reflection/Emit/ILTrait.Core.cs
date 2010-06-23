@@ -501,6 +501,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (type == null) throw new ArgumentNullException("type");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Newarr, type);
             return il;
         }
@@ -509,6 +510,7 @@ namespace XenoGears.Reflection.Emit
         {
             if (ctor == null) throw new ArgumentNullException("ctor");
 
+            // todo. use hackarounds (see the Hackarounds namespace nearby)!
             il.Emit(OpCodes.Newobj, ctor.AssertCast<ConstructorInfo>());
             return il;
         }
