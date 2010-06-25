@@ -8,10 +8,50 @@ namespace XenoGears.Functional
     {
         public static LinearIntegerRange UpTo(this int start, int stop)
         {
+            return start.UpToii(stop);
+        }
+
+        public static LinearIntegerRange UpToee(this int start, int stop)
+        {
+            return new LinearIntegerRange(start + 1, stop - 1);
+        }
+
+        public static LinearIntegerRange UpToei(this int start, int stop)
+        {
+            return new LinearIntegerRange(start + 1, stop);
+        }
+
+        public static LinearIntegerRange UpToie(this int start, int stop)
+        {
+            return new LinearIntegerRange(start, stop - 1);
+        }
+
+        public static LinearIntegerRange UpToii(this int start, int stop)
+        {
             return new LinearIntegerRange(start, stop);
         }
 
         public static ReverseLinearIntegerRange DownTo(this int start, int stop)
+        {
+            return start.DownToii(stop);
+        }
+
+        public static ReverseLinearIntegerRange DownToee(this int start, int stop)
+        {
+            return new ReverseLinearIntegerRange(start - 1, stop + 1);
+        }
+
+        public static ReverseLinearIntegerRange DownToei(this int start, int stop)
+        {
+            return new ReverseLinearIntegerRange(start - 1, stop);
+        }
+
+        public static ReverseLinearIntegerRange DownToie(this int start, int stop)
+        {
+            return new ReverseLinearIntegerRange(start, stop + 1);
+        }
+
+        public static ReverseLinearIntegerRange DownToii(this int start, int stop)
         {
             return new ReverseLinearIntegerRange(start, stop);
         }
