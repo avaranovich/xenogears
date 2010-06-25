@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using XenoGears.Functional;
 
 namespace XenoGears.Assertions
@@ -421,6 +422,37 @@ namespace XenoGears.Assertions
         {
             seq.Select(assertion).None().AssertTrue();
             return seq;
+        }
+
+        public static Match AssertMatch(this String input, String pattern)
+        {
+            var m = Regex.Match(input, pattern);
+            if (!m.Success)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected that \"{0}\" would match the \"{1}\" pattern", input, pattern));
+            }
+
+            return m;
+        }
+
+        public static Dictionary<String, String> AssertParse(this String input, String pattern)
+        {
+            var names = new List<String>();
+            var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
+            for (; m_meta.Success; m_meta = m_meta.NextMatch())
+            {
+                var name = m_meta.Result("${name}");
+                names.Add(name);
+            }
+
+            var m = input.AssertMatch(pattern);
+            return names.ToDictionary(name => name, name => m.Result("${" + name + "}"));
+        }
+
+        public static String AssertExtract(this String input, String pattern)
+        {
+            return input.AssertParse(pattern).AssertSingle().Value;
         }
     }
 }
