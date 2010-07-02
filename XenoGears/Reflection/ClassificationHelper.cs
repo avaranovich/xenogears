@@ -11,6 +11,7 @@ using XenoGears.Reflection.Attributes;
 using XenoGears.Reflection.Emit;
 using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
+using XenoGears.Reflection;
 
 namespace XenoGears.Reflection
 {
@@ -535,6 +536,34 @@ namespace XenoGears.Reflection
         public static MethodBase ImplicitImplOf(this MethodBase mb)
         {
             return mb.IsImplicitImpl() ? mb.ImplOf() : null;
+        }
+
+        public static Object IsVirtual(this MemberInfo mi)
+        {
+            if (mi == null) return null;
+            if (mi is MethodBase)
+            {
+                return ((MethodBase)mi).IsVirtual();
+            }
+            else if (mi is PropertyInfo)
+            {
+                return ((PropertyInfo)mi).IsVirtual();
+            }
+            else
+            {
+                throw new NotSupportedException(mi.ToString());
+            }
+        }
+
+        public static bool IsVirtual(this MethodBase mb)
+        {
+            return mb.IsVirtual;
+        }
+
+        public static bool IsVirtual(this PropertyInfo pi)
+        {
+            var acc = pi.GetAccessors(true) ?? new MethodInfo[0];
+            return acc.Any(m => m.IsVirtual());
         }
     }
 }

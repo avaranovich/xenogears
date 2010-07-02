@@ -332,40 +332,6 @@ namespace XenoGears.Assertions
             return seq.Where(filter).AssertSingleOrDefault();
         }
 
-        public static T AssertFirst<T>(this IEnumerable<T> seq)
-        {
-            var actual = seq.Count();
-            if (actual < 1)
-            {
-                throw new AssertionFailedException(String.Format(
-                    "Expected at least one element in a sequence, actually found {0} elements", actual));
-            }
-
-            return seq.First();
-        }
-
-        public static T AssertFirst<T>(this IEnumerable<T> seq, Func<T, bool> filter)
-        {
-            return seq.Where(filter).AssertFirst();
-        }
-
-        public static T AssertLast<T>(this IEnumerable<T> seq)
-        {
-            var actual = seq.Count();
-            if (actual < 1)
-            {
-                throw new AssertionFailedException(String.Format(
-                    "Expected at least one element in a sequence, actually found {0} elements", actual));
-            }
-
-            return seq.Last();
-        }
-
-        public static T AssertLast<T>(this IEnumerable<T> seq, Func<T, bool> filter)
-        {
-            return seq.Where(filter).AssertLast();
-        }
-
         public static bool AssertImplies(this bool b1, bool b2)
         {
             if (b1 && !b2)
@@ -453,6 +419,108 @@ namespace XenoGears.Assertions
         public static String AssertExtract(this String input, String pattern)
         {
             return input.AssertParse(pattern).AssertSingle().Value;
+        }
+
+        public static T AssertFirst<T>(this IEnumerable<T> seq)
+        {
+            var actual = seq.Count();
+            if (actual < 1)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected at least one element in a sequence, actually found {0} elements", actual));
+            }
+
+            return seq.First();
+        }
+
+        public static T AssertFirst<T>(this IEnumerable<T> seq, Func<T, bool> filter)
+        {
+            return seq.Where(filter).AssertFirst();
+        }
+
+        public static T AssertSecond<T>(this IEnumerable<T> seq)
+        {
+            var actual = seq.Count();
+            if (actual < 2)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected at least two elements in a sequence, actually found {0} elements", actual));
+            }
+
+            return seq.Second();
+        }
+
+        public static T AssertSecond<T>(this IEnumerable<T> seq, Func<T, bool> filter)
+        {
+            return seq.Where(filter).AssertSecond();
+        }
+
+        public static T AssertThird<T>(this IEnumerable<T> seq)
+        {
+            var actual = seq.Count();
+            if (actual < 3)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected at least three elements in a sequence, actually found {0} elements", actual));
+            }
+
+            return seq.Third();
+        }
+
+        public static T AssertThird<T>(this IEnumerable<T> seq, Func<T, bool> filter)
+        {
+            return seq.Where(filter).AssertThird();
+        }
+
+        public static T AssertFourth<T>(this IEnumerable<T> seq)
+        {
+            var actual = seq.Count();
+            if (actual < 4)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected at least four elements in a sequence, actually found {0} elements", actual));
+            }
+
+            return seq.Fourth();
+        }
+
+        public static T AssertFourth<T>(this IEnumerable<T> seq, Func<T, bool> filter)
+        {
+            return seq.Where(filter).AssertFourth();
+        }
+
+        public static T AssertFifth<T>(this IEnumerable<T> seq)
+        {
+            var actual = seq.Count();
+            if (actual < 5)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected at least five elements in a sequence, actually found {0} elements", actual));
+            }
+
+            return seq.Fifth();
+        }
+
+        public static T AssertFifth<T>(this IEnumerable<T> seq, Func<T, bool> filter)
+        {
+            return seq.Where(filter).AssertFifth();
+        }
+
+        public static T AssertLast<T>(this IEnumerable<T> seq)
+        {
+            var actual = seq.Count();
+            if (actual < 1)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected at least one element in a sequence, actually found {0} elements", actual));
+            }
+
+            return seq.Last();
+        }
+
+        public static T AssertLast<T>(this IEnumerable<T> seq, Func<T, bool> filter)
+        {
+            return seq.Where(filter).AssertLast();
         }
     }
 }
