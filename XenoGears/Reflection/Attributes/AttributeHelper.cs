@@ -80,9 +80,9 @@ namespace XenoGears.Reflection.Attributes
                     var basep = t1.GetProperties(BF.All).SingleOrDefault(p => p.Name == pi.Name && p.DeclaringType == t1);
                     return basep == null ? Enumerable.Empty<Attribute>() : basep.GetCustomAttributes(t, true).Cast<Attribute>();
                 })
-                    // this is necessary to shield us from a codegen bug
-                    // typeof(Gen'dNode).GetProperties("Name", any BF) returns 2x props: CompiledNode.Name and Gen'dNode.Name
-                    .TakeWhile((a, i) => i < 1);
+                // this is necessary to shield us from a codegen bug
+                // typeof(Gen'dNode).GetProperties("Name", any BF) returns 2x props: CompiledNode.Name and Gen'dNode.Name
+                .TakeWhile((a, i) => i < 1);
             }
             else
             {
