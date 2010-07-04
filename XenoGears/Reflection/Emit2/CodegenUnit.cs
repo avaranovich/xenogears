@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace XenoGears.Reflection.Emit2
 {
@@ -41,12 +42,17 @@ namespace XenoGears.Reflection.Emit2
 
                 // Mark generated code as debuggable.
                 // See http://blogs.msdn.com/jmstall/archive/2005/02/03/366429.aspx for explanation.
-                var daType = typeof(DebuggableAttribute);
-                var daCtor = daType.GetConstructor(new []{ typeof(DebuggableAttribute.DebuggingModes) });
+                var daCtor = typeof(DebuggableAttribute).GetConstructor(new []{typeof(DebuggableAttribute.DebuggingModes)});
                 var daBuilder = new CustomAttributeBuilder(daCtor, new object[] { 
                     DebuggableAttribute.DebuggingModes.DisableOptimizations | 
                     DebuggableAttribute.DebuggingModes.Default });
                 _asm.SetCustomAttribute(daBuilder);
+
+                // Mark generated code as non-user code.
+                // See http://stackoverflow.com/questions/1423733/how-to-tell-if-a-net-assembly-is-dynamic for explanation.
+                var cgCtor = typeof(CompilerGeneratedAttribute).GetConstructor(Type.EmptyTypes);
+                var cgBuilder = new CustomAttributeBuilder(cgCtor, new object []{});
+                _asm.SetCustomAttribute(cgBuilder);
 
                 var hasAlreadyBeenDumped = false;
                 Action dumpAssembly = () =>
@@ -86,6 +92,7 @@ namespace XenoGears.Reflection.Emit2
                 AppDomain.CurrentDomain.ProcessExit += (o, e) => dumpAssembly();
 #else
                 _asm = AppDomain.CurrentDomain.DefineDynamicAssembly(asmName, AssemblyBuilderAccess.Run);
+                _asm.SetCustomAttribute(new CustomAttributeBuilder(typeof(CompilerGeneratedAttribute).GetConstructor(Type.EmptyTypes), new object []{}));
                 _mod = _asm.DefineDynamicModule(fileName, false);
 #endif
             }
