@@ -26,6 +26,7 @@ namespace XenoGears.Traits.Disposable
         public void SuppressDispose()
         {
             IsDisposed.AssertFalse();
+            GC.SuppressFinalize(this);
 
             lock (_dispositionSyncRoot)
             {
