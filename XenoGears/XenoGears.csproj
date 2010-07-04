@@ -63,6 +63,7 @@
     <Compile Include="Reflection\Typed\ApiExtensions.cs" />
     <Compile Include="Reflection\Visibility.cs" />
     <Compile Include="Reflection\VisibilityHelper.cs" />
+    <Compile Include="Strings\Syms.cs" />
     <Compile Include="Traits\Cloneable\ICloneable2Trait.cs" />
     <Compile Include="Traits\Disposable\DisposableAction.cs" />
     <Compile Include="Functional\EnumerableExtensions.Closure.cs" />
