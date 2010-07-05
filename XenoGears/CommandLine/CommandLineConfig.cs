@@ -97,7 +97,9 @@ namespace XenoGears.CommandLine
                         else named_args.Add(name, value);
                     }
                 }
-                if (IsVerbose) Out.WriteLine("Pre-parse completed: found {0} named and {1} shortcut arguments.");
+                if (IsVerbose) Out.WriteLine("Pre-parse completed: found {0} named argument{1} and {2} shortcut argument{3}.",
+                    named_args.Count(), named_args.Count() == 1 ? "" : "s",
+                    shortcut_args.Count(), shortcut_args.Count() == 1 ? "" : "s");
 
                 if (IsVerbose) Out.WriteLine();
                 if (IsVerbose) Out.WriteLine("Parsing arguments...");
@@ -150,7 +152,7 @@ namespace XenoGears.CommandLine
                             var a = kvp.Key.Attr<ParamAttribute>();
                             var iof = words.IndexOf(w => a.Aliases.Contains(w));
                             var value = shortcut_args[iof];
-                            Out.WriteLine("Parsed \"{0}\" as: {1} => \"{2}\".",
+                            Out.WriteLine("Parsed \"{0}\" as: {1} => {2}.",
                                 value.ToTrace(), kvp.Key.Name, kvp.Value == null ? "<null>" : kvp.Value.ToTrace());
                         }
 
@@ -165,6 +167,7 @@ namespace XenoGears.CommandLine
                         }
                         else
                         {
+                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" works fine, skipping other schemas (if any).", shortcut.Schema);
                             break;
                         }
                     }

@@ -1,1 +1,27 @@
-﻿
+﻿Detected the "/verbose" switch, entering verbose mode.
+
+Command line args are: (3 args)
+1: -name:libptx
+2: -target:d:\Projects\Active\Libptx\
+3: -vcs:mercurial
+
+Pre-parsing arguments...
+Parsed "-name:libptx" as name/value pair: name => "libptx".
+Parsed "-target:d:\Projects\Active\Libptx\" as name/value pair: target => "d:\Projects\Active\Libptx\".
+Parsed "-vcs:mercurial" as name/value pair: vcs => "mercurial".
+Pre-parse completed: found 3 named arguments and 0 shortcut arguments.
+
+Parsing arguments...
+Parsing named arguments...
+Parsed name => "libptx" as: libptx.
+Parsed target => "d:\Projects\Active\Libptx\" as: dir: d:\Projects\Active\Libptx\.
+Parsed vcs => "mercurial" as: mercurial.
+Parse completed.
+
+Setting configuration parameters...
+Resolved %ProjectName as libptx.
+Defaulted %TemplateName to lite.
+Resolved %VcsName as mercurial.
+Defaulted %VcsRepo to <null>.
+Resolved %TargetDir as dir: d:\Projects\Active\Libptx\.
+Configuration parameters successfully set.
