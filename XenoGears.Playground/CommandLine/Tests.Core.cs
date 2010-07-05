@@ -18,7 +18,7 @@ namespace XenoGears.Playground.CommandLine
             RunTest(() =>
             {
                 var cfg = Config.Parse("/verbose");
-                Assert.AreEqual(dirname, cfg.ProjectName);
+                Assert.AreEqual(null, cfg.ProjectName);
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
@@ -46,7 +46,7 @@ namespace XenoGears.Playground.CommandLine
             RunTest(() =>
             {
                 var cfg = Config.Parse(@"d:\Projects\Active\Libptx\", "/verbose");
-                Assert.AreEqual("Libptx", cfg.ProjectName);
+                Assert.AreEqual(null, cfg.ProjectName);
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
@@ -88,7 +88,7 @@ namespace XenoGears.Playground.CommandLine
             RunTest(() =>
             {
                 var cfg = Config.Parse(@"d:\Projects\Active\Libptx\", "default", "/verbose");
-                Assert.AreEqual("Libptx", cfg.ProjectName);
+                Assert.AreEqual(null, cfg.ProjectName);
                 Assert.AreEqual("default", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);

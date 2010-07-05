@@ -1,1 +1,17 @@
-﻿
+﻿Detected the "/verbose" switch, entering verbose mode.
+
+Command line args are: empty
+
+Pre-parsing arguments...
+Pre-parse completed: found 0 named arguments and 0 shortcut arguments.
+
+Parsing arguments...
+Parse completed.
+
+Setting configuration parameters...
+Defaulted %ProjectName to <null>.
+Defaulted %TemplateName to lite.
+Defaulted %VcsName to hg.
+Defaulted %VcsRepo to <null>.
+Defaulted %TargetDir to dir: D:\Projects\Active\XenoGears\XenoGears.Playground\bin\Debug.
+Configuration parameters successfully set.

@@ -1,1 +1,28 @@
-﻿
+﻿Detected the "/verbose" switch, entering verbose mode.
+
+Command line args are: (1 arg)
+1: d:\Projects\Active\Libptx\
+
+Pre-parsing arguments...
+Parsed "d:\Projects\Active\Libptx\" as raw value.
+Pre-parse completed: found 0 named arguments and 1 shortcut argument.
+
+Parsing arguments...
+Parsing shortcut arguments...
+Considering shortcut schema ""...
+Schema "" won't work: argument count mismatch.
+Considering shortcut schema "name"...
+Fatal error: value "d:\Projects\Active\Libptx\" is invalid for argument "name".
+Schema "name" won't work: failed to parse arguments.
+Considering shortcut schema "target"...
+Parsed "d:\Projects\Active\Libptx\" as: TargetDir => dir: d:\Projects\Active\Libptx\.
+Schema "target" works fine, skipping other schemas (if any).
+Parse completed.
+
+Setting configuration parameters...
+Defaulted %ProjectName to <null>.
+Defaulted %TemplateName to lite.
+Defaulted %VcsName to hg.
+Defaulted %VcsRepo to <null>.
+Resolved %TargetDir as dir: d:\Projects\Active\Libptx\.
+Configuration parameters successfully set.

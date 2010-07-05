@@ -24,7 +24,8 @@ namespace XenoGears.Playground.CommandLine
         {
             using (Log.SetOut(Out = new StringBuilder()))
             {
-                (test ?? (() => {}))();
+                try { (test ?? (() => { }))(); }
+                catch (Exception) { Console.WriteLine(Out); throw; }
                 VerifyOutput();
             }
         }
