@@ -8,7 +8,7 @@ using XenoGears.Assertions;
 namespace XenoGears.Strings
 {
     [DebuggerNonUserCode]
-    internal static class RegexHelper
+    public static class RegexHelper
     {
         public static bool IsMatch(this String input, String pattern)
         {

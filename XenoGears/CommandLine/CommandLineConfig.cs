@@ -24,19 +24,20 @@ namespace XenoGears.CommandLine
     {
         public static TextWriter Out { get { return Log.Out; } }
 
-        protected static CommandLineConfig Current { get { return Parse(Environment.GetCommandLineArgs()); } }
+        protected static CommandLineConfig Current { get { return Parse(Environment.GetCommandLineArgs().Skip(1)); } }
         protected static CommandLineConfig Parse(IEnumerable<String> args) { return Parse((args ?? Seq.Empty<String>()).ToArray()); }
         protected static CommandLineConfig Parse(params String[] args)
         {
+            var t = new StackTrace().GetFrames().Select(f =>
+            {
+                var m = f.GetMethod();
+                var decl = m.DeclaringType;
+                while (decl != null && decl.IsCompilerGenerated()) decl = decl.DeclaringType;
+                return decl;
+            }).AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
+
             try
             {
-                var t = new StackTrace().GetFrames().Select(f =>
-                {
-                    var m = f.GetMethod();
-                    var decl = m.DeclaringType;
-                    while (decl != null && decl.IsCompilerGenerated()) decl = decl.DeclaringType;
-                    return decl;
-                }).AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
                 var ctor = t.GetConstructors(BF.All).Single(ci => ci.Params().SingleOrDefault2() == typeof(String[]));
                 return (CommandLineConfig)ctor.Invoke(args.MkArray());
             }
@@ -45,7 +46,18 @@ namespace XenoGears.CommandLine
                 var cex = tie.InnerException as ConfigException;
                 if (cex != null)
                 {
-                    if (cex.Message != null) Out.WriteLine(cex.Message);
+                    if (cex.Message != null)
+                    {
+                        if (args.Last() != "/verbose")
+                        {
+                            var asm_name = t.Assembly.GetName().Name;
+                            var cfg_name = t.Attr<ConfigAttribute>().Name;
+                            Out.WriteLine("{0} {1}", cfg_name ?? asm_name, args.StringJoin(" "));
+                        }
+
+                        Out.WriteLine(cex.Message);
+                    }
+
                     Out.WriteLine();
                     Banners.Help();
                     return null;
@@ -164,7 +176,7 @@ namespace XenoGears.CommandLine
                         }
                     }
 
-                    if (parsed_shortcut_args == null) throw new ConfigException("Fatal error: cannot bind to any of shortcuts.");
+                    if (parsed_shortcut_args == null) throw new ConfigException("Fatal error: failed to bind to all of the shortcuts.");
                     else parsed_args.AddElements(parsed_shortcut_args);
                 }
 
