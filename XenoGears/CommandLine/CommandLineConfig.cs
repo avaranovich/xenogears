@@ -64,13 +64,15 @@ namespace XenoGears.CommandLine
                     s_args = s_args.SkipLast().ToArray();
 
                     Out.WriteLine("Detected the \"/verbose\" switch, entering verbose mode.");
+                    Out.WriteLine("");
                     Out.Write("Command line args are: ");
                     if (s_args.IsEmpty()) Out.WriteLine("empty");
-                    else Out.WriteLine();
-                    foreach (var arg in s_args) Out.WriteLine(arg);
-                    if (s_args.IsNotEmpty()) Out.WriteLine();
+                    else Out.WriteLine("({0} arg{1})", s_args.Count(), s_args.Count() == 1 ? "" : "s");
+                    s_args.ForEach((arg, i) => Out.WriteLine("{0}: {1}", i + 1, arg));
                 }
 
+                if (IsVerbose) Out.WriteLine();
+                if (IsVerbose) Out.WriteLine("Pre-parsing arguments...");
                 var named_args = new Dictionary<String, String>();
                 var shortcut_args = new List<String>();
                 foreach (var s_arg in s_args)
@@ -95,21 +97,29 @@ namespace XenoGears.CommandLine
                         else named_args.Add(name, value);
                     }
                 }
+                if (IsVerbose) Out.WriteLine("Pre-parse completed: found {0} named and {1} shortcut arguments.");
 
-                if (IsVerbose) Out.WriteLine("Parsing named arguments...");
-                var parsed_args = ParseArgs(named_args);
-                if (IsVerbose) foreach (var kvp in parsed_args)
+                if (IsVerbose) Out.WriteLine();
+                if (IsVerbose) Out.WriteLine("Parsing arguments...");
+
+                var parsed_args = new Dictionary<PropertyInfo, Object>();
+                if (named_args.IsNotEmpty())
                 {
-                    var a = kvp.Key.Attr<ParamAttribute>();
-                    var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
-                    var value = named_args[name];
-                    Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.",
-                        name, value, kvp.Value == null ? "<null>" : kvp.Value.ToString());
+                    if (IsVerbose) Out.WriteLine("Parsing named arguments...");
+                    parsed_args = ParseArgs(named_args);
+                    if (IsVerbose) foreach (var kvp in parsed_args)
+                        {
+                            var a = kvp.Key.Attr<ParamAttribute>();
+                            var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
+                            var value = named_args[name];
+                            Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.",
+                                name, value, kvp.Value == null ? "<null>" : kvp.Value.ToString());
+                        }
                 }
 
                 if (shortcut_args.IsNotEmpty())
                 {
-                    if (IsVerbose) Out.WriteLine("Parsing shortcut args...");
+                    if (IsVerbose) Out.WriteLine("Parsing shortcut arguments...");
 
                     Dictionary<PropertyInfo, Object> parsed_shortcut_args = null;
                     var shortcuts = GetType().Attrs<ShortcutAttribute>().OrderBy(shortcut => shortcut.Priority);
@@ -151,8 +161,9 @@ namespace XenoGears.CommandLine
                 }
 
                 if (IsVerbose) Out.WriteLine("Parse completed.");
-                if (IsVerbose) Out.WriteLine("Applying parsed values.");
-                var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>());
+                if (IsVerbose) Out.WriteLine("");
+                if (IsVerbose) Out.WriteLine("Setting configuration parameters...");
+                var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>()).OrderBy(p => p.Attr<ParamAttribute>().Priority);
                 props.ForEach(p =>
                 {
                     if (parsed_args.ContainsKey(p))
@@ -171,12 +182,13 @@ namespace XenoGears.CommandLine
                         p.SetValue(this, value, null);
                     }
                 });
+                if (IsVerbose) Out.WriteLine("Configuration parameters successfully set.");
             }
         }
 
         private Dictionary<PropertyInfo, Object> ParseArgs(Dictionary<String, String> kvps)
         {
-            var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>());
+            var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>()).OrderBy(p => p.Attr<ParamAttribute>().Priority);
             return kvps.Select(kvp =>
             {
                 var p = props.SingleOrDefault(p1 => p1.Attr<ParamAttribute>().Aliases.Contains(kvp.Key));

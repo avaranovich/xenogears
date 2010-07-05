@@ -22,7 +22,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(dirpath, cfg.TargetDir);
+                Assert.AreEqual(dirpath, cfg.TargetDir.FullName);
             });
         }
 
@@ -36,7 +36,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(dirpath, cfg.TargetDir);
+                Assert.AreEqual(dirpath, cfg.TargetDir.FullName);
             });
         }
 
@@ -50,7 +50,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir.FullName);
             });
         }
 
@@ -64,7 +64,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir.FullName);
             });
         }
 
@@ -78,7 +78,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("mercurial", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir.FullName);
             });
         }
 
@@ -92,7 +92,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("default", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir.FullName);
             });
         }
 
@@ -106,7 +106,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("default", cfg.TemplateName);
                 Assert.AreEqual("hg", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir.FullName);
             });
         }
 
@@ -120,7 +120,7 @@ namespace XenoGears.Playground.CommandLine
                 Assert.AreEqual("lite", cfg.TemplateName);
                 Assert.AreEqual("mercurial", cfg.VcsName);
                 Assert.AreEqual(null, cfg.VcsRepo);
-                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir.FullName);
             });
         }
 
