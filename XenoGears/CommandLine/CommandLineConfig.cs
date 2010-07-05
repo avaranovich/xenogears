@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Assertions;
+using XenoGears.Core;
 using XenoGears.Logging;
 using XenoGears.CommandLine.Annotations;
 using XenoGears.CommandLine.Exceptions;
@@ -23,7 +24,9 @@ namespace XenoGears.CommandLine
     {
         public static TextWriter Out { get { return Log.Out; } }
 
-        protected static CommandLineConfig Current { get { return Parse(Environment.GetCommandLineArgs().Skip(1)); } }
+        private static Func<CommandLineConfig> _current = Func.Memoize(() => Parse(Environment.GetCommandLineArgs().Skip(1)));
+        protected static CommandLineConfig Current { get { return _current(); } }
+
         protected static CommandLineConfig Parse(IEnumerable<String> args) { return Parse((args ?? Seq.Empty<String>()).ToArray()); }
         protected static CommandLineConfig Parse(params String[] args)
         {
@@ -33,7 +36,10 @@ namespace XenoGears.CommandLine
                 var decl = m.DeclaringType;
                 while (decl != null && decl.IsCompilerGenerated()) decl = decl.DeclaringType;
                 return decl;
-            }).AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
+            })
+            .SkipWhile(decl => decl == null || decl == typeof(CommandLineConfig))
+            .SkipWhile(decl => decl == null || decl != typeof(CommandLineConfig))
+            .AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
 
             try
             {
