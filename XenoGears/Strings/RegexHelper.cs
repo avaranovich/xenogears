@@ -10,6 +10,11 @@ namespace XenoGears.Strings
     [DebuggerNonUserCode]
     internal static class RegexHelper
     {
+        public static bool IsMatch(this String input, String pattern)
+        {
+            return Regex.IsMatch(input, pattern);
+        }
+
         public static Match Match(this String input, String pattern)
         {
             return Regex.Match(input, pattern);

@@ -58,18 +58,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine\Config.cs" />
-    <None Include="CommandLine\Reference\Parse_Invalid_Duped1" />
-    <None Include="CommandLine\Reference\Parse_Invalid_Duped2" />
-    <None Include="CommandLine\Reference\Parse_Invalid_Mix1" />
-    <None Include="CommandLine\Reference\Parse_Invalid_Mix2" />
-    <None Include="CommandLine\Reference\Parse_Name" />
-    <None Include="CommandLine\Reference\Parse_Name_Target" />
-    <None Include="CommandLine\Reference\Parse_Name_Target_Template" />
-    <None Include="CommandLine\Reference\Parse_Name_Target_Vcs" />
-    <None Include="CommandLine\Reference\Parse_Regular" />
-    <None Include="CommandLine\Reference\Parse_Target" />
-    <None Include="CommandLine\Reference\Parse_Target_Template" />
-    <None Include="CommandLine\Reference\Parse_Empty" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Duped1" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Duped2" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Mix1" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Mix2" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name_Target" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name_Target_Template" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name_Target_Vcs" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Regular" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Target" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Target_Template" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Empty" />
     <Compile Include="CommandLine\Tests.Core.cs" />
     <Compile Include="CommandLine\Tests.Boilerplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

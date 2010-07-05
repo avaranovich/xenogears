@@ -1,1 +1,24 @@
-﻿
+﻿Detected the "/verbose" switch, entering verbose mode.
+
+Command line args are: (1 arg)
+1: Libptx
+
+Pre-parsing arguments...
+Parsed "Libptx" as raw value.
+Pre-parse completed: found {0} named and {1} shortcut arguments.
+
+Parsing arguments...
+Parsing shortcut arguments...
+Considering shortcut schema ""...
+Schema "" won't work: argument count mismatch.
+Considering shortcut schema "name"...
+Parsed "Libptx" as: ProjectName => "Libptx".
+Parse completed.
+
+Setting configuration parameters...
+Resolved %ProjectName as Libptx.
+Defaulted %TemplateName to lite.
+Defaulted %VcsName to hg.
+Defaulted %VcsRepo to <null>.
+Defaulted %TargetDir to dir: D:\Projects\Active\XenoGears\XenoGears.Playground\bin\Debug.
+Configuration parameters successfully set.

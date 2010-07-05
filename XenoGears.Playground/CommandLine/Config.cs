@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using XenoGears.CommandLine;
 using XenoGears.CommandLine.Annotations;
+using XenoGears.Strings;
 
 namespace XenoGears.Playground.CommandLine
 {
@@ -17,6 +18,7 @@ namespace XenoGears.Playground.CommandLine
     {
         [Param("name", "prj-name", "project-name", Description = "Name of the project. Defaults to the name of target dir.")]
         public String ProjectName { get; private set; }
+        private static bool ValidateProjectName(String name) { return name.IsMatch(@"^\w*$"); }
         private static String DefaultProjectName { get { return null; } }
 
         [Param("template", "template-name", Description = "Codebase template.")]

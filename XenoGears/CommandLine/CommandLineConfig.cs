@@ -187,7 +187,7 @@ namespace XenoGears.CommandLine
                     }
                     else
                     {
-                        var p_default = GetType().GetProperty("Default" + p.Name, BF.AllStatic);
+                        var p_default = this.GetType().GetProperty("Default" + p.Name, BF.AllStatic);
                         if (p_default == null) throw new ConfigException("Fatal error: parameter \"{0}\" must be specified.");
 
                         var value = p_default.GetValue(null, null);
@@ -205,7 +205,7 @@ namespace XenoGears.CommandLine
             return kvps.Select(kvp =>
             {
                 var p = props.SingleOrDefault(p1 => p1.Attr<ParamAttribute>().Aliases.Contains(kvp.Key));
-                if (p == null) throw new ConfigException("Fatal error: unknown argument name \"{0}\"", kvp.Key);
+                if (p == null) throw new ConfigException("Fatal error: unknown argument name \"{0}\".", kvp.Key);
 
                 Func<String, Type, Object> parse = (s, t) =>
                 {
@@ -216,7 +216,21 @@ namespace XenoGears.CommandLine
 
                 Object value;
                 try { value = parse(kvp.Value, p.PropertyType); }
-                catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse argument \"{0}\" with value \"{1}\"", kvp.Key, kvp.Value); }
+                catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse value \"{0}\" for argument \"{1}\".", kvp.Value.ToTrace(), kvp.Key); }
+
+                var m_validate = this.GetType().GetMethod("Validate" + p.Name, BF.AllStatic);
+                if (m_validate != null)
+                {
+                    try
+                    {
+                        var is_valid = (bool)m_validate.Invoke(null, value.MkArray());
+                        if (!is_valid) throw new ConfigException("Fatal error: value \"{0}\" is invalid for argument \"{1}\".", value.ToTrace(), kvp.Key);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ConfigException(ex, "Fatal error: value \"{0}\" is invalid for argument \"{1}\".", value.ToTrace(), kvp.Key);
+                    }
+                }
 
                 return Tuple.New(p, value);
             }).ToDictionary(t => t.Item1, t => t.Item2);
