@@ -15,7 +15,7 @@ namespace XenoGears.Playground.CommandLine
     [Shortcut("name target template", Priority = 6)]
     internal class Config : CommandLineConfig
     {
-        [Param("name", "prj-name", "project-name", Description = "Name of the project to create.")]
+        [Param("name", "prj-name", "project-name", Description = "Name of the project. Defaults to the name of target dir.")]
         public String ProjectName { get; private set; }
         private static String DefaultProjectName { get { return null; } }
 

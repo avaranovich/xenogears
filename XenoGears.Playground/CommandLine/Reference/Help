@@ -1,16 +1,17 @@
-﻿Syntax: XenoGears.Playground [-name:ProjectName] [-template:TemplateName] [-vcs:VcsName] [-repo:VcsRepo] [-target:TargetDir] [/verbose]
+﻿Syntax: prjinit [-name:ProjectName] [-template:TemplateName] [-vcs:VcsName] [-repo:VcsRepo] [-target:TargetDir] [/verbose]
 
 Shortcuts:
-    XenoGears.Playground target
-    XenoGears.Playground name
-    XenoGears.Playground target template
-    XenoGears.Playground name target
-    XenoGears.Playground name target template
+    prjinit
+    prjinit target
+    prjinit name
+    prjinit target template
+    prjinit name target
+    prjinit name target template
 
 Parameters:
-    %ProjectName   Name of the project to create.
-    %TemplateName  Codebase template. Default value is lite.
-    %VcsName       VCS provider. Default value is hg.
+    %ProjectName   Name of the project. Defaults to the name of target dir.
+    %TemplateName  Codebase template. Defaults to lite.
+    %VcsName       VCS provider. Defaults to hg.
     %VcsRepo       VCS repository, e.g. https://prjinit.googlecode.com/hg/.
-    %TargetDir     Path to target directory. Default value is current dir.
+    %TargetDir     Path to target directory. Defaults to current dir.
     /verbose       Turns verbose tracing on, useful for debugging.

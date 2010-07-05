@@ -18,7 +18,7 @@ namespace XenoGears.Logging
             set { _out = value ?? new StringWriter(new StringBuilder()); }
         }
 
-        public static IDisposable SetOut(StringBuilder new_out) { return new StringWriter(new_out); }
+        public static IDisposable SetOut(StringBuilder new_out) { return SetOut(new StringWriter(new_out)); }
         public static IDisposable SetOut(TextWriter new_out)
         {
             var old_out = Out;
@@ -26,7 +26,43 @@ namespace XenoGears.Logging
             return new DisposableAction(() => Out = old_out);
         }
 
-        [Conditional("TRACE")]
+        public static void Write(Object o)
+        {
+            Out.Write(o);
+        }
+
+        public static void Write(String message)
+        {
+            Out.Write(message);
+        }
+
+        public static void Write(String message, params Object[] args)
+        {
+            Out.Write(String.Format(message, args));
+        }
+
+        public static void WriteLine(Object o)
+        {
+            Out.WriteLine(o);
+        }
+
+        public static void WriteLine(String message)
+        {
+            Write(message);
+            Write(Environment.NewLine);
+        }
+
+        public static void WriteLine(String message, params Object[] args)
+        {
+            Write(message, args);
+            Write(Environment.NewLine);
+        }
+
+        public static void WriteLine()
+        {
+            WriteLine(String.Empty);
+        }
+
         public static void Trace(Object o)
         {
             System.Diagnostics.Trace.Write(o);

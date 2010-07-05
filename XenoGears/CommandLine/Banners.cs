@@ -63,7 +63,7 @@ namespace XenoGears.CommandLine
                     shortcuts.ForEach((shortcut, i) =>
                     {
                         shortcut.Description.AssertNull();
-                        Out.WriteLine(asm.GetName().Name + " " + shortcut.Shortcut);
+                        Out.WriteLine(cfg_name + (shortcut.Shortcut.IsNullOrEmpty() ? "" : (" " + shortcut.Shortcut)));
                         if (i != shortcuts.Count() - 1) Out.Write("    ");
                     });
                 }
@@ -110,7 +110,7 @@ namespace XenoGears.CommandLine
                                 }
                             }
 
-                            var s_default = String.Format("Default value is {0}.", s_default_value);
+                            var s_default = String.Format("Defaults to {0}.", s_default_value);
                             if (!String.IsNullOrEmpty(desc)) { if (!desc.EndsWith(".")) desc += "."; desc += " "; }
                             desc += s_default;
                         }
