@@ -60,7 +60,7 @@
     <Compile Include="CommandLine\Config.cs" />
     <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Duped1" />
     <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Duped2" />
-    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Mix1" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_NonObvious_Mix1" />
     <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Mix2" />
     <EmbeddedResource Include="CommandLine\Reference\Parse_Name" />
     <EmbeddedResource Include="CommandLine\Reference\Parse_Name_Target" />

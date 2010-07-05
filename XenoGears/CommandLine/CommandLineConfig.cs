@@ -19,6 +19,7 @@ using XenoGears.CommandLine.Helpers;
 namespace XenoGears.CommandLine
 {
     [Config]
+    [DebuggerNonUserCode]
     public abstract class CommandLineConfig
     {
         public static TextWriter Out { get { return Log.Out; } }

@@ -1,3 +1,4 @@
+using System.IO;
 using NUnit.Framework;
 using XenoGears.CommandLine;
 
@@ -137,9 +138,17 @@ namespace XenoGears.Playground.CommandLine
         }
 
         [Test]
-        public void Parse_Invalid_Mix1()
+        public void Parse_NonObvious_Mix1()
         {
-            RunTest(() => Config.Parse("Libptx", "-name:Libptx", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse("Libptx", "-name:libptx", "/verbose");
+                Assert.AreEqual("libptx", cfg.ProjectName);
+                Assert.AreEqual("lite", cfg.TemplateName);
+                Assert.AreEqual("hg", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(Path.Combine(dirpath, "Libptx"), cfg.TargetDir.FullName);
+            });
         }
 
         [Test]
