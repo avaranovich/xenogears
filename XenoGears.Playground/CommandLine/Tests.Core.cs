@@ -15,49 +15,113 @@ namespace XenoGears.Playground.CommandLine
         [Test]
         public void Parse_Empty()
         {
-            RunTest(() => Config.Parse("/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse("/verbose");
+                Assert.AreEqual(dirname, cfg.ProjectName);
+                Assert.AreEqual("lite", cfg.TemplateName);
+                Assert.AreEqual("hg", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(dirpath, cfg.TargetDir);
+            });
         }
 
         [Test]
         public void Parse_Name()
         {
-            RunTest(() => Config.Parse("Libptx", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse("Libptx", "/verbose");
+                Assert.AreEqual("Libptx", cfg.ProjectName);
+                Assert.AreEqual("lite", cfg.TemplateName);
+                Assert.AreEqual("hg", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(dirpath, cfg.TargetDir);
+            });
         }
 
         [Test]
         public void Parse_Target()
         {
-            RunTest(() => Config.Parse(@"d:\Projects\Active\Libptx\", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse(@"d:\Projects\Active\Libptx\", "/verbose");
+                Assert.AreEqual("Libptx", cfg.ProjectName);
+                Assert.AreEqual("lite", cfg.TemplateName);
+                Assert.AreEqual("hg", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+            });
         }
 
         [Test]
         public void Parse_Name_Target()
         {
-            RunTest(() => Config.Parse("Libptx", @"d:\Projects\Active\Libptx\", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse("libptx", @"d:\Projects\Active\Libptx\", "/verbose");
+                Assert.AreEqual("libptx", cfg.ProjectName);
+                Assert.AreEqual("lite", cfg.TemplateName);
+                Assert.AreEqual("hg", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+            });
         }
 
         [Test]
         public void Parse_Name_Target_Vcs()
         {
-            RunTest(() => Config.Parse("Libptx", @"d:\Projects\Active\Libptx\", "-vcs:hg", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse("libptx", @"d:\Projects\Active\Libptx\", "-vcs:mercurial", "/verbose");
+                Assert.AreEqual("libptx", cfg.ProjectName);
+                Assert.AreEqual("lite", cfg.TemplateName);
+                Assert.AreEqual("mercurial", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+            });
         }
 
         [Test]
         public void Parse_Target_Template()
         {
-            RunTest(() => Config.Parse(@"d:\Projects\Active\Libptx\", "lite", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse(@"d:\Projects\Active\Libptx\", "default", "/verbose");
+                Assert.AreEqual("Libptx", cfg.ProjectName);
+                Assert.AreEqual("default", cfg.TemplateName);
+                Assert.AreEqual("hg", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+            });
         }
 
         [Test]
         public void Parse_Name_Target_Template()
         {
-            RunTest(() => Config.Parse("Libptx", @"d:\Projects\Active\Libptx\", "lite", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse("libptx", @"d:\Projects\Active\Libptx\", "default", "/verbose");
+                Assert.AreEqual("libptx", cfg.ProjectName);
+                Assert.AreEqual("default", cfg.TemplateName);
+                Assert.AreEqual("hg", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+            });
         }
 
         [Test]
         public void Parse_Regular()
         {
-            RunTest(() => Config.Parse("-name:Libptx", @"-target:d:\Projects\Active\Libptx\", "-vcs:hg", "/verbose"));
+            RunTest(() =>
+            {
+                var cfg = Config.Parse("-name:libptx", @"-target:d:\Projects\Active\Libptx\", "-vcs:mercurial", "/verbose");
+                Assert.AreEqual("libptx", cfg.ProjectName);
+                Assert.AreEqual("lite", cfg.TemplateName);
+                Assert.AreEqual("mercurial", cfg.VcsName);
+                Assert.AreEqual(null, cfg.VcsRepo);
+                Assert.AreEqual(@"d:\Projects\Active\Libptx\", cfg.TargetDir);
+            });
         }
 
         [Test]

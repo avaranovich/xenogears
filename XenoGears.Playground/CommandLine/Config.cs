@@ -20,11 +20,11 @@ namespace XenoGears.Playground.CommandLine
         private static String DefaultProjectName { get { return null; } }
 
         [Param("template", "template-name", Description = "Codebase template.")]
-        private String TemplateName { get; set; }
+        public String TemplateName { get; set; }
         private static String DefaultTemplateName { get { return "lite"; } }
 
         [Param("vcs", "vcs-name", "vcs-provider", Description = "VCS provider.")]
-        private String VcsName { get; set; }
+        public String VcsName { get; set; }
         private static String DefaultVcsName { get { return "hg"; } }
 
         [Param("repo", "vcs-repo", Description = "VCS repository, e.g. https://prjinit.googlecode.com/hg/.")]
