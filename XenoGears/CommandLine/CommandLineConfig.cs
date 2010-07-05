@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using XenoGears.Logging;
 using XenoGears.CommandLine.Annotations;
 using XenoGears.CommandLine.Exceptions;
-using XenoGears.CommandLine.Helpers;
 using XenoGears.Functional;
 using XenoGears.Reflection.Attributes;
 using XenoGears.Reflection.Generics;
@@ -17,32 +18,30 @@ namespace XenoGears.CommandLine
     [Config, DebuggerNonUserCode]
     public abstract class CommandLineConfig
     {
-        protected static CommandLineConfig Current
+        public static TextWriter Out { get { return Log.Out; } }
+
+        protected static CommandLineConfig Current { get { return Parse(Environment.GetCommandLineArgs()); } }
+        protected static CommandLineConfig Parse(IEnumerable<String> args) { return Parse((args ?? Seq.Empty<String>()).ToArray()); }
+        protected static CommandLineConfig Parse(params String[] args)
         {
-            get
+            try
             {
-                try
-                {
-                    var t = new StackTrace().GetFrame(1).GetMethod().DeclaringType;
-                    var ctor = t.GetConstructors(BF.All).Single(ci => ci.Params().SingleOrDefault2() == typeof(String));
-                    return (CommandLineConfig)ctor.Invoke(new Object[]{Environment.CommandLine});
-                }
-                catch (ConfigException cex)
-                {
-                    if (cex.Message != null) Console.WriteLine(cex.Message);
-                    Console.WriteLine();
-                    Banners.Help();
-                    return null;
-                }
+                var t = new StackTrace().GetFrame(1).GetMethod().DeclaringType;
+                var ctor = t.GetConstructors(BF.All).Single(ci => ci.Params().SingleOrDefault2() == typeof(String));
+                return (CommandLineConfig)ctor.Invoke(args.MkArray());
+            }
+            catch (ConfigException cex)
+            {
+                if (cex.Message != null) Out.WriteLine(cex.Message);
+                Out.WriteLine();
+                Banners.Help();
+                return null;
             }
         }
 
         public bool IsVerbose { get; private set; }
-        protected CommandLineConfig(String commandLine)
+        protected CommandLineConfig(String[] s_args)
         {
-            // todo. implement this correctly
-            var s_args = commandLine.Split(' ');
-
             if (s_args.Count() == 1 && s_args[0] == "/?")
             {
                 Banners.About();
@@ -55,13 +54,12 @@ namespace XenoGears.CommandLine
                     IsVerbose = true;
                     s_args = s_args.SkipLast().ToArray();
 
-                    Console.WriteLine("Detected the \"/verbose\" switch, entering verbose mode.");
-                    Console.WriteLine("Command line is {0}", commandLine.ToTrace());
-                    Console.Write("Command line args are: ");
-                    if (s_args.IsEmpty()) Console.WriteLine("empty");
-                    else Console.WriteLine();
-                    foreach (var arg in s_args) Console.WriteLine(arg);
-                    if (s_args.IsNotEmpty()) Console.WriteLine();
+                    Out.WriteLine("Detected the \"/verbose\" switch, entering verbose mode.");
+                    Out.Write("Command line args are: ");
+                    if (s_args.IsEmpty()) Out.WriteLine("empty");
+                    else Out.WriteLine();
+                    foreach (var arg in s_args) Out.WriteLine(arg);
+                    if (s_args.IsNotEmpty()) Out.WriteLine();
                 }
 
                 var named_args = new Dictionary<String, String>();
@@ -73,8 +71,8 @@ namespace XenoGears.CommandLine
                     var value = m != null ? m["value"] : s_arg;
                     if (IsVerbose)
                     {
-                        if (m != null) Console.WriteLine("Parsed \"{0}\" as name/value pair: {1} => \"{2}\".", s_arg, name, value);
-                        else Console.WriteLine("Parsed \"{0}\" as raw value.", s_arg);
+                        if (m != null) Out.WriteLine("Parsed \"{0}\" as name/value pair: {1} => \"{2}\".", s_arg, name, value);
+                        else Out.WriteLine("Parsed \"{0}\" as raw value.", s_arg);
                     }
 
                     if (name == null)
@@ -89,39 +87,39 @@ namespace XenoGears.CommandLine
                     }
                 }
 
-                if (IsVerbose) Console.WriteLine("Parsing named arguments...");
+                if (IsVerbose) Out.WriteLine("Parsing named arguments...");
                 var parsed_named_args = ParseArgs(named_args);
                 if (IsVerbose) foreach (var kvp in parsed_named_args)
                 {
                     var a = kvp.Key.Attr<ParamAttribute>();
                     var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
                     var value = named_args[name];
-                    Console.WriteLine("Parsed {0} => \"{1}\" as: {2}.",
+                    Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.",
                         name, value, kvp.Value == null ? "<null>" : kvp.Value.ToString());
                 }
 
                 if (shortcut_args.IsNotEmpty())
                 {
-                    if (IsVerbose) Console.WriteLine("Parsing shortcut args...");
+                    if (IsVerbose) Out.WriteLine("Parsing shortcut args...");
 
                     Dictionary<PropertyInfo, String> parsed_shortcut_args = null;
                     var shortcuts = GetType().Attrs<ShortcutAttribute>().OrderBy(shortcut => shortcut.Priority);
                     foreach (var shortcut in shortcuts)
                     {
-                        if (IsVerbose) Console.WriteLine("Considering shortcut schema \"{0}\"...", shortcut.Shortcut);
+                        if (IsVerbose) Out.WriteLine("Considering shortcut schema \"{0}\"...", shortcut.Shortcut);
                     }
                 }
 
                 // if isverbose, then emit parsing config...
                 // after parsing emit newline
 
-//                if (IsVerbose) Console.WriteLine("Resolved %ProjectName as {0}.", ProjectName.ToTrace());
+//                if (IsVerbose) Out.WriteLine("Resolved %ProjectName as {0}.", ProjectName.ToTrace());
 
 //                TargetDir = Path.GetFullPath(args[2]);
 //                var slash = Path.DirectorySeparatorChar.ToString();
 //                if (!TargetDir.EndsWith(slash)) TargetDir += slash;
 
-                if (IsVerbose) Console.WriteLine("Parse completed.");
+                if (IsVerbose) Out.WriteLine("Parse completed.");
                 throw new NotImplementedException();
             }
         }

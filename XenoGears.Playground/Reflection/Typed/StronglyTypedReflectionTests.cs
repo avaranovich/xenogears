@@ -4,7 +4,6 @@ using System.Linq;
 using XenoGears.Functional;
 using XenoGears.Reflection.Typed;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace XenoGears.Playground.Reflection.Typed
 {

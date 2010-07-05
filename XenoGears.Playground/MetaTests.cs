@@ -11,7 +11,7 @@ using XenoGears.Reflection.Generics;
 namespace XenoGears.Playground
 {
     [TestFixture]
-    public class DebuggerNonUserCodeTests
+    public class MetaTests
     {
         [Test]
         public void EnsureEverythingInXenoGearsIsMarkedWithDebuggerNonUserCode()

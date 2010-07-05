@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using XenoGears.Functional;
 
-namespace XenoGears.Playground
+namespace XenoGears.Playground.Functional
 {
     [TestFixture]
     public class EnumerableExtensionsTests
