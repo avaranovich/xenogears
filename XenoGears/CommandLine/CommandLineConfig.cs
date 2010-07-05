@@ -108,13 +108,13 @@ namespace XenoGears.CommandLine
                     if (IsVerbose) Out.WriteLine("Parsing named arguments...");
                     parsed_args = ParseArgs(named_args);
                     if (IsVerbose) foreach (var kvp in parsed_args)
-                        {
-                            var a = kvp.Key.Attr<ParamAttribute>();
-                            var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
-                            var value = named_args[name];
-                            Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.",
-                                name, value, kvp.Value == null ? "<null>" : kvp.Value.ToString());
-                        }
+                    {
+                        var a = kvp.Key.Attr<ParamAttribute>();
+                        var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
+                        var value = named_args[name];
+                        Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.",
+                            name, value.ToTrace(), kvp.Value == null ? "<null>" : kvp.Value.ToTrace());
+                    }
                 }
 
                 if (shortcut_args.IsNotEmpty())
@@ -145,6 +145,15 @@ namespace XenoGears.CommandLine
                             continue;
                         }
 
+                        foreach (var kvp in parsed_shortcut_args)
+                        {
+                            var a = kvp.Key.Attr<ParamAttribute>();
+                            var iof = words.IndexOf(w => a.Aliases.Contains(w));
+                            var value = shortcut_args[iof];
+                            Out.WriteLine("Parsed \"{0}\" as: {1} => \"{2}\".",
+                                value.ToTrace(), kvp.Key.Name, kvp.Value == null ? "<null>" : kvp.Value.ToTrace());
+                        }
+
                         var dupes = Set.Intersect(parsed_args.Keys, parsed_shortcut_args.Keys);
                         if (dupes.IsNotEmpty())
                         {
@@ -153,6 +162,10 @@ namespace XenoGears.CommandLine
                             if (IsVerbose) Out.WriteLine("Schema \"{0}\" won't work: shortcut argument duplicates parsed argument \"{1}\".", shortcut.Schema, name);
                             parsed_shortcut_args = null;
                             continue;
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
 

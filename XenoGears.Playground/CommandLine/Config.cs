@@ -8,10 +8,10 @@ namespace XenoGears.Playground.CommandLine
 {
     [Config("prjinit")]
     [Shortcut("", Priority = 1)]
-    [Shortcut("target", Priority = 2)]
-    [Shortcut("name", Priority = 3)]
-    [Shortcut("target template", Priority = 4)]
-    [Shortcut("name target", Priority = 5)]
+    [Shortcut("name", Priority = 2)]
+    [Shortcut("target", Priority = 3)]
+    [Shortcut("name target", Priority = 4)]
+    [Shortcut("target template", Priority = 5)]
     [Shortcut("name target template", Priority = 6)]
     internal class Config : CommandLineConfig
     {

@@ -34,7 +34,8 @@ namespace XenoGears.Strings
 
         public static String[] SplitWords(this String s)
         {
-            return s.SplitLines().SelectMany(line => line.Split(" ".MkArray(), StringSplitOptions.None)).ToArray();
+            var strict_lines = s.Split(new []{Environment.NewLine, "\n", "\r", "\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+            return strict_lines.SelectMany(line => line.Split(" ".MkArray(), StringSplitOptions.RemoveEmptyEntries)).ToArray();
         }
 
         public static String[] SplitLines(this String s)
