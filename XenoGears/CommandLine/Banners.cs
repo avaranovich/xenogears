@@ -42,7 +42,8 @@ namespace XenoGears.CommandLine
                 var @params = t_cfg.GetProperties(BF.AllInstance)
                     .Where(p => p.HasAttr<ParamAttribute>()).OrderBy(p => p.Attr<ParamAttribute>().Priority).ToReadOnly();
 
-                var s_syntax = String.Format("Syntax: {0}", asm.GetName().Name);
+                var cfg_name = t_cfg.Attr<ConfigAttribute>().Name ?? asm.GetName().Name;
+                var s_syntax = String.Format("Syntax: {0}", cfg_name);
                 foreach (var p in @params)
                 {
                     var is_optional = t_cfg.GetProperty("Default" + p.Name, BF.AllStatic) != null;

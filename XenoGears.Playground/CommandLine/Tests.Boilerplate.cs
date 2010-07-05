@@ -9,7 +9,6 @@ using XenoGears.Logging;
 using XenoGears.Functional;
 using XenoGears.Reflection.Generics;
 using XenoGears.Strings;
-using XenoGears.Traits.Disposable;
 using NUnit.Framework;
 using XenoGears.Assertions;
 
@@ -18,24 +17,17 @@ namespace XenoGears.Playground.CommandLine
     public partial class Tests
     {
         private StringBuilder Out { get; set; }
-        private IDisposable _restoreOut = new DisposableAction(() => { });
 
-        [SetUp]
-        public void SetUp()
+        private void RunTest(Action test)
         {
-            Out = new StringBuilder();
-            _restoreOut = Log.SetOut(Out);
+            using (Log.SetOut(Out = new StringBuilder()))
+            {
+                (test ?? (() => {}))();
+                VerifyOutput();
+            }
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            Verify();
-            _restoreOut.Dispose();
-            Out = null;
-        }
-
-        protected void Verify()
+        private void VerifyOutput()
         {
             var s_actual = Out == null ? null : Out.ToString();
 

@@ -11,6 +11,7 @@ namespace XenoGears.Playground.CommandLine
     [Shortcut("target template", Priority = 3)]
     [Shortcut("name target", Priority = 4)]
     [Shortcut("name target template", Priority = 5)]
+    [Config("prjinit")]
     internal class Config : CommandLineConfig
     {
         [Param("name", "prj-name", "project-name", Description = "Name of the project to create.")]
