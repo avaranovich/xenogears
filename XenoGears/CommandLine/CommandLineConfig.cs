@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Assertions;
-using XenoGears.Collections;
 using XenoGears.Logging;
 using XenoGears.CommandLine.Annotations;
 using XenoGears.CommandLine.Exceptions;
@@ -151,24 +150,33 @@ namespace XenoGears.CommandLine
                     else parsed_args.AddElements(parsed_shortcut_args);
                 }
 
-//                TargetDir = Path.GetFullPath(args[2]);
-//                var slash = Path.DirectorySeparatorChar.ToString();
-//                if (!TargetDir.EndsWith(slash)) TargetDir += slash;
-
                 if (IsVerbose) Out.WriteLine("Parse completed.");
-                parsed_args.ForEach(kvp =>
+                if (IsVerbose) Out.WriteLine("Applying parsed values.");
+                var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>());
+                props.ForEach(p =>
                 {
-                    if (IsVerbose) Out.WriteLine("Resolved %{0} as {1}.", kvp.Key.Name, kvp.Value.ToTrace());
-                    kvp.Key.SetValue(this, kvp.Value, null);
-                });
+                    if (parsed_args.ContainsKey(p))
+                    {
+                        var value = parsed_args[p];
+                        if (IsVerbose) Out.WriteLine("Resolved %{0} as {1}.", p.Name, value.ToTrace());
+                        p.SetValue(this, value, null);
+                    }
+                    else
+                    {
+                        var p_default = GetType().GetProperty("Default" + p.Name, BF.AllStatic);
+                        if (p_default == null) throw new ConfigException("Fatal error: parameter \"{0}\" must be specified.");
 
-                throw new NotImplementedException();
+                        var value = p_default.GetValue(null, null);
+                        if (IsVerbose) Out.WriteLine("Defaulted %{0} to {1}.", p.Name, value.ToTrace());
+                        p.SetValue(this, value, null);
+                    }
+                });
             }
         }
 
-        private ReadOnlyDictionary<PropertyInfo, Object> ParseArgs(Dictionary<String, String> kvps)
+        private Dictionary<PropertyInfo, Object> ParseArgs(Dictionary<String, String> kvps)
         {
-            var props = this.GetType().GetProperties(BF.AllInstance);
+            var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>());
             return kvps.Select(kvp =>
             {
                 var p = props.SingleOrDefault(p1 => p1.Attr<ParamAttribute>().Aliases.Contains(kvp.Key));
@@ -176,7 +184,9 @@ namespace XenoGears.CommandLine
 
                 Func<String, Type, Object> parse = (s, t) =>
                 {
-                    throw new NotImplementedException();
+                    if (t == typeof(FileInfo)) return new FileInfo(s);
+                    if (t == typeof(DirectoryInfo)) return new DirectoryInfo(s);
+                    return t.FromInvariantString(s);
                 };
 
                 Object value;
@@ -184,7 +194,7 @@ namespace XenoGears.CommandLine
                 catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse argument \"{0}\" with value \"{1}\"", kvp.Key, kvp.Value); }
 
                 return Tuple.New(p, value);
-            }).ToDictionary(t => t.Item1, t => t.Item2).ToReadOnly();
+            }).ToDictionary(t => t.Item1, t => t.Item2);
         }
     }
 }

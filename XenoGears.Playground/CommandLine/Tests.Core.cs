@@ -6,7 +6,7 @@ namespace XenoGears.Playground.CommandLine
     [TestFixture]
     public partial class Tests
     {
-        [Test, Category("Hot")]
+        [Test]
         public void Help()
         {
             RunTest(() => Banners.Help(typeof(Config)));
@@ -68,7 +68,7 @@ namespace XenoGears.Playground.CommandLine
             });
         }
 
-        [Test]
+        [Test, Category("Hot")]
         public void Parse_Name_Target_Vcs()
         {
             RunTest(() =>
