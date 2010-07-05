@@ -2,10 +2,10 @@
 
 Shortcuts:
     prjinit
-    prjinit target
     prjinit name
-    prjinit target template
+    prjinit target
     prjinit name target
+    prjinit target template
     prjinit name target template
 
 Parameters:
