@@ -69,10 +69,20 @@ namespace XenoGears.Functional
             }
         }
 
+        public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> seq)
+        {
+            return seq.SkipLast(1);
+        }
+
         public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> seq, int num)
         {
             if (num == 0) return seq;
             return seq.Slice(0, -num);
+        }
+
+        public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> seq)
+        {
+            return seq.TakeLast(1);
         }
 
         public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> seq, int num)

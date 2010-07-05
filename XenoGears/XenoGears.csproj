@@ -42,6 +42,14 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLine\Banners.cs" />
+    <Compile Include="CommandLine\CommandLineConfig.cs" />
+    <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
+    <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
+    <Compile Include="Reflection\Attributes\Common\ManyAliasesAttribute.cs" />
+    <Compile Include="CommandLine\Annotations\ParamAttribute.cs" />
+    <Compile Include="CommandLine\Helpers\Printer.cs" />
+    <Compile Include="CommandLine\Annotations\ShortcutAttribute.cs" />
     <Compile Include="Functional\EnumerableExtensions.Stack.cs" />
     <Compile Include="Reflection\ActivatorExtensions.cs" />
     <Compile Include="Collections\Virtual\VirtualList.cs" />
@@ -63,6 +71,7 @@
     <Compile Include="Reflection\Typed\ApiExtensions.cs" />
     <Compile Include="Reflection\Visibility.cs" />
     <Compile Include="Reflection\VisibilityHelper.cs" />
+    <Compile Include="Strings\RegexHelper.cs" />
     <Compile Include="Strings\Syms.cs" />
     <Compile Include="Traits\Cloneable\ICloneable2Trait.cs" />
     <Compile Include="Traits\Disposable\DisposableAction.cs" />

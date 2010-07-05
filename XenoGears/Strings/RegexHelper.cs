@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using AdvancedMailMerge.Helpers.Assertions;
+using XenoGears.Assertions;
 
-namespace AdvancedMailMerge.Helpers.Strings
+namespace XenoGears.Strings
 {
     [DebuggerNonUserCode]
     internal static class RegexHelper
