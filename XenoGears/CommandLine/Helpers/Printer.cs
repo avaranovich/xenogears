@@ -7,6 +7,15 @@ namespace XenoGears.CommandLine.Helpers
     [DebuggerNonUserCode]
     public static class Printer
     {
+        public static String ToTrace(this Object o)
+        {
+            if (o == null) return "<null>";
+            if (o is String) return (o as String).ToTrace();
+            if (o is FileInfo) return (o as FileInfo).ToTrace();
+            if (o is DirectoryInfo) return (o as DirectoryInfo).ToTrace();
+            return o.ToString();
+        }
+
         public static String ToTrace(this String s)
         {
             if (s == null) return "<null>";

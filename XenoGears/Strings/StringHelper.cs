@@ -32,6 +32,11 @@ namespace XenoGears.Strings
             return source.Substring(fromInclusive, toExclusive - fromInclusive);
         }
 
+        public static String[] SplitWords(this String s)
+        {
+            return s.SplitLines().SelectMany(line => line.Split(" ".MkArray(), StringSplitOptions.None)).ToArray();
+        }
+
         public static String[] SplitLines(this String s)
         {
             return s.Split(new []{Environment.NewLine, "\n", "\r", "\r\n"}, StringSplitOptions.None);

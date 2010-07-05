@@ -65,7 +65,7 @@ namespace XenoGears.CommandLine
                     shortcuts.ForEach((shortcut, i) =>
                     {
                         shortcut.Description.AssertNull();
-                        Out.WriteLine(cfg_name + (shortcut.Shortcut.IsNullOrEmpty() ? "" : (" " + shortcut.Shortcut)));
+                        Out.WriteLine(cfg_name + (shortcut.Schema.IsNullOrEmpty() ? "" : (" " + shortcut.Schema)));
                         if (i != shortcuts.Count() - 1) Out.Write("    ");
                     });
                 }

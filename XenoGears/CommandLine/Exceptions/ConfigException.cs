@@ -7,16 +7,32 @@ namespace XenoGears.CommandLine.Exceptions
     public class ConfigException : Exception
     {
         public ConfigException()
+            : this(null as Exception)
         {
         }
 
         public ConfigException(String message)
-            : base(message)
+            : this(null as Exception, message)
         {
         }
 
         public ConfigException(String format, params String[] args)
-            : base(String.Format(format, args))
+            : this(null as Exception, format, args)
+        {
+        }
+
+        public ConfigException(Exception innerException)
+            : base(null, innerException)
+        {
+        }
+
+        public ConfigException(Exception innerException, String message)
+            : base(message, innerException)
+        {
+        }
+
+        public ConfigException(Exception innerException, String format, params String[] args)
+            : base(String.Format(format, args), innerException)
         {
         }
     }

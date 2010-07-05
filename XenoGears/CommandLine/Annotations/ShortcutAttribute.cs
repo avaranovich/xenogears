@@ -8,12 +8,12 @@ namespace XenoGears.CommandLine.Annotations
     public class ShortcutAttribute : Attribute
     {
         public int Priority { get; set; }
-        public String Shortcut { get; private set; }
+        public String Schema { get; private set; }
         public String Description { get; set; }
 
         public ShortcutAttribute(String shortcut)
         {
-            Shortcut = shortcut;
+            Schema = shortcut;
         }
     }
 }

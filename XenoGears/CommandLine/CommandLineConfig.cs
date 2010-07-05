@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Assertions;
+using XenoGears.Collections;
 using XenoGears.Logging;
 using XenoGears.CommandLine.Annotations;
 using XenoGears.CommandLine.Exceptions;
@@ -14,6 +15,7 @@ using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
 using XenoGears.Strings;
 using XenoGears.Reflection;
+using XenoGears.CommandLine.Helpers;
 
 namespace XenoGears.CommandLine
 {
@@ -96,8 +98,8 @@ namespace XenoGears.CommandLine
                 }
 
                 if (IsVerbose) Out.WriteLine("Parsing named arguments...");
-                var parsed_named_args = ParseArgs(named_args);
-                if (IsVerbose) foreach (var kvp in parsed_named_args)
+                var parsed_args = ParseArgs(named_args);
+                if (IsVerbose) foreach (var kvp in parsed_args)
                 {
                     var a = kvp.Key.Attr<ParamAttribute>();
                     var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
@@ -110,31 +112,79 @@ namespace XenoGears.CommandLine
                 {
                     if (IsVerbose) Out.WriteLine("Parsing shortcut args...");
 
-                    Dictionary<PropertyInfo, String> parsed_shortcut_args = null;
+                    Dictionary<PropertyInfo, Object> parsed_shortcut_args = null;
                     var shortcuts = GetType().Attrs<ShortcutAttribute>().OrderBy(shortcut => shortcut.Priority);
                     foreach (var shortcut in shortcuts)
                     {
-                        if (IsVerbose) Out.WriteLine("Considering shortcut schema \"{0}\"...", shortcut.Shortcut);
+                        if (IsVerbose) Out.WriteLine("Considering shortcut schema \"{0}\"...", shortcut.Schema);
+                        var words = shortcut.Schema.SplitWords();
+                        if (words.Count() != shortcut_args.Count())
+                        {
+                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" won't work: argument count mismatch.", shortcut.Schema);
+                            continue;
+                        }
+
+                        try { parsed_shortcut_args = ParseArgs(words.Zip(shortcut_args).ToDictionary(t => t.Item1, t => t.Item2)); }
+                        catch (ConfigException cex)
+                        {
+                            if (IsVerbose)
+                            {
+                                Out.WriteLine(cex.Message);
+                                Out.WriteLine("Schema \"{0}\" won't work: failed to parse arguments.", shortcut.Schema);
+                            }
+
+                            continue;
+                        }
+
+                        var dupes = Set.Intersect(parsed_args.Keys, parsed_shortcut_args.Keys);
+                        if (dupes.IsNotEmpty())
+                        {
+                            var a = dupes.AssertFirst().Attr<ParamAttribute>();
+                            var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
+                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" won't work: shortcut argument duplicates parsed argument \"{1}\".", shortcut.Schema, name);
+                            parsed_shortcut_args = null;
+                            continue;
+                        }
                     }
+
+                    if (parsed_shortcut_args == null) throw new ConfigException("Fatal error: cannot bind to any of shortcuts.");
+                    else parsed_args.AddElements(parsed_shortcut_args);
                 }
-
-                // if isverbose, then emit parsing config...
-                // after parsing emit newline
-
-//                if (IsVerbose) Out.WriteLine("Resolved %ProjectName as {0}.", ProjectName.ToTrace());
 
 //                TargetDir = Path.GetFullPath(args[2]);
 //                var slash = Path.DirectorySeparatorChar.ToString();
 //                if (!TargetDir.EndsWith(slash)) TargetDir += slash;
 
                 if (IsVerbose) Out.WriteLine("Parse completed.");
+                parsed_args.ForEach(kvp =>
+                {
+                    if (IsVerbose) Out.WriteLine("Resolved %{0} as {1}.", kvp.Key.Name, kvp.Value.ToTrace());
+                    kvp.Key.SetValue(this, kvp.Value, null);
+                });
+
                 throw new NotImplementedException();
             }
         }
 
-        private Dictionary<PropertyInfo, Object> ParseArgs(Dictionary<String, String> kvps)
+        private ReadOnlyDictionary<PropertyInfo, Object> ParseArgs(Dictionary<String, String> kvps)
         {
-            throw new NotImplementedException();
+            var props = this.GetType().GetProperties(BF.AllInstance);
+            return kvps.Select(kvp =>
+            {
+                var p = props.SingleOrDefault(p1 => p1.Attr<ParamAttribute>().Aliases.Contains(kvp.Key));
+                if (p == null) throw new ConfigException("Fatal error: unknown argument name \"{0}\"", kvp.Key);
+
+                Func<String, Type, Object> parse = (s, t) =>
+                {
+                    throw new NotImplementedException();
+                };
+
+                Object value;
+                try { value = parse(kvp.Value, p.PropertyType); }
+                catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse argument \"{0}\" with value \"{1}\"", kvp.Key, kvp.Value); }
+
+                return Tuple.New(p, value);
+            }).ToDictionary(t => t.Item1, t => t.Item2).ToReadOnly();
         }
     }
 }
