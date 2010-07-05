@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using XenoGears.Assertions;
 using XenoGears.Logging;
 using XenoGears.CommandLine.Annotations;
 using XenoGears.CommandLine.Exceptions;
@@ -12,10 +13,11 @@ using XenoGears.Reflection.Attributes;
 using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
 using XenoGears.Strings;
+using XenoGears.Reflection;
 
 namespace XenoGears.CommandLine
 {
-    [Config, DebuggerNonUserCode]
+    [Config]
     public abstract class CommandLineConfig
     {
         public static TextWriter Out { get { return Log.Out; } }
@@ -26,8 +28,14 @@ namespace XenoGears.CommandLine
         {
             try
             {
-                var t = new StackTrace().GetFrame(1).GetMethod().DeclaringType;
-                var ctor = t.GetConstructors(BF.All).Single(ci => ci.Params().SingleOrDefault2() == typeof(String));
+                var t = new StackTrace().GetFrames().Select(f =>
+                {
+                    var m = f.GetMethod();
+                    var decl = m.DeclaringType;
+                    while (decl != null && decl.IsCompilerGenerated()) decl = decl.DeclaringType;
+                    return decl;
+                }).AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
+                var ctor = t.GetConstructors(BF.All).Single(ci => ci.Params().SingleOrDefault2() == typeof(String[]));
                 return (CommandLineConfig)ctor.Invoke(args.MkArray());
             }
             catch (ConfigException cex)
