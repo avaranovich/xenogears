@@ -1,1 +1,12 @@
-﻿
+﻿Detected the "/verbose" switch, entering verbose mode.
+
+Command line args are: (3 args)
+1: Libptx
+2: -vcs:hg
+3: d:\Projects\Active\Libptx\
+
+Pre-parsing arguments...
+Parsed "Libptx" as raw value.
+Parsed "-vcs:hg" as name/value pair: vcs => "hg".
+Parsed "d:\Projects\Active\Libptx\" as raw value.
+Fatal error: shortcut arguments must be specified before named arguments.

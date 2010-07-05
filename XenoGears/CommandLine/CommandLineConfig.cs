@@ -39,12 +39,20 @@ namespace XenoGears.CommandLine
                 var ctor = t.GetConstructors(BF.All).Single(ci => ci.Params().SingleOrDefault2() == typeof(String[]));
                 return (CommandLineConfig)ctor.Invoke(args.MkArray());
             }
-            catch (ConfigException cex)
+            catch (TargetInvocationException tie)
             {
-                if (cex.Message != null) Out.WriteLine(cex.Message);
-                Out.WriteLine();
-                Banners.Help();
-                return null;
+                var cex = tie.InnerException as ConfigException;
+                if (cex != null)
+                {
+                    if (cex.Message != null) Out.WriteLine(cex.Message);
+                    Out.WriteLine();
+                    Banners.Help();
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -109,14 +117,6 @@ namespace XenoGears.CommandLine
                 {
                     if (IsVerbose) Out.WriteLine("Parsing named arguments...");
                     parsed_args = ParseArgs(named_args);
-                    if (IsVerbose) foreach (var kvp in parsed_args)
-                    {
-                        var a = kvp.Key.Attr<ParamAttribute>();
-                        var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
-                        var value = named_args[name];
-                        Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.",
-                            name, value.ToTrace(), kvp.Value == null ? "<null>" : kvp.Value.ToTrace());
-                    }
                 }
 
                 if (shortcut_args.IsNotEmpty())
@@ -145,15 +145,6 @@ namespace XenoGears.CommandLine
                             }
 
                             continue;
-                        }
-
-                        foreach (var kvp in parsed_shortcut_args)
-                        {
-                            var a = kvp.Key.Attr<ParamAttribute>();
-                            var iof = words.IndexOf(w => a.Aliases.Contains(w));
-                            var value = shortcut_args[iof];
-                            Out.WriteLine("Parsed \"{0}\" as: {1} => {2}.",
-                                value.ToTrace(), kvp.Key.Name, kvp.Value == null ? "<null>" : kvp.Value.ToTrace());
                         }
 
                         var dupes = Set.Intersect(parsed_args.Keys, parsed_shortcut_args.Keys);
@@ -204,11 +195,14 @@ namespace XenoGears.CommandLine
 
         private Dictionary<PropertyInfo, Object> ParseArgs(Dictionary<String, String> kvps)
         {
-            var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>()).OrderBy(p => p.Attr<ParamAttribute>().Priority);
-            return kvps.Select(kvp =>
+            var parsed_args = new Dictionary<PropertyInfo, Object>();
+            kvps.ForEach(kvp =>
             {
+                if (IsVerbose) Out.WriteLine("Resolving argument \"{0}\"...", kvp.Key);
+                var props = this.GetType().GetProperties(BF.AllInstance).Where(p1 => p1.HasAttr<ParamAttribute>()).OrderBy(p1 => p1.Attr<ParamAttribute>().Priority);
                 var p = props.SingleOrDefault(p1 => p1.Attr<ParamAttribute>().Aliases.Contains(kvp.Key));
                 if (p == null) throw new ConfigException("Fatal error: unknown argument name \"{0}\".", kvp.Key);
+                if (IsVerbose) Out.WriteLine("Resolved argument \"{0}\" as: {1}...", kvp.Key, p.GetCSharpRef(ToCSharpOptions.Informative));
 
                 Func<String, Type, Object> parse = (s, t) =>
                 {
@@ -217,26 +211,33 @@ namespace XenoGears.CommandLine
                     return t.FromInvariantString(s);
                 };
 
+                if (IsVerbose) Out.WriteLine("Parsing {0} => \"{1}\" as {2}...", kvp.Key, kvp.Value.ToTrace(), p.PropertyType);
                 Object value;
                 try { value = parse(kvp.Value, p.PropertyType); }
                 catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse value \"{0}\" for argument \"{1}\".", kvp.Value.ToTrace(), kvp.Key); }
+                if (IsVerbose) Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.", kvp.Key, kvp.Value.ToTrace(), value.ToTrace());
 
                 var m_validate = this.GetType().GetMethod("Validate" + p.Name, BF.AllStatic);
                 if (m_validate != null)
                 {
                     try
                     {
+                        if (IsVerbose) Out.WriteLine("Validating {0} with {1}...", value.ToTrace(), m_validate.GetCSharpRef(ToCSharpOptions.Informative));
                         var is_valid = (bool)m_validate.Invoke(null, value.MkArray());
-                        if (!is_valid) throw new ConfigException("Fatal error: value \"{0}\" is invalid for argument \"{1}\".", value.ToTrace(), kvp.Key);
+                        if (!is_valid) throw new ConfigException("Fatal error: value \"{0}\" is unsuitable for argument \"{1}\".", value.ToTrace(), kvp.Key);
+                        if (IsVerbose) Out.WriteLine("Validated {0} as suitable for {1}.", value.ToTrace(), p.GetCSharpRef(ToCSharpOptions.Informative));
                     }
                     catch (Exception ex)
                     {
-                        throw new ConfigException(ex, "Fatal error: value \"{0}\" is invalid for argument \"{1}\".", value.ToTrace(), kvp.Key);
+                        throw new ConfigException(ex, "Fatal error: value \"{0}\" is unsuitable for argument \"{1}\".", value.ToTrace(), kvp.Key);
                     }
                 }
 
-                return Tuple.New(p, value);
-            }).ToDictionary(t => t.Item1, t => t.Item2);
+                if (parsed_args.ContainsKey(p)) throw new ConfigException("Fatal error: duplicate argument \"{0}\".", kvp.Key);
+                else { parsed_args.Add(p, value); }
+            });
+
+            return parsed_args;
         }
     }
 }

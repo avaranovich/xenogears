@@ -68,7 +68,7 @@ namespace XenoGears.Playground.CommandLine
             });
         }
 
-        [Test, Category("Hot")]
+        [Test]
         public void Parse_Name_Target_Vcs()
         {
             RunTest(() =>
@@ -124,7 +124,7 @@ namespace XenoGears.Playground.CommandLine
             });
         }
 
-        [Test]
+        [Test, Category("Hot")]
         public void Parse_Invalid_Duped1()
         {
             RunTest(() => Config.Parse("-name:Libptx", "-name:Libptx", "/verbose"));

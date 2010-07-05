@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using XenoGears.CommandLine;
+using XenoGears.CommandLine.Exceptions;
 using XenoGears.Logging;
 using XenoGears.Functional;
 using XenoGears.Reflection.Generics;
