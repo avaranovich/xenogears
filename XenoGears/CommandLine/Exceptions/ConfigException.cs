@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace XenoGears.CommandLine.Exceptions
 {
+    [DebuggerNonUserCode]
     public class ConfigException : Exception
     {
         public ConfigException()
@@ -13,18 +15,8 @@ namespace XenoGears.CommandLine.Exceptions
         {
         }
 
-        public ConfigException(String format, String arg0)
-            : base(String.Format(format, arg0))
-        {
-        }
-
-        public ConfigException(String format, String arg0, String arg1)
-            : base(String.Format(format, arg0, arg1))
-        {
-        }
-
-        public ConfigException(String format, String arg0, String arg1, String arg2)
-            : base(String.Format(format, arg0, arg1, arg2))
+        public ConfigException(String format, params String[] args)
+            : base(String.Format(format, args))
         {
         }
     }

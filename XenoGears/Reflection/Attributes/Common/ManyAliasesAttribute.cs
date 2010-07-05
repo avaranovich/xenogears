@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace XenoGears.Reflection.Attributes.Common
 {
+    [DebuggerNonUserCode]
     public abstract class ManyAliasesAttribute : Attribute
     {
         public ReadOnlyCollection<String> Aliases { get; private set; }

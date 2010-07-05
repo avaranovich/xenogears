@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,7 @@ using XenoGears.Strings;
 
 namespace XenoGears.CommandLine
 {
+    [DebuggerNonUserCode]
     public static class Banners
     {
         public static TextWriter Out { get { return Log.Out; } }
