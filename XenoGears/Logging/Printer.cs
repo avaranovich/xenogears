@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace XenoGears.CommandLine.Helpers
+namespace XenoGears.Logging
 {
     [DebuggerNonUserCode]
     public static class Printer

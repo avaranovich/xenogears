@@ -14,7 +14,6 @@ using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
 using XenoGears.Strings;
 using XenoGears.Reflection;
-using XenoGears.CommandLine.Helpers;
 
 namespace XenoGears.CommandLine
 {

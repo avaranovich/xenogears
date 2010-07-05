@@ -48,7 +48,7 @@
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
     <Compile Include="Reflection\Attributes\Common\ManyAliasesAttribute.cs" />
     <Compile Include="CommandLine\Annotations\ParamAttribute.cs" />
-    <Compile Include="CommandLine\Helpers\Printer.cs" />
+    <Compile Include="Logging\Printer.cs" />
     <Compile Include="CommandLine\Annotations\ShortcutAttribute.cs" />
     <Compile Include="Functional\EnumerableExtensions.Stack.cs" />
     <Compile Include="Reflection\ActivatorExtensions.cs" />
