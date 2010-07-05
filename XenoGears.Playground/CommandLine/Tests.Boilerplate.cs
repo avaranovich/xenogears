@@ -98,12 +98,6 @@ namespace XenoGears.Playground.CommandLine
 
                     if (!success)
                     {
-                        Trace.WriteLine(String.Format(
-//                            "Comparing actual and expected decompilation results{0}{1}",
-                            "{1}",
-                            Environment.NewLine, mb.GetCSharpDecl(ToCSharpOptions.InformativeWithDeclaringType)));
-                        Trace.WriteLine(String.Empty);
-
                         var maxLines = Math.Max(actual.Count(), expected.Count());
                         var maxDigits = (int)Math.Floor(Math.Log10(maxLines)) + 1;
                         var maxActual = Math.Max(actual.MaxOrDefault(line => line.Length), "Actual".Length);

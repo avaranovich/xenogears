@@ -6,12 +6,13 @@ using XenoGears.CommandLine.Annotations;
 
 namespace XenoGears.Playground.CommandLine
 {
-    [Shortcut("target", Priority = 1)]
-    [Shortcut("name", Priority = 2)]
-    [Shortcut("target template", Priority = 3)]
-    [Shortcut("name target", Priority = 4)]
-    [Shortcut("name target template", Priority = 5)]
     [Config("prjinit")]
+    [Shortcut("", Priority = 1)]
+    [Shortcut("target", Priority = 2)]
+    [Shortcut("name", Priority = 3)]
+    [Shortcut("target template", Priority = 4)]
+    [Shortcut("name target", Priority = 5)]
+    [Shortcut("name target template", Priority = 6)]
     internal class Config : CommandLineConfig
     {
         [Param("name", "prj-name", "project-name", Description = "Name of the project to create.")]
