@@ -61,10 +61,10 @@ namespace XenoGears.Playground.Framework
             fnameWannabes.Add(s_declt + "_" + s_name);
             fnameWannabes.Add(s_declt + "_" + s_name + "_" + s_sig);
 
-            var test_fixture = unit_test.DeclaringType;
-            var asm = test_fixture.Assembly;
+            var test_fixture = UnitTest.CurrentFixture ?? unit_test.DeclaringType;
+            var res_asm = test_fixture.Assembly;
             var ns = test_fixture.Namespace + ".Reference.";
-            var resources = asm.GetManifestResourceNames();
+            var resources = res_asm.GetManifestResourceNames();
             var f_reference = fnameWannabes.SingleOrDefault2(wannabe =>
                 resources.ExactlyOne(n => String.Compare(n, ns + wannabe, true) == 0));
 
@@ -73,7 +73,7 @@ namespace XenoGears.Playground.Framework
             if (f_reference != null)
             {
                 String s_reference;
-                using (var stream = asm.GetManifestResourceStream(ns + f_reference))
+                using (var stream = res_asm.GetManifestResourceStream(ns + f_reference))
                 {
                     s_reference = new StreamReader(stream).ReadToEnd();
                 }
@@ -154,8 +154,7 @@ namespace XenoGears.Playground.Framework
 
                 Assert.Fail(String.Format(Environment.NewLine +
                     "Couldn't find a file in resources that contains reference result for unit test '{1}'.{0}" +
-                    "Please, verify the trace dumped above and put it into one of the following files {0}" +
-                    "under the Reference folder next to the test suite: " +
+                    "Please, verify the trace dumped above and put it into one of the following files under the Reference folder next to the test suite: {0}" +
                     fnameWannabes.Select(s => String.Format("\"{0}\"", s)).StringJoin(", ") + ".{0}" +
                     "Also be sure not to forget to select build action 'Embedded Resource' in file properties widget!",
                     Environment.NewLine, unit_test.GetCSharpDecl(ToCSharpOptions.Informative)));

@@ -54,6 +54,11 @@ namespace XenoGears
             }
         }
 
+        public static Type CurrentFixture
+        {
+            get { return Current == null ? null : Current.DeclaringType; }
+        }
+
         public static String TransientId
         {
             get
