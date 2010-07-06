@@ -63,47 +63,46 @@ namespace XenoGears.Logging
             WriteLine(String.Empty);
         }
 
+        [Conditional("TRACE")]
         public static void Trace(Object o)
         {
-            System.Diagnostics.Trace.Write(o);
+            Write(o);
         }
 
         [Conditional("TRACE")]
         public static void Trace(String message)
         {
-            System.Diagnostics.Trace.Write(message);
+            Write(message);
         }
 
         [Conditional("TRACE")]
         public static void Trace(String message, params Object[] args)
         {
-            System.Diagnostics.Trace.Write(String.Format(message, args));
+            Write(message, args);
         }
 
         [Conditional("TRACE")]
         public static void TraceLine(Object o)
         {
-            System.Diagnostics.Trace.WriteLine(o);
+            WriteLine(o);
         }
 
         [Conditional("TRACE")]
         public static void TraceLine(String message)
         {
-            Trace(message);
-            Trace(Environment.NewLine);
+            WriteLine(message);
         }
 
         [Conditional("TRACE")]
         public static void TraceLine(String message, params Object[] args)
         {
-            Trace(message, args);
-            Trace(Environment.NewLine);
+            WriteLine(message, args);
         }
 
         [Conditional("TRACE")]
         public static void TraceLine()
         {
-            TraceLine(String.Empty);
+            WriteLine();
         }
     }
 }

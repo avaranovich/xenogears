@@ -9,7 +9,7 @@ using XenoGears.Reflection.Attributes;
 namespace XenoGears.Playground.Reflection.Generic
 {
     [TestFixture]
-    public class GenericsTests
+    public class GenericTests
     {
         public class IsEnumAttribute : Attribute{}
 

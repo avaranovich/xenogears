@@ -83,9 +83,9 @@
     <Compile Include="CSharp\ExpressionTests.cs" />
     <Compile Include="MetaTests.cs" />
     <Compile Include="Reflection\Generic\GenericArgsMappingTests.cs" />
-    <Compile Include="Reflection\Generic\GenericsTests.cs" />
-    <Compile Include="Functional\EnumerableExtensionsTests.cs" />
-    <Compile Include="Reflection\Typed\StronglyTypedReflectionTests.cs" />
+    <Compile Include="Reflection\Generic\GenericTests.cs" />
+    <Compile Include="Functional\Tests.cs" />
+    <Compile Include="Reflection\Typed\Tests.cs" />
     <Compile Include="Strings\ToStringHelperTests.cs" />
     <Compile Include="Strings\ToStringTests.cs" />
     <Compile Include="TestRunner.cs" />

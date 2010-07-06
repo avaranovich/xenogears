@@ -5,7 +5,7 @@ using XenoGears.Functional;
 namespace XenoGears.Playground.Functional
 {
     [TestFixture]
-    public class EnumerableExtensionsTests
+    public class Tests
     {
         [Test]
         public void TestChopEvery()

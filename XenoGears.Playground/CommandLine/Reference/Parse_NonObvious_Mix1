@@ -32,7 +32,7 @@ Considering shortcut schema "target"...
 Resolving argument "target"...
 Resolved argument "target" as: DirectoryInfo Config::TargetDir { get; set; }...
 Parsing target => "Libptx" as System.IO.DirectoryInfo...
-Parsed target => "Libptx" as: dir: D:\Projects\Active\XenoGears\XenoGears.Playground\bin\Debug\Libptx.
+Parsed target => "Libptx" as: dir: d:\Projects\Active\XenoGears\XenoGears.Playground\bin\Debug\Libptx.
 Schema "target" works fine, skipping other schemas (if any).
 Parse completed.
 
@@ -41,5 +41,5 @@ Resolved %ProjectName as libptx.
 Defaulted %TemplateName to lite.
 Defaulted %VcsName to hg.
 Defaulted %VcsRepo to <null>.
-Resolved %TargetDir as dir: D:\Projects\Active\XenoGears\XenoGears.Playground\bin\Debug\Libptx.
+Resolved %TargetDir as dir: d:\Projects\Active\XenoGears\XenoGears.Playground\bin\Debug\Libptx.
 Configuration parameters successfully set.

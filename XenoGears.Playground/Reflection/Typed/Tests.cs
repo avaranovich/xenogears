@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace XenoGears.Playground.Reflection.Typed
 {
     [TestFixture]
-    public class StronglyTypedReflectionTests
+    public class Tests
     {
         public class A
         {

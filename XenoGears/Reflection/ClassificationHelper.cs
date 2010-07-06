@@ -11,7 +11,6 @@ using XenoGears.Reflection.Attributes;
 using XenoGears.Reflection.Emit;
 using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
-using XenoGears.Reflection;
 
 namespace XenoGears.Reflection
 {
