@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using XenoGears.CommandLine;
 using XenoGears.CommandLine.Annotations;
@@ -14,6 +15,7 @@ namespace XenoGears.Playground.CommandLine
     [Shortcut("name target", Priority = 4)]
     [Shortcut("target template", Priority = 5)]
     [Shortcut("name target template", Priority = 6)]
+    [DebuggerNonUserCode]
     internal class Config : CommandLineConfig
     {
         [Param("name", "prj-name", "project-name", Description = "Name of the project. Defaults to the name of target dir.")]

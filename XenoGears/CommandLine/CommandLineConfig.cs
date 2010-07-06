@@ -30,16 +30,15 @@ namespace XenoGears.CommandLine
         protected static CommandLineConfig Parse(IEnumerable<String> args) { return Parse((args ?? Seq.Empty<String>()).ToArray()); }
         protected static CommandLineConfig Parse(params String[] args)
         {
-            var t = new StackTrace().GetFrames().Select(f =>
+            var frames = new StackTrace().GetFrames().Select(f =>
             {
                 var m = f.GetMethod();
                 var decl = m.DeclaringType;
                 while (decl != null && decl.IsCompilerGenerated()) decl = decl.DeclaringType;
                 return decl;
-            })
-            .SkipWhile(decl => decl == null || decl == typeof(CommandLineConfig))
-            .SkipWhile(decl => decl == null || decl != typeof(CommandLineConfig))
-            .AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
+            }).ToReadOnly();
+            frames = frames.SkipWhile(decl => decl == null || decl == typeof(CommandLineConfig)).ToReadOnly();
+            var t = frames.AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
 
             try
             {

@@ -18,8 +18,8 @@ namespace XenoGears.Logging
             set { _out = value ?? new StringWriter(new StringBuilder()); }
         }
 
-        public static IDisposable SetOut(StringBuilder new_out) { return SetOut(new StringWriter(new_out)); }
-        public static IDisposable SetOut(TextWriter new_out)
+        public static IDisposable OverrideOut(StringBuilder new_out) { return OverrideOut(new StringWriter(new_out)); }
+        public static IDisposable OverrideOut(TextWriter new_out)
         {
             var old_out = Out;
             Out = new_out;
