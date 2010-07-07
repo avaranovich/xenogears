@@ -21,17 +21,17 @@ namespace XenoGears.Logging
 
         public void Write(Object o)
         {
-            Log.Write(Name, o);
+            if (Enabled) Log.Write(Name, o);
         }
 
         public void Write(String message)
         {
-            Log.Write(Name, message);
+            if (Enabled) Log.Write(Name, message);
         }
 
         public void Write(String message, params Object[] args)
         {
-            Log.Write(Name, String.Format(message, args));
+            if (Enabled) Log.Write(Name, String.Format(message, args));
         }
 
         public void WriteLine(Object o)

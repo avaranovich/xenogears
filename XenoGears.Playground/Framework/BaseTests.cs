@@ -25,6 +25,7 @@ namespace XenoGears.Playground.Framework
         {
             var eavesdropper = new Eavesdropper(Log.Out, Out = new StringBuilder());
             _overridenOut = Log.OverrideOut(eavesdropper) ?? new DisposableAction(() => {});
+            UnitTest.Context["Current Fixture"] = this.GetType();
         }
 
         [TearDown]
@@ -34,34 +35,61 @@ namespace XenoGears.Playground.Framework
             Out = null;
         }
 
-        protected void VerifyResult()
+        protected virtual String PreprocessResult(String s_actual)
         {
-            VerifyResult(Out.ToString(), UnitTest.Current);
+            return s_actual;
         }
 
-        protected void VerifyResult(String s_actual)
+        protected void VerifyResult()
         {
-            VerifyResult(s_actual, UnitTest.Current);
+            VerifyResult(Out.ToString(), UnitTest.CurrentTest);
         }
 
         protected void VerifyResult(MethodBase unit_test)
         {
-            VerifyResult(Out.ToString(), unit_test);
+            VerifyResult(Out.ToString(), unit_test, UnitTest.CurrentFixture);
+        }
+
+        protected void VerifyResult(Type test_fixture)
+        {
+            VerifyResult(Out.ToString(), UnitTest.CurrentTest, test_fixture);
+        }
+
+        protected void VerifyResult(MethodBase unit_test, Type test_fixture)
+        {
+            VerifyResult(Out.ToString(), unit_test, test_fixture);
+        }
+
+        protected void VerifyResult(String s_actual)
+        {
+            VerifyResult(s_actual, UnitTest.CurrentTest);
         }
 
         protected void VerifyResult(String s_actual, MethodBase unit_test)
         {
-            unit_test.AssertNotNull();
+            VerifyResult(Out.ToString(), unit_test, UnitTest.CurrentFixture);
+        }
+
+        protected void VerifyResult(String s_actual, Type test_fixture)
+        {
+            VerifyResult(Out.ToString(), UnitTest.CurrentTest, UnitTest.CurrentFixture);
+        }
+
+        protected void VerifyResult(String s_actual, MethodBase unit_test, Type test_fixture)
+        {
+            s_actual = PreprocessResult(s_actual);
+            unit_test = (unit_test ?? UnitTest.CurrentTest).AssertNotNull();
+            test_fixture = (test_fixture ?? UnitTest.CurrentFixture).AssertNotNull();
+
             var fnameWannabes = new List<String>();
             var s_name = unit_test.Name;
             var s_sig = unit_test.Params().Select(p => p.GetCSharpRef(ToCSharpOptions.Informative).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!")).StringJoin("_");
-            var s_declt = unit_test.DeclaringType.GetCSharpRef(ToCSharpOptions.Informative).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!");
+            var s_declt = test_fixture.GetCSharpRef(ToCSharpOptions.Informative).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!");
             fnameWannabes.Add(s_name);
             fnameWannabes.Add(s_name + "_" + s_sig);
             fnameWannabes.Add(s_declt + "_" + s_name);
             fnameWannabes.Add(s_declt + "_" + s_name + "_" + s_sig);
 
-            var test_fixture = UnitTest.CurrentFixture ?? unit_test.DeclaringType;
             var res_asm = test_fixture.Assembly;
             var ns = test_fixture.Namespace + ".Reference.";
             var resources = res_asm.GetManifestResourceNames();

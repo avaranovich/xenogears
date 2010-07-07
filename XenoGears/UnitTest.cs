@@ -14,12 +14,14 @@ namespace XenoGears
         private static readonly Dictionary<Object, Object> _context = new Dictionary<Object, Object>();
         public static Dictionary<Object, Object> Context { get { return _context; } }
 
-        public static MethodInfo Current
+        public static MethodBase CurrentTest
         {
             get
             {
-                var frames = new StackTrace().GetFrames().Select(f => f.GetMethod()).ToArray();
+                var from_ctx = Context.GetOrDefault("Current Test") as MethodBase;
+                if (from_ctx != null) return from_ctx;
 
+                var frames = new StackTrace().GetFrames().Select(f => f.GetMethod()).ToArray();
                 var suspect1 = frames.Nth(-4);
                 var insideResharper45 = suspect1.DeclaringType.Assembly.GetName().FullName.Contains("JetBrains");
                 if (insideResharper45)
@@ -56,14 +58,19 @@ namespace XenoGears
 
         public static Type CurrentFixture
         {
-            get { return Current == null ? null : Current.DeclaringType; }
+            get
+            {
+                var from_ctx = Context.GetOrDefault("Current Fixture") as Type;
+                if (from_ctx != null) return from_ctx;
+                return CurrentTest == null ? null : CurrentTest.DeclaringType;
+            }
         }
 
         public static String TransientId
         {
             get
             {
-                if (UnitTest.Current != null)
+                if (UnitTest.CurrentTest != null)
                 {
                     return Context.GetOrDefault("Transient Id").AssertCast<String>();
                 }
@@ -78,9 +85,9 @@ namespace XenoGears
         {
             get
             {
-                if (UnitTest.Current != null)
+                if (UnitTest.CurrentTest != null)
                 {
-                    var id = "Unit Test=" + UnitTest.Current.Name;
+                    var id = "Unit Test=" + UnitTest.CurrentTest.Name;
                     if (Context.IsNotEmpty()) id += ", ";
                     id += Context.Select(kvp => kvp.Key + "=" + kvp.Value).StringJoin(", ");
                     return id;

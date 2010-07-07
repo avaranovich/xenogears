@@ -28,7 +28,7 @@ namespace XenoGears.Reflection.Emit2
             var pdbName = asmName + ".pdb";
 
             // so that we can run multiple tests at once and not lose the info
-            if (UnitTest.Current != null)
+            if (UnitTest.CurrentTest != null)
             {
                 fileName = asmName + ", " + UnitTest.PersistentId + ".dll";
                 pdbName = asmName + ".pdb";
