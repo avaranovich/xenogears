@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -17,19 +17,23 @@ namespace XenoGears.Playground.Framework
 {
     public abstract class BaseTests
     {
+        private Dictionary<String, Object> _flash = null;
+        protected Dictionary<String, Object> Flash { get { return _flash; } }
+
         protected StringBuilder Out { get; set; }
         private IDisposable _overridenOut = new DisposableAction(() => {});
 
         [SetUp]
-        public void SetUp()
+        public virtual void SetUp()
         {
             var eavesdropper = new Eavesdropper(Log.Out, Out = new StringBuilder());
             _overridenOut = Log.OverrideOut(eavesdropper) ?? new DisposableAction(() => {});
             UnitTest.Context["Current Fixture"] = this.GetType();
+            _flash = new Dictionary<String, Object>();
         }
 
         [TearDown]
-        public void TearDown()
+        public virtual void TearDown()
         {
             _overridenOut.Dispose();
             Out = null;
@@ -40,46 +44,22 @@ namespace XenoGears.Playground.Framework
             return s_actual;
         }
 
-        protected void VerifyResult()
+        protected virtual Assembly ReferenceAssembly()
         {
-            VerifyResult(Out.ToString(), UnitTest.CurrentTest);
+            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
+            return test_fixture.Assembly;
         }
 
-        protected void VerifyResult(MethodBase unit_test)
+        protected virtual String ReferenceNamespace()
         {
-            VerifyResult(Out.ToString(), unit_test, UnitTest.CurrentFixture);
+            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
+            return test_fixture.Namespace + ".Reference";
         }
 
-        protected void VerifyResult(Type test_fixture)
+        protected virtual ReadOnlyCollection<String> ReferenceWannabes()
         {
-            VerifyResult(Out.ToString(), UnitTest.CurrentTest, test_fixture);
-        }
-
-        protected void VerifyResult(MethodBase unit_test, Type test_fixture)
-        {
-            VerifyResult(Out.ToString(), unit_test, test_fixture);
-        }
-
-        protected void VerifyResult(String s_actual)
-        {
-            VerifyResult(s_actual, UnitTest.CurrentTest);
-        }
-
-        protected void VerifyResult(String s_actual, MethodBase unit_test)
-        {
-            VerifyResult(s_actual, unit_test, UnitTest.CurrentFixture);
-        }
-
-        protected void VerifyResult(String s_actual, Type test_fixture)
-        {
-            VerifyResult(s_actual, UnitTest.CurrentTest, UnitTest.CurrentFixture);
-        }
-
-        protected void VerifyResult(String s_actual, MethodBase unit_test, Type test_fixture)
-        {
-            s_actual = PreprocessResult(s_actual);
-            unit_test = (unit_test ?? UnitTest.CurrentTest).AssertNotNull();
-            test_fixture = (test_fixture ?? UnitTest.CurrentFixture).AssertNotNull();
+            var unit_test = UnitTest.CurrentTest.AssertNotNull();
+            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
 
             var fnameWannabes = new List<String>();
             var cs_opt = ToCSharpOptions.Informative;
@@ -92,21 +72,23 @@ namespace XenoGears.Playground.Framework
             fnameWannabes.Add(s_declt + "_" + s_name);
             fnameWannabes.Add(s_declt + "_" + s_name + "_" + s_sig);
 
-            var res_asm = test_fixture.Assembly;
-            var ns = test_fixture.Namespace + ".Reference.";
-            var resources = res_asm.GetManifestResourceNames();
-            var f_reference = fnameWannabes.SingleOrDefault2(wannabe =>
-                resources.ExactlyOne(n => String.Compare(n, ns + wannabe, true) == 0));
+            return fnameWannabes.ToReadOnly();
+        }
+
+        protected void VerifyResult(String s_actual)
+        {
+            s_actual = PreprocessResult(s_actual);
+
+            var res_asm = ReferenceAssembly();
+            var resources = res_asm.Resources();
+            var wannabes = ReferenceWannabes().Select(name => ReferenceNamespace() + "." + name).ToReadOnly();
+            var f_reference = wannabes.SingleOrDefault2(wannabe => resources.ExactlyOne(name => String.Compare(name, wannabe, true) == 0));
+            var s_reference = res_asm.ReadResource(f_reference);
 
             var success = false;
             String failMsg = null;
             if (f_reference != null)
             {
-                String s_reference;
-                using (var stream = res_asm.GetManifestResourceStream(ns + f_reference))
-                {
-                    s_reference = new StreamReader(stream).ReadToEnd();
-                }
 
                 if (s_reference.IsEmpty())
                 {
@@ -115,7 +97,7 @@ namespace XenoGears.Playground.Framework
                     Assert.Fail(String.Format(
                         "Reference result for unit test '{1}' is empty.{0}" +
                         "Please, verify the trace dumped above and put in into the resource file.",
-                        Environment.NewLine, unit_test.GetCSharpDecl(cs_opt)));
+                        Environment.NewLine, UnitTest.CurrentTest.GetCSharpRef(ToCSharpOptions.Informative)));
                 }
                 else
                 {
@@ -185,9 +167,9 @@ namespace XenoGears.Playground.Framework
                 Assert.Fail(String.Format(Environment.NewLine +
                     "Couldn't find a file in resources that contains reference result for unit test '{1}'.{0}" +
                     "Please, verify the trace dumped above and put it into one of the following files under the Reference folder next to the test suite: {0}" +
-                    fnameWannabes.Select(s => String.Format("\"{0}\"", s)).StringJoin(", ") + ".{0}" +
+                    wannabes.Select(s => String.Format("\"{0}\"", s)).StringJoin(", ") + ".{0}" +
                     "Also be sure not to forget to select build action 'Embedded Resource' in file properties widget!",
-                    Environment.NewLine, unit_test.GetCSharpDecl(cs_opt)));
+                    Environment.NewLine, UnitTest.CurrentTest.GetCSharpRef(ToCSharpOptions.Informative)));
             }
         }
     }

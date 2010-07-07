@@ -72,6 +72,7 @@
     <Compile Include="Reflection\Typed\ApiExtensions.cs" />
     <Compile Include="Reflection\Visibility.cs" />
     <Compile Include="Reflection\VisibilityHelper.cs" />
+    <Compile Include="ResourceHelper.cs" />
     <Compile Include="Strings\RegexHelper.cs" />
     <Compile Include="Strings\Syms.cs" />
     <Compile Include="Threading\NativeThread.cs" />

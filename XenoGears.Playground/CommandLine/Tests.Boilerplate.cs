@@ -12,7 +12,7 @@ namespace XenoGears.Playground.CommandLine
         private void RunTest(Action test)
         {
             (test ?? (() => {}))();
-            VerifyResult();
+            VerifyResult(Out.ToString());
         }
     }
 }

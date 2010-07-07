@@ -23,7 +23,7 @@ namespace XenoGears.CommandLine
             var asm = Assembly.GetEntryAssembly();
             if (asm != null)
             {
-                String s_about; using (var stream_about = asm.GetManifestResourceStream(asm.GetName().Name + ".About.txt")) { s_about = stream_about.AsString(); }
+                var s_about = asm.ReadResource(asm.GetName().Name + ".About.txt");
                 if (!String.IsNullOrEmpty(s_about)) s_about = s_about.Uncapitalize();
                 s_about = String.Format("[{0} {1}]{2}", asm.GetName().Name, asm.GetName().Version, String.IsNullOrEmpty(s_about) ? null : (": " + s_about));
                 Out.Write(s_about);

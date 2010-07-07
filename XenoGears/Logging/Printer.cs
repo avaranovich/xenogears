@@ -27,7 +27,7 @@ namespace XenoGears.Logging
         public static String ToTrace(this FileInfo fi)
         {
             if (fi == null) return "<null>";
-            return "file: " + fi.FullName.ToTrace();
+            return "file: " + fi.FullName.Uncapitalize().ToTrace();
         }
 
         public static String ToTrace(this DirectoryInfo di)
