@@ -82,9 +82,11 @@ namespace XenoGears.Playground.Framework
             test_fixture = (test_fixture ?? UnitTest.CurrentFixture).AssertNotNull();
 
             var fnameWannabes = new List<String>();
-            var s_name = unit_test.Name;
-            var s_sig = unit_test.Params().Select(p => p.GetCSharpRef(ToCSharpOptions.Informative).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!")).StringJoin("_");
-            var s_declt = test_fixture.GetCSharpRef(ToCSharpOptions.Informative).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!");
+            var cs_opt = ToCSharpOptions.Informative;
+            cs_opt.EmitCtorNameAsClassName = true;
+            var s_name = unit_test.IsConstructor ? unit_test.DeclaringType.GetCSharpRef(cs_opt).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!") : unit_test.Name;
+            var s_sig = unit_test.Params().Select(p => p.GetCSharpRef(cs_opt).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!")).StringJoin("_");
+            var s_declt = test_fixture.GetCSharpRef(cs_opt).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!");
             fnameWannabes.Add(s_name);
             fnameWannabes.Add(s_name + "_" + s_sig);
             fnameWannabes.Add(s_declt + "_" + s_name);
@@ -113,7 +115,7 @@ namespace XenoGears.Playground.Framework
                     Assert.Fail(String.Format(
                         "Reference result for unit test '{1}' is empty.{0}" +
                         "Please, verify the trace dumped above and put in into the resource file.",
-                        Environment.NewLine, unit_test.GetCSharpDecl(ToCSharpOptions.Informative)));
+                        Environment.NewLine, unit_test.GetCSharpDecl(cs_opt)));
                 }
                 else
                 {
@@ -185,7 +187,7 @@ namespace XenoGears.Playground.Framework
                     "Please, verify the trace dumped above and put it into one of the following files under the Reference folder next to the test suite: {0}" +
                     fnameWannabes.Select(s => String.Format("\"{0}\"", s)).StringJoin(", ") + ".{0}" +
                     "Also be sure not to forget to select build action 'Embedded Resource' in file properties widget!",
-                    Environment.NewLine, unit_test.GetCSharpDecl(ToCSharpOptions.Informative)));
+                    Environment.NewLine, unit_test.GetCSharpDecl(cs_opt)));
             }
         }
     }
