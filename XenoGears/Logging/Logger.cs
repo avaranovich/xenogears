@@ -24,6 +24,11 @@ namespace XenoGears.Logging
             Log.Write(Name, o);
         }
 
+        public void Write(String message)
+        {
+            Log.Write(Name, message);
+        }
+
         public void Write(String message, params Object[] args)
         {
             Log.Write(Name, String.Format(message, args));
@@ -32,6 +37,12 @@ namespace XenoGears.Logging
         public void WriteLine(Object o)
         {
             Write(o);
+            WriteLine();
+        }
+
+        public void WriteLine(String message)
+        {
+            Write(message);
             WriteLine();
         }
 

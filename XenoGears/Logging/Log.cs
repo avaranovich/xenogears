@@ -36,6 +36,16 @@ namespace XenoGears.Logging
             Write(o);
         }
 
+        public static void Write(String message)
+        {
+            Out.Write(message);
+        }
+
+        public static void Write(String source, String message)
+        {
+            Write(message);
+        }
+
         public static void Write(String message, params Object[] args)
         {
             Out.Write(String.Format(message, args));
@@ -57,6 +67,17 @@ namespace XenoGears.Logging
             WriteLine(o);
         }
 
+        public static void WriteLine(String message)
+        {
+            Write(message);
+            WriteLine();
+        }
+
+        public static void WriteLine(String source, String message)
+        {
+            WriteLine(message);
+        }
+
         public static void WriteLine(String message, params Object[] args)
         {
             Write(message, args);
@@ -68,14 +89,10 @@ namespace XenoGears.Logging
             WriteLine(message, args);
         }
 
+        // todo. how do we introduce the WriteLine(eventSource) signature?! =)
         public static void WriteLine()
         {
             Write(Environment.NewLine);
-        }
-
-        public static void WriteLine(String source)
-        {
-            WriteLine();
         }
     }
 }
