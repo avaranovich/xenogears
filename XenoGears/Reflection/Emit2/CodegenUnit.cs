@@ -34,9 +34,9 @@ namespace XenoGears.Reflection.Emit2
                 pdbName = asmName + ".pdb";
             }
 
+#if TRACE
             try
             {
-#if TRACE
                 _asm = AppDomain.CurrentDomain.DefineDynamicAssembly(asmName, AssemblyBuilderAccess.RunAndSave);
                 _mod = _asm.DefineDynamicModule(fileName, true);
 
@@ -90,15 +90,9 @@ namespace XenoGears.Reflection.Emit2
                 // however, we need not to neglect because R#'s unit-test runner never exits process
                 AppDomain.CurrentDomain.DomainUnload += (o, e) => dumpAssembly();
                 AppDomain.CurrentDomain.ProcessExit += (o, e) => dumpAssembly();
-#else
-                _asm = AppDomain.CurrentDomain.DefineDynamicAssembly(asmName, AssemblyBuilderAccess.Run);
-                _asm.SetCustomAttribute(new CustomAttributeBuilder(typeof(CompilerGeneratedAttribute).GetConstructor(Type.EmptyTypes), new object []{}));
-                _mod = _asm.DefineDynamicModule(fileName, false);
-#endif
             }
             catch (Exception ex)
             {
-#if TRACE
                 var trace = String.Format("Codegen unit '{0}' has failed to initialize:{1}{2}",
                     unitName, Environment.NewLine, ex);
                 Trace.WriteLine(trace);
@@ -108,16 +102,23 @@ namespace XenoGears.Reflection.Emit2
                     File.WriteAllText(fileName, trace);
                     File.Delete(pdbName);
                 });
-#endif
+
                 throw;
             }
+#else
+            _asm = AppDomain.CurrentDomain.DefineDynamicAssembly(asmName, AssemblyBuilderAccess.Run);
+            _asm.SetCustomAttribute(new CustomAttributeBuilder(typeof(CompilerGeneratedAttribute).GetConstructor(Type.EmptyTypes), new object[] { }));
+            _mod = _asm.DefineDynamicModule(fileName, false);
+#endif
         }
 
+#if TRACE
         private Action _dumpAssembly;
         public void ForceDump()
         {
             _dumpAssembly();
         }
+#endif
 
         // todo. implicitly codegen the disposition check in factory
         // by the way this check should also be injected into child objects (but how we detect them?)

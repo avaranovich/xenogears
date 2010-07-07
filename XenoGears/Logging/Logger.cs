@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics;
 
 namespace XenoGears.Logging
 {
+    [DebuggerNonUserCode]
     public class Logger
     {
         public String Name { get; set; }

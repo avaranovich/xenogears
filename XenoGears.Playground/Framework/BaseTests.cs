@@ -67,12 +67,12 @@ namespace XenoGears.Playground.Framework
 
         protected void VerifyResult(String s_actual, MethodBase unit_test)
         {
-            VerifyResult(Out.ToString(), unit_test, UnitTest.CurrentFixture);
+            VerifyResult(s_actual, unit_test, UnitTest.CurrentFixture);
         }
 
         protected void VerifyResult(String s_actual, Type test_fixture)
         {
-            VerifyResult(Out.ToString(), UnitTest.CurrentTest, UnitTest.CurrentFixture);
+            VerifyResult(s_actual, UnitTest.CurrentTest, UnitTest.CurrentFixture);
         }
 
         protected void VerifyResult(String s_actual, MethodBase unit_test, Type test_fixture)

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using XenoGears.Strings;
 
 namespace XenoGears.Logging
 {
@@ -32,7 +33,7 @@ namespace XenoGears.Logging
         public static String ToTrace(this DirectoryInfo di)
         {
             if (di == null) return "<null>";
-            return "dir: " + di.FullName.ToTrace();
+            return "dir: " + di.FullName.Uncapitalize().ToTrace();
         }
     }
 }

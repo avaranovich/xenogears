@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using XenoGears.Assertions;
@@ -10,6 +11,7 @@ namespace XenoGears.Threading
     // since now there are a couple of places where unexpected native thread switch in the middle of the method
     // could entirely defeat our affinity implementation strategy
 
+    [DebuggerNonUserCode]
     public static class NativeThread
     {
         [DllImport("kernel32.dll", EntryPoint = "GetCurrentThreadId")]
@@ -34,7 +36,7 @@ namespace XenoGears.Threading
         }
 
         [ThreadStatic] private static int _affCount;
-        private class ThreadAffinity : Disposable
+        [DebuggerNonUserCode] private class ThreadAffinity : Disposable
         {
             private readonly int _threadId;
 
