@@ -31,9 +31,9 @@ namespace XenoGears.Logging
             Out.Write(o);
         }
 
-        public static void Write(String message)
+        public static void Write(String source, Object o)
         {
-            Out.Write(message);
+            Write(o);
         }
 
         public static void Write(String message, params Object[] args)
@@ -41,66 +41,39 @@ namespace XenoGears.Logging
             Out.Write(String.Format(message, args));
         }
 
-        public static void WriteLine(Object o)
+        public static void Write(String source, String message, params Object[] args)
         {
-            Out.WriteLine(o);
+            Write(message, args);
         }
 
-        public static void WriteLine(String message)
+        public static void WriteLine(Object o)
         {
-            Write(message);
-            Write(Environment.NewLine);
+            Write(o);
+            WriteLine();
+        }
+
+        public static void WriteLine(String source, Object o)
+        {
+            WriteLine(o);
         }
 
         public static void WriteLine(String message, params Object[] args)
         {
             Write(message, args);
-            Write(Environment.NewLine);
+            WriteLine();
         }
 
-        public static void WriteLine()
-        {
-            WriteLine(String.Empty);
-        }
-
-        [Conditional("TRACE")]
-        public static void Trace(Object o)
-        {
-            Write(o);
-        }
-
-        [Conditional("TRACE")]
-        public static void Trace(String message)
-        {
-            Write(message);
-        }
-
-        [Conditional("TRACE")]
-        public static void Trace(String message, params Object[] args)
-        {
-            Write(message, args);
-        }
-
-        [Conditional("TRACE")]
-        public static void TraceLine(Object o)
-        {
-            WriteLine(o);
-        }
-
-        [Conditional("TRACE")]
-        public static void TraceLine(String message)
-        {
-            WriteLine(message);
-        }
-
-        [Conditional("TRACE")]
-        public static void TraceLine(String message, params Object[] args)
+        public static void WriteLine(String source, String message, params Object[] args)
         {
             WriteLine(message, args);
         }
 
-        [Conditional("TRACE")]
-        public static void TraceLine()
+        public static void WriteLine()
+        {
+            Write(Environment.NewLine);
+        }
+
+        public static void WriteLine(String source)
         {
             WriteLine();
         }
