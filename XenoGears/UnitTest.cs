@@ -88,6 +88,7 @@ namespace XenoGears
                 if (UnitTest.CurrentTest != null)
                 {
                     var id = "Unit Test=" + UnitTest.CurrentTest.Name;
+                    id += (", Test Fixture=" + UnitTest.CurrentFixture.Name);
                     var ctx_keys = Context.Keys.Except("Current Test", "Current Fixture");
                     if (ctx_keys.IsNotEmpty()) id += ", ";
                     id += ctx_keys.Select(key => key + "=" + Context[key]).StringJoin(", ");
