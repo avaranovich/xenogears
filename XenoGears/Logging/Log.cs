@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using XenoGears.Logging.Writers;
 using XenoGears.Traits.Disposable;
 
 namespace XenoGears.Logging
@@ -11,7 +12,7 @@ namespace XenoGears.Logging
     [DebuggerNonUserCode]
     public static class Log
     {
-        private static TextWriter _out = Console.Out;
+        private static TextWriter _out = new LowlevelMedium();
         public static TextWriter Out
         {
             get { return _out; } 
@@ -24,6 +25,13 @@ namespace XenoGears.Logging
             var old_out = Out;
             Out = new_out;
             return new DisposableAction(() => Out = old_out);
+        }
+
+        public static IDisposable MultiplexOut(StringBuilder sink) { return MultiplexOut(new StringWriter(sink)); }
+        public static IDisposable MultiplexOut(TextWriter sink)
+        {
+            var eavesdropper = new Eavesdropper(Out, sink);
+            return OverrideOut(eavesdropper);
         }
 
         public static void Write(Object o)

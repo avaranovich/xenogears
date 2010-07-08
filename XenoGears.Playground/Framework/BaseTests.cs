@@ -21,13 +21,12 @@ namespace XenoGears.Playground.Framework
         protected Dictionary<String, Object> Flash { get { return _flash; } }
 
         protected StringBuilder Out { get; set; }
-        private IDisposable _overridenOut = new DisposableAction(() => {});
+        private IDisposable _multiplexedOut = new DisposableAction(() => {});
 
         [SetUp]
         public virtual void SetUp()
         {
-            var eavesdropper = new Eavesdropper(Log.Out, Out = new StringBuilder());
-            _overridenOut = Log.OverrideOut(eavesdropper) ?? new DisposableAction(() => {});
+            _multiplexedOut = Log.MultiplexOut(Out = new StringBuilder()) ?? new DisposableAction(() => { });
             UnitTest.Context["Current Fixture"] = this.GetType();
             _flash = new Dictionary<String, Object>();
         }
@@ -35,7 +34,7 @@ namespace XenoGears.Playground.Framework
         [TearDown]
         public virtual void TearDown()
         {
-            _overridenOut.Dispose();
+            _multiplexedOut.Dispose();
             Out = null;
         }
 
@@ -92,7 +91,7 @@ namespace XenoGears.Playground.Framework
 
                 if (s_reference.IsEmpty())
                 {
-                    Trace.WriteLine(s_actual);
+                    Log.WriteLine(s_actual);
 
                     Assert.Fail(String.Format(
                         "Reference result for unit test '{1}' is empty.{0}" +
@@ -117,7 +116,7 @@ namespace XenoGears.Playground.Framework
                             var maxLines = Math.Max(actual.Count(), expected.Count());
                             var maxDigits = (int)Math.Floor(Math.Log10(maxLines)) + 1;
                             failMsg = String.Format(
-                                "Line {1} (starting from 1) doesn't match.{0}{4}{2}{0}{5}{3}{0}",
+                                "Line {1} (starting from 1) doesn't match.{0}{4}{2}{0}{5}{3}",
                                 Environment.NewLine, i + 1,
                                 t.Item1.Replace(" ", "·"), t.Item2.Replace(" ", "·"),
                                 "E:".PadRight(maxDigits + 3), "A:".PadRight(maxDigits + 3));
@@ -137,32 +136,31 @@ namespace XenoGears.Playground.Framework
                         var maxExpected = Math.Max(expected.MaxOrDefault(line => line.Length), "Expected".Length);
                         var total = maxDigits + 3 + maxActual + 3 + maxExpected;
 
-                        Trace.WriteLine(String.Format("{0} | {1} | {2}",
+                        Log.WriteLine(String.Format("{0} | {1} | {2}",
                             "N".PadRight(maxDigits),
                             "Actual".PadRight(maxActual),
                             "Expected".PadRight(maxExpected)));
-                        Trace.WriteLine(total.Times("-"));
+                        Log.WriteLine(total.Times("-"));
 
                         0.UpTo(maxLines - 1).ForEach(i =>
                         {
                             var l_actual = actual.ElementAtOrDefault(i, String.Empty);
                             var l_expected = expected.ElementAtOrDefault(i, String.Empty);
-                            Trace.WriteLine(String.Format("{0} | {1} | {2}",
+                            Log.WriteLine(String.Format("{0} | {1} | {2}",
                                 i.ToString().PadLeft(maxDigits),
                                 l_actual.PadRight(maxActual),
                                 l_expected.PadRight(maxExpected)));
                         });
 
-                        Trace.WriteLine(String.Empty);
-                        Trace.WriteLine(failMsg);
-                        Trace.WriteLine(String.Empty);
+                        Log.WriteLine();
+                        Log.WriteLine(failMsg);
                         Assert.Fail("Actual result doesn't match reference result.");
                     }
                 }
             }
             else
             {
-                Trace.WriteLine(s_actual);
+                Log.WriteLine(s_actual);
 
                 Assert.Fail(String.Format(Environment.NewLine +
                     "Couldn't find a file in resources that contains reference result for unit test '{1}'.{0}" +

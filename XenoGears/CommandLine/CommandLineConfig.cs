@@ -10,6 +10,7 @@ using XenoGears.Logging;
 using XenoGears.CommandLine.Annotations;
 using XenoGears.CommandLine.Exceptions;
 using XenoGears.Functional;
+using XenoGears.Logging.Formatters;
 using XenoGears.Reflection.Attributes;
 using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
@@ -193,7 +194,7 @@ namespace XenoGears.CommandLine
                     if (parsed_args.ContainsKey(p))
                     {
                         var value = parsed_args[p];
-                        if (IsVerbose) Out.WriteLine("Resolved %{0} as {1}.", p.Name, value.ToTrace());
+                        if (IsVerbose) Out.WriteLine("Resolved %{0} as {1}.", p.Name, value.ToLog());
                         p.SetValue(this, value, null);
                     }
                     else
@@ -202,7 +203,7 @@ namespace XenoGears.CommandLine
                         if (p_default == null) throw new ConfigException("Fatal error: parameter \"{0}\" must be specified.");
 
                         var value = p_default.GetValue(null, null);
-                        if (IsVerbose) Out.WriteLine("Defaulted %{0} to {1}.", p.Name, value.ToTrace());
+                        if (IsVerbose) Out.WriteLine("Defaulted %{0} to {1}.", p.Name, value.ToLog());
                         p.SetValue(this, value, null);
                     }
                 });
@@ -228,25 +229,25 @@ namespace XenoGears.CommandLine
                     return t.FromInvariantString(s);
                 };
 
-                if (IsVerbose) Out.WriteLine("Parsing {0} => \"{1}\" as {2}...", kvp.Key, kvp.Value.ToTrace(), p.PropertyType);
+                if (IsVerbose) Out.WriteLine("Parsing {0} => \"{1}\" as {2}...", kvp.Key, kvp.Value.ToLog(), p.PropertyType);
                 Object value;
                 try { value = parse(kvp.Value, p.PropertyType); }
-                catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse value \"{0}\" for argument \"{1}\".", kvp.Value.ToTrace(), kvp.Key); }
-                if (IsVerbose) Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.", kvp.Key, kvp.Value.ToTrace(), value.ToTrace());
+                catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse value \"{0}\" for argument \"{1}\".", kvp.Value.ToLog(), kvp.Key); }
+                if (IsVerbose) Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.", kvp.Key, kvp.Value.ToLog(), value.ToLog());
 
                 var m_validate = this.GetType().GetMethod("Validate" + p.Name, BF.AllStatic);
                 if (m_validate != null)
                 {
                     try
                     {
-                        if (IsVerbose) Out.WriteLine("Validating {0} with {1}...", value.ToTrace(), m_validate.GetCSharpRef(ToCSharpOptions.Informative));
+                        if (IsVerbose) Out.WriteLine("Validating {0} with {1}...", value.ToLog(), m_validate.GetCSharpRef(ToCSharpOptions.Informative));
                         var is_valid = (bool)m_validate.Invoke(null, value.MkArray());
-                        if (!is_valid) throw new ConfigException("Fatal error: value \"{0}\" is unsuitable for argument \"{1}\".", value.ToTrace(), kvp.Key);
-                        if (IsVerbose) Out.WriteLine("Validated {0} as suitable for {1}.", value.ToTrace(), p.GetCSharpRef(ToCSharpOptions.Informative));
+                        if (!is_valid) throw new ConfigException("Fatal error: value \"{0}\" is unsuitable for argument \"{1}\".", value.ToLog(), kvp.Key);
+                        if (IsVerbose) Out.WriteLine("Validated {0} as suitable for {1}.", value.ToLog(), p.GetCSharpRef(ToCSharpOptions.Informative));
                     }
                     catch (Exception ex)
                     {
-                        throw new ConfigException(ex, "Fatal error: value \"{0}\" is unsuitable for argument \"{1}\".", value.ToTrace(), kvp.Key);
+                        throw new ConfigException(ex, "Fatal error: value \"{0}\" is unsuitable for argument \"{1}\".", value.ToLog(), kvp.Key);
                     }
                 }
 

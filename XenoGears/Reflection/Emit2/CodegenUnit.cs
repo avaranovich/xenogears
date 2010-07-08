@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using XenoGears.Logging;
 
 namespace XenoGears.Reflection.Emit2
 {
@@ -70,7 +71,7 @@ namespace XenoGears.Reflection.Emit2
                         {
                             var trace = String.Format("Codegen unit '{0}' has failed to dump the asm:{1}{2}",
                                 unitName, Environment.NewLine, ex);
-                            Trace.WriteLine(trace);
+                            Log.WriteLine(trace);
 
                             SafetyTools.SafeDo(() => 
                             {
@@ -95,7 +96,7 @@ namespace XenoGears.Reflection.Emit2
             {
                 var trace = String.Format("Codegen unit '{0}' has failed to initialize:{1}{2}",
                     unitName, Environment.NewLine, ex);
-                Trace.WriteLine(trace);
+                Log.WriteLine(trace);
 
                 SafetyTools.SafeDo(() =>
                 {

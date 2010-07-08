@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using XenoGears.Functional;
+using XenoGears.Logging;
 using XenoGears.Reflection.Typed;
 using NUnit.Framework;
 
@@ -97,57 +97,57 @@ namespace XenoGears.Playground.Reflection.Typed
             const int times = 1000000;
 
             // 1. Accessing a field via STR
-            Trace.WriteLine("Accessing a field via STR " + times + " times");
+            Log.WriteLine("Accessing a field via STR " + times + " times");
             var ifield_reflection = typeof(A).GetField("ifield");
             var ifield_str = a.GetSlot<int>("ifield");
 
-            Trace.Write("Native: ");
+            Log.Write("Native: ");
             var native_field_start = DateTime.Now;
             Enumerable.Range(1, times).ForEach(i => { var x = a.ifield; a.ifield = x; });
             var native_field_finish = DateTime.Now;
             var native_field_span = native_field_finish - native_field_start;
-            Trace.WriteLine(String.Format("{0} ({1:00}%)", native_field_span, 100.0 * native_field_span.Ticks / native_field_span.Ticks));
+            Log.WriteLine(String.Format("{0} ({1:00}%)", native_field_span, 100.0 * native_field_span.Ticks / native_field_span.Ticks));
 
-            Trace.Write("Reflection: ");
+            Log.Write("Reflection: ");
             var reflection_field_start = DateTime.Now;
             Enumerable.Range(1, times).ForEach(i => { var x = (int)ifield_reflection.GetValue(a); ifield_reflection.SetValue(a, x); });
             var reflection_field_finish = DateTime.Now;
             var reflection_field_span = reflection_field_finish - reflection_field_start;
-            Trace.WriteLine(String.Format("{0} ({1:00}%)", reflection_field_span, 100.0 * reflection_field_span.Ticks / native_field_span.Ticks));
+            Log.WriteLine(String.Format("{0} ({1:00}%)", reflection_field_span, 100.0 * reflection_field_span.Ticks / native_field_span.Ticks));
 
-            Trace.Write("STR: ");
+            Log.Write("STR: ");
             var str_field_start = DateTime.Now;
             Enumerable.Range(1, times).ForEach(i => { var x = ifield_str.Get(); ifield_str.Set(x); });
             var str_field_finish = DateTime.Now;
             var str_field_span = str_field_finish - str_field_start;
-            Trace.WriteLine(String.Format("{0} ({1:00}%)", str_field_span, 100.0 * str_field_span.Ticks / native_field_span.Ticks));
-            Trace.WriteLine(String.Empty);
+            Log.WriteLine(String.Format("{0} ({1:00}%)", str_field_span, 100.0 * str_field_span.Ticks / native_field_span.Ticks));
+            Log.WriteLine();
 
             // 2. Invoking an instance method via STR
-            Trace.WriteLine("Invoking an instance method via STR " + times + " times");
+            Log.WriteLine("Invoking an instance method via STR " + times + " times");
             var imeth_reflection = typeof(A).GetMethod("InstanceMethod", new[] { typeof(int), typeof(string) });
             var imeth_str = a.GetMethod<Action<int, string>>("InstanceMethod");
 
-            Trace.Write("Native: ");
+            Log.Write("Native: ");
             var native_imeth_start = DateTime.Now;
             Enumerable.Range(1, times).ForEach(i => a.InstanceMethod(2, "hello world"));
             var native_imeth_finish = DateTime.Now;
             var native_imeth_span = native_imeth_finish - native_imeth_start;
-            Trace.WriteLine(String.Format("{0} ({1:00}%)", native_imeth_span, 100.0 * native_imeth_span.Ticks / native_imeth_span.Ticks));
+            Log.WriteLine(String.Format("{0} ({1:00}%)", native_imeth_span, 100.0 * native_imeth_span.Ticks / native_imeth_span.Ticks));
 
-            Trace.Write("Reflection: ");
+            Log.Write("Reflection: ");
             var reflection_imeth_start = DateTime.Now;
             Enumerable.Range(1, times).ForEach(i => imeth_reflection.Invoke(a, new object[] { 2, "hello world" }));
             var reflection_imeth_finish = DateTime.Now;
             var reflection_imeth_span = reflection_imeth_finish - reflection_imeth_start;
-            Trace.WriteLine(String.Format("{0} ({1:00}%)", reflection_imeth_span, 100.0 * reflection_imeth_span.Ticks / native_imeth_span.Ticks));
+            Log.WriteLine(String.Format("{0} ({1:00}%)", reflection_imeth_span, 100.0 * reflection_imeth_span.Ticks / native_imeth_span.Ticks));
 
-            Trace.Write("STR: ");
+            Log.Write("STR: ");
             var str_imeth_start = DateTime.Now;
             Enumerable.Range(1, times).ForEach(i => imeth_str(2, "hello world"));
             var str_imeth_finish = DateTime.Now;
             var str_imeth_span = str_imeth_finish - str_imeth_start;
-            Trace.WriteLine(String.Format("{0} ({1:00}%)", str_imeth_span, 100.0 * str_imeth_span.Ticks / native_imeth_span.Ticks));
+            Log.WriteLine(String.Format("{0} ({1:00}%)", str_imeth_span, 100.0 * str_imeth_span.Ticks / native_imeth_span.Ticks));
         }
     }
 }

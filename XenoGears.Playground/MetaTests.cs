@@ -3,6 +3,7 @@ using System.Diagnostics;
 using NUnit.Framework;
 using XenoGears.Functional;
 using System.Linq;
+using XenoGears.Logging;
 using XenoGears.Reflection.Attributes;
 using XenoGears.Strings;
 using XenoGears.Reflection;
@@ -29,9 +30,9 @@ namespace XenoGears.Playground
 
             if (failed_types.IsNotEmpty())
             {
-                Trace.WriteLine(String.Format("{0} types in XenoGears aren't marked with [DebuggerNonUserCode]:", failed_types.Count()));
+                Log.WriteLine(String.Format("{0} types in XenoGears aren't marked with [DebuggerNonUserCode]:", failed_types.Count()));
                 var messages = failed_types.Select(t => t.GetCSharpRef(ToCSharpOptions.InformativeWithNamespaces));
-                messages.OrderDescending().ForEach(message => Trace.WriteLine(message));
+                messages.OrderDescending().ForEach(message => Log.WriteLine(message));
                 Assert.Fail();
             }
         }

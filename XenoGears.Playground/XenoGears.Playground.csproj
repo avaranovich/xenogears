@@ -73,7 +73,6 @@
     <Compile Include="CommandLine\Tests.Core.cs" />
     <Compile Include="CommandLine\Tests.Boilerplate.cs" />
     <Compile Include="Framework\BaseTests.cs" />
-    <Compile Include="Framework\Eavesdropper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSharp\Domain\Company.cs" />
     <Compile Include="CSharp\Domain\Employee.cs" />

@@ -46,10 +46,13 @@
     <Compile Include="CommandLine\CommandLineConfig.cs" />
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
+    <Compile Include="Logging\Writers\Eavesdropper.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\Writers\LowlevelMedium.cs" />
+    <Compile Include="Logging\Writers\TraceWriter.cs" />
     <Compile Include="Reflection\Attributes\Common\ManyAliasesAttribute.cs" />
     <Compile Include="CommandLine\Annotations\ParamAttribute.cs" />
-    <Compile Include="Logging\Printer.cs" />
+    <Compile Include="Logging\Formatters\Printer.cs" />
     <Compile Include="CommandLine\Annotations\ShortcutAttribute.cs" />
     <Compile Include="Functional\EnumerableExtensions.Stack.cs" />
     <Compile Include="Reflection\ActivatorExtensions.cs" />

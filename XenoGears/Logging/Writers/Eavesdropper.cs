@@ -5,10 +5,10 @@ using System.IO;
 using System.Text;
 using XenoGears.Assertions;
 
-namespace XenoGears.Playground.Framework
+namespace XenoGears.Logging.Writers
 {
     [DebuggerNonUserCode]
-    public class Eavesdropper : TextWriter
+    internal class Eavesdropper : TextWriter
     {
         public TextWriter Channel { get; private set; }
         public TextWriter Sink { get; private set; }
