@@ -9,3 +9,4 @@ glob:XenoGears.Playground/obj/
 glob:XenoGears.Ogre/bin/
 glob:XenoGears.Ogre/obj/
 glob:*AssemblyInfo.cs
+glob:*AssemblyInfo.embedded

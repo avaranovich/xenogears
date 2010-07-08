@@ -13,7 +13,6 @@ using XenoGears.Versioning;
 
 [assembly: ComVisible(false)]
 [assembly: InternalsVisibleTo("XenoGears.Playground")]
-[assembly: InternalsVisibleTo("XenoGears.TextGenerators")]
 
 [assembly: Guid("257084bf-3ae8-4744-8c53-7d5bd0614bb4")]
 [assembly: AssemblyVersion("1.0.*")]
