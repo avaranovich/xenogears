@@ -1,0 +1,2 @@
+Thanks to Brian Rudolph from saving me from burden of implementing thread-safe collections.
+Code taken from here: http://databasecommandos.com/blogs/brianr/archive/2009/09/02/thread-safe-library-update.aspx

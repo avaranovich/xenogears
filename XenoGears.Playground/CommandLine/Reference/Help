@@ -1,0 +1,17 @@
+﻿Syntax: prjinit [-name:ProjectName] [-template:TemplateName] [-vcs:VcsName] [-repo:VcsRepo] [-target:TargetDir] [/verbose]
+
+Shortcuts:
+    prjinit
+    prjinit name
+    prjinit target
+    prjinit name target
+    prjinit target template
+    prjinit name target template
+
+Parameters:
+    %ProjectName   Name of the project. Defaults to the name of target dir.
+    %TemplateName  Codebase template. Defaults to lite.
+    %VcsName       VCS provider. Defaults to hg.
+    %VcsRepo       VCS repository, e.g. https://prjinit.googlecode.com/hg/.
+    %TargetDir     Path to target directory. Defaults to current dir.
+    /verbose       Turns verbose tracing on, useful for debugging.
