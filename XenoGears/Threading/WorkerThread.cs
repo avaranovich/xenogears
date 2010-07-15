@@ -134,8 +134,7 @@ namespace XenoGears.Threading
                 {
                     _taskReservation.WaitOne();
                     (_task == null).AssertTrue();
-                    var wrapped = Wrap(task);
-                    _task = () => { wrapped(); return null; };
+                    _task = () => { task(); return null; };
                     _taskArrived.Set();
                     _taskCompleted.WaitOne();
 
@@ -166,8 +165,7 @@ namespace XenoGears.Threading
                 {
                     _taskReservation.WaitOne();
                     (_task == null).AssertTrue();
-                    var wrapped = Wrap(task);
-                    _task = () => wrapped();
+                    _task = () => task();
                     _taskArrived.Set();
                     _taskCompleted.WaitOne();
 
