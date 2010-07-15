@@ -23,19 +23,8 @@ namespace XenoGears.Traits.Disposable
             GC.SuppressFinalize(this);
         }
 
-        public void SuppressDispose()
-        {
-            IsDisposed.AssertFalse();
-            GC.SuppressFinalize(this);
-
-            lock (_dispositionSyncRoot)
-            {
-                IsDisposed = true;
-            }
-        }
-
         public bool IsDisposed { get; private set; }
-        private bool IsBeingDisposed { get; set; }
+        public bool IsBeingDisposed { get; private set; }
         private readonly Object _dispositionSyncRoot = new Object();
 
         private void Dispose(bool disposingManagedResources)

@@ -9,5 +9,6 @@ namespace XenoGears.Threading
     {
         public String Name { get; set; }
         public bool IsAffined { get; set; }
+        public bool IsBackground { get; set; }
     }
 }
