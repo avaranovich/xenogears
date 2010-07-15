@@ -4,15 +4,17 @@ using System.Threading;
 using XenoGears.Assertions;
 using XenoGears.Exceptions;
 using XenoGears.Reflection.Attributes;
+using XenoGears.Traits.Disposable;
 
 namespace XenoGears.Threading
 {
     [DebuggerNonUserCode]
-    public class WorkerThread
+    public class WorkerThread : Disposable
     {
         private WorkerThreadAttribute _attr;
         private String CustomName { get { return _attr.Name; } }
         private bool IsAffined { get { return _attr.IsAffined; } }
+        private bool IsBackground { get { return _attr.IsBackground; } }
 
         protected virtual Func<T> Wrap<T>(Func<T> task) { return task; }
         protected virtual Action Wrap(Action task) { return task; }
@@ -35,6 +37,7 @@ namespace XenoGears.Threading
 
         public WorkerThread()
         {
+            _attr = this.GetType().Attr<WorkerThreadAttribute>();
             _thread = new Thread(() =>
             {
                 _nativeThreadId = NativeThread.Id;
@@ -42,6 +45,8 @@ namespace XenoGears.Threading
                 while (true)
                 {
                     _taskArrived.WaitOne();
+                    if (IsBeingDisposed) break;
+
                     (_task != null).AssertTrue();
                     (_ret == null).AssertTrue();
                     (_exn == null).AssertTrue();
@@ -73,11 +78,16 @@ namespace XenoGears.Threading
                     _task = null;
                     _taskCompleted.Set();
                 }
-            }){IsBackground = true};
+            }){IsBackground = IsBackground};
 
-            _attr = this.GetType().Attr<WorkerThreadAttribute>();
             if (CustomName != null) _thread.Name = CustomName;
             _thread.Start();
+            GC.SuppressFinalize(this);
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            Invoke(() => {});
         }
 
         private Object _initializationLock = new Object();
@@ -136,6 +146,7 @@ namespace XenoGears.Threading
 
         public void Invoke(Action task)
         {
+            IsDisposed.AssertFalse();
             task.AssertNotNull();
             task = Wrap(task);
 
@@ -149,6 +160,8 @@ namespace XenoGears.Threading
                 {
                     _taskReservation.WaitOne();
                     (_task == null).AssertTrue();
+                    IsDisposed.AssertFalse();
+
                     _task = () => { task(); return null; };
                     _taskArrived.Set();
                     _taskCompleted.WaitOne();
@@ -170,6 +183,7 @@ namespace XenoGears.Threading
 
         public T Invoke<T>(Func<T> task)
         {
+            IsDisposed.AssertFalse();
             task.AssertNotNull();
             task = Wrap(task);
 
@@ -183,6 +197,8 @@ namespace XenoGears.Threading
                 {
                     _taskReservation.WaitOne();
                     (_task == null).AssertTrue();
+                    IsDisposed.AssertFalse();
+
                     _task = () => task();
                     _taskArrived.Set();
                     _taskCompleted.WaitOne();
