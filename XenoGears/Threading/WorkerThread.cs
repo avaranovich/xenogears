@@ -73,9 +73,10 @@ namespace XenoGears.Threading
                     _task = null;
                     _taskCompleted.Set();
                 }
-            });
+            }){IsBackground = true};
 
             _attr = this.GetType().Attr<WorkerThreadAttribute>();
+            if (CustomName != null) _thread.Name = CustomName;
             _thread.Start();
         }
 
