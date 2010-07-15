@@ -81,17 +81,19 @@ namespace XenoGears.Threading
 
         private Object _initializationLock = new Object();
         private bool _hasBeenInitialized = false;
+        private bool _isBeingInitialized = false;
         private Exception _initializationException = null;
         private void EnsureInitialized()
         {
-            if (!_hasBeenInitialized)
+            if (!_hasBeenInitialized && !_isBeingInitialized)
             {
                 lock (_initializationLock)
                 {
-                    if (!_hasBeenInitialized)
+                    if (!_hasBeenInitialized && !_isBeingInitialized)
                     {
                         try
                         {
+                            _isBeingInitialized = true;
                             Initialize();
                         }
                         catch(Exception exn)
@@ -101,7 +103,19 @@ namespace XenoGears.Threading
                         }
                         finally
                         {
+                            _isBeingInitialized = false;
                             _hasBeenInitialized = true;
+                        }
+                    }
+                    else
+                    {
+                        if (_initializationException != null)
+                        {
+                            throw new DeferredException(_initializationException);
+                        }
+                        else
+                        {
+                            return;
                         }
                     }
                 }
@@ -138,8 +152,11 @@ namespace XenoGears.Threading
                     _taskArrived.Set();
                     _taskCompleted.WaitOne();
 
-                    var ret = _ret.Fluent(_ => _ret = null);
-                    var exn = _exn.Fluent(_ => _exn = null);
+                    var ret = _ret;
+                    var exn = _exn;
+                    _ret = null;
+                    _exn = null;
+
                     if (exn != null) throw exn;
                     (ret == null).AssertTrue();
                 }
@@ -169,8 +186,11 @@ namespace XenoGears.Threading
                     _taskArrived.Set();
                     _taskCompleted.WaitOne();
 
-                    var ret = _ret.Fluent(_ => _ret = null);
-                    var exn = _exn.Fluent(_ => _exn = null);
+                    var ret = _ret;
+                    var exn = _exn;
+                    _ret = null;
+                    _exn = null;
+
                     if (exn != null) throw exn;
                     return (T)ret;
                 }
