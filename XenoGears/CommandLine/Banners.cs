@@ -16,7 +16,7 @@ namespace XenoGears.CommandLine
     [DebuggerNonUserCode]
     public static class Banners
     {
-        private static LevelLogger Out = LogFactory.GetLogger("Console").Info;
+        private static LevelLogger Console = LogFactory.GetLogger("Console").Info;
 
         public static void About()
         {
@@ -26,7 +26,7 @@ namespace XenoGears.CommandLine
                 var s_about = asm.ReadResource(asm.GetName().Name + ".About.txt");
                 if (!String.IsNullOrEmpty(s_about)) s_about = s_about.Uncapitalize();
                 s_about = String.Format("[{0} {1}]{2}", asm.GetName().Name, asm.GetName().Version, String.IsNullOrEmpty(s_about) ? null : (": " + s_about));
-                Out.Write(s_about);
+                Console.Write(s_about);
             }
         }
 
@@ -53,25 +53,25 @@ namespace XenoGears.CommandLine
                     s_syntax += String.Format(" {0}-{1}:{2}{3}", is_optional ? "[" : "", alias, p.Name, is_optional ? "]" : "");
                 }
                 s_syntax += " [/verbose]";
-                Out.WriteLine(s_syntax);
+                Console.WriteLine(s_syntax);
 
                 var shortcuts = t_cfg.Attrs<ShortcutAttribute>().OrderBy(shortcut => shortcut.Priority);
                 if (shortcuts.IsNotEmpty())
                 {
-                    Out.EnsureBlankLine();
-                    if (shortcuts.Count() == 1) Out.Write("Shortcut: ");
-                    else { Out.Write("Shortcuts:"); Out.Write("    "); }
+                    Console.EnsureBlankLine();
+                    if (shortcuts.Count() == 1) Console.WriteLine("Shortcut: ");
+                    else { Console.WriteLine("Shortcuts:"); Console.Write("    "); }
 
                     shortcuts.ForEach((shortcut, i) =>
                     {
                         shortcut.Description.AssertNull();
-                        Out.WriteLine(cfg_name + (shortcut.Schema.IsNullOrEmpty() ? "" : (" " + shortcut.Schema)));
-                        if (i != shortcuts.Count() - 1) Out.Write("    ");
+                        Console.WriteLine(cfg_name + (shortcut.Schema.IsNullOrEmpty() ? "" : (" " + shortcut.Schema)));
+                        if (i != shortcuts.Count() - 1) Console.Write("    ");
                     });
                 }
 
-                Out.EnsureBlankLine();
-                Out.Write("Parameters:");
+                Console.EnsureBlankLine();
+                Console.WriteLine("Parameters:");
                 var max_name = @params.MaxOrDefault(p => p.Name.Length);
                 max_name = Math.Max("/verbose".Length, max_name);
                 var feed = new String(' ', 4 + 1 + max_name + 2);
@@ -79,7 +79,7 @@ namespace XenoGears.CommandLine
                 (max_desc > 0).AssertTrue();
                 Action<String, String> write_name_desc = (name, desc) =>
                 {
-                    Out.Write(String.Format("    {0}{1}{2}  ",
+                    Console.Write(String.Format("    {0}{1}{2}  ",
                         name.StartsWith("/") ? "" : "%",
                         name.PadRight(max_name),
                         name.StartsWith("/") ? " " : ""));
@@ -87,9 +87,9 @@ namespace XenoGears.CommandLine
                     var num_lines = (int)Math.Ceiling(1.0 * desc.Length / max_desc);
                     for (var i = 0; i < num_lines; ++i)
                     {
-                        if (i != 0) Out.Write(feed);
+                        if (i != 0) Console.Write(feed);
                         var line = desc.Substring(i * max_desc, Math.Min(max_desc, desc.Length - i * max_desc));
-                        Out.Write(line);
+                        Console.WriteLine(line);
                     }
                 };
                 foreach (var p in @params)
