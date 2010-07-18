@@ -1,138 +1,76 @@
-using System;
-
 namespace XenoGears.Logging
 {
     public partial class LevelLogger
     {
-        public int PendingEolns { get; set; }
-
         public LevelLogger Eoln()
         {
-            return Eolns(1);
+            Writer.Eoln();
+            return this;
         }
 
         public LevelLogger Eolns(int eolns)
         {
-            PendingEolns += eolns;
+            Writer.Eolns(eolns);
             return this;
         }
 
         public LevelLogger OneEoln()
         {
-            return Eolns(1);
+            Writer.OneEoln();
+            return this;
         }
 
         public LevelLogger TwoEolns()
         {
-            return Eolns(2);
+            Writer.TwoEolns();
+            return this;
         }
 
         public LevelLogger ThreeEolns()
         {
-            return Eolns(3);
+            Writer.ThreeEolns();
+            return this;
         }
 
         public LevelLogger TenEolns()
         {
-            return Eolns(10);
+            Writer.TenEolns();
+            return this;
         }
 
         public LevelLogger EnsureBlankLine()
         {
-            return EnsureBlankLines(1);
+            Writer.EnsureBlankLine();
+            return this;
         }
 
-        public LevelLogger EnsureBlankLines(int BlankLines)
+        public LevelLogger EnsureBlankLines(int blankLines)
         {
-            PendingEolns = Math.Max(PendingEolns, BlankLines + 1);
+            Writer.EnsureBlankLines(blankLines);
             return this;
         }
 
         public LevelLogger EnsureOneBlankLine()
         {
-            return EnsureBlankLines(1);
+            Writer.EnsureOneBlankLine();
+            return this;
         }
 
         public LevelLogger EnsureTwoBlankLines()
         {
-            return EnsureBlankLines(2);
+            Writer.EnsureTwoBlankLines();
+            return this;
         }
 
         public LevelLogger EnsureThreeBlankLines()
         {
-            return EnsureBlankLines(3);
+            Writer.EnsureThreeBlankLines();
+            return this;
         }
 
         public LevelLogger EnsureTenBlankLines()
         {
-            return EnsureBlankLines(10);
-        }
-
-        public LevelLogger LeaveBlankLine()
-        {
-            return LeaveBlankLines(1);
-        }
-
-        public LevelLogger LeaveBlankLines(int BlankLines)
-        {
-            PendingEolns = Math.Min(PendingEolns, BlankLines + 1);
-            return this;
-        }
-
-        public LevelLogger LeaveOneBlankLine()
-        {
-            return LeaveBlankLines(1);
-        }
-
-        public LevelLogger LeaveTwoBlankLines()
-        {
-            return LeaveBlankLines(2);
-        }
-
-        public LevelLogger LeaveThreeBlankLines()
-        {
-            return LeaveBlankLines(3);
-        }
-
-        public LevelLogger LeaveTenBlankLines()
-        {
-            return LeaveBlankLines(10);
-        }
-
-        public LevelLogger TrimBlankLine()
-        {
-            return TrimBlankLines(1);
-        }
-
-        public LevelLogger TrimBlankLines(int BlankLines)
-        {
-            PendingEolns = Math.Max(PendingEolns, PendingEolns - (BlankLines + 1));
-            return this;
-        }
-
-        public LevelLogger TrimOneBlankLine()
-        {
-            return TrimBlankLines(1);
-        }
-
-        public LevelLogger TrimTwoBlankLines()
-        {
-            return TrimBlankLines(2);
-        }
-
-        public LevelLogger TrimThreeBlankLines()
-        {
-            return TrimBlankLines(3);
-        }
-
-        public LevelLogger TrimTenBlankLines()
-        {
-            return TrimBlankLines(10);
-        }
-
-        public LevelLogger TrimAllBlankLines()
-        {
-            PendingEolns = Math.Max(PendingEolns, 1);
+            Writer.EnsureTenBlankLines();
             return this;
         }
     }
