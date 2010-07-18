@@ -27,8 +27,9 @@ namespace XenoGears.Playground.Framework
         [SetUp]
         public virtual void SetUp()
         {
-            Log = Loggers.GetLogger(this.GetType().AssemblyQualifiedName + "::" + Id).Debug;
-            _multiplexedOut = LogWriter.Multiplex(Out = new StringBuilder()) ?? new DisposableAction(() => { });
+            Log = Logger.Get(this.GetType().AssemblyQualifiedName + "::" + Id).Debug;
+            Log.Writer = LogWriter.Get(this.GetType().AssemblyQualifiedName + "::" + Id);
+            _multiplexedOut = Log.Writer.Multiplex(Out = new StringBuilder()) ?? new DisposableAction(() => { });
             UnitTest.Context["Current Fixture"] = this.GetType();
             _flash = new Dictionary<String, Object>();
         }
