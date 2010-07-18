@@ -8,8 +8,9 @@ namespace XenoGears.Logging
 
         private bool IsMuted()
         {
+            if (!Logger.IsEnabled) return true;
             if (!IsEnabled) return true;
-            if (Logger.Level > Level) return true;
+            if (Logger.MinLevel > Level) return true;
 
             return false;
         }

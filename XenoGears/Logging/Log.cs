@@ -6,7 +6,7 @@ namespace XenoGears.Logging
     [DebuggerNonUserCode]
     public static class Log
     {
-        private static readonly LevelLogger Impl = LogFactory.GetLogger("ad-hoc").Debug;
+        private static readonly LevelLogger Impl = Logger.Get("Adhoc").Debug;
 
         public static LevelLogger Write(Object o)
         {
@@ -69,27 +69,27 @@ namespace XenoGears.Logging
             return EnsureBlankLines(1);
         }
 
-        public static LevelLogger EnsureBlankLines(int eolns)
+        public static LevelLogger EnsureBlankLines(int BlankLines)
         {
-            return Impl.EnsureBlankLines(eolns);
+            return Impl.EnsureBlankLines(BlankLines);
         }
 
-        public static LevelLogger EnsureOneEoln()
+        public static LevelLogger EnsureOneBlankLine()
         {
             return EnsureBlankLines(1);
         }
 
-        public static LevelLogger EnsureTwoEolns()
+        public static LevelLogger EnsureTwoBlankLines()
         {
             return EnsureBlankLines(2);
         }
 
-        public static LevelLogger EnsureThreeEolns()
+        public static LevelLogger EnsureThreeBlankLines()
         {
             return EnsureBlankLines(3);
         }
 
-        public static LevelLogger EnsureTenEolns()
+        public static LevelLogger EnsureTenBlankLines()
         {
             return EnsureBlankLines(10);
         }
@@ -99,27 +99,27 @@ namespace XenoGears.Logging
             return LeaveBlankLines(1);
         }
 
-        public static LevelLogger LeaveBlankLines(int eolns)
+        public static LevelLogger LeaveBlankLines(int BlankLines)
         {
-            return Impl.LeaveBlankLines(eolns);
+            return Impl.LeaveBlankLines(BlankLines);
         }
 
-        public static LevelLogger LeaveOneEoln()
+        public static LevelLogger LeaveOneBlankLine()
         {
             return LeaveBlankLines(1);
         }
 
-        public static LevelLogger LeaveTwoEolns()
+        public static LevelLogger LeaveTwoBlankLines()
         {
             return LeaveBlankLines(2);
         }
 
-        public static LevelLogger LeaveThreeEolns()
+        public static LevelLogger LeaveThreeBlankLines()
         {
             return LeaveBlankLines(3);
         }
 
-        public static LevelLogger LeaveTenEolns()
+        public static LevelLogger LeaveTenBlankLines()
         {
             return LeaveBlankLines(10);
         }
@@ -129,27 +129,27 @@ namespace XenoGears.Logging
             return TrimBlankLines(1);
         }
 
-        public static LevelLogger TrimBlankLines(int eolns)
+        public static LevelLogger TrimBlankLines(int BlankLines)
         {
-            return Impl.TrimBlankLines(eolns);
+            return Impl.TrimBlankLines(BlankLines);
         }
 
-        public static LevelLogger TrimOneEoln()
+        public static LevelLogger TrimOneBlankLine()
         {
             return TrimBlankLines(1);
         }
 
-        public static LevelLogger TrimTwoEolns()
+        public static LevelLogger TrimTwoBlankLines()
         {
             return TrimBlankLines(2);
         }
 
-        public static LevelLogger TrimThreeEolns()
+        public static LevelLogger TrimThreeBlankLines()
         {
             return TrimBlankLines(3);
         }
 
-        public static LevelLogger TrimTenEolns()
+        public static LevelLogger TrimTenBlankLines()
         {
             return TrimBlankLines(10);
         }

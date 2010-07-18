@@ -42,28 +42,28 @@ namespace XenoGears.Logging
             return EnsureBlankLines(1);
         }
 
-        public LevelLogger EnsureBlankLines(int eolns)
+        public LevelLogger EnsureBlankLines(int BlankLines)
         {
-            PendingEolns = Math.Max(PendingEolns, eolns + 1);
+            PendingEolns = Math.Max(PendingEolns, BlankLines + 1);
             return this;
         }
 
-        public LevelLogger EnsureOneEoln()
+        public LevelLogger EnsureOneBlankLine()
         {
             return EnsureBlankLines(1);
         }
 
-        public LevelLogger EnsureTwoEolns()
+        public LevelLogger EnsureTwoBlankLines()
         {
             return EnsureBlankLines(2);
         }
 
-        public LevelLogger EnsureThreeEolns()
+        public LevelLogger EnsureThreeBlankLines()
         {
             return EnsureBlankLines(3);
         }
 
-        public LevelLogger EnsureTenEolns()
+        public LevelLogger EnsureTenBlankLines()
         {
             return EnsureBlankLines(10);
         }
@@ -73,28 +73,28 @@ namespace XenoGears.Logging
             return LeaveBlankLines(1);
         }
 
-        public LevelLogger LeaveBlankLines(int eolns)
+        public LevelLogger LeaveBlankLines(int BlankLines)
         {
-            PendingEolns = Math.Min(PendingEolns, eolns + 1);
+            PendingEolns = Math.Min(PendingEolns, BlankLines + 1);
             return this;
         }
 
-        public LevelLogger LeaveOneEoln()
+        public LevelLogger LeaveOneBlankLine()
         {
             return LeaveBlankLines(1);
         }
 
-        public LevelLogger LeaveTwoEolns()
+        public LevelLogger LeaveTwoBlankLines()
         {
             return LeaveBlankLines(2);
         }
 
-        public LevelLogger LeaveThreeEolns()
+        public LevelLogger LeaveThreeBlankLines()
         {
             return LeaveBlankLines(3);
         }
 
-        public LevelLogger LeaveTenEolns()
+        public LevelLogger LeaveTenBlankLines()
         {
             return LeaveBlankLines(10);
         }
@@ -104,28 +104,28 @@ namespace XenoGears.Logging
             return TrimBlankLines(1);
         }
 
-        public LevelLogger TrimBlankLines(int eolns)
+        public LevelLogger TrimBlankLines(int BlankLines)
         {
-            PendingEolns = Math.Max(PendingEolns, PendingEolns - (eolns + 1));
+            PendingEolns = Math.Max(PendingEolns, PendingEolns - (BlankLines + 1));
             return this;
         }
 
-        public LevelLogger TrimOneEoln()
+        public LevelLogger TrimOneBlankLine()
         {
             return TrimBlankLines(1);
         }
 
-        public LevelLogger TrimTwoEolns()
+        public LevelLogger TrimTwoBlankLines()
         {
             return TrimBlankLines(2);
         }
 
-        public LevelLogger TrimThreeEolns()
+        public LevelLogger TrimThreeBlankLines()
         {
             return TrimBlankLines(3);
         }
 
-        public LevelLogger TrimTenEolns()
+        public LevelLogger TrimTenBlankLines()
         {
             return TrimBlankLines(10);
         }

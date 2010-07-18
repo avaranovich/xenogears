@@ -15,7 +15,7 @@ namespace XenoGears.Reflection.Emit2
     [DebuggerNonUserCode]
     public class CodegenUnit : IDisposable
     {
-        private static readonly LevelLogger Log = LogFactory.GetLogger(typeof(CodegenUnit)).Debug;
+        private static readonly LevelLogger Log = Logger.Get(typeof(CodegenUnit)).Debug;
 
         private readonly AssemblyBuilder _asm;
         private readonly ModuleBuilder _mod;

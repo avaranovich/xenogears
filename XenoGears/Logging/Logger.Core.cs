@@ -5,14 +5,24 @@ using XenoGears.Assertions;
 namespace XenoGears.Logging
 {
     [DebuggerNonUserCode]
-    public class Logger
+    public partial class Logger
     {
         public String Name { get; set; }
-        public Level Level { get; set; }
 
-        public bool IsEnabled { get; set; }
-        public void Enable() { IsEnabled = true; }
-        public void Disable() { IsEnabled = false; }
+        private LogWriter _writer;
+        public LogWriter Writer
+        {
+            get { return _writer; }
+            set
+            {
+                _writer = value;
+                Debug.Writer = value;
+                Info.Writer = value;
+                Warn.Writer = value;
+                Error.Writer = value;
+                Fatal.Writer = value;
+            }
+        }
 
         public LevelLogger Debug { get; private set; }
         public LevelLogger Info { get; private set; }
@@ -42,19 +52,25 @@ namespace XenoGears.Logging
         }
 
         internal Logger(String name)
+            : this(name, null)
+        {
+        }
+
+        internal Logger(String name, LogWriter writer)
         {
             Name = name;
+            Writer = writer ?? LogWriter.Get(name == "Console" ? "Console" : "Adhoc");
 
-            Debug = new LevelLogger(this, Level.Debug);
-            Info = new LevelLogger(this, Level.Info);
-            Warn = new LevelLogger(this, Level.Warn);
-            Error = new LevelLogger(this, Level.Error);
-            Fatal = new LevelLogger(this, Level.Fatal);
+            Debug = new LevelLogger(Level.Debug, this);
+            Info = new LevelLogger(Level.Info, this);
+            Warn = new LevelLogger(Level.Warn, this);
+            Error = new LevelLogger(Level.Error, this);
+            Fatal = new LevelLogger(Level.Fatal, this);
 
 #if DEBUG
-            Level = Level.Debug;
+            MinLevel = Level.Debug;
 #else
-            Level = Level.Info;
+            MinLevel = Level.Info;
 #endif
 
             IsEnabled = true;

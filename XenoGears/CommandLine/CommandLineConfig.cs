@@ -23,10 +23,10 @@ namespace XenoGears.CommandLine
     [DebuggerNonUserCode]
     public abstract class CommandLineConfig
     {
-        protected static readonly Logger Log = LogFactory.GetLogger(typeof(CommandLineConfig)).Fluent(logger => { logger.Level = Level.Info; });
-        protected static LevelLogger Debug { get { return Log.Debug; } }
-        protected static LevelLogger Info { get { return Log.Info; } }
-        protected static LevelLogger Error { get { return Log.Error; } }
+        protected readonly Logger Log;
+        protected LevelLogger Debug { get { return Log.Debug; } }
+        protected LevelLogger Info { get { return Log.Info; } }
+        protected LevelLogger Error { get { return Log.Error; } }
 
         private static Func<CommandLineConfig> _current = Func.Memoize(() => Parse(Environment.GetCommandLineArgs().Skip(1)));
         protected static CommandLineConfig Current { get { return _current(); } }
@@ -56,19 +56,20 @@ namespace XenoGears.CommandLine
                 var cex = tie.InnerException as ConfigException;
                 if (cex != null)
                 {
+                    var error = Logger.Get(t).Error;
                     if (cex.Message != null)
                     {
                         if (args.Last() != "/verbose")
                         {
                             var asm_name = t.Assembly.GetName().Name;
                             var cfg_name = t.Attr<ConfigAttribute>().Name;
-                            Error.WriteLine("Command line was: {0} {1}", cfg_name ?? asm_name, args.StringJoin(" "));
+                            error.WriteLine("Command line was: {0} {1}", cfg_name ?? asm_name, args.StringJoin(" "));
                         }
 
-                        Error.WriteLine(cex.Message);
+                        error.WriteLine(cex.Message);
                     }
 
-                    Error.EnsureBlankLine();
+                    error.EnsureBlankLine();
                     Banners.Help();
                     return null;
                 }
@@ -82,6 +83,9 @@ namespace XenoGears.CommandLine
         public bool IsVerbose { get; private set; }
         protected CommandLineConfig(String[] s_args)
         {
+            Log = Logger.Get(GetType());
+            Log.MinLevel = Level.Info;
+
             if (s_args.Count() == 1 && s_args[0] == "/?")
             {
                 Banners.About();
@@ -95,7 +99,7 @@ namespace XenoGears.CommandLine
                     s_args = s_args.SkipLast().ToArray();
 
                     Info.WriteLine("Detected the \"/verbose\" switch, entering verbose mode.");
-                    Log.Level = Level.Debug;
+                    Log.MinLevel = Level.Debug;
 
                     Debug.EnsureBlankLine();
                     Debug.Write("Command line args are: ");
