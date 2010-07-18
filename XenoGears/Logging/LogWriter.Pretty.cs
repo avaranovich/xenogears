@@ -1,4 +1,5 @@
 ﻿using System;
+using XenoGears.Functional;
 
 namespace XenoGears.Logging
 {
@@ -11,7 +12,9 @@ namespace XenoGears.Logging
 
         public LogWriter Eolns(int eolns)
         {
-            throw new NotImplementedException();
+            eolns.TimesDo(_ => Medium.WriteLine());
+            PreviouslyWrittenEolns += eolns;
+            return this;
         }
 
         public LogWriter OneEoln()
@@ -39,9 +42,13 @@ namespace XenoGears.Logging
             return EnsureBlankLines(1);
         }
 
-        public LogWriter EnsureBlankLines(int BlankLines)
+        public LogWriter EnsureBlankLines(int blankLines)
         {
-            throw new NotImplementedException();
+            var eolns = blankLines + 1;
+            var to_write = Math.Max(eolns - PreviouslyWrittenEolns, 0);
+            to_write.TimesDo(_ => Medium.WriteLine());
+            PreviouslyWrittenEolns = Math.Max(eolns, PreviouslyWrittenEolns);
+            return this;
         }
 
         public LogWriter EnsureOneBlankLine()
