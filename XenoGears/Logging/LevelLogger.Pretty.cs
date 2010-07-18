@@ -4,73 +4,73 @@ namespace XenoGears.Logging
     {
         public LevelLogger Eoln()
         {
-            Writer.Eoln();
+            if (!IsMuted()) Writer.Eoln();
             return this;
         }
 
         public LevelLogger Eolns(int eolns)
         {
-            Writer.Eolns(eolns);
+            if (!IsMuted()) Writer.Eolns(eolns);
             return this;
         }
 
         public LevelLogger OneEoln()
         {
-            Writer.OneEoln();
+            if (!IsMuted()) Writer.OneEoln();
             return this;
         }
 
         public LevelLogger TwoEolns()
         {
-            Writer.TwoEolns();
+            if (!IsMuted()) Writer.TwoEolns();
             return this;
         }
 
         public LevelLogger ThreeEolns()
         {
-            Writer.ThreeEolns();
+            if (!IsMuted()) Writer.ThreeEolns();
             return this;
         }
 
         public LevelLogger TenEolns()
         {
-            Writer.TenEolns();
+            if (!IsMuted()) Writer.TenEolns();
             return this;
         }
 
         public LevelLogger EnsureBlankLine()
         {
-            Writer.EnsureBlankLine();
+            if (!IsMuted()) Writer.EnsureBlankLine();
             return this;
         }
 
         public LevelLogger EnsureBlankLines(int blankLines)
         {
-            Writer.EnsureBlankLines(blankLines);
+            if (!IsMuted()) Writer.EnsureBlankLines(blankLines);
             return this;
         }
 
         public LevelLogger EnsureOneBlankLine()
         {
-            Writer.EnsureOneBlankLine();
+            if (!IsMuted()) Writer.EnsureOneBlankLine();
             return this;
         }
 
         public LevelLogger EnsureTwoBlankLines()
         {
-            Writer.EnsureTwoBlankLines();
+            if (!IsMuted()) Writer.EnsureTwoBlankLines();
             return this;
         }
 
         public LevelLogger EnsureThreeBlankLines()
         {
-            Writer.EnsureThreeBlankLines();
+            if (!IsMuted()) Writer.EnsureThreeBlankLines();
             return this;
         }
 
         public LevelLogger EnsureTenBlankLines()
         {
-            Writer.EnsureTenBlankLines();
+            if (!IsMuted()) Writer.EnsureTenBlankLines();
             return this;
         }
     }
