@@ -39,6 +39,8 @@ namespace XenoGears.CommandLine
                 return decl;
             }).ToReadOnly();
             frames = frames.SkipWhile(decl => decl == null || decl == typeof(CommandLineConfig)).ToReadOnly();
+            frames = frames.SkipWhile(decl => decl == null || decl == typeof(Func)).ToReadOnly();
+            frames = frames.SkipWhile(decl => decl == null || decl == typeof(CommandLineConfig)).ToReadOnly();
             var t = frames.AssertFirst(decl => decl != null && decl != typeof(CommandLineConfig));
 
             try
@@ -57,7 +59,7 @@ namespace XenoGears.CommandLine
                         {
                             var asm_name = t.Assembly.GetName().Name;
                             var cfg_name = t.Attr<ConfigAttribute>().Name;
-                            Out.WriteLine("{0} {1}", cfg_name ?? asm_name, args.StringJoin(" "));
+                            Out.WriteLine("Command line was: {0} {1}", cfg_name ?? asm_name, args.StringJoin(" "));
                         }
 
                         Out.WriteLine(cex.Message);
@@ -143,19 +145,23 @@ namespace XenoGears.CommandLine
 
                     Dictionary<PropertyInfo, Object> parsed_shortcut_args = null;
                     var shortcuts = GetType().Attrs<ShortcutAttribute>().OrderBy(shortcut => shortcut.Priority);
+                    var bind_errors = new Dictionary<String, String>();
                     foreach (var shortcut in shortcuts)
                     {
                         if (IsVerbose) Out.WriteLine("Considering shortcut schema \"{0}\"...", shortcut.Schema);
                         var words = shortcut.Schema.SplitWords();
                         if (words.Count() != shortcut_args.Count())
                         {
-                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" won't work: argument count mismatch.", shortcut.Schema);
+                            var message = String.Format("argument count mismatch.");
+                            bind_errors.Add(shortcut.Schema, message);
+                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" won't work: {1}", shortcut.Schema, message);
                             continue;
                         }
 
                         try { parsed_shortcut_args = ParseArgs(words.Zip(shortcut_args).ToDictionary(t => t.Item1, t => t.Item2)); }
                         catch (ConfigException cex)
                         {
+                            bind_errors.Add(shortcut.Schema, cex.Message);
                             if (IsVerbose)
                             {
                                 Out.WriteLine(cex.Message);
@@ -181,8 +187,17 @@ namespace XenoGears.CommandLine
                         }
                     }
 
-                    if (parsed_shortcut_args == null) throw new ConfigException("Fatal error: failed to bind to all of the shortcuts.");
-                    else parsed_args.AddElements(parsed_shortcut_args);
+                    if (parsed_shortcut_args == null)
+                    {
+                        var message = "Fatal error: failed to match the shortcuts.";
+                        var bind_summary = bind_errors.Select(kvp => String.Format("Failed to match \"{0}\": {1}", kvp.Key, kvp.Value.Replace("Fatal error: ", String.Empty))).StringJoin(Environment.NewLine);
+                        if (!IsVerbose) message = message + Environment.NewLine + bind_summary;
+                        throw new ConfigException(message);
+                    }
+                    else
+                    {
+                        parsed_args.AddElements(parsed_shortcut_args);
+                    }
                 }
 
                 if (IsVerbose) Out.WriteLine("Parse completed.");
