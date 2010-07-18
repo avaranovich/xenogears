@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using XenoGears.Functional;
 using XenoGears.Logging.Media;
 using XenoGears.Traits.Disposable;
 using XenoGears.Logging.Formatters;
@@ -16,6 +17,7 @@ namespace XenoGears.Logging
     public partial class LogWriter
     {
         public TextWriter Medium { get; set; }
+        private int PreviouslyWrittenEolns { get; set; }
 
         public IDisposable Override(StringBuilder new_out) { return Override(new StringWriter(new_out)); }
         public IDisposable Override(TextWriter new_out)
@@ -34,21 +36,29 @@ namespace XenoGears.Logging
 
         public LogWriter Write(Logger logger, Level level, Object o)
         {
-            if (!IsMuted(logger, level)) Medium.Write(o.ToLog());
+            RawWrite(logger, level, o.ToLog());
             return this;
         }
 
         public LogWriter Write(Logger logger, Level level, String message)
         {
-            if (!IsMuted(logger, level)) Medium.Write(message.ToLog());
+            RawWrite(logger, level, message.ToLog());
             return this;
         }
 
         public LogWriter Write(Logger logger, Level level, String format, Object[] args)
         {
             // todo. this will mess up custom format specifiers!
-            if (!IsMuted(logger, level)) Medium.Write(String.Format(format, args.Select(a => a.ToLog()).ToArray()));
+            RawWrite(logger, level, String.Format(format, args.Select(a => a.ToLog()).ToArray()));
             return this;
+        }
+
+        private void RawWrite(Logger logger, Level level, String message)
+        {
+            if (IsMuted(logger, level)) return;
+            var newlines = Seq.Nats.Skip(1).Select(i => i.Times(Environment.NewLine));
+            PreviouslyWrittenEolns = newlines.TakeWhile(message.EndsWith).Count();
+            Medium.Write(message);
         }
     }
 }
