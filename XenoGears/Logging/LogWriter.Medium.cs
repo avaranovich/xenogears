@@ -18,6 +18,7 @@ namespace XenoGears.Logging
     {
         public TextWriter Medium { get; set; }
         private int PreviouslyWrittenEolns { get; set; }
+        private bool HasWrittenAnything { get; set; }
 
         public IDisposable Override(StringBuilder new_out) { return Override(new StringWriter(new_out)); }
         public IDisposable Override(TextWriter new_out)
@@ -56,9 +57,10 @@ namespace XenoGears.Logging
         private void RawWrite(Logger logger, Level level, String message)
         {
             if (IsMuted(logger, level)) return;
+            Medium.Write(message);
             var newlines = Seq.Nats.Skip(1).Select(i => i.Times(Environment.NewLine));
             PreviouslyWrittenEolns = newlines.TakeWhile(message.EndsWith).Count();
-            Medium.Write(message);
+            HasWrittenAnything = true;
         }
     }
 }
