@@ -13,8 +13,6 @@ namespace XenoGears.Logging
         static LogWriter()
         {
             _cache.Add("Adhoc", new LogWriter(new AdhocMedium()));
-            _cache.Add("Console", new LogWriter(new ConsoleMedium()));
-            _cache.Add("Trace", new LogWriter(new TraceMedium()));
         }
 
         public static LogWriter Get(String name)
