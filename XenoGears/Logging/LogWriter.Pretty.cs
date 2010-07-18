@@ -44,10 +44,15 @@ namespace XenoGears.Logging
 
         public LogWriter EnsureBlankLines(int blankLines)
         {
-            var eolns = blankLines + 1;
-            var to_write = Math.Max(eolns - PreviouslyWrittenEolns, 0);
-            to_write.TimesDo(_ => Medium.WriteLine());
-            PreviouslyWrittenEolns = Math.Max(eolns, PreviouslyWrittenEolns);
+            // if we haven't yet written anything, there's no point in inserting blank lines
+            if (HasWrittenAnything)
+            {
+                var eolns = blankLines + 1;
+                var to_write = Math.Max(eolns - PreviouslyWrittenEolns, 0);
+                to_write.TimesDo(_ => Medium.WriteLine());
+                PreviouslyWrittenEolns = Math.Max(eolns, PreviouslyWrittenEolns);
+            }
+
             return this;
         }
 
