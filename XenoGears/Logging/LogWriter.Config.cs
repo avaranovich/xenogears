@@ -10,6 +10,7 @@ namespace XenoGears.Logging
 {
     public partial class LogWriter
     {
+        public readonly Guid Id = Guid.NewGuid();
         public Level Level { get; set; }
 
         public bool IsEnabled { get; set; }

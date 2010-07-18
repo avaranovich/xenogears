@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using XenoGears.Assertions;
 using XenoGears.Functional;
+using XenoGears.Logging.Media;
 using XenoGears.Reflection.Generics;
 using XenoGears.Strings;
 using XenoGears.Logging;
@@ -22,21 +23,32 @@ namespace XenoGears.Playground.Framework
         protected Guid Id = Guid.NewGuid();
         protected LevelLogger Log { get; private set; }
         protected StringBuilder Out { get; private set; }
-        private IDisposable _multiplexedOut = new DisposableAction(() => {});
+        private LogWriter _writer;
+        private DisposableAction _teardown = new DisposableAction(() => {});
 
         [SetUp]
         public virtual void SetUp()
         {
-            Log = Logger.Get(this.GetType().AssemblyQualifiedName + "::" + Id).Debug;
-            _multiplexedOut = Log.Writer.Multiplex(Out = new StringBuilder()) ?? new DisposableAction(() => { });
+            _writer = LogWriter.Get(this.GetType().AssemblyQualifiedName + "::" + Id + "::" + Guid.NewGuid());
+            _writer.Medium = new AdhocMedium();
+            _writer.Multiplex(Out = new StringBuilder());
+            Log = Logger.Get(this.GetType().AssemblyQualifiedName + "::" + Id + "::" + Guid.NewGuid()).Debug;
+            Log.OverrideWriter(_writer);
+            MultiplexLogs(Logger.Adhoc);
+
             UnitTest.Context["Current Fixture"] = this.GetType();
             _flash = new Dictionary<String, Object>();
         }
 
+        protected void MultiplexLogs(params String[] names) { MultiplexLogs((IEnumerable<String>)names); }
+        protected void MultiplexLogs(IEnumerable<String> names) { MultiplexLogs(names.Select(name => Logger.Get(name))); }
+        protected void MultiplexLogs(params Logger[] loggers) { MultiplexLogs((IEnumerable<Logger>)loggers); }
+        protected void MultiplexLogs(IEnumerable<Logger> loggers) { loggers.ForEach(logger => _teardown += logger.OverrideWriter(_writer)); }
+
         [TearDown]
         public virtual void TearDown()
         {
-            _multiplexedOut.Dispose();
+            _teardown.Dispose();
             Out = null;
         }
 
