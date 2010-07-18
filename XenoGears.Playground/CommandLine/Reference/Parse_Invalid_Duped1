@@ -1,0 +1,10 @@
+﻿Detected the "/verbose" switch, entering verbose mode.
+
+Command line args are: (2 args)
+1: -name:Libptx
+2: -name:Libptx
+
+Pre-parsing arguments...
+Parsed "-name:Libptx" as name/value pair: name => "Libptx".
+Parsed "-name:Libptx" as name/value pair: name => "Libptx".
+Fatal error: duplicate argument "name".

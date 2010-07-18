@@ -1,0 +1,4 @@
+﻿todo for the Logger subsystem:
+1) Thread-safety (maybe just have different loggers for different threads)
+2) Non-programmatic configuration
+3) Performance
