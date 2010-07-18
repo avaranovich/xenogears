@@ -45,7 +45,6 @@
     <Compile Include="CommandLine\CommandLineConfig.cs" />
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
-    <Compile Include="Functional\EnumerableExtensions.SQOv2.Sum.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\LevelLogger.Pretty.cs" />
