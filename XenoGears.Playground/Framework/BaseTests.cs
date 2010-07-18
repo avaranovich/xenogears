@@ -93,6 +93,7 @@ namespace XenoGears.Playground.Framework
 
                 if (s_reference.IsEmpty())
                 {
+                    Log.EnsureBlankLine();
                     Log.WriteLine(s_actual);
 
                     Assert.Fail(String.Format(
@@ -138,6 +139,7 @@ namespace XenoGears.Playground.Framework
                         var maxExpected = Math.Max(expected.MaxOrDefault(line => line.Length), "Expected".Length);
                         var total = maxDigits + 3 + maxActual + 3 + maxExpected;
 
+                        Log.EnsureBlankLine();
                         Log.WriteLine(String.Format("{0} | {1} | {2}",
                             "N".PadRight(maxDigits),
                             "Actual".PadRight(maxActual),
@@ -162,6 +164,7 @@ namespace XenoGears.Playground.Framework
             }
             else
             {
+                Log.EnsureBlankLine();
                 Log.WriteLine(s_actual);
 
                 Assert.Fail(String.Format(Environment.NewLine +

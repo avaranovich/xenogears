@@ -23,7 +23,10 @@ namespace XenoGears.CommandLine
     [DebuggerNonUserCode]
     public abstract class CommandLineConfig
     {
-        public static LevelLogger Out { get { return LogFactory.GetLogger(typeof(CommandLineConfig)).Debug; } }
+        protected static readonly Logger Log = LogFactory.GetLogger(typeof(CommandLineConfig)).Fluent(logger => { logger.Level = Level.Info; });
+        protected static LevelLogger Debug { get { return Log.Debug; } }
+        protected static LevelLogger Info { get { return Log.Info; } }
+        protected static LevelLogger Error { get { return Log.Error; } }
 
         private static Func<CommandLineConfig> _current = Func.Memoize(() => Parse(Environment.GetCommandLineArgs().Skip(1)));
         protected static CommandLineConfig Current { get { return _current(); } }
@@ -59,13 +62,13 @@ namespace XenoGears.CommandLine
                         {
                             var asm_name = t.Assembly.GetName().Name;
                             var cfg_name = t.Attr<ConfigAttribute>().Name;
-                            Out.WriteLine("Command line was: {0} {1}", cfg_name ?? asm_name, args.StringJoin(" "));
+                            Error.WriteLine("Command line was: {0} {1}", cfg_name ?? asm_name, args.StringJoin(" "));
                         }
 
-                        Out.WriteLine(cex.Message);
+                        Error.WriteLine(cex.Message);
                     }
 
-                    Out.EnsureBlankLine();
+                    Error.EnsureBlankLine();
                     Banners.Help();
                     return null;
                 }
@@ -91,16 +94,18 @@ namespace XenoGears.CommandLine
                     IsVerbose = true;
                     s_args = s_args.SkipLast().ToArray();
 
-                    Out.WriteLine("Detected the \"/verbose\" switch, entering verbose mode.");
-                    Out.WriteLine("");
-                    Out.Write("Command line args are: ");
-                    if (s_args.IsEmpty()) Out.WriteLine("empty");
-                    else Out.WriteLine("({0} arg{1})", s_args.Count(), s_args.Count() == 1 ? "" : "s");
-                    s_args.ForEach((arg, i) => Out.WriteLine("{0}: {1}", i + 1, arg));
+                    Info.WriteLine("Detected the \"/verbose\" switch, entering verbose mode.");
+                    Log.Level = Level.Debug;
+
+                    Debug.EnsureBlankLine();
+                    Debug.Write("Command line args are: ");
+                    if (s_args.IsEmpty()) Debug.WriteLine("empty");
+                    else Debug.WriteLine("({0} arg{1})", s_args.Count(), s_args.Count() == 1 ? "" : "s");
+                    s_args.ForEach((arg, i) => Debug.WriteLine("{0}: {1}", i + 1, arg));
                 }
 
-                if (IsVerbose) Out.EnsureBlankLine();
-                if (IsVerbose) Out.WriteLine("Pre-parsing arguments...");
+                Debug.EnsureBlankLine();
+                Debug.WriteLine("Pre-parsing arguments...");
                 var named_args = new Dictionary<String, String>();
                 var shortcut_args = new List<String>();
                 foreach (var s_arg in s_args)
@@ -108,11 +113,8 @@ namespace XenoGears.CommandLine
                     var m = s_arg.Parse("^-(?<name>.*?):(?<value>.*)$");
                     var name = m != null ? m["name"] : null;
                     var value = m != null ? m["value"] : s_arg;
-                    if (IsVerbose)
-                    {
-                        if (m != null) Out.WriteLine("Parsed \"{0}\" as name/value pair: {1} => \"{2}\".", s_arg, name, value);
-                        else Out.WriteLine("Parsed \"{0}\" as raw value.", s_arg);
-                    }
+                    if (m != null) Debug.WriteLine("Parsed \"{0}\" as name/value pair: {1} => \"{2}\".", s_arg, name, value);
+                    else Debug.WriteLine("Parsed \"{0}\" as raw value.", s_arg);
 
                     if (name == null)
                     {
@@ -125,36 +127,36 @@ namespace XenoGears.CommandLine
                         else named_args.Add(name, value);
                     }
                 }
-                if (IsVerbose) Out.WriteLine("Pre-parse completed: found {0} named argument{1} and {2} shortcut argument{3}.",
+                Debug.WriteLine("Pre-parse completed: found {0} named argument{1} and {2} shortcut argument{3}.",
                     named_args.Count(), named_args.Count() == 1 ? "" : "s",
                     shortcut_args.Count(), shortcut_args.Count() == 1 ? "" : "s");
 
-                if (IsVerbose) Out.EnsureBlankLine();
-                if (IsVerbose) Out.WriteLine("Parsing arguments...");
+                Debug.EnsureBlankLine();
+                Debug.WriteLine("Parsing arguments...");
 
                 var parsed_args = new Dictionary<PropertyInfo, Object>();
                 if (named_args.IsNotEmpty())
                 {
-                    if (IsVerbose) Out.WriteLine("Parsing named arguments...");
+                    Debug.WriteLine("Parsing named arguments...");
                     parsed_args = ParseArgs(named_args);
                 }
 
                 if (shortcut_args.IsNotEmpty())
                 {
-                    if (IsVerbose) Out.WriteLine("Parsing shortcut arguments...");
+                    Debug.WriteLine("Parsing shortcut arguments...");
 
                     Dictionary<PropertyInfo, Object> parsed_shortcut_args = null;
                     var shortcuts = GetType().Attrs<ShortcutAttribute>().OrderBy(shortcut => shortcut.Priority);
                     var bind_errors = new Dictionary<String, String>();
                     foreach (var shortcut in shortcuts)
                     {
-                        if (IsVerbose) Out.WriteLine("Considering shortcut schema \"{0}\"...", shortcut.Schema);
+                        Debug.WriteLine("Considering shortcut schema \"{0}\"...", shortcut.Schema);
                         var words = shortcut.Schema.SplitWords();
                         if (words.Count() != shortcut_args.Count())
                         {
                             var message = String.Format("argument count mismatch.");
                             bind_errors.Add(shortcut.Schema, message);
-                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" won't work: {1}", shortcut.Schema, message);
+                            Debug.WriteLine("Schema \"{0}\" won't work: {1}", shortcut.Schema, message);
                             continue;
                         }
 
@@ -162,11 +164,8 @@ namespace XenoGears.CommandLine
                         catch (ConfigException cex)
                         {
                             bind_errors.Add(shortcut.Schema, cex.Message);
-                            if (IsVerbose)
-                            {
-                                Out.WriteLine(cex.Message);
-                                Out.WriteLine("Schema \"{0}\" won't work: failed to parse arguments.", shortcut.Schema);
-                            }
+                            Debug.WriteLine(cex.Message);
+                            Debug.WriteLine("Schema \"{0}\" won't work: failed to parse arguments.", shortcut.Schema);
 
                             continue;
                         }
@@ -176,13 +175,13 @@ namespace XenoGears.CommandLine
                         {
                             var a = dupes.AssertFirst().Attr<ParamAttribute>();
                             var name = named_args.Keys.Single(k => a.Aliases.Contains(k));
-                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" won't work: shortcut argument duplicates parsed argument \"{1}\".", shortcut.Schema, name);
+                            Debug.WriteLine("Schema \"{0}\" won't work: shortcut argument duplicates parsed argument \"{1}\".", shortcut.Schema, name);
                             parsed_shortcut_args = null;
                             continue;
                         }
                         else
                         {
-                            if (IsVerbose) Out.WriteLine("Schema \"{0}\" works fine, skipping other schemas (if any).", shortcut.Schema);
+                            Debug.WriteLine("Schema \"{0}\" works fine, skipping other schemas (if any).", shortcut.Schema);
                             break;
                         }
                     }
@@ -200,16 +199,16 @@ namespace XenoGears.CommandLine
                     }
                 }
 
-                if (IsVerbose) Out.WriteLine("Parse completed.");
-                if (IsVerbose) Out.WriteLine("");
-                if (IsVerbose) Out.WriteLine("Setting configuration parameters...");
+                Debug.WriteLine("Parse completed.");
+                Debug.EnsureBlankLine();
+                Debug.WriteLine("Setting configuration parameters...");
                 var props = this.GetType().GetProperties(BF.AllInstance).Where(p => p.HasAttr<ParamAttribute>()).OrderBy(p => p.Attr<ParamAttribute>().Priority);
                 props.ForEach(p =>
                 {
                     if (parsed_args.ContainsKey(p))
                     {
                         var value = parsed_args[p];
-                        if (IsVerbose) Out.WriteLine("Resolved %{0} as {1}.", p.Name, value.ToLog());
+                        Debug.WriteLine("Resolved %{0} as {1}.", p.Name, value.ToLog());
                         p.SetValue(this, value, null);
                     }
                     else
@@ -218,11 +217,11 @@ namespace XenoGears.CommandLine
                         if (p_default == null) throw new ConfigException("Fatal error: parameter \"{0}\" must be specified.");
 
                         var value = p_default.GetValue(null, null);
-                        if (IsVerbose) Out.WriteLine("Defaulted %{0} to {1}.", p.Name, value.ToLog());
+                        Debug.WriteLine("Defaulted %{0} to {1}.", p.Name, value.ToLog());
                         p.SetValue(this, value, null);
                     }
                 });
-                if (IsVerbose) Out.WriteLine("Configuration parameters successfully set.");
+                Debug.WriteLine("Configuration parameters successfully set.");
             }
         }
 
@@ -231,11 +230,11 @@ namespace XenoGears.CommandLine
             var parsed_args = new Dictionary<PropertyInfo, Object>();
             kvps.ForEach(kvp =>
             {
-                if (IsVerbose) Out.WriteLine("Resolving argument \"{0}\"...", kvp.Key);
+                Debug.WriteLine("Resolving argument \"{0}\"...", kvp.Key);
                 var props = this.GetType().GetProperties(BF.AllInstance).Where(p1 => p1.HasAttr<ParamAttribute>()).OrderBy(p1 => p1.Attr<ParamAttribute>().Priority);
                 var p = props.SingleOrDefault(p1 => p1.Attr<ParamAttribute>().Aliases.Contains(kvp.Key));
                 if (p == null) throw new ConfigException("Fatal error: unknown argument name \"{0}\".", kvp.Key);
-                if (IsVerbose) Out.WriteLine("Resolved argument \"{0}\" as: {1}...", kvp.Key, p.GetCSharpRef(ToCSharpOptions.Informative));
+                Debug.WriteLine("Resolved argument \"{0}\" as: {1}...", kvp.Key, p.GetCSharpRef(ToCSharpOptions.Informative));
 
                 Func<String, Type, Object> parse = (s, t) =>
                 {
@@ -244,21 +243,21 @@ namespace XenoGears.CommandLine
                     return t.FromInvariantString(s);
                 };
 
-                if (IsVerbose) Out.WriteLine("Parsing {0} => \"{1}\" as {2}...", kvp.Key, kvp.Value.ToLog(), p.PropertyType);
+                Debug.WriteLine("Parsing {0} => \"{1}\" as {2}...", kvp.Key, kvp.Value.ToLog(), p.PropertyType);
                 Object value;
                 try { value = parse(kvp.Value, p.PropertyType); }
                 catch (Exception ex) { throw new ConfigException(ex, "Fatal error: failed to parse value \"{0}\" for argument \"{1}\".", kvp.Value.ToLog(), kvp.Key); }
-                if (IsVerbose) Out.WriteLine("Parsed {0} => \"{1}\" as: {2}.", kvp.Key, kvp.Value.ToLog(), value.ToLog());
+                Debug.WriteLine("Parsed {0} => \"{1}\" as: {2}.", kvp.Key, kvp.Value.ToLog(), value.ToLog());
 
                 var m_validate = this.GetType().GetMethod("Validate" + p.Name, BF.AllStatic);
                 if (m_validate != null)
                 {
                     try
                     {
-                        if (IsVerbose) Out.WriteLine("Validating {0} with {1}...", value.ToLog(), m_validate.GetCSharpRef(ToCSharpOptions.Informative));
+                        Debug.WriteLine("Validating {0} with {1}...", value.ToLog(), m_validate.GetCSharpRef(ToCSharpOptions.Informative));
                         var is_valid = (bool)m_validate.Invoke(null, value.MkArray());
                         if (!is_valid) throw new ConfigException("Fatal error: value \"{0}\" is unsuitable for argument \"{1}\".", value.ToLog(), kvp.Key);
-                        if (IsVerbose) Out.WriteLine("Validated {0} as suitable for {1}.", value.ToLog(), p.GetCSharpRef(ToCSharpOptions.Informative));
+                        Debug.WriteLine("Validated {0} as suitable for {1}.", value.ToLog(), p.GetCSharpRef(ToCSharpOptions.Informative));
                     }
                     catch (Exception ex)
                     {
