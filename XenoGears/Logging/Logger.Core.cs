@@ -59,13 +59,13 @@ namespace XenoGears.Logging
         internal Logger(String name, LogWriter writer)
         {
             Name = name;
-            Writer = writer ?? LogWriter.Get(name == "Console" ? "Console" : "Adhoc");
 
             Debug = new LevelLogger(Level.Debug, this);
             Info = new LevelLogger(Level.Info, this);
             Warn = new LevelLogger(Level.Warn, this);
             Error = new LevelLogger(Level.Error, this);
             Fatal = new LevelLogger(Level.Fatal, this);
+            Writer = writer ?? LogWriter.Get(name == "Console" ? "Console" : "Adhoc");
 
 #if DEBUG
             MinLevel = Level.Debug;

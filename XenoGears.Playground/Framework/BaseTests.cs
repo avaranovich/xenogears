@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using XenoGears.Assertions;
 using XenoGears.Functional;
+using XenoGears.Logging.Media;
 using XenoGears.Reflection.Generics;
 using XenoGears.Strings;
 using XenoGears.Logging;
@@ -29,6 +30,7 @@ namespace XenoGears.Playground.Framework
         {
             Log = Logger.Get(this.GetType().AssemblyQualifiedName + "::" + Id).Debug;
             Log.Writer = LogWriter.Get(this.GetType().AssemblyQualifiedName + "::" + Id);
+            Log.Writer.Medium = new AdhocMedium();
             _multiplexedOut = Log.Writer.Multiplex(Out = new StringBuilder()) ?? new DisposableAction(() => { });
             UnitTest.Context["Current Fixture"] = this.GetType();
             _flash = new Dictionary<String, Object>();
