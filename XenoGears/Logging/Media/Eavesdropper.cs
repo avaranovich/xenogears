@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using XenoGears.Assertions;
 
-namespace XenoGears.Logging.Writers
+namespace XenoGears.Logging.Media
 {
     [DebuggerNonUserCode]
     internal class Eavesdropper : TextWriter

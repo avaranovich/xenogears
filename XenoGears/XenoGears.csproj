@@ -47,19 +47,18 @@
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
     <Compile Include="Functional\EnumerableExtensions.SQOv2.Sum.cs" />
     <Compile Include="Logging\Log.cs" />
-    <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\LevelLogger.Pretty.cs" />
     <Compile Include="Logging\LevelLogger.Config.cs" />
     <Compile Include="Logging\Level.cs" />
-    <Compile Include="Logging\LogWriter.Writers.cs" />
+    <Compile Include="Logging\LogWriter.Medium.cs" />
     <Compile Include="Logging\LogWriter.Config.cs" />
-    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\Logger.Core.cs" />
     <Compile Include="Logging\LevelLogger.Api.cs" />
     <Compile Include="Logging\LevelLoggerExtensions.cs" />
-    <Compile Include="Logging\Writers\Eavesdropper.cs" />
-    <Compile Include="Logging\Writers\LowlevelMedium.cs" />
-    <Compile Include="Logging\Writers\TraceWriter.cs" />
+    <Compile Include="Logging\Media\Eavesdropper.cs" />
+    <Compile Include="Logging\Media\AdhocMedium.cs" />
+    <Compile Include="Logging\Media\TraceMedium.cs" />
     <Compile Include="Reflection\Attributes\Common\ManyAliasesAttribute.cs" />
     <Compile Include="CommandLine\Annotations\ParamAttribute.cs" />
     <Compile Include="Logging\Formatters\Printer.cs" />
@@ -276,6 +275,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\AssemblyInfo.embedded" />
+    <Compile Include="Logging\Logger.Config.cs" />
+    <Compile Include="Logging\Logger.Factory.cs" />
+    <Compile Include="Logging\LogWriter.Factory.cs" />
+    <Compile Include="Logging\Media\ConsoleMedium.cs" />
     <None Include="Properties\AssemblyInfo.template" />
   </ItemGroup>
   <ItemGroup>

@@ -7,13 +7,15 @@ namespace XenoGears.Logging
     [DebuggerNonUserCode]
     public partial class LevelLogger
     {
-        public Logger Logger { get; private set; }
         public Level Level { get; private set; }
+        public Logger Logger { get; private set; }
+        public LogWriter Writer { get; set; }
 
-        public LevelLogger(Logger logger, Level level)
+        public LevelLogger(Level level, Logger logger)
         {
-            Logger = logger;
             Level = level;
+            Logger = logger;
+            Writer = logger.Writer ?? LogWriter.Get("Adhoc");
 
 #if TRACE
             IsEnabled = true;
@@ -56,9 +58,9 @@ namespace XenoGears.Logging
         private void RawWrite(Object o)
         {
             if (IsMuted()) return;
-            PendingEolns.TimesDo(_ => LogWriter.Write(Logger, Level, Environment.NewLine));
+            PendingEolns.TimesDo(_ => Writer.Write(Logger, Level, Environment.NewLine));
             PendingEolns = 0;
-            LogWriter.Write(Logger, Level, o);
+            Writer.Write(Logger, Level, o);
         }
     }
 }
