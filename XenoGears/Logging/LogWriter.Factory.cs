@@ -24,5 +24,10 @@ namespace XenoGears.Logging
         {
             return Get(type.AssemblyQualifiedName);
         }
+
+        public static LogWriter Adhoc
+        {
+            get { return Get("Adhoc"); }
+        }
     }
 }

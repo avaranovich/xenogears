@@ -16,7 +16,7 @@ namespace XenoGears.CommandLine
     [DebuggerNonUserCode]
     public static class Banners
     {
-        private static LevelLogger Console = Logger.Get("Adhoc").Info;
+        private static LevelLogger Console = Logger.Adhoc.Info;
 
         public static void About()
         {

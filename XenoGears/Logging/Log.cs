@@ -6,7 +6,7 @@ namespace XenoGears.Logging
     [DebuggerNonUserCode]
     public static class Log
     {
-        private static readonly LevelLogger Impl = Logger.Get("Adhoc").Debug;
+        private static readonly LevelLogger Impl = Logger.Adhoc.Debug;
 
         public static LevelLogger Write(Object o)
         {

@@ -1,21 +1,35 @@
 using System;
 using System.Diagnostics;
-using XenoGears.Functional;
+using System.IO;
+using System.Text;
+using XenoGears.Traits.Disposable;
 
 namespace XenoGears.Logging
 {
     [DebuggerNonUserCode]
     public partial class LevelLogger
     {
+        public readonly Guid Id = Guid.NewGuid();
         public Level Level { get; private set; }
         public Logger Logger { get; private set; }
-        public LogWriter Writer { get; set; }
+
+        public LogWriter Writer { get; private set; }
+        public IDisposable OverrideWriter(StringBuilder new_out) { return OverrideWriter(new StringWriter(new_out)); }
+        public IDisposable OverrideWriter(TextWriter new_out) { var new_writer = LogWriter.Get(Guid.NewGuid().ToString()); new_writer.Medium = new_out; return OverrideWriter(new_writer); }
+        public IDisposable OverrideWriter(String new_out) { return OverrideWriter(LogWriter.Get(new_out)); }
+        public IDisposable OverrideWriter(Type new_out) { return OverrideWriter(LogWriter.Get(new_out)); }
+        public IDisposable OverrideWriter(LogWriter new_out)
+        {
+            var old_out = Writer;
+            Writer = new_out;
+            return new DisposableAction(() => Writer = old_out);
+        }
 
         public LevelLogger(Level level, Logger logger)
         {
             Level = level;
             Logger = logger;
-            Writer = logger.Writer ?? LogWriter.Get("Adhoc");
+            Writer = logger.Writer ?? LogWriter.Adhoc;
 
 #if TRACE
             IsEnabled = true;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using NUnit.Framework;
+using XenoGears.Logging;
 using XenoGears.Playground.Framework;
 using XenoGears.Strings;
 
@@ -9,6 +11,13 @@ namespace XenoGears.Playground.CommandLine
     {
         private String dirpath { get { return new DirectoryInfo(Environment.CurrentDirectory).FullName; } }
         private String dirname { get { return new DirectoryInfo(Environment.CurrentDirectory).Name; } }
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            MultiplexLogs(Logger.Get(typeof(Config)));
+        }
 
         protected override String PreprocessResult(String s_actual)
         {
