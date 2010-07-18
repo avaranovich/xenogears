@@ -16,7 +16,7 @@ namespace XenoGears.CommandLine.Exceptions
         {
         }
 
-        public ConfigException(String format, params String[] args)
+        public ConfigException(String format, params Object[] args)
             : this(null as Exception, format, args)
         {
         }
@@ -31,7 +31,7 @@ namespace XenoGears.CommandLine.Exceptions
         {
         }
 
-        public ConfigException(Exception innerException, String format, params String[] args)
+        public ConfigException(Exception innerException, String format, params Object[] args)
             : base(String.Format(format, args), innerException)
         {
         }
