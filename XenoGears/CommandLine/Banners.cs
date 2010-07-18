@@ -16,7 +16,7 @@ namespace XenoGears.CommandLine
     [DebuggerNonUserCode]
     public static class Banners
     {
-        public static TextWriter Out { get { return Log.Out; } }
+        private static LevelLogger Out = LogFactory.GetLogger("Console").Info;
 
         public static void About()
         {
@@ -58,9 +58,9 @@ namespace XenoGears.CommandLine
                 var shortcuts = t_cfg.Attrs<ShortcutAttribute>().OrderBy(shortcut => shortcut.Priority);
                 if (shortcuts.IsNotEmpty())
                 {
-                    Out.WriteLine("");
+                    Out.EnsureBlankLine();
                     if (shortcuts.Count() == 1) Out.Write("Shortcut: ");
-                    else { Out.WriteLine("Shortcuts:"); Out.Write("    "); }
+                    else { Out.Write("Shortcuts:"); Out.Write("    "); }
 
                     shortcuts.ForEach((shortcut, i) =>
                     {
@@ -70,8 +70,8 @@ namespace XenoGears.CommandLine
                     });
                 }
 
-                Out.WriteLine();
-                Out.WriteLine("Parameters:");
+                Out.EnsureBlankLine();
+                Out.Write("Parameters:");
                 var max_name = @params.MaxOrDefault(p => p.Name.Length);
                 max_name = Math.Max("/verbose".Length, max_name);
                 var feed = new String(' ', 4 + 1 + max_name + 2);
@@ -89,7 +89,7 @@ namespace XenoGears.CommandLine
                     {
                         if (i != 0) Out.Write(feed);
                         var line = desc.Substring(i * max_desc, Math.Min(max_desc, desc.Length - i * max_desc));
-                        Out.WriteLine(line);
+                        Out.Write(line);
                     }
                 };
                 foreach (var p in @params)

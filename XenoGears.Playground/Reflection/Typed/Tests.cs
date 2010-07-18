@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using XenoGears.Functional;
-using XenoGears.Logging;
+using XenoGears.Playground.Framework;
 using XenoGears.Reflection.Typed;
 using NUnit.Framework;
 
 namespace XenoGears.Playground.Reflection.Typed
 {
     [TestFixture]
-    public class Tests
+    public class Tests : BaseTests
     {
         public class A
         {
@@ -121,7 +121,7 @@ namespace XenoGears.Playground.Reflection.Typed
             var str_field_finish = DateTime.Now;
             var str_field_span = str_field_finish - str_field_start;
             Log.WriteLine(String.Format("{0} ({1:00}%)", str_field_span, 100.0 * str_field_span.Ticks / native_field_span.Ticks));
-            Log.WriteLine();
+            Log.EnsureBlankLine();
 
             // 2. Invoking an instance method via STR
             Log.WriteLine("Invoking an instance method via STR " + times + " times");

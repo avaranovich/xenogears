@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Diagnostics;
+using XenoGears.Assertions;
 
 namespace XenoGears.Logging
 {
@@ -7,56 +8,76 @@ namespace XenoGears.Logging
     public class Logger
     {
         public String Name { get; set; }
+        public Level Level { get; set; }
 
-        public bool Enabled { get; set; }
-        public void Enable() { Enabled = true; }
-        public void Disable() { Enabled = false; }
+        public bool IsEnabled { get; set; }
+        public void Enable() { IsEnabled = true; }
+        public void Disable() { IsEnabled = false; }
 
-        public Logger(String name)
+        public LevelLogger Debug { get; private set; }
+        public LevelLogger Info { get; private set; }
+        public LevelLogger Warn { get; private set; }
+        public LevelLogger Error { get; private set; }
+        public LevelLogger Fatal { get; private set; }
+        public LevelLogger this[Level level] 
+        { 
+            get
+            {
+                switch (level)
+                {
+                    case Level.Debug:
+                        return Debug;
+                    case Level.Info:
+                        return Info;
+                    case Level.Warn:
+                        return Warn;
+                    case Level.Error:
+                        return Error;
+                    case Level.Fatal:
+                        return Fatal;
+                    default:
+                        throw AssertionHelper.Fail();
+                }
+            }
+        }
+
+        internal Logger(String name)
         {
             Name = name;
 
-#if TRACE
-            Enabled = true;
+            Debug = new LevelLogger(this, Level.Debug);
+            Info = new LevelLogger(this, Level.Info);
+            Warn = new LevelLogger(this, Level.Warn);
+            Error = new LevelLogger(this, Level.Error);
+            Fatal = new LevelLogger(this, Level.Fatal);
+
+#if DEBUG
+            Level = Level.Debug;
+#else
+            Level = Level.Info;
 #endif
+
+            IsEnabled = true;
         }
 
-        public void Write(Object o)
+        public LevelLogger Write(Level level, Object o)
         {
-            if (Enabled) Log.Write(Name, o);
+            return this[level].Write(o);
         }
 
-        public void Write(String message)
+        public LevelLogger Write(Level level, String format, params Object[] args)
         {
-            if (Enabled) Log.Write(Name, message);
+            return this[level].Write(format, args);
         }
 
-        public void Write(String message, params Object[] args)
+        public LevelLogger WriteLine(Level level, Object o)
         {
-            if (Enabled) Log.Write(Name, String.Format(message, args));
+            return this[level].WriteLine(o);
         }
 
-        public void WriteLine(Object o)
+        public LevelLogger WriteLine(Level level, String format, params Object[] args)
         {
-            Write(o);
-            WriteLine();
-        }
-
-        public void WriteLine(String message)
-        {
-            Write(message);
-            WriteLine();
-        }
-
-        public void WriteLine(String message, params Object[] args)
-        {
-            Write(message, args);
-            WriteLine();
-        }
-
-        public void WriteLine()
-        {
-            Write(Environment.NewLine);
+            return this[level].WriteLine(format, args);
         }
     }
 }

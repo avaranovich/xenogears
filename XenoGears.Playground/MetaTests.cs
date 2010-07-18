@@ -4,6 +4,7 @@ using NUnit.Framework;
 using XenoGears.Functional;
 using System.Linq;
 using XenoGears.Logging;
+using XenoGears.Playground.Framework;
 using XenoGears.Reflection.Attributes;
 using XenoGears.Strings;
 using XenoGears.Reflection;
@@ -12,7 +13,7 @@ using XenoGears.Reflection.Generics;
 namespace XenoGears.Playground
 {
     [TestFixture]
-    public class MetaTests
+    public class MetaTests : BaseTests
     {
         [Test]
         public void EnsureEverythingInXenoGearsIsMarkedWithDebuggerNonUserCode()
@@ -30,9 +31,9 @@ namespace XenoGears.Playground
 
             if (failed_types.IsNotEmpty())
             {
-                Log.WriteLine(String.Format("{0} types in XenoGears aren't marked with [DebuggerNonUserCode]:", failed_types.Count()));
+                Log.Error(String.Format("{0} types in XenoGears aren't marked with [DebuggerNonUserCode]:", failed_types.Count()));
                 var messages = failed_types.Select(t => t.GetCSharpRef(ToCSharpOptions.InformativeWithNamespaces));
-                messages.OrderDescending().ForEach(message => Log.WriteLine(message));
+                messages.OrderDescending().ForEach(message => Log.Error(message));
                 Assert.Fail();
             }
         }

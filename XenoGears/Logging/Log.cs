@@ -1,106 +1,162 @@
-﻿using System;
+using System;
 using System.Diagnostics;
-using System.IO;
-using System.Text;
-using XenoGears.Logging.Writers;
-using XenoGears.Traits.Disposable;
 
 namespace XenoGears.Logging
 {
-    // note. for now I don't care about log4net and similar stuff
-
     [DebuggerNonUserCode]
     public static class Log
     {
-        private static TextWriter _out = new LowlevelMedium();
-        public static TextWriter Out
+        private static readonly LevelLogger Impl = LogFactory.GetLogger("ad-hoc").Debug;
+
+        public static LevelLogger Write(Object o)
         {
-            get { return _out; } 
-            set { _out = value ?? new StringWriter(new StringBuilder()); }
+            return Impl.Write(o);
         }
 
-        public static IDisposable OverrideOut(StringBuilder new_out) { return OverrideOut(new StringWriter(new_out)); }
-        public static IDisposable OverrideOut(TextWriter new_out)
+        public static LevelLogger Write(String format, params Object[] args)
         {
-            var old_out = Out;
-            Out = new_out;
-            return new DisposableAction(() => Out = old_out);
+            return Impl.Write(format, args);
         }
 
-        public static IDisposable MultiplexOut(StringBuilder sink) { return MultiplexOut(new StringWriter(sink)); }
-        public static IDisposable MultiplexOut(TextWriter sink)
+        public static LevelLogger WriteLine(Object o)
         {
-            var eavesdropper = new Eavesdropper(Out, sink);
-            return OverrideOut(eavesdropper);
+            return Impl.WriteLine(o);
         }
 
-        public static void Write(Object o)
+        public static LevelLogger WriteLine(String format, params Object[] args)
         {
-            Out.Write(o);
+            return Impl.WriteLine(format, args);
         }
 
-        public static void Write(String source, Object o)
+        public static int PendingEolns
         {
-            Write(o);
+            get { return Impl.PendingEolns; }
+            set { Impl.PendingEolns = value; }
         }
 
-        public static void Write(String message)
+        public static LevelLogger Eoln()
         {
-            Out.Write(message);
+            return Eolns(1);
         }
 
-        public static void Write(String source, String message)
+        public static LevelLogger Eolns(int eolns)
         {
-            Write(message);
+            return Impl.Eolns(eolns);
         }
 
-        public static void Write(String message, params Object[] args)
+        public static LevelLogger OneEoln()
         {
-            Out.Write(String.Format(message, args));
+            return Eolns(1);
         }
 
-        public static void Write(String source, String message, params Object[] args)
+        public static LevelLogger TwoEolns()
         {
-            Write(message, args);
+            return Eolns(2);
         }
 
-        public static void WriteLine(Object o)
+        public static LevelLogger ThreeEolns()
         {
-            Write(o);
-            WriteLine();
+            return Eolns(3);
         }
 
-        public static void WriteLine(String source, Object o)
+        public static LevelLogger TenEolns()
         {
-            WriteLine(o);
+            return Eolns(10);
         }
 
-        public static void WriteLine(String message)
+        public static LevelLogger EnsureBlankLine()
         {
-            Write(message);
-            WriteLine();
+            return EnsureBlankLines(1);
         }
 
-        public static void WriteLine(String source, String message)
+        public static LevelLogger EnsureBlankLines(int eolns)
         {
-            WriteLine(message);
+            return Impl.EnsureBlankLines(eolns);
         }
 
-        public static void WriteLine(String message, params Object[] args)
+        public static LevelLogger EnsureOneEoln()
         {
-            Write(message, args);
-            WriteLine();
+            return EnsureBlankLines(1);
         }
 
-        public static void WriteLine(String source, String message, params Object[] args)
+        public static LevelLogger EnsureTwoEolns()
         {
-            WriteLine(message, args);
+            return EnsureBlankLines(2);
         }
 
-        // todo. how do we introduce the WriteLine(eventSource) signature?! =)
-        public static void WriteLine()
+        public static LevelLogger EnsureThreeEolns()
         {
-            Write(Environment.NewLine);
+            return EnsureBlankLines(3);
+        }
+
+        public static LevelLogger EnsureTenEolns()
+        {
+            return EnsureBlankLines(10);
+        }
+
+        public static LevelLogger LeaveBlankLine()
+        {
+            return LeaveBlankLines(1);
+        }
+
+        public static LevelLogger LeaveBlankLines(int eolns)
+        {
+            return Impl.LeaveBlankLines(eolns);
+        }
+
+        public static LevelLogger LeaveOneEoln()
+        {
+            return LeaveBlankLines(1);
+        }
+
+        public static LevelLogger LeaveTwoEolns()
+        {
+            return LeaveBlankLines(2);
+        }
+
+        public static LevelLogger LeaveThreeEolns()
+        {
+            return LeaveBlankLines(3);
+        }
+
+        public static LevelLogger LeaveTenEolns()
+        {
+            return LeaveBlankLines(10);
+        }
+
+        public static LevelLogger TrimBlankLine()
+        {
+            return TrimBlankLines(1);
+        }
+
+        public static LevelLogger TrimBlankLines(int eolns)
+        {
+            return Impl.TrimBlankLines(eolns);
+        }
+
+        public static LevelLogger TrimOneEoln()
+        {
+            return TrimBlankLines(1);
+        }
+
+        public static LevelLogger TrimTwoEolns()
+        {
+            return TrimBlankLines(2);
+        }
+
+        public static LevelLogger TrimThreeEolns()
+        {
+            return TrimBlankLines(3);
+        }
+
+        public static LevelLogger TrimTenEolns()
+        {
+            return TrimBlankLines(10);
+        }
+
+        public static LevelLogger TrimAllBlankLines()
+        {
+            return Impl.TrimAllBlankLines();
         }
     }
 }

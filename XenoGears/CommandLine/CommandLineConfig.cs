@@ -23,7 +23,7 @@ namespace XenoGears.CommandLine
     [DebuggerNonUserCode]
     public abstract class CommandLineConfig
     {
-        public static TextWriter Out { get { return Log.Out; } }
+        public static LevelLogger Out { get { return LogFactory.GetLogger(typeof(CommandLineConfig)).Debug; } }
 
         private static Func<CommandLineConfig> _current = Func.Memoize(() => Parse(Environment.GetCommandLineArgs().Skip(1)));
         protected static CommandLineConfig Current { get { return _current(); } }
@@ -63,7 +63,7 @@ namespace XenoGears.CommandLine
                         Out.WriteLine(cex.Message);
                     }
 
-                    Out.WriteLine();
+                    Out.EnsureBlankLine();
                     Banners.Help();
                     return null;
                 }
@@ -97,7 +97,7 @@ namespace XenoGears.CommandLine
                     s_args.ForEach((arg, i) => Out.WriteLine("{0}: {1}", i + 1, arg));
                 }
 
-                if (IsVerbose) Out.WriteLine();
+                if (IsVerbose) Out.EnsureBlankLine();
                 if (IsVerbose) Out.WriteLine("Pre-parsing arguments...");
                 var named_args = new Dictionary<String, String>();
                 var shortcut_args = new List<String>();
@@ -127,7 +127,7 @@ namespace XenoGears.CommandLine
                     named_args.Count(), named_args.Count() == 1 ? "" : "s",
                     shortcut_args.Count(), shortcut_args.Count() == 1 ? "" : "s");
 
-                if (IsVerbose) Out.WriteLine();
+                if (IsVerbose) Out.EnsureBlankLine();
                 if (IsVerbose) Out.WriteLine("Parsing arguments...");
 
                 var parsed_args = new Dictionary<PropertyInfo, Object>();

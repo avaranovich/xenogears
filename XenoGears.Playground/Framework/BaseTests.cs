@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,13 +19,16 @@ namespace XenoGears.Playground.Framework
         private Dictionary<String, Object> _flash = null;
         protected Dictionary<String, Object> Flash { get { return _flash; } }
 
-        protected StringBuilder Out { get; set; }
+        protected Guid Id = Guid.NewGuid();
+        protected LevelLogger Log { get; private set; }
+        protected StringBuilder Out { get; private set; }
         private IDisposable _multiplexedOut = new DisposableAction(() => {});
 
         [SetUp]
         public virtual void SetUp()
         {
-            _multiplexedOut = Log.MultiplexOut(Out = new StringBuilder()) ?? new DisposableAction(() => { });
+            Log = LogFactory.GetLogger(this.GetType().AssemblyQualifiedName + "::" + Id).Debug;
+            _multiplexedOut = LogWriter.Multiplex(Out = new StringBuilder()) ?? new DisposableAction(() => { });
             UnitTest.Context["Current Fixture"] = this.GetType();
             _flash = new Dictionary<String, Object>();
         }
@@ -152,7 +154,7 @@ namespace XenoGears.Playground.Framework
                                 l_expected.PadRight(maxExpected)));
                         });
 
-                        Log.WriteLine();
+                        Log.EnsureBlankLine();
                         Log.WriteLine(failMsg);
                         Assert.Fail("Actual result doesn't match reference result.");
                     }

@@ -46,8 +46,18 @@
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
     <Compile Include="Functional\EnumerableExtensions.SQOv2.Sum.cs" />
-    <Compile Include="Logging\Writers\Eavesdropper.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\LogFactory.cs" />
+    <Compile Include="Logging\LoggerExtensions.cs" />
+    <Compile Include="Logging\LevelLogger.Pretty.cs" />
+    <Compile Include="Logging\LevelLogger.Config.cs" />
+    <Compile Include="Logging\Level.cs" />
+    <Compile Include="Logging\LogWriter.Writers.cs" />
+    <Compile Include="Logging\LogWriter.Config.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LevelLogger.Api.cs" />
+    <Compile Include="Logging\LevelLoggerExtensions.cs" />
+    <Compile Include="Logging\Writers\Eavesdropper.cs" />
     <Compile Include="Logging\Writers\LowlevelMedium.cs" />
     <Compile Include="Logging\Writers\TraceWriter.cs" />
     <Compile Include="Reflection\Attributes\Common\ManyAliasesAttribute.cs" />
@@ -185,7 +195,6 @@
     <Compile Include="Exceptions\BaseException.cs" />
     <Compile Include="Exceptions\ExceptionWhenHandlingException.cs" />
     <Compile Include="Exceptions\IncludeInMessageAttribute.cs" />
-    <Compile Include="Logging\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Attributes\AttributeHelper.cs" />
     <Compile Include="Reflection\ClassificationHelper.cs" />
@@ -268,6 +277,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\AssemblyInfo.embedded" />
     <None Include="Properties\AssemblyInfo.template" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Logging\todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
