@@ -32,23 +32,23 @@ namespace XenoGears.Logging
             return Override(eavesdropper);
         }
 
-        public void Write(Logger logger, Level level, Object o)
+        public LogWriter Write(Logger logger, Level level, Object o)
         {
-            if (IsMuted(logger, level)) return;
-            Medium.Write(o.ToLog());
+            if (!IsMuted(logger, level)) Medium.Write(o.ToLog());
+            return this;
         }
 
-        public void Write(Logger logger, Level level, String message)
+        public LogWriter Write(Logger logger, Level level, String message)
         {
-            if (IsMuted(logger, level)) return;
-            Medium.Write(message.ToLog());
+            if (!IsMuted(logger, level)) Medium.Write(message.ToLog());
+            return this;
         }
 
-        public void Write(Logger logger, Level level, String format, Object[] args)
+        public LogWriter Write(Logger logger, Level level, String format, Object[] args)
         {
-            if (IsMuted(logger, level)) return;
             // todo. this will mess up custom format specifiers!
-            Medium.Write(String.Format(format, args.Select(a => a.ToLog()).ToArray()));
+            if (!IsMuted(logger, level)) Medium.Write(String.Format(format, args.Select(a => a.ToLog()).ToArray()));
+            return this;
         }
     }
 }

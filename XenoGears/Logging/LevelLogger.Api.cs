@@ -58,8 +58,6 @@ namespace XenoGears.Logging
         private void RawWrite(Object o)
         {
             if (IsMuted()) return;
-            PendingEolns.TimesDo(_ => Writer.Write(Logger, Level, Environment.NewLine));
-            PendingEolns = 0;
             Writer.Write(Logger, Level, o);
         }
     }
