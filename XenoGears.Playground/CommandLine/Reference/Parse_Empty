@@ -13,5 +13,5 @@ Defaulted %ProjectName to <null>.
 Defaulted %TemplateName to lite.
 Defaulted %VcsName to hg.
 Defaulted %VcsRepo to <null>.
-Defaulted %TargetDir to dir: d:\Projects\Active\XenoGears\XenoGears.Playground\bin\Debug.
+Defaulted %TargetDir to dir: <CurrentDir>.
 Configuration parameters successfully set.
