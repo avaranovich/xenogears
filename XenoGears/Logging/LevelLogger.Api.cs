@@ -26,6 +26,12 @@ namespace XenoGears.Logging
             return this;
         }
 
+        public LevelLogger Write(String message)
+        {
+            RawWrite(message);
+            return this;
+        }
+
         public LevelLogger Write(String format, params Object[] args)
         {
             RawWrite(String.Format(format, args));
@@ -35,6 +41,11 @@ namespace XenoGears.Logging
         public LevelLogger WriteLine(Object o)
         {
             return Write(o).Eoln();
+        }
+
+        public LevelLogger WriteLine(String message)
+        {
+            return Write(message).Eoln();
         }
 
         public LevelLogger WriteLine(String format, params Object[] args)

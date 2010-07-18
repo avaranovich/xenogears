@@ -65,6 +65,11 @@ namespace XenoGears.Logging
             return this[level].Write(o);
         }
 
+        public LevelLogger Write(Level level, String message)
+        {
+            return this[level].Write(message);
+        }
+
         public LevelLogger Write(Level level, String format, params Object[] args)
         {
             return this[level].Write(format, args);
@@ -73,6 +78,11 @@ namespace XenoGears.Logging
         public LevelLogger WriteLine(Level level, Object o)
         {
             return this[level].WriteLine(o);
+        }
+
+        public LevelLogger WriteLine(Level level, String message)
+        {
+            return this[level].WriteLine(message);
         }
 
         public LevelLogger WriteLine(Level level, String format, params Object[] args)
