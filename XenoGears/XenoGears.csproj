@@ -279,6 +279,8 @@
     <Compile Include="Logging\LogWriter.Factory.cs" />
     <Compile Include="Logging\Media\ConsoleMedium.cs" />
     <Compile Include="Logging\LogWriter.Pretty.cs" />
+    <Compile Include="Strings\IndentedTextWriter.cs" />
+    <Compile Include="Strings\IndentedTextWriterFactory.cs" />
     <Compile Include="Traits\Disposable\DisposableChain.cs" />
     <None Include="Properties\AssemblyInfo.template" />
   </ItemGroup>
