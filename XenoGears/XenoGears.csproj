@@ -274,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\AssemblyInfo.embedded" />
+    <Compile Include="Collections\BaseList.cs" />
     <Compile Include="Logging\Logger.Config.cs" />
     <Compile Include="Logging\Logger.Factory.cs" />
     <Compile Include="Logging\LogWriter.Factory.cs" />
