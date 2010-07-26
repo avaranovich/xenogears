@@ -15,28 +15,89 @@ namespace XenoGears.Functional
             return seed.Unfoldi(iter);
         }
 
+        public static IEnumerable<T> Unfold<T>(this T seed, Func<T, int, T> iter)
+        {
+            return seed.Unfoldi(iter);
+        }
+
         public static IEnumerable<T> Unfold<T>(this T seed, Func<T, T> iter, Func<T, bool> alive)
+        {
+            return seed.Unfoldi(iter, alive);
+        }
+
+        public static IEnumerable<T> Unfold<T>(this T seed, Func<T, int, T> iter, Func<T, bool> alive)
+        {
+            return seed.Unfoldi(iter, alive);
+        }
+
+        public static IEnumerable<T> Unfold<T>(this T seed, Func<T, T> iter, Func<T, int, bool> alive)
+        {
+            return seed.Unfoldi(iter, alive);
+        }
+
+        public static IEnumerable<T> Unfold<T>(this T seed, Func<T, int, T> iter, Func<T, int, bool> alive)
         {
             return seed.Unfoldi(iter, alive);
         }
 
         public static IEnumerable<T> Unfoldi<T>(this T seed, Func<T, T> iter)
         {
-            return Unfoldi(seed, iter, t => true);
+            return seed.Unfoldi(iter, t => true);
+        }
+
+        public static IEnumerable<T> Unfoldi<T>(this T seed, Func<T, int, T> iter)
+        {
+            return seed.Unfoldi(iter, t => true);
         }
 
         public static IEnumerable<T> Unfoldi<T>(this T seed, Func<T, T> iter, Func<T, bool> alive)
         {
-            for (var curr = seed; alive(curr); curr = iter(curr))
+            return seed.Unfoldi((i, _) => iter(i), alive);
+        }
+
+        public static IEnumerable<T> Unfoldi<T>(this T seed, Func<T, int, T> iter, Func<T, bool> alive)
+        {
+            return seed.Unfoldi(iter, (i, _) => alive(i));
+        }
+
+        public static IEnumerable<T> Unfoldi<T>(this T seed, Func<T, T> iter, Func<T, int, bool> alive)
+        {
+            return seed.Unfoldi((i, _) => iter(i), alive);
+        }
+
+        public static IEnumerable<T> Unfoldi<T>(this T seed, Func<T, int, T> iter, Func<T, int, bool> alive)
+        {
+            var i = 0;
+            for (var curr = seed; alive(curr, i); curr = iter(curr, i++))
                 yield return curr;
         }
 
         public static IEnumerable<T> Unfolde<T>(this T seed, Func<T, T> iter)
         {
-            return seed.Unfoldi(iter).Skip(1);
+            return seed.Unfoldi(iter, t => true).Skip(1);
+        }
+
+        public static IEnumerable<T> Unfolde<T>(this T seed, Func<T, int, T> iter)
+        {
+            return seed.Unfoldi(iter, t => true).Skip(1);
         }
 
         public static IEnumerable<T> Unfolde<T>(this T seed, Func<T, T> iter, Func<T, bool> alive)
+        {
+            return seed.Unfoldi((i, _) => iter(i), alive).Skip(1);
+        }
+
+        public static IEnumerable<T> Unfolde<T>(this T seed, Func<T, int, T> iter, Func<T, bool> alive)
+        {
+            return seed.Unfoldi(iter, (i, _) => alive(i)).Skip(1);
+        }
+
+        public static IEnumerable<T> Unfolde<T>(this T seed, Func<T, T> iter, Func<T, int, bool> alive)
+        {
+            return seed.Unfoldi((i, _) => iter(i), alive).Skip(1);
+        }
+
+        public static IEnumerable<T> Unfolde<T>(this T seed, Func<T, int, T> iter, Func<T, int, bool> alive)
         {
             return seed.Unfoldi(iter, alive).Skip(1);
         }

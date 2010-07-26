@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using XenoGears.Functional;
@@ -30,6 +31,16 @@ namespace XenoGears.Strings
             if (toExclusive >= source.Length) return source.Substring(fromInclusive);
 
             return source.Substring(fromInclusive, toExclusive - fromInclusive);
+        }
+
+        public static String[] SplitFragments(this String s, params String[] delims)
+        {
+            return s.SplitFragments((IEnumerable<String>)delims);
+        }
+
+        public static String[] SplitFragments(this String s, IEnumerable<String> delims)
+        {
+            return s.Split(delims.ToArray(), StringSplitOptions.None);
         }
 
         public static String[] SplitWords(this String s)
@@ -177,6 +188,12 @@ namespace XenoGears.Strings
         public static String QuoteBraces(this String s)
         {
             return s.Replace("{", "{{").Replace("}", "}}");
+        }
+
+        public static IEnumerable<String> Trim(this IEnumerable<String> strings)
+        {
+            if (strings == null) return null;
+            return strings.Select(s => s.Trim());
         }
     }
 }
