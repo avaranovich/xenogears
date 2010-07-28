@@ -148,7 +148,7 @@ namespace XenoGears.Playground.Framework
                     if (!success)
                     {
                         var maxLines = Math.Max(actual.Count(), expected.Count());
-                        var maxDigits = (int)Math.Floor(Math.Log10(maxLines)) + 1;
+                        var maxDigits = (int)Math.Floor(Math.Log10(maxLines + 1)) + 1;
                         var maxActual = Math.Max(actual.MaxOrDefault(line => line.Length), "Actual".Length);
                         var maxExpected = Math.Max(expected.MaxOrDefault(line => line.Length), "Expected".Length);
                         var total = maxDigits + 3 + maxActual + 3 + maxExpected;
@@ -165,7 +165,7 @@ namespace XenoGears.Playground.Framework
                             var l_actual = actual.ElementAtOrDefault(i, String.Empty);
                             var l_expected = expected.ElementAtOrDefault(i, String.Empty);
                             Log.WriteLine(String.Format("{0} | {1} | {2}",
-                                i.ToString().PadLeft(maxDigits),
+                                (i + 1).ToString().PadLeft(maxDigits),
                                 l_actual.PadRight(maxActual),
                                 l_expected.PadRight(maxExpected)));
                         });
