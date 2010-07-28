@@ -102,7 +102,6 @@ namespace XenoGears.Playground.Framework
             String failMsg = null;
             if (f_reference != null)
             {
-
                 if (s_reference.IsEmpty())
                 {
                     Log.EnsureBlankLine();
@@ -119,29 +118,32 @@ namespace XenoGears.Playground.Framework
                     var actual = s_actual.SplitLines();
                     if (expected.Count() != actual.Count())
                     {
+                        success = false;
                         failMsg = String.Format(
                             "Number of lines doesn't match. Expected {0}, actually found {1}" + Environment.NewLine,
                             expected.Count(), actual.Count());
                     }
-
-                    success = expected.Zip(actual).SkipWhile((t, i) =>
+                    else
                     {
-                        if (t.Item1 != t.Item2)
+                        success = expected.Zip(actual).SkipWhile((t, i) =>
                         {
-                            var maxLines = Math.Max(actual.Count(), expected.Count());
-                            var maxDigits = (int)Math.Floor(Math.Log10(maxLines)) + 1;
-                            failMsg = String.Format(
-                                "Line {1} (starting from 1) doesn't match.{0}{4}{2}{0}{5}{3}",
-                                Environment.NewLine, i + 1,
-                                t.Item1.Replace(" ", "·"), t.Item2.Replace(" ", "·"),
-                                "E:".PadRight(maxDigits + 3), "A:".PadRight(maxDigits + 3));
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }).IsEmpty();
+                            if (t.Item1 != t.Item2)
+                            {
+                                var maxLines = Math.Max(actual.Count(), expected.Count());
+                                var maxDigits = (int)Math.Floor(Math.Log10(maxLines)) + 1;
+                                failMsg = String.Format(
+                                    "Line {1} (starting from 1) doesn't match.{0}{4}{2}{0}{5}{3}",
+                                    Environment.NewLine, i + 1,
+                                    t.Item1.Replace(" ", "·"), t.Item2.Replace(" ", "·"),
+                                    "E:".PadRight(maxDigits + 3), "A:".PadRight(maxDigits + 3));
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }).IsEmpty();
+                    }
 
                     if (!success)
                     {
