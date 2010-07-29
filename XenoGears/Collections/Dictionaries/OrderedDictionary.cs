@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace XenoGears.Collections.Dictionaries
 {
@@ -10,6 +11,7 @@ namespace XenoGears.Collections.Dictionaries
     /// </summary>
     /// <typeparam name="TKey">The type of the keys in the dictionary</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary</typeparam>
+    [DebuggerNonUserCode]
     public class OrderedDictionary<TKey, TValue> : IOrderedDictionary<TKey, TValue>
     {
         private const int DefaultInitialCapacity = 0;
