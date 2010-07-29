@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using XenoGears.Collections;
+using XenoGears.Collections.Dictionaries;
 using XenoGears.Functional;
 
 namespace XenoGears.Reflection

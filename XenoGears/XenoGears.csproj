@@ -124,8 +124,6 @@
     <Compile Include="Collections\ThreadSafe\ThreadSafeHashSet.cs" />
     <Compile Include="Collections\ThreadSafe\ThreadSafeQueue.cs" />
     <Compile Include="Collections\ThreadSafe\ThreadSafeStackList.cs" />
-    <Compile Include="Collections\InitOnlyDictionary.cs" />
-    <Compile Include="Collections\ReadOnlyDictionary.cs" />
     <Compile Include="Collections\Observable\ChangesetHelper.cs" />
     <Compile Include="ComponentModel\INotifyListChanged.cs" />
     <Compile Include="ComponentModel\INotifyListChanging.cs" />
@@ -134,7 +132,6 @@
     <Compile Include="ComponentModel\ListChangeEventArgs.cs" />
     <Compile Include="Collections\Observable\ObservableList.cs" />
     <Compile Include="Collections\Observable\ObservableLists.cs" />
-    <Compile Include="Collections\BaseDictionary.cs" />
     <Compile Include="Collections\Weak\WeakKeyComparer.cs" />
     <Compile Include="Collections\Weak\WeakKeyDictionary.cs" />
     <Compile Include="Collections\Weak\WeakKeyReference.cs" />
@@ -274,7 +271,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\AssemblyInfo.embedded" />
-    <Compile Include="Collections\BaseList.cs" />
+    <Compile Include="Collections\Dictionaries\BaseDictionary.cs" />
+    <Compile Include="Collections\Dictionaries\InitOnlyDictionary.cs" />
+    <Compile Include="Collections\Dictionaries\IOrderedDictionary.cs" />
+    <Compile Include="Collections\Dictionaries\OrderedDictionary.cs" />
+    <Compile Include="Collections\Dictionaries\ReadOnlyDictionary.cs" />
+    <Compile Include="Collections\Lists\BaseList.cs" />
     <Compile Include="Logging\Logger.Config.cs" />
     <Compile Include="Logging\Logger.Factory.cs" />
     <Compile Include="Logging\LogWriter.Factory.cs" />

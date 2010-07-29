@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using XenoGears.Collections;
+using XenoGears.Collections.Dictionaries;
 using XenoGears.Functional;
 using XenoGears.Reflection.Shortcuts;
 
