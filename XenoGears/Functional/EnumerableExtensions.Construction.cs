@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using XenoGears.Assertions;
-using XenoGears.Collections;
+using XenoGears.Collections.Dictionaries;
 
 namespace XenoGears.Functional
 {

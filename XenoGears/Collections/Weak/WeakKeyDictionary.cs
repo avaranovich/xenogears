@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using XenoGears.Collections.Dictionaries;
 
 namespace XenoGears.Collections.Weak
 {

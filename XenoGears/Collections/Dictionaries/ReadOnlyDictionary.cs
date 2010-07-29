@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace XenoGears.Collections
+namespace XenoGears.Collections.Dictionaries
 {
     [DebuggerNonUserCode]
     public class ReadOnlyDictionary<K, V> : BaseDictionary<K, V>

@@ -2,12 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace XenoGears.Collections
+namespace XenoGears.Collections.Dictionaries
 {
-    // todo. once and forever implement a dictionary that can dynamically switch state:
-    // todo. regular, add-only, edit-only, readonly
-    // todo. after that redo certain classes like StructuralMaps and InferenceCaches
-    // todo. i mean: more precisely define their behavior using new capabilities
     [DebuggerNonUserCode]
     public class InitOnlyDictionary<K, V> : BaseDictionary<K, V>
     {
@@ -77,7 +73,7 @@ namespace XenoGears.Collections
                 {
                     throw new NotSupportedException(String.Format(
                         "Cannot assign a value '{0}' for the key '{1}': " +
-                        "dictionary is init-only and it already contains the value '{2}'",
+                            "dictionary is init-only and it already contains the value '{2}'",
                         value, key, _inner[key]));
                 }
             }

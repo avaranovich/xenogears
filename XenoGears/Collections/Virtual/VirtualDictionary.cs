@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using XenoGears.Assertions;
+using XenoGears.Collections.Dictionaries;
 using XenoGears.Functional;
 
 namespace XenoGears.Collections.Virtual

@@ -5,7 +5,7 @@ using System.Linq;
 using XenoGears.Assertions;
 using XenoGears.Functional;
 
-namespace XenoGears.Collections
+namespace XenoGears.Collections.Lists
 {
     [DebuggerDisplay("Count = {Count}")]
     [DebuggerTypeProxy("System.Collections.Generic.Mscorlib_CollectionDebugView`1,mscorlib,Version=2.0.0.0,Culture=neutral,PublicKeyToken=b77a5c561934e089")]
