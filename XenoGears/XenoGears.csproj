@@ -282,8 +282,11 @@
     <Compile Include="Logging\LogWriter.Factory.cs" />
     <Compile Include="Logging\Media\ConsoleMedium.cs" />
     <Compile Include="Logging\LogWriter.Pretty.cs" />
-    <Compile Include="Strings\IndentedTextWriter.cs" />
-    <Compile Include="Strings\IndentedTextWriterFactory.cs" />
+    <Compile Include="Strings\Writers\BaseWriter.cs" />
+    <Compile Include="Strings\Writers\DelayedWriter.cs" />
+    <Compile Include="Strings\Writers\DelayedWriterFactory.cs" />
+    <Compile Include="Strings\Writers\IndentedWriter.cs" />
+    <Compile Include="Strings\Writers\IndentedWriterFactory.cs" />
     <Compile Include="Traits\Disposable\DisposableChain.cs" />
     <None Include="Properties\AssemblyInfo.template" />
   </ItemGroup>
