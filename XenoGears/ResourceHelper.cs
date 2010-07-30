@@ -15,7 +15,7 @@ namespace XenoGears
             return asm.GetManifestResourceNames().ToReadOnly();
         }
 
-        public static String ReadResource(this Assembly asm, String resource_name)
+        public static String ReadText(this Assembly asm, String resource_name)
         {
             if (asm == null) return null;
             if (resource_name == null) return null;
@@ -26,7 +26,7 @@ namespace XenoGears
             }
         }
 
-        public static byte[] ReadResourceBytes(this Assembly asm, String resource_name)
+        public static byte[] ReadBinary(this Assembly asm, String resource_name)
         {
             if (asm == null) return null;
             if (resource_name == null) return null;
@@ -37,7 +37,7 @@ namespace XenoGears
             }
         }
 
-        public static Stream ReadResourceStream(this Assembly asm, String resource_name)
+        public static Stream OpenStream(this Assembly asm, String resource_name)
         {
             if (asm == null) return null;
             if (resource_name == null) return null;
