@@ -57,6 +57,11 @@ namespace XenoGears.Playground.Framework
             return s_actual;
         }
 
+        protected virtual byte[] PreprocessResult(byte[] bb_actual)
+        {
+            return bb_actual;
+        }
+
         protected virtual Assembly ReferenceAssembly()
         {
             var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
@@ -88,93 +93,30 @@ namespace XenoGears.Playground.Framework
             return fnameWannabes.ToReadOnly();
         }
 
-        protected void VerifyResult(String s_actual)
+        protected virtual String ReferenceText()
         {
-            s_actual = PreprocessResult(s_actual);
-
             var res_asm = ReferenceAssembly();
             var resources = res_asm.Resources();
             var wannabes = ReferenceWannabes().Select(name => ReferenceNamespace() + "." + name).ToReadOnly();
             var f_reference = wannabes.SingleOrDefault2(wannabe => resources.ExactlyOne(name => String.Compare(name, wannabe, true) == 0));
-            var s_reference = res_asm.ReadResource(f_reference);
+            return f_reference == null ? null : res_asm.ReadText(f_reference);
+        }
 
-            var success = false;
-            String failMsg = null;
-            if (f_reference != null)
+        protected virtual byte[] ReferenceBinary()
+        {
+            var res_asm = ReferenceAssembly();
+            var resources = res_asm.Resources();
+            var wannabes = ReferenceWannabes().Select(name => ReferenceNamespace() + "." + name).ToReadOnly();
+            var f_reference = wannabes.SingleOrDefault2(wannabe => resources.ExactlyOne(name => String.Compare(name, wannabe, true) == 0));
+            return f_reference == null ? null : res_asm.ReadBinary(f_reference);
+        }
+
+        protected void VerifyResult(String s_actual)
+        {
+            var s_reference = ReferenceText();
+            if (s_reference != null)
             {
-                if (s_reference.IsEmpty())
-                {
-                    Log.EnsureBlankLine();
-                    Log.WriteLine(s_actual);
-
-                    Assert.Fail(String.Format(
-                        "Reference result for unit test '{1}' is empty.{0}" +
-                        "Please, verify the trace dumped above and put in into the resource file.",
-                        Environment.NewLine, UnitTest.CurrentTest.GetCSharpRef(ToCSharpOptions.Informative)));
-                }
-                else
-                {
-                    var expected = s_reference.SplitLines();
-                    var actual = s_actual.SplitLines();
-                    if (expected.Count() != actual.Count())
-                    {
-                        success = false;
-                        failMsg = String.Format(
-                            "Number of lines doesn't match. Expected {0}, actually found {1}" + Environment.NewLine,
-                            expected.Count(), actual.Count());
-                    }
-                    else
-                    {
-                        success = expected.Zip(actual).SkipWhile((t, i) =>
-                        {
-                            if (t.Item1 != t.Item2)
-                            {
-                                var maxLines = Math.Max(actual.Count(), expected.Count());
-                                var maxDigits = (int)Math.Floor(Math.Log10(maxLines)) + 1;
-                                failMsg = String.Format(
-                                    "Line {1} (starting from 1) doesn't match.{0}{4}{2}{0}{5}{3}",
-                                    Environment.NewLine, i + 1,
-                                    t.Item1.Replace(" ", "·"), t.Item2.Replace(" ", "·"),
-                                    "E:".PadRight(maxDigits + 3), "A:".PadRight(maxDigits + 3));
-                                return false;
-                            }
-                            else
-                            {
-                                return true;
-                            }
-                        }).IsEmpty();
-                    }
-
-                    if (!success)
-                    {
-                        var maxLines = Math.Max(actual.Count(), expected.Count());
-                        var maxDigits = (int)Math.Floor(Math.Log10(maxLines + 1)) + 1;
-                        var maxActual = Math.Max(actual.MaxOrDefault(line => line.Length), "Actual".Length);
-                        var maxExpected = Math.Max(expected.MaxOrDefault(line => line.Length), "Expected".Length);
-                        var total = maxDigits + 3 + maxActual + 3 + maxExpected;
-
-                        Log.EnsureBlankLine();
-                        Log.WriteLine(String.Format("{0} | {1} | {2}",
-                            "N".PadRight(maxDigits),
-                            "Actual".PadRight(maxActual),
-                            "Expected".PadRight(maxExpected)));
-                        Log.WriteLine(total.Times("-"));
-
-                        0.UpTo(maxLines - 1).ForEach(i =>
-                        {
-                            var l_actual = actual.ElementAtOrDefault(i, String.Empty);
-                            var l_expected = expected.ElementAtOrDefault(i, String.Empty);
-                            Log.WriteLine(String.Format("{0} | {1} | {2}",
-                                (i + 1).ToString().PadLeft(maxDigits),
-                                l_actual.PadRight(maxActual),
-                                l_expected.PadRight(maxExpected)));
-                        });
-
-                        Log.EnsureBlankLine();
-                        Log.WriteLine(failMsg);
-                        Assert.Fail("Actual result doesn't match reference result.");
-                    }
-                }
+                VerifyResult(s_reference, s_actual);
             }
             else
             {
@@ -184,10 +126,118 @@ namespace XenoGears.Playground.Framework
                 Assert.Fail(String.Format(Environment.NewLine +
                     "Couldn't find a file in resources that contains reference result for unit test '{1}'.{0}" +
                     "Please, verify the trace dumped above and put it into one of the following files under the Reference folder next to the test suite: {0}" +
-                    wannabes.Select(s => String.Format("\"{0}\"", s)).StringJoin(", ") + ".{0}" +
+                    ReferenceWannabes().Select(s => String.Format("\"{0}\"", s)).StringJoin(", ") + ".{0}" +
                     "Also be sure not to forget to select build action 'Embedded Resource' in file properties widget!",
                     Environment.NewLine, UnitTest.CurrentTest.GetCSharpRef(ToCSharpOptions.Informative)));
             }
+        }
+
+        protected void VerifyResult(String s_expected, String s_actual)
+        {
+            (s_expected != null && s_actual != null).AssertTrue();
+            s_actual = PreprocessResult(s_actual);
+
+            var success = false;
+            String failMsg = null;
+            if (s_expected.IsEmpty())
+            {
+                Log.EnsureBlankLine();
+                Log.WriteLine(s_actual);
+
+                Assert.Fail(String.Format(
+                    "Reference result for unit test '{1}' is empty.{0}" +
+                    "Please, verify the trace dumped above and put in into the resource file.",
+                    Environment.NewLine, UnitTest.CurrentTest.GetCSharpRef(ToCSharpOptions.Informative)));
+            }
+            else
+            {
+                var expected = s_expected.SplitLines();
+                var actual = s_actual.SplitLines();
+                if (expected.Count() != actual.Count())
+                {
+                    success = false;
+                    failMsg = String.Format(
+                        "Number of lines doesn't match. Expected {0}, actually found {1}" + Environment.NewLine,
+                        expected.Count(), actual.Count());
+                }
+                else
+                {
+                    success = expected.Zip(actual).SkipWhile((t, i) =>
+                    {
+                        if (t.Item1 != t.Item2)
+                        {
+                            var maxLines = Math.Max(actual.Count(), expected.Count());
+                            var maxDigits = (int)Math.Floor(Math.Log10(maxLines)) + 1;
+                            failMsg = String.Format(
+                                "Line {1} (starting from 1) doesn't match.{0}{4}{2}{0}{5}{3}",
+                                Environment.NewLine, i + 1,
+                                t.Item1.Replace(" ", "·"), t.Item2.Replace(" ", "·"),
+                                "E:".PadRight(maxDigits + 3), "A:".PadRight(maxDigits + 3));
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }).IsEmpty();
+                }
+
+                if (!success)
+                {
+                    var maxLines = Math.Max(actual.Count(), expected.Count());
+                    var maxDigits = (int)Math.Floor(Math.Log10(maxLines + 1)) + 1;
+                    var maxActual = Math.Max(actual.MaxOrDefault(line => line.Length), "Actual".Length);
+                    var maxExpected = Math.Max(expected.MaxOrDefault(line => line.Length), "Expected".Length);
+                    var total = maxDigits + 3 + maxActual + 3 + maxExpected;
+
+                    Log.EnsureBlankLine();
+                    Log.WriteLine(String.Format("{0} | {1} | {2}",
+                        "N".PadRight(maxDigits),
+                        "Actual".PadRight(maxActual),
+                        "Expected".PadRight(maxExpected)));
+                    Log.WriteLine(total.Times("-"));
+
+                    0.UpTo(maxLines - 1).ForEach(i =>
+                    {
+                        var l_actual = actual.ElementAtOrDefault(i, String.Empty);
+                        var l_expected = expected.ElementAtOrDefault(i, String.Empty);
+                        Log.WriteLine(String.Format("{0} | {1} | {2}",
+                            (i + 1).ToString().PadLeft(maxDigits),
+                            l_actual.PadRight(maxActual),
+                            l_expected.PadRight(maxExpected)));
+                    });
+
+                    Log.EnsureBlankLine();
+                    Log.WriteLine(failMsg);
+                    Assert.Fail("Actual result doesn't match expected result.");
+                }
+            }
+        }
+
+        protected void VerifyResult(byte[] bb_actual)
+        {
+            var bb_reference = ReferenceBinary();
+            if (bb_reference != null)
+            {
+                VerifyResult(bb_reference, bb_actual);
+            }
+            else
+            {
+                Log.EnsureBlankLine();
+                Log.WriteLine(bb_actual);
+
+                Assert.Fail(String.Format(Environment.NewLine +
+                    "Couldn't find a file in resources that contains reference result for unit test '{1}'.{0}" +
+                    "Please, verify the trace dumped above and put it into one of the following files under the Reference folder next to the test suite: {0}" +
+                    ReferenceWannabes().Select(s => String.Format("\"{0}\"", s)).StringJoin(", ") + ".{0}" +
+                    "Also be sure not to forget to select build action 'Embedded Resource' in file properties widget!",
+                    Environment.NewLine, UnitTest.CurrentTest.GetCSharpRef(ToCSharpOptions.Informative)));
+            }
+        }
+
+        protected void VerifyResult(byte[] bb_expected, byte[] bb_actual)
+        {
+            throw new NotImplementedException();
         }
     }
 }
