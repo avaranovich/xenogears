@@ -24,3 +24,4 @@ Parsed project-name => "Libptx" as: Libptx.
 Validating Libptx with bool Config::ValidateProjectName(String name)...
 Validated Libptx as suitable for String Config::ProjectName { get; set; }.
 Fatal error: duplicate argument "project-name".
+

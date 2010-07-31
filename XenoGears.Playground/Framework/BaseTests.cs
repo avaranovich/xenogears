@@ -52,6 +52,16 @@ namespace XenoGears.Playground.Framework
             Out = null;
         }
 
+        protected virtual String PreprocessReference(String s_reference)
+        {
+            return s_reference;
+        }
+
+        protected virtual byte[] PreprocessReference(byte[] bb_reference)
+        {
+            return bb_reference;
+        }
+
         protected virtual String PreprocessResult(String s_actual)
         {
             return s_actual;
@@ -135,6 +145,7 @@ namespace XenoGears.Playground.Framework
         protected void VerifyResult(String s_expected, String s_actual)
         {
             (s_expected != null && s_actual != null).AssertTrue();
+            s_expected = PreprocessReference(s_expected);
             s_actual = PreprocessResult(s_actual);
 
             var success = false;
