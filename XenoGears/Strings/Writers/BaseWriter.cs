@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,12 @@ namespace XenoGears.Strings.Writers
         public TextWriter InnerWriter { get; private set; }
         public override Encoding Encoding { get { return InnerWriter.Encoding; } }
         public override String NewLine { get { return InnerWriter.NewLine; } set { InnerWriter.NewLine = value; } }
+
+        protected BaseWriter(StringBuilder buf)
+            : base(CultureInfo.InvariantCulture)
+        {
+            InnerWriter = new StringWriter(buf);
+        }
 
         protected BaseWriter(TextWriter writer)
             : base(writer.FormatProvider)
@@ -211,10 +218,10 @@ namespace XenoGears.Strings.Writers
 
         public override void Write(float value)
         {
+            _pendingWrites++;
+
             try
             {
-                _pendingWrites++;
-
                 if (_pendingWrites == 1) BeforeWrite(value, typeof(float));
                 Write(value.ToString(FormatProvider));
                 if (_pendingWrites == 1) AfterWrite(value, typeof(float));
@@ -227,10 +234,10 @@ namespace XenoGears.Strings.Writers
 
         public override void Write(String s)
         {
+            _pendingWrites++;
+
             try
             {
-                _pendingWrites++;
-
                 if (_pendingWrites == 1) BeforeWrite(s, typeof(String));
                 if (s != null)
                 {
@@ -263,19 +270,26 @@ namespace XenoGears.Strings.Writers
         {
             _pendingWrites++;
 
-            if (_pendingWrites == 1) BeforeWrite(buffer, typeof(char[]));
-
-            buffer.AssertNotNull();
-            (index >= 0).AssertTrue();
-            (count >= 0).AssertTrue();
-            (buffer.Length >= index + count).AssertTrue();
-
-            for (var i = 0; i < count; i++)
+            try
             {
-                Write(buffer[index + i]);
-            }
+                if (_pendingWrites == 1) BeforeWrite(buffer, typeof(char[]));
 
-            if (_pendingWrites == 1) AfterWrite(buffer, typeof(char[]));
+                buffer.AssertNotNull();
+                (index >= 0).AssertTrue();
+                (count >= 0).AssertTrue();
+                (buffer.Length >= index + count).AssertTrue();
+
+                for (var i = 0; i < count; i++)
+                {
+                    Write(buffer[index + i]);
+                }
+
+                if (_pendingWrites == 1) AfterWrite(buffer, typeof(char[]));
+            }
+            finally
+            {
+                _pendingWrites--;
+            }
         }
 
         public override void WriteLine()

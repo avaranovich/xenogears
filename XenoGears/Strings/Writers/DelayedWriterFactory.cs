@@ -1,15 +1,16 @@
 using System.Diagnostics;
-using System.IO;
+using System.Text;
+using XenoGears.Assertions;
 
 namespace XenoGears.Strings.Writers
 {
     [DebuggerNonUserCode]
     public static class DelayedWriterFactory
     {
-        public static DelayedWriter Delayed(this TextWriter writer)
+        public static DelayedWriter Delayed(this StringBuilder buf)
         {
-            var delayed = writer as DelayedWriter;
-            return delayed ?? new DelayedWriter(writer);
+            buf.AssertNotNull();
+            return new DelayedWriter(buf);
         }
     }
 }

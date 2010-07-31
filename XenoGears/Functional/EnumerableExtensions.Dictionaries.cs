@@ -10,13 +10,6 @@ namespace XenoGears.Functional
 
     public static partial class EnumerableExtensions
     {
-        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> flattenedDict)
-        {
-            var dict = new Dictionary<TKey, TValue>();
-            dict.AddElements(flattenedDict);
-            return dict;
-        }
-
         public static V GetAndRemove<K, V>(this IDictionary<K, V> map, K key)
         {
             var value = map[key];

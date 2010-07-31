@@ -8,3 +8,4 @@ Pre-parsing arguments...
 Parsed "-name:Libptx" as name/value pair: name => "Libptx".
 Parsed "-name:Libptx" as name/value pair: name => "Libptx".
 Fatal error: duplicate argument "name".
+

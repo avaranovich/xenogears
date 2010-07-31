@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using XenoGears.Assertions;
 using XenoGears.Functional;
@@ -11,24 +10,24 @@ namespace XenoGears.Strings.Writers
     [DebuggerNonUserCode]
     public class DelayedWriter : BaseWriter
     {
-        private bool _isDelayed = false;
+        public bool IsDelayed { get; set; }
         private StringBuilder _buf = null;
         private Queue<Action> _eagerWrites = new Queue<Action>();
         private Queue<Action> _delayedWrites = new Queue<Action>();
 
-        public DelayedWriter(TextWriter writer)
-            : base(writer)
+        public DelayedWriter(StringBuilder buf)
+            : base(buf)
         {
         }
 
         public void Delay(Action action)
         {
             action.AssertNotNull();
-            _isDelayed = true;
+            IsDelayed = true;
 
             _delayedWrites.Enqueue(action);
-            _buf = new StringBuilder();
-            _eagerWrites.Enqueue(() => this.Write(_buf.ToString()));
+            var buf = _buf = new StringBuilder();
+            _eagerWrites.Enqueue(() => this.Write(buf.ToString()));
         }
 
         public void Delay(Action<DelayedWriter> action)
@@ -40,7 +39,7 @@ namespace XenoGears.Strings.Writers
         {
             try
             {
-                _isDelayed = true;
+                IsDelayed = false;
 
                 while (_delayedWrites.IsNotEmpty())
                 {
@@ -56,16 +55,16 @@ namespace XenoGears.Strings.Writers
             }
             finally
             {
-                _isDelayed = true;
+                IsDelayed = true;
             }
 
             _buf = null;
-            _isDelayed = false;
+            IsDelayed = false;
         }
 
         protected override void CoreWrite(char c)
         {
-            if (_isDelayed)
+            if (IsDelayed)
             {
                 _buf.Append(c);
             }

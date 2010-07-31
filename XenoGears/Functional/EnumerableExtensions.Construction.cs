@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using XenoGears.Assertions;
 using XenoGears.Collections.Dictionaries;
+using XenoGears.Functional;
 
 namespace XenoGears.Functional
 {
@@ -51,9 +52,28 @@ namespace XenoGears.Functional
             return Map(keys, (IEnumerable<V>)values);
         }
 
+        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> flattenedDict)
+        {
+            var dict = new Dictionary<TKey, TValue>();
+            dict.AddElements(flattenedDict);
+            return dict;
+        }
+
         public static ReadOnlyDictionary<K, V> ToReadOnly<K, V>(this IDictionary<K, V> map)
         {
             return new ReadOnlyDictionary<K, V>(map);
+        }
+
+        public static OrderedDictionary<K, V> ToOrderedDictionary<T, K, V>(this IEnumerable<T> seq, Func<T, K> key_selector, Func<T, V> value_selector)
+        {
+            var ordered = new OrderedDictionary<K, V>();
+            seq.ForEach(el => ordered.Add(key_selector(el), value_selector(el)));
+            return ordered;
+        }
+
+        public static OrderedDictionary<TKey, TValue> ToOrderedDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> flattenedDict)
+        {
+            return flattenedDict.ToOrderedDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
     }
 }

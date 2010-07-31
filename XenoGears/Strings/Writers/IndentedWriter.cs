@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace XenoGears.Strings.Writers
 {
@@ -10,6 +11,16 @@ namespace XenoGears.Strings.Writers
         public int Indent { get; set; }
         public String TabString { get; set; }
         private bool TabsPending { get; set; }
+
+        public IndentedWriter(StringBuilder buf)
+            : this(new StringWriter(buf))
+        {
+        }
+
+        public IndentedWriter(StringBuilder buf, String tabString)
+            : this(new StringWriter(buf), tabString)
+        {
+        }
 
         public IndentedWriter(TextWriter writer) 
             : this(writer, "    ")
