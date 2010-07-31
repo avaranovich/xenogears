@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using XenoGears.Collections.Dictionaries;
 using XenoGears.Functional;
 
 namespace XenoGears.Assertions
@@ -402,7 +403,19 @@ namespace XenoGears.Assertions
             return m;
         }
 
-        public static Dictionary<String, String> AssertParse(this String input, String pattern)
+        public static Match AssertMatch(this String input, String pattern, RegexOptions options)
+        {
+            var m = Regex.Match(input, pattern, options);
+            if (!m.Success)
+            {
+                throw new AssertionFailedException(String.Format(
+                    "Expected that \"{0}\" would match the \"{1}\" pattern with options \"{2}\"", input, pattern, options));
+            }
+
+            return m;
+        }
+
+        public static ReadOnlyDictionary<String, String> AssertParse(this String input, String pattern)
         {
             var names = new List<String>();
             var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
@@ -413,7 +426,21 @@ namespace XenoGears.Assertions
             }
 
             var m = input.AssertMatch(pattern);
-            return names.ToDictionary(name => name, name => m.Result("${" + name + "}"));
+            return names.ToDictionary(name => name, name => m.Result("${" + name + "}")).ToReadOnly();
+        }
+
+        public static ReadOnlyDictionary<String, String> AssertParse(this String input, String pattern, RegexOptions options)
+        {
+            var names = new List<String>();
+            var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
+            for (; m_meta.Success; m_meta = m_meta.NextMatch())
+            {
+                var name = m_meta.Result("${name}");
+                names.Add(name);
+            }
+
+            var m = input.AssertMatch(pattern, options);
+            return names.ToDictionary(name => name, name => m.Result("${" + name + "}")).ToReadOnly();
         }
 
         public static String AssertExtract(this String input, String pattern)
