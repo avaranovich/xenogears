@@ -19,12 +19,7 @@ namespace XenoGears.Threading
         protected virtual Func<T> Wrap<T>(Func<T> task) { return task; }
         protected virtual Action Wrap(Action task) { return task; }
         protected virtual void Initialize() { /* do nothing by default */ }
-        protected virtual Exception Wrap(Exception exn)
-        {
-            var wrapped = exn as DeferredException;
-            if (wrapped != null) return wrapped;
-            return new DeferredException(exn);
-        }
+        protected virtual Exception Wrap(Exception exn) { return exn; }
 
         private readonly Thread _thread;
         private int _nativeThreadId;
@@ -72,6 +67,7 @@ namespace XenoGears.Threading
                     catch (Exception exn)
                     {
                         _ret = null;
+                        exn.EraseStackTrace();
                         _exn = Wrap(exn);
                     }
 
@@ -109,8 +105,9 @@ namespace XenoGears.Threading
                         }
                         catch(Exception exn)
                         {
+                            exn.PreserveStackTrace();
                             _initializationException = exn;
-                            throw new DeferredException(exn);
+                            throw _initializationException;
                         }
                         finally
                         {
@@ -122,7 +119,7 @@ namespace XenoGears.Threading
                     {
                         if (_initializationException != null)
                         {
-                            throw new DeferredException(_initializationException);
+                            throw _initializationException;
                         }
                         else
                         {
@@ -135,13 +132,18 @@ namespace XenoGears.Threading
             {
                 if (_initializationException != null)
                 {
-                    throw new DeferredException(_initializationException);
+                    throw _initializationException;
                 }
                 else
                 {
                     return;
                 }
             }
+        }
+
+        public void Ensure()
+        {
+            Invoke(() => {});
         }
 
         public void Invoke(Action task)
