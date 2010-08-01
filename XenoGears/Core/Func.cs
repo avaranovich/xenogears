@@ -47,6 +47,7 @@ namespace XenoGears.Core
                     }
                     catch (Exception ex)
                     {
+                        ex.PreserveStackTrace();
                         exception = ex;
                     }
 
@@ -60,7 +61,7 @@ namespace XenoGears.Core
                 }
                 else
                 {
-                    throw new DeferredException(history.Item2);
+                    throw history.Item2;
                 }
             };
         }

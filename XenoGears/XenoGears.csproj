@@ -99,7 +99,6 @@
     <Compile Include="Functional\EnumerableExtensions.SQOv2.Product.cs" />
     <Compile Include="Functional\EnumerableExtensions.SQOv2.Seq.cs" />
     <Compile Include="Functional\EnumerableExtensions.SQOv2.Set.cs" />
-    <Compile Include="Exceptions\DeferredException.cs" />
     <Compile Include="Reflection\Anonymous\AnonymousTypeBuilder.cs" />
     <Compile Include="Reflection\Anonymous\AnonymousTypesCache.cs" />
     <Compile Include="Reflection\Anonymous\AnonymousTypesHelper.cs" />
@@ -277,6 +276,7 @@
     <Compile Include="Collections\Dictionaries\OrderedDictionary.cs" />
     <Compile Include="Collections\Dictionaries\ReadOnlyDictionary.cs" />
     <Compile Include="Collections\Lists\BaseList.cs" />
+    <Compile Include="Exceptions\ExceptionHelpers.cs" />
     <Compile Include="Logging\Logger.Config.cs" />
     <Compile Include="Logging\Logger.Factory.cs" />
     <Compile Include="Logging\LogWriter.Factory.cs" />
@@ -288,6 +288,7 @@
     <Compile Include="Strings\Writers\IndentedWriter.cs" />
     <Compile Include="Strings\Writers\IndentedWriterFactory.cs" />
     <Compile Include="Traits\Disposable\DisposableChain.cs" />
+    <Compile Include="Versioning\VersionHelper.cs" />
     <None Include="Properties\AssemblyInfo.template" />
   </ItemGroup>
   <ItemGroup>
