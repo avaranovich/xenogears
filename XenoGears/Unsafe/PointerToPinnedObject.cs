@@ -6,6 +6,7 @@ using XenoGears.Traits.Disposable;
 
 namespace XenoGears.Unsafe
 {
+    [Finalizable]
     [DebuggerNonUserCode]
     public unsafe class PointerToPinnedObject<T> : Disposable
         where T : class

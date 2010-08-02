@@ -78,7 +78,6 @@ namespace XenoGears.Threading
 
             if (CustomName != null) _thread.Name = CustomName;
             _thread.Start();
-            GC.SuppressFinalize(this);
         }
 
         protected override void DisposeManagedResources()
