@@ -288,6 +288,7 @@
     <Compile Include="Strings\Writers\IndentedWriter.cs" />
     <Compile Include="Strings\Writers\IndentedWriterFactory.cs" />
     <Compile Include="Traits\Disposable\DisposableChain.cs" />
+    <Compile Include="Traits\Disposable\FinalizableAttribute.cs" />
     <Compile Include="Versioning\VersionHelper.cs" />
     <None Include="Properties\AssemblyInfo.template" />
   </ItemGroup>

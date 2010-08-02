@@ -1,20 +1,28 @@
 using System;
 using System.Diagnostics;
-using XenoGears.Assertions;
+using XenoGears.Logging;
+using XenoGears.Reflection.Attributes;
 
 namespace XenoGears.Traits.Disposable
 {
     [DebuggerNonUserCode]
     public class Disposable : IDisposable
     {
+        public Disposable()
+        {
+            var doesnt_need_finalizer = !this.GetType().HasAttr<FinalizableAttribute>();
+            if (doesnt_need_finalizer) GC.SuppressFinalize(this);
+        }
 
-#if DEBUG
         ~Disposable()
         {
-            throw new AssertionFailedException(String.Format(
-                "Warning! You've leaked an object of type \"{0}\".", GetType()));
-        }
+#if DEBUG
+            var log = Logger.Get("XenoGears.Traits.Disposable").Warn;
+            log.Warn(String.Format("Warning! You didn't explicitly dispose of an object of type \"{0}\".", GetType()));
 #endif
+
+            Dispose(false);
+        }
 
         public void Dispose()
         {
