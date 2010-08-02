@@ -7,15 +7,14 @@ namespace XenoGears.Traits.Disposable
     [DebuggerNonUserCode]
     public class Disposable : IDisposable
     {
+
+#if DEBUG
         ~Disposable()
         {
-#if DEBUG
             throw new AssertionFailedException(String.Format(
                 "Warning! You've leaked an object of type \"{0}\".", GetType()));
-#else
-            Dispose(false);
-#endif
         }
+#endif
 
         public void Dispose()
         {
