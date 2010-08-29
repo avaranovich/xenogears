@@ -564,5 +564,11 @@ namespace XenoGears.Reflection
             var acc = pi.GetAccessors(true) ?? new MethodInfo[0];
             return acc.Any(m => m.IsVirtual());
         }
+
+        public static bool HasDefaultCtor(this Type t)
+        {
+            if (t == null) return false;
+            return t.GetConstructor(Type.EmptyTypes) != null;
+        }
     }
 }
