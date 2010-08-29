@@ -54,6 +54,11 @@ namespace XenoGears.Logging
             return this;
         }
 
+        public LevelLogger WriteLine()
+        {
+            return Eoln();
+        }
+
         public LevelLogger WriteLine(Object o)
         {
             return Write(o).Eoln();
