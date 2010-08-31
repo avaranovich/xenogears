@@ -7,25 +7,6 @@ namespace XenoGears
     [DebuggerNonUserCode]
     public static class StreamUtilities
     {
-        public static Stream AsStream(this String s)
-        {
-            if (s == null)
-            {
-                return null;
-            }
-            else
-            {
-                var m = new MemoryStream();
-
-                var sw = new StreamWriter(m);
-                sw.Write(s ?? String.Empty);
-                sw.Flush();
-
-                m.Seek(0, SeekOrigin.Begin);
-                return m;
-            }
-        }
-
         public static Stream CacheInMemory(this Stream s)
         {
             if (s == null)
@@ -57,15 +38,9 @@ namespace XenoGears
                 }
             }
         }
-
-        public static Func<Stream> AsLazyStream(this String s)
+        public static String DumpToString(this Stream s)
         {
-            return () => s.AsStream();
-        }
-
-        public static String AsString(this Stream s)
-        {
-            if(s == null)
+            if (s == null)
             {
                 return null;
             }
@@ -73,7 +48,8 @@ namespace XenoGears
             {
                 lock (s)
                 {
-                    var originalPos = s.Position;
+                    var originalPos = -1L;
+                    if (s.CanSeek) originalPos = s.Position;
 
                     try
                     {
@@ -81,13 +57,13 @@ namespace XenoGears
                     }
                     finally
                     {
-                        s.Seek(originalPos, SeekOrigin.Begin);
+                        if (s.CanSeek) s.Seek(originalPos, SeekOrigin.Begin);
                     }
                 }
             }
         }
 
-        public static byte[] AsByteArray(this Stream s)
+        public static byte[] DumpToByteArray(this Stream s)
         {
             if (s == null)
             {
@@ -97,7 +73,8 @@ namespace XenoGears
             {
                 lock (s)
                 {
-                    var originalPos = s.Position;
+                    var originalPos = -1L;
+                    if (s.CanSeek) originalPos = s.Position;
 
                     try
                     {
@@ -135,75 +112,21 @@ namespace XenoGears
                     }
                     finally
                     {
-                        s.Seek(originalPos, SeekOrigin.Begin);
+                        if (s.CanSeek) s.Seek(originalPos, SeekOrigin.Begin);
                     }
                 }
             }
         }
 
-        public static byte[] WriteToByteArray(this Stream s)
+        public static void DumpToFile(this Stream stream, String fileName)
         {
-            if (s == null)
-            {
-                return null;
-            }
-            else
-            {
-                lock (s)
-                {
-                    var originalPos = s.Position;
-
-                    try
-                    {
-                        var readBuffer = new byte[4096];
-
-                        var totalBytesRead = 0;
-                        int bytesRead;
-
-                        while ((bytesRead = s.Read(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)) > 0)
-                        {
-                            totalBytesRead += bytesRead;
-
-                            if (totalBytesRead == readBuffer.Length)
-                            {
-                                var nextByte = s.ReadByte();
-                                if (nextByte != -1)
-                                {
-                                    var temp = new byte[readBuffer.Length * 2];
-                                    Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
-                                    Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
-                                    readBuffer = temp;
-                                    totalBytesRead++;
-                                }
-                            }
-                        }
-
-                        var buffer = readBuffer;
-                        if (readBuffer.Length != totalBytesRead)
-                        {
-                            buffer = new byte[totalBytesRead];
-                            Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
-                        }
-
-                        return buffer;
-                    }
-                    finally
-                    {
-                        s.Seek(originalPos, SeekOrigin.Begin);
-                    }
-                }
-            }
-        }
-
-        public static void WriteToFile(this Stream stream, String fileName)
-        {
-            File.WriteAllBytes(fileName, stream.WriteToByteArray() ?? new byte[0]);
+            File.WriteAllBytes(fileName, stream.DumpToByteArray() ?? new byte[0]);
         }
 
         public static String DumpToTempFile(this Stream stream)
         {
             var tempFile = Path.GetTempFileName();
-            stream.WriteToFile(tempFile);
+            stream.DumpToFile(tempFile);
             return tempFile;
         }
 
