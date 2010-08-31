@@ -12,8 +12,7 @@ using XenoGears.Versioning;
 [assembly: AssemblyCopyright("Copyright © 2009-2010 xeno.by")]
 
 [assembly: ComVisible(false)]
-[assembly: InternalsVisibleTo("XenoGears.Playground")]
-[assembly: InternalsVisibleTo("XenoGears.TextGenerators")]
+[assembly: InternalsVisibleTo("XenoGears.Playground, PublicKey=0024000004800000940000000602000000240000525341310004000001000100ed75de8e17533c0054575347400fc65773339aeff7dcf02d3d9cff4c1b78cf4373d6546fd194b6556ce17b1d64dce78ab0781603739bda7b02ba91da65045a231c25f5f438e7070c2e29f9eea7bfac81238093ed78a04e8f65de886c5a887b648b80b5cda38fc415901e0d06e9b1ea0d0f1c8c888f29ecbcfd5b67a3f5772dcd")]
 
 [assembly: Guid("f156809c-7e4a-471c-a8a8-9bc483903849")]
 [assembly: AssemblyVersion("0.0.*")]

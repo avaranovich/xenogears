@@ -96,8 +96,9 @@ namespace XenoGears.Playground.CSharp
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void TestInvokeMethodInfoAndReturnVoid()
         {
-            if (new StackTrace().GetFrames().ElementAt(6).GetMethod() == 
-                MethodInfo.GetCurrentMethod())
+            var current_method = MethodInfo.GetCurrentMethod();
+            var recursion_level = new StackTrace().GetFrames().Count(f => f.GetMethod() == current_method) - 1;
+            if (recursion_level > 0)
             {
                 return;
             }
@@ -554,8 +555,6 @@ namespace XenoGears.Playground.CSharp
             }
         }
 
-#pragma warning disable 1911
-
         public class YieldDerivedNaive : YieldBase
         {
             public override IEnumerable<int> Yield()
@@ -577,8 +576,6 @@ namespace XenoGears.Playground.CSharp
                 yield return 2;
             }
         }
-
-#pragma warning restore 1911
 
         public class GenericInheritance<T, U>
             where T : List<T>
