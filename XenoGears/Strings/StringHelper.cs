@@ -135,12 +135,14 @@ namespace XenoGears.Strings
         // todo. handle escape sequences here as well
         public static String Quote(this String s)
         {
+            if (s == null) return null;
             return "\"" + s + "\"";
         }
 
         // todo. handle escape sequences here as well
         public static String Unquote(this String s)
         {
+            if (s == null) return null;
             if (s.Length >= 2)
             {
                 if (s[0] == '\'' && s[s.Length - 1] == '\'')
@@ -159,16 +161,19 @@ namespace XenoGears.Strings
 
         public static String Parenthesize(this String s)
         {
+            if (s == null) return null;
             return String.Format("({0})", s);
         }
 
         public static String ParenthesizeIf(this String s, bool p)
         {
+            if (s == null) return null;
             return p ? s.Parenthesize() : s;
         }
 
         public static String Unparenthesize(this String s)
         {
+            if (s == null) return null;
             if (s.StartsWith("(") && s.EndsWith(")"))
             {
 //                return s.Skip(1).Reverse().Skip(1).Reverse().StringJoin();
@@ -182,11 +187,13 @@ namespace XenoGears.Strings
 
         public static String UnparenthesizeIf(this String s, bool p)
         {
+            if (s == null) return null;
             return p ? s.Unparenthesize() : s;
         }
 
         public static String QuoteBraces(this String s)
         {
+            if (s == null) return null;
             return s.Replace("{", "{{").Replace("}", "}}");
         }
 
