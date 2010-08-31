@@ -283,6 +283,7 @@
     <Compile Include="Logging\Media\ConsoleMedium.cs" />
     <Compile Include="Logging\LogWriter.Pretty.cs" />
     <Compile Include="Strings\Writers\BaseWriter.cs" />
+    <Compile Include="Strings\Writers\BaseWriterWrapper.cs" />
     <Compile Include="Strings\Writers\DelayedWriter.cs" />
     <Compile Include="Strings\Writers\DelayedWriterFactory.cs" />
     <Compile Include="Strings\Writers\IndentedWriter.cs" />

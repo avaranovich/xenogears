@@ -6,7 +6,7 @@ using System.Text;
 namespace XenoGears.Strings.Writers
 {
     [DebuggerNonUserCode]
-    public class IndentedWriter : BaseWriter
+    public class IndentedWriter : BaseWriterWrapper
     {
         public int Indent { get; set; }
         public String TabString { get; set; }
