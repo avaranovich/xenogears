@@ -22,7 +22,7 @@ namespace XenoGears
 
             using (var stream = asm.GetManifestResourceStream(resource_name))
             {
-                return stream.AsString();
+                return stream.DumpToString();
             }
         }
 
@@ -33,7 +33,7 @@ namespace XenoGears
 
             using (var stream = asm.GetManifestResourceStream(resource_name))
             {
-                return stream.AsByteArray();
+                return stream.DumpToByteArray();
             }
         }
 
