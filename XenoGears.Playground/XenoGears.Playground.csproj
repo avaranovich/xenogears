@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>XenoGears.Playground.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -84,7 +86,9 @@
     <Compile Include="Reflection\Generic\GenericArgsMappingTests.cs" />
     <Compile Include="Reflection\Generic\GenericTests.cs" />
     <Compile Include="Functional\Tests.cs" />
-    <Compile Include="Reflection\Typed\Tests.cs" />
+    <Compile Include="Reflection\Typed\Tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Strings\ToStringHelperTests.cs" />
     <Compile Include="Strings\ToStringTests.cs" />
     <Compile Include="TestRunner.cs" />
@@ -97,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.template" />
+    <None Include="XenoGears.Playground.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommandLine\Reference\Help" />
