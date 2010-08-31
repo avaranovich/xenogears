@@ -8,7 +8,7 @@ using XenoGears.Functional;
 namespace XenoGears.Strings.Writers
 {
     [DebuggerNonUserCode]
-    public class DelayedWriter : BaseWriter
+    public class DelayedWriter : BaseWriterWrapper
     {
         public bool IsDelayed { get; set; }
         private StringBuilder _buf = null;
