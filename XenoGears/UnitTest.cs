@@ -23,21 +23,41 @@ namespace XenoGears
 
                 var frames = new StackTrace().GetFrames().Select(f => f.GetMethod()).ToArray();
                 var suspect1 = frames.Nth(-4);
-                var insideResharper45 = suspect1.DeclaringType.Assembly.GetName().FullName.Contains("JetBrains");
-                if (insideResharper45)
+                var asm_suspect1 = suspect1.DeclaringType.Assembly;
+                var insideResharper = asm_suspect1.GetName().FullName.Contains("JetBrains");
+                if (insideResharper)
                 {
-                    var ourFirstFrame = frames.Reverse().First(mb =>
+                    var ver = asm_suspect1.GetName().Version;
+                    if (ver.Major == 4 && ver.Minor == 5)
                     {
-                        var asm = mb.DeclaringType.Assembly.GetName().FullName;
-                        return !(asm.Contains("JetBrains") || asm.Contains("System") || asm.Contains("mscorlib"));
-                    });
+                        var ourFirstFrame = frames.Reverse().First(mb =>
+                        {
+                            var asm = mb.DeclaringType.Assembly.GetName().FullName;
+                            return !(asm.Contains("JetBrains") || asm.Contains("System") || asm.Contains("mscorlib"));
+                        });
 
-                    return ourFirstFrame.AssertCast<MethodInfo>();
+                        return ourFirstFrame.AssertCast<MethodInfo>();
+                    }
+                    else if (ver.Major == 5 && ver.Minor == 1)
+                    {
+                        var ourFirstFrame = frames.Reverse().First(mb =>
+                        {
+                            var asm = mb.DeclaringType.Assembly.GetName().FullName;
+                            return !(asm.Contains("JetBrains") || asm.Contains("System") || asm.Contains("mscorlib") || asm.Contains("nunit.core"));
+                        });
+
+                        return ourFirstFrame.AssertCast<MethodInfo>();
+                    }
+                    else
+                    {
+                        throw AssertionHelper.Fail();
+                    }
                 }
                 else
                 {
                     var suspect2 = frames.Nth(-7);
-                    var insideNUnitRunner = suspect2.DeclaringType.Assembly.GetName().FullName.Contains("nunit.core");
+                    var asm_suspect2 = suspect2.DeclaringType.Assembly;
+                    var insideNUnitRunner = asm_suspect2.GetName().FullName.Contains("nunit.core");
                     if (insideNUnitRunner)
                     {
                         var ourFirstFrame = frames.Reverse().First(mb =>
