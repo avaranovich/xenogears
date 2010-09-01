@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Assertions;
-using XenoGears.Core;
+using XenoGears.Functional.Memoize;
 using XenoGears.Logging;
 using XenoGears.CommandLine.Annotations;
 using XenoGears.CommandLine.Exceptions;
