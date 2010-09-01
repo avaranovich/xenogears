@@ -52,7 +52,7 @@ namespace XenoGears.Exceptions
         }
 
         // todo. respect DebuggerTypeProxy and DebuggerDisplay attributes
-        internal Dictionary<String, String> PrettyProperties
+        public Dictionary<String, String> PrettyProperties
         {
             get
             {
@@ -87,11 +87,11 @@ namespace XenoGears.Exceptions
                         }
                         else if (o is MemberInfo)
                         {
-                            return ((MemberInfo)o).GetCSharpRef(ToCSharpOptions.Informative);
+                            return ((MemberInfo)o).GetCSharpRef(ToCSharpOptions.InformativeWithNamespaces);
                         }
                         else if (o is ICustomAttributeProvider)
                         {
-                            return ((ICustomAttributeProvider)o).GetCSharpAttributesClause(ToCSharpOptions.Informative);
+                            return ((ICustomAttributeProvider)o).GetCSharpAttributesClause(ToCSharpOptions.InformativeWithNamespaces);
                         }
                         else if (isKvp(o))
                         {

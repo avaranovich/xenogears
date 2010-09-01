@@ -7,17 +7,18 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Linq;
 using System.Threading;
+using XenoGears.Reflection.Emit2;
 
 namespace XenoGears.Reflection.Anonymous
 {
     // Source code shamelessly copy/pasted from http://www.codeplex.com/interlinq
     // todo: rewrite this stuff by my own hands
-    [DebuggerNonUserCode]
+//    [DebuggerNonUserCode]
     internal class AnonymousTypeBuilder
     {
         private static int _nextInstanceId = 0;
         private readonly int _instanceId = Interlocked.Increment(ref _nextInstanceId);
-        private String ClassName { get { return "RelinqAnonymousType<" + _instanceId.ToString("X") + ">"; } }
+        private String ClassName { get { return "XenoGearsAnonymousType<" + _instanceId.ToString("X") + ">"; } }
         private String[] GenericClassParameterNames
         {
             get
@@ -47,7 +48,10 @@ namespace XenoGears.Reflection.Anonymous
         public Type ToAnonymousType()
         {
             return AnonymousTypesCache.Get(PropertyNames, PropertyTypes, () =>
-                GenerateAnonymousType(DynamicAssemblyHolder.Current.ModuleBuilder));
+            {
+                var unit = Codegen.Units["XenoGears.AnonymousTypes"];
+                return GenerateAnonymousType(unit.Module);
+            });
         }
 
         private void AddDebuggerHiddenAttribute(ConstructorBuilder constructor)

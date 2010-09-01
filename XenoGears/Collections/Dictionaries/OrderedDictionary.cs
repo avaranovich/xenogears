@@ -147,6 +147,11 @@ namespace XenoGears.Collections.Dictionaries
             }
         }
 
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return Dictionary.GetEnumerator();
+        }
+
         IDictionaryEnumerator IOrderedDictionary.GetEnumerator()
         {
             return Dictionary.GetEnumerator();

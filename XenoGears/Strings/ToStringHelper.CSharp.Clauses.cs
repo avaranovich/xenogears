@@ -140,7 +140,7 @@ namespace XenoGears.Strings
 
         public static String GetCSharpTypeConstraintsClause(this MethodBase mb, ToCSharpOptions opt)
         {
-            var gargs = mb.XGetGenericArguments();
+            var gargs = mb.XGetGenericArguments().Where(garg => garg.IsGenericParameter);
             var clauses = gargs.Select(garg => garg.GetCSharpTypeConstraintsClause_Impl(opt));
             clauses = clauses.Where(clause => clause.IsNotEmpty());
             return opt.EmitTypeArgsConstraints && clauses.IsNotEmpty() ? 
