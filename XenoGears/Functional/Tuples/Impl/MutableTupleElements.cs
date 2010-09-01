@@ -24,7 +24,7 @@ namespace System
             get
             {
                 var size = _tuple.AssertCast<ITupleImpl>().Size;
-                return size.Times(GetItem).ToReadOnly();
+                return size.Times(i => GetItem(i)).ToReadOnly();
             }
         }
 
