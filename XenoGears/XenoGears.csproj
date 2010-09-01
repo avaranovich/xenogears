@@ -31,6 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +43,8 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -72,6 +75,17 @@
     <Compile Include="CommandLine\CommandLineConfig.cs" />
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
+    <Compile Include="Core\ActionsAndFuncs.cs" />
+    <Compile Include="Functional\Tuples\IStructuralComparable.cs" />
+    <Compile Include="Functional\Tuples\IStructuralEquatable.cs" />
+    <Compile Include="Functional\Tuples\Tuple!1.cs" />
+    <Compile Include="Functional\Tuples\Tuple!2.cs" />
+    <Compile Include="Functional\Tuples\Tuple!3.cs" />
+    <Compile Include="Functional\Tuples\Tuple!4.cs" />
+    <Compile Include="Functional\Tuples\Tuple!5.cs" />
+    <Compile Include="Functional\Tuples\Tuple!6.cs" />
+    <Compile Include="Functional\Tuples\Tuple!7.cs" />
+    <Compile Include="Functional\Tuples\Tuple!8.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\LevelLogger.Pretty.cs" />
@@ -166,18 +180,18 @@
     <Compile Include="Collections\Weak\WeakReference.cs" />
     <Compile Include="Functional\Combinatorics.cs" />
     <Compile Include="Strings\ToFromStringHelper.cs" />
-    <Compile Include="Core\Func.cs" />
-    <Compile Include="Core\Impl\MutableTupleElements.cs" />
-    <Compile Include="Core\IMutableTuple.cs" />
-    <Compile Include="Core\MutableTuple!1.cs" />
-    <Compile Include="Core\MutableTuple!2.cs" />
-    <Compile Include="Core\MutableTuple!3.cs" />
-    <Compile Include="Core\MutableTuple!4.cs" />
-    <Compile Include="Core\MutableTuple!5.cs" />
-    <Compile Include="Core\MutableTuple!6.cs" />
-    <Compile Include="Core\MutableTuple!7.cs" />
-    <Compile Include="Core\MutableTuple!8.cs" />
-    <Compile Include="Core\MutableTuple.cs" />
+    <Compile Include="Functional\Memoize\Func.cs" />
+    <Compile Include="Functional\Tuples\Impl\MutableTupleElements.cs" />
+    <Compile Include="Functional\Tuples\IMutableTuple.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!1.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!2.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!3.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!4.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!5.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!6.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!7.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple!8.cs" />
+    <Compile Include="Functional\Tuples\MutableTuple.cs" />
     <Compile Include="Traits\Disposable\Disposable.cs" />
     <Compile Include="Functional\EnumerableExtensions.Chop.cs" />
     <Compile Include="Functional\EnumerableExtensions.Fold.cs" />
@@ -198,21 +212,10 @@
     <Compile Include="Functional\EnumerableExtensions.Zip.cs" />
     <Compile Include="Functional\EnumerableExtensions.Dictionaries.cs" />
     <Compile Include="Functional\EnumerableExtensions.Predicates.cs" />
-    <Compile Include="Core\ActionsAndFuncs.cs" />
-    <Compile Include="Core\IStructuralComparable.cs" />
-    <Compile Include="Core\IStructuralEquatable.cs" />
-    <Compile Include="Core\ITuple.cs" />
-    <Compile Include="Core\Impl\ITupleImpl.cs" />
-    <Compile Include="Core\Tuple!1.cs" />
-    <Compile Include="Core\Tuple!2.cs" />
-    <Compile Include="Core\Tuple!3.cs" />
-    <Compile Include="Core\Tuple!4.cs" />
-    <Compile Include="Core\Tuple!5.cs" />
-    <Compile Include="Core\Tuple!6.cs" />
-    <Compile Include="Core\Tuple!7.cs" />
-    <Compile Include="Core\Tuple!8.cs" />
-    <Compile Include="Core\Impl\TupleImplHelper.cs" />
-    <Compile Include="Core\Tuple.cs" />
+    <Compile Include="Functional\Tuples\ITuple.cs" />
+    <Compile Include="Functional\Tuples\Impl\ITupleImpl.cs" />
+    <Compile Include="Functional\Tuples\Impl\TupleImplHelper.cs" />
+    <Compile Include="Functional\Tuples\Tuple.cs" />
     <Compile Include="Exceptions\BaseException.cs" />
     <Compile Include="Exceptions\ExceptionWhenHandlingException.cs" />
     <Compile Include="Exceptions\IncludeInMessageAttribute.cs" />
