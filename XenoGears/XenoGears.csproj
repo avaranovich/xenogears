@@ -112,6 +112,7 @@
     <Compile Include="Functional\EnumerableExtensions.Annotations.cs" />
     <Compile Include="FluencyHelper.cs" />
     <Compile Include="Reflection\DelegateHelper.cs" />
+    <Compile Include="Reflection\Emit\EmitAttributeHelper.cs" />
     <Compile Include="Reflection\Emit\ILTrait.Raw.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -143,7 +144,6 @@
     <Compile Include="Reflection\Anonymous\AnonymousTypeBuilder.cs" />
     <Compile Include="Reflection\Anonymous\AnonymousTypesCache.cs" />
     <Compile Include="Reflection\Anonymous\AnonymousTypesHelper.cs" />
-    <Compile Include="Reflection\Anonymous\DynamicAssemblyHolder.cs" />
     <Compile Include="Reflection\Anonymous\SampleAnonymousType.cs" />
     <Compile Include="Reflection\Attributes\Codebase\CodebaseRegistry.cs" />
     <Compile Include="Reflection\Attributes\Snippets\Snippet.cs" />

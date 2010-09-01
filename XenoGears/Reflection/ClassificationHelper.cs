@@ -281,7 +281,8 @@ namespace XenoGears.Reflection
             if (t == null) return false;
             return
                 t.HasAttr<CompilerGeneratedAttribute>() &&
-                (Regex.IsMatch(t.Name, @"\<\>.*AnonymousType.*")); // C# anonymous types
+                (Regex.IsMatch(t.Name, @"\<\>.*AnonymousType.*") || // C# anonymous types
+                t.Name.StartsWith("XenoGearsAnonymousType<")); // XenoGears anonymous types
         }
 
         public static bool IsTransparentIdentifier(this String s)
@@ -404,6 +405,16 @@ namespace XenoGears.Reflection
             if (pi == null) return false;
             var defaultMember = pi.DeclaringType.AttrOrNull<DefaultMemberAttribute>();
             return defaultMember != null && defaultMember.MemberName == pi.Name;
+        }
+
+        public static bool IsIndexer(this MethodBase mb)
+        {
+            return mb.EnclosingProperty().IsIndexer();
+        }
+
+        public static bool IsDefaultIndexer(this MethodBase mb)
+        {
+            return mb.EnclosingProperty().IsDefaultIndexer();
         }
 
         public static bool IsAccessor(this MethodBase mb)

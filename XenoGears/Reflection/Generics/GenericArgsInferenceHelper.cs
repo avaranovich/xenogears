@@ -2,8 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
-using XenoGears.Assertions;
-using XenoGears.Functional;
 using XenoGears.Reflection.Generics.StructuralTrees;
 
 namespace XenoGears.Reflection.Generics
@@ -11,51 +9,58 @@ namespace XenoGears.Reflection.Generics
     [DebuggerNonUserCode]
     public static class GenericArgsInferenceHelper
     {
-        public static Type[] InferGargs(this Type pattern, Type actual)
+        public static bool CanInferGargs(this Type pattern, Type actual)
         {
-            var t_pattern = pattern.GetStructuralTree();
-            var t_actual = actual.GetStructuralTree();
+            return pattern.InferGargs(actual) != null;
+        }
 
-            var map = new Dictionary<int, Type>();
-            foreach (var kvp_pattern in t_pattern)
+        public static Dictionary<String, Type> InferGargs(this Type pattern, Type actual)
+        {
+            var map1 = pattern.GetStructuralTree();
+            var map2 = actual.GetStructuralTree();
+
+            var inferences = new Dictionary<String, Type>();
+            var result = map1.Keys.All(key =>
             {
-                var path = kvp_pattern.Key;
-                var subt_pattern = kvp_pattern.Value;
-                var subt_actual = t_actual.GetOrDefault(path);
+                var map1i = map1.First(kvp => kvp.Key == key);
+                var map2i = map2.First(kvp => kvp.Key == key);
 
-                if (subt_actual != null)
+                if (!map1i.Value.SameBasisType(map2i.Value))
                 {
-                    if (subt_pattern.IsGenericParameter)
+                    if (!map1i.Value.IsGenericParameter)
                     {
-                        map[subt_pattern.GenericParameterPosition] = subt_actual;
+                        return false;
                     }
                     else
                     {
-                        if (subt_pattern == subt_actual)
+                        var source = actual.SelectStructuralUnit(map2i.Key);
+                        var t1inferred = pattern.InferStructuralUnit(map1i.Key, source);
+
+                        if (t1inferred != null)
                         {
-                            continue;
+                            if (!inferences.ContainsKey(map2i.Key))
+                            {
+                                inferences.Add(map2i.Key, source);
+                                return true;
+                            }
+                            else
+                            {
+                                return inferences[map2i.Key] == source;
+                            }
                         }
                         else
                         {
-                            return null;
+                            return false;
                         }
                     }
                 }
                 else
                 {
-                    return null;
+                    return true;
                 }
-            }
+            });
 
-            if (map.IsEmpty())
-            {
-                return new Type[0];
-            }
-            else
-            {
-                (map.MaxOrDefault(kvp => kvp.Key) == map.Count()).AssertTrue();
-                return map.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value).ToArray();
-            }
+            return result ? inferences : null;
         }
     }
 }
