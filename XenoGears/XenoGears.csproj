@@ -61,7 +61,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>XenoGears.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>XenoGears.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ISymWrapper" />
@@ -322,7 +322,7 @@
     <Compile Include="Traits\Disposable\FinalizableAttribute.cs" />
     <Compile Include="Versioning\VersionHelper.cs" />
     <None Include="Properties\AssemblyInfo.template" />
-    <None Include="XenoGears.pfx" />
+    <None Include="XenoGears.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Logging\todo.txt" />

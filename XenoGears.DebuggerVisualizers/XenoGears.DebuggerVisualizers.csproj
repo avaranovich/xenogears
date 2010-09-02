@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>XenoGears.DebuggerVisualizers.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>XenoGears.DebuggerVisualizers.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.template" />
-    <None Include="XenoGears.DebuggerVisualizers.pfx" />
+    <None Include="XenoGears.DebuggerVisualizers.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

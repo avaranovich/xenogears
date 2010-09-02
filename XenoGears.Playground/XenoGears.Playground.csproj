@@ -15,7 +15,7 @@
     <StartupObject>
     </StartupObject>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>XenoGears.Playground.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>XenoGears.Playground.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.template" />
-    <None Include="XenoGears.Playground.pfx" />
+    <None Include="XenoGears.Playground.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommandLine\Reference\Help" />
@@ -144,6 +144,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
