@@ -7,16 +7,22 @@ namespace XenoGears.Functional
 {
     public static partial class EnumerableExtensions
     {
-//        public static void ForEach(this IEnumerable seq, Action<Object> action)
-//        {
-//            if (seq == null) return;
-//            ForEach(seq.Cast<Object>(), action);
-//        }
+        public static void ForEach(this IEnumerable seq, Action<Object> action)
+        {
+            if (seq == null) return;
+            ForEach(seq.Cast<Object>(), action);
+        }
 
         public static void ForEach<T>(this IEnumerable seq, Action<T> action)
         {
             if (seq == null) return;
             ForEach(seq.Cast<T>(), action);
+        }
+
+        public static void ForEach(this IEnumerable seq, Action<Object, int> action)
+        {
+            if (seq == null) return;
+            ForEach(seq.Cast<Object>(), action);
         }
 
         public static void ForEach<T>(this IEnumerable seq, Action<T, int> action)
