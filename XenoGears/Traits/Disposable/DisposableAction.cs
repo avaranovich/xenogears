@@ -40,6 +40,13 @@ namespace XenoGears.Traits.Disposable
             return new DisposableChain(d1, new DisposableAction(d2));
         }
 
+        public static DisposableAction operator +(DisposableAction d1, Action d2)
+        {
+            if (d2 == null) return d1;
+            if (d1 == null) return new DisposableAction(d2);
+            return new DisposableChain(d1, new DisposableAction(d2));
+        }
+
         public static DisposableAction operator +(IDisposable d1, DisposableAction d2)
         {
             if (d1 == null) return d2;
@@ -70,6 +77,18 @@ namespace XenoGears.Traits.Disposable
             var a1 = c1 ?? d1.MkArray().AsEnumerable();
 
             var a = a1.Where(d => d._disposable != d2);
+            return new DisposableChain(a);
+        }
+
+        public static DisposableAction operator -(DisposableAction d1, Action d2)
+        {
+            if (d1 == null) return null;
+            if (d2 == null) return d1;
+
+            var c1 = d1 as DisposableChain;
+            var a1 = c1 ?? d1.MkArray().AsEnumerable();
+
+            var a = a1.Where(d => d._onDispose != d2);
             return new DisposableChain(a);
         }
     }
