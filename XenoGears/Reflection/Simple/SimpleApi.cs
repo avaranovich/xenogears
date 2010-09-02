@@ -15,22 +15,62 @@ namespace XenoGears.Reflection.Simple
             return target.Get(name, null);
         }
 
-        public static Object GetOrDefault(this Object target, String name)
+        public static Object GetOrDefault(this Object target, String name, Object @default)
         {
-            return target.GetOrDefault(name, null);
+            return target.GetOrDefault(name, null, () => @default);
+        }
+
+        public static Object GetOrDefault(this Object target, String name, Func<Object> @default)
+        {
+            return target.GetOrDefault(name, null, @default);
+        }
+
+        public static Object GetOrDefault(this Object target, String name, Func<Object, Object> @default)
+        {
+            return target.GetOrDefault(name, null, () => @default(target));
         }
 
         public static Object Get(this Object target, String name, Type t)
         {
-            return target.GetImpl(name, t, true);
+            return target.GetImpl(name, t, null);
         }
 
-        public static Object GetOrDefault(this Object target, String name, Type t)
+        public static Object GetOrDefault(this Object target, String name, Type t, Object @default)
         {
-            return target.GetImpl(name, t, false);
+            return target.GetImpl(name, t, () => @default);
         }
 
-        private static Object GetImpl(this Object target, String name, Type t, bool throwIfNotFound)
+        public static Object GetOrDefault(this Object target, String name, Type t, Func<Object> @default)
+        {
+            return target.GetImpl(name, t, @default);
+        }
+
+        public static Object GetOrDefault(this Object target, String name, Type t, Func<Object, Object> @default)
+        {
+            return target.GetImpl(name, t, () => @default(target));
+        }
+
+        public static Object Get<T>(this T target, String name)
+        {
+            return target.GetImpl(name, typeof(T), null);
+        }
+
+        public static Object GetOrDefault<T>(this T target, String name, Object @default)
+        {
+            return target.GetImpl(name, typeof(T), () => @default);
+        }
+
+        public static Object GetOrDefault<T>(this T target, String name, Func<Object> @default)
+        {
+            return target.GetImpl(name, typeof(T), @default);
+        }
+
+        public static Object GetOrDefault<T>(this T target, String name, Func<T, Object> @default)
+        {
+            return target.GetImpl(name, typeof(T), () => @default(target));
+        }
+
+        private static Object GetImpl(this Object target, String name, Type t, Func<Object> @default)
         {
             target.AssertNotNull();
             t = t ?? target.GetType();
@@ -52,13 +92,13 @@ namespace XenoGears.Reflection.Simple
                 if (f == null && p == null)
                 {
                     // if this doesn't help - we give up
-                    if (throwIfNotFound)
+                    if (@default == null)
                     {
                         throw AssertionHelper.Fail();
                     }
                     else
                     {
-                        return null;
+                        return @default();
                     }
                 }
             }
