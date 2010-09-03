@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace XenoGears.Reflection.Emit2
 {
@@ -9,7 +10,7 @@ namespace XenoGears.Reflection.Emit2
     public static class Codegen
     {
         private static readonly Object _unitsLock = new Object();
-        private static readonly Dictionary<Tuple<String, String>, CodegenUnit> _units = new Dictionary<Tuple<String, String>, CodegenUnit>();
+        private static readonly Dictionary<Tuple<Object, String>, CodegenUnit> _units = new Dictionary<Tuple<Object, String>, CodegenUnit>();
         public static CodegenUnits Units { get { return new CodegenUnits(); } }
 
         [DebuggerNonUserCode]
@@ -17,11 +18,26 @@ namespace XenoGears.Reflection.Emit2
         {
             public CodegenUnit this[String name]
             {
+                get { return this[new AssemblyName(name)]; }
+            }
+
+            public CodegenUnit this[String name, StrongNameKeyPair key]
+            {
+                get { return this[new AssemblyName(name){KeyPair = key}]; }
+            }
+
+            public CodegenUnit this[StrongNameKeyPair key, String name]
+            {
+                get { return this[new AssemblyName(name){KeyPair = key}]; }
+            }
+            
+            public CodegenUnit this[AssemblyName name]
+            {
                 get
                 {
                     // segregate codegen units not only by name but also by test id
                     // so that multiple tests run at once in R# won't share the same codegen unit
-                    var key = Tuple.New(name, UnitTest.PersistentId);
+                    var key = Tuple.New((Object)name, UnitTest.PersistentId);
 
                     lock (_unitsLock)
                     {

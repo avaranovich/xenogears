@@ -15,6 +15,11 @@ namespace XenoGears.Reflection.Simple
             return target.Get(name, null);
         }
 
+        public static Object GetOrDefault(this Object target, String name)
+        {
+            return target.GetOrDefault(name, null, (Object)null);
+        }
+
         public static Object GetOrDefault(this Object target, String name, Object @default)
         {
             return target.GetOrDefault(name, null, () => @default);
@@ -35,6 +40,12 @@ namespace XenoGears.Reflection.Simple
             return target.GetImpl(name, t, null);
         }
 
+        public static Object GetOrDefault(this Object target, String name, Type t)
+        {
+            // todo. implement default(t) here
+            return target.GetOrDefault(name, t, (Object)null);
+        }
+
         public static Object GetOrDefault(this Object target, String name, Type t, Object @default)
         {
             return target.GetImpl(name, t, () => @default);
@@ -50,25 +61,33 @@ namespace XenoGears.Reflection.Simple
             return target.GetImpl(name, t, () => @default(target));
         }
 
-        public static Object Get<T>(this T target, String name)
-        {
-            return target.GetImpl(name, typeof(T), null);
-        }
+        // note. these signatures cause confusion and erroneous overloads
+        // don't uncomment or reintroduce them
 
-        public static Object GetOrDefault<T>(this T target, String name, Object @default)
-        {
-            return target.GetImpl(name, typeof(T), () => @default);
-        }
-
-        public static Object GetOrDefault<T>(this T target, String name, Func<Object> @default)
-        {
-            return target.GetImpl(name, typeof(T), @default);
-        }
-
-        public static Object GetOrDefault<T>(this T target, String name, Func<T, Object> @default)
-        {
-            return target.GetImpl(name, typeof(T), () => @default(target));
-        }
+//        public static Object Get<T>(this T target, String name)
+//        {
+//            return target.GetImpl(name, typeof(T), null);
+//        }
+//
+//        public static Object GetOrDefault<T>(this T target, String name)
+//        {
+//            return target.GetOrDefault<T>(name, default(T));
+//        }
+//
+//        public static Object GetOrDefault<T>(this T target, String name, Object @default)
+//        {
+//            return target.GetImpl(name, typeof(T), () => @default);
+//        }
+//
+//        public static Object GetOrDefault<T>(this T target, String name, Func<Object> @default)
+//        {
+//            return target.GetImpl(name, typeof(T), @default);
+//        }
+//
+//        public static Object GetOrDefault<T>(this T target, String name, Func<T, Object> @default)
+//        {
+//            return target.GetImpl(name, typeof(T), () => @default(target));
+//        }
 
         private static Object GetImpl(this Object target, String name, Type t, Func<Object> @default)
         {

@@ -18,15 +18,16 @@ namespace XenoGears.Reflection.Emit2
         private static readonly LevelLogger Log = Logger.Get(typeof(CodegenUnit)).Debug;
 
         private readonly AssemblyBuilder _asm;
+        public AssemblyBuilder Assembly { get { return _asm; } }
+
         private readonly ModuleBuilder _mod;
         public ModuleBuilder Module { get { return _mod; } }
 
         private readonly Dictionary<Object, Object> _context = new Dictionary<Object, Object>();
         public Dictionary<Object, Object> Context { get { return _context; } }
 
-        internal CodegenUnit(String unitName)
+        internal CodegenUnit(AssemblyName asmName)
         {
-            var asmName = new AssemblyName(unitName);
             var fileName = asmName.Name + ".dll";
             var pdbName = asmName + ".pdb";
 
@@ -72,7 +73,7 @@ namespace XenoGears.Reflection.Emit2
                         catch (Exception ex)
                         {
                             var trace = String.Format("Codegen unit '{0}' has failed to dump the asm:{1}{2}",
-                                unitName, Environment.NewLine, ex);
+                                asmName.FullName, Environment.NewLine, ex);
                             Log.WriteLine(trace);
 
                             SafetyTools.SafeDo(() => 
@@ -97,7 +98,7 @@ namespace XenoGears.Reflection.Emit2
             catch (Exception ex)
             {
                 var trace = String.Format("Codegen unit '{0}' has failed to initialize:{1}{2}",
-                    unitName, Environment.NewLine, ex);
+                    asmName.FullName, Environment.NewLine, ex);
                 Log.WriteLine(trace);
 
                 SafetyTools.SafeDo(() =>

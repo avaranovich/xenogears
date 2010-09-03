@@ -37,6 +37,12 @@ namespace XenoGears
             }
         }
 
+        public static StrongNameKeyPair ReadKey(this Assembly asm, String resource_name)
+        {
+            var bytes = asm.ReadBinary(resource_name);
+            return bytes == null ? null : new StrongNameKeyPair(bytes);
+        }
+
         public static Stream OpenStream(this Assembly asm, String resource_name)
         {
             if (asm == null) return null;
