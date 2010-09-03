@@ -13,7 +13,7 @@ namespace XenoGears.Reflection.Anonymous
 {
     // Source code shamelessly copy/pasted from http://www.codeplex.com/interlinq
     // todo: rewrite this stuff by my own hands
-//    [DebuggerNonUserCode]
+    [DebuggerNonUserCode]
     internal class AnonymousTypeBuilder
     {
         private static int _nextInstanceId = 0;
