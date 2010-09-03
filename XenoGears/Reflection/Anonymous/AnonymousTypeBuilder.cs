@@ -49,7 +49,8 @@ namespace XenoGears.Reflection.Anonymous
         {
             return AnonymousTypesCache.Get(PropertyNames, PropertyTypes, () =>
             {
-                var unit = Codegen.Units["XenoGears.AnonymousTypes"];
+                var key = typeof(AnonymousTypeBuilder).Assembly.ReadKey("XenoGears.XenoGears.snk");
+                var unit = Codegen.Units["XenoGears.AnonymousTypes", key];
                 return GenerateAnonymousType(unit.Module);
             });
         }
