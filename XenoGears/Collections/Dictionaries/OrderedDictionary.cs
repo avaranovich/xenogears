@@ -11,6 +11,8 @@ namespace XenoGears.Collections.Dictionaries
     /// </summary>
     /// <typeparam name="TKey">The type of the keys in the dictionary</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary</typeparam>
+    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerTypeProxy("System.Collections.Generic.Mscorlib_DictionaryDebugView`2,mscorlib,Version=2.0.0.0,Culture=neutral,PublicKeyToken=b77a5c561934e089")]
     [DebuggerNonUserCode]
     public class OrderedDictionary<TKey, TValue> : IOrderedDictionary<TKey, TValue>
     {
