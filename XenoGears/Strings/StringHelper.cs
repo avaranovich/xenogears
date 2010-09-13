@@ -200,7 +200,7 @@ namespace XenoGears.Strings
         public static IEnumerable<String> Trim(this IEnumerable<String> strings)
         {
             if (strings == null) return null;
-            return strings.Select(s => s.Trim());
+            return strings.Select(s => s == null ? null : s.Trim());
         }
     }
 }
