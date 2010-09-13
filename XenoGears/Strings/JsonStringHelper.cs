@@ -32,7 +32,7 @@ namespace XenoGears.Strings
         {
             if (s == null) return "null";
             var sb = new StringBuilder();
-            sb.Append("\"").Append(EscapeJsonString(s, '\"')).Append("\"");
+            sb.Append("\"").Append(EscapeJsonString(s, '\'')).Append("\"");
             return sb.ToString();
         }
 
