@@ -14,21 +14,25 @@ namespace XenoGears.Strings
     {
         public static bool IsMatch(this String input, String pattern)
         {
+            if (input == null) return false;
             return Regex.IsMatch(input, pattern);
         }
 
         public static bool IsMatch(this String input, String pattern, RegexOptions options)
         {
+            if (input == null) return false;
             return Regex.IsMatch(input, pattern, options);
         }
 
         public static Match Match(this String input, String pattern)
         {
+            if (input == null) return null;
             return Regex.Match(input, pattern);
         }
 
         public static Match Match(this String input, String pattern, RegexOptions options)
         {
+            if (input == null) return null;
             return Regex.Match(input, pattern, options);
         }
 
@@ -39,6 +43,8 @@ namespace XenoGears.Strings
 
         public static ReadOnlyDictionary<String, String> Parse(this String input, String pattern, RegexOptions options)
         {
+            if (input == null) return null;
+
             var names = new List<String>();
             var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
             for (; m_meta.Success; m_meta = m_meta.NextMatch())
@@ -48,7 +54,7 @@ namespace XenoGears.Strings
             }
 
             var m = input.Match(pattern, options);
-            if (!m.Success) return null;
+            if (m == null || !m.Success) return null;
             return names.ToDictionary(name => name, name => m.Result("${" + name + "}")).ToReadOnly();
         }
 
@@ -80,11 +86,14 @@ namespace XenoGears.Strings
 
         public static String Replace(this String input, String pattern, Func<Match, String> replacer, RegexOptions options)
         {
+            if (input == null) return null;
             return Regex.Replace(input, pattern, m => replacer(m), options);
         }
 
         public static String Replace(this String input, String pattern, Func<ReadOnlyDictionary<String, String>, String> replacer, RegexOptions options)
         {
+            if (input == null) return null;
+
             var names = new List<String>();
             var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
             for (; m_meta.Success; m_meta = m_meta.NextMatch())
