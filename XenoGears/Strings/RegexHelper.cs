@@ -90,6 +90,11 @@ namespace XenoGears.Strings
             return Regex.Replace(input, pattern, m => replacer(m), options);
         }
 
+        public static String Replace(this String input, String pattern, Func<ReadOnlyDictionary<String, String>, String> replacer)
+        {
+            return input.Replace(pattern, replacer, RegexOptions.None);
+        }
+
         public static String Replace(this String input, String pattern, Func<ReadOnlyDictionary<String, String>, String> replacer, RegexOptions options)
         {
             if (input == null) return null;
