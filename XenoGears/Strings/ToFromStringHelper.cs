@@ -126,6 +126,7 @@ namespace XenoGears.Strings
                 {
                     // todo. find out the right way to do this
                     var m_parse = t.GetMethod("Parse", new []{typeof(String), typeof(IFormatProvider)});
+                    m_parse = m_parse ?? t.GetMethod("ParseExact", new[]{typeof(String), typeof(IFormatProvider)});
                     if (m_parse != null && m_parse.IsStatic)
                     {
                         return m_parse.Invoke(null, new Object[]{s, provider});
@@ -146,31 +147,16 @@ namespace XenoGears.Strings
             }
             else
             {
-                if (provider is CultureInfo)
+                // todo. find out the right way to do this
+                var m_parse = t.GetMethod("Parse", new []{typeof(String), typeof(String), typeof(IFormatProvider)});
+                m_parse = m_parse ?? t.GetMethod("ParseExact", new[]{typeof(String), typeof(String), typeof(IFormatProvider)});
+                if (m_parse != null && m_parse.IsStatic)
                 {
-                    var locale = (CultureInfo)provider;
-                    var converter = TypeDescriptor.GetConverter(t).AssertNotNull();
-                    if (converter.CanConvertFrom(typeof(String)))
-                    {
-                        return converter.ConvertFromString(null, locale, s);
-                    }
-                    else
-                    {
-                        throw new NotSupportedException(t.ToString());
-                    }
+                    return m_parse.Invoke(null, new Object[]{s, format, provider});
                 }
                 else
                 {
-                    // todo. find out the right way to do this
-                    var m_parse = t.GetMethod("Parse", new []{typeof(String), typeof(String), typeof(IFormatProvider)});
-                    if (m_parse != null && m_parse.IsStatic)
-                    {
-                        return m_parse.Invoke(null, new Object[]{s, format, provider});
-                    }
-                    else
-                    {
-                        throw new NotSupportedException(t.ToString());
-                    }
+                    throw new NotSupportedException(t.ToString());
                 }
             }
         }
