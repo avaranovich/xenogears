@@ -104,6 +104,7 @@
     <Compile Include="FluencyHelper.cs" />
     <Compile Include="Reflection\DelegateHelper.cs" />
     <Compile Include="Reflection\Emit\EmitAttributeHelper.cs" />
+    <Compile Include="Reflection\Emit\ILTrait.Hacks.cs" />
     <Compile Include="Reflection\Emit\ILTrait.Raw.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -203,15 +204,10 @@
     <Compile Include="Reflection\Emit\CustomAttributeBuilderTrait.cs" />
     <Compile Include="Reflection\Emit\DefineMethodHelper.cs" />
     <Compile Include="Reflection\Emit\FromLambda.cs" />
-    <Compile Include="Reflection\Emit\Hackarounds\FixEmitMethodToken_WithHackaround.cs" />
-    <Compile Include="Reflection\Emit\Hackarounds\FixMethodBuilderSignature_WithHackaround.cs" />
-    <Compile Include="Reflection\Emit\Hackarounds\ILTrait_WithHackaround.cs" />
-    <Compile Include="Reflection\Emit\Hackarounds\SignatureHelper_WithHackaround.cs" />
     <Compile Include="Reflection\Emit\ILTrait.Conversions.cs" />
     <Compile Include="Reflection\Emit\ILTrait.Macros.cs" />
     <Compile Include="Reflection\Emit\ILTrait.Core.cs" />
     <Compile Include="Reflection\InterfaceMappingHelper.cs" />
-    <Compile Include="Reflection\Emit\Hackarounds\HackaroundDiagnosticsHelper.cs" />
     <Compile Include="Reflection\Emit\MethodInfoTrait.cs" />
     <Compile Include="Reflection\Emit\MyTrait.cs" />
     <Compile Include="Reflection\Emit\OverrideMethodHelper.cs" />

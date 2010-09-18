@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
-using XenoGears.Reflection.Emit.Hackarounds;
 using XenoGears.Assertions;
 
 namespace XenoGears.Reflection.Emit
@@ -89,15 +88,15 @@ namespace XenoGears.Reflection.Emit
 
         public static ILGenerator call(this ILGenerator il, MethodBase method)
         {
-//            il.EmitCall(OpCodes.Call, method, null);
-            return il.EmitCall_Hackaround(OpCodes.Call, method.AssertNotNull());
+            il.EmitCall(OpCodes.Call, (MethodInfo)method, null);
+            return il;
         }
 
         public static ILGenerator callvirt(this ILGenerator il, MethodBase method)
         {
             // WHL-382 - it isn't convenitent to check out whether a method is virtual, thus we're doing it here
-//            il.EmitCall(method.IsVirtual ? OpCodes.Callvirt : OpCodes.Call, method, null);
-            return il.EmitCall_Hackaround(method.IsVirtual ? OpCodes.Callvirt : OpCodes.Call, method.AssertNotNull());
+            il.EmitCall(method.IsVirtual ? OpCodes.Callvirt : OpCodes.Call, (MethodInfo)method, null);
+            return il;
         }
 
         public static ILGenerator ceq(this ILGenerator il)
