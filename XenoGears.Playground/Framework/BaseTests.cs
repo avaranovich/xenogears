@@ -8,6 +8,7 @@ using XenoGears.Assertions;
 using XenoGears.Functional;
 using XenoGears.Logging.Media;
 using XenoGears.Reflection.Generics;
+using XenoGears.Streams;
 using XenoGears.Strings;
 using XenoGears.Logging;
 using NUnit.Framework;

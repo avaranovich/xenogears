@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace XenoGears
+namespace XenoGears.Streams
 {
     [DebuggerNonUserCode]
     public static class StreamUtilities

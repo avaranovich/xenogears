@@ -9,6 +9,7 @@ using XenoGears.Reflection.Attributes;
 using XenoGears.Reflection.Shortcuts;
 using XenoGears.Functional;
 using XenoGears.Assertions;
+using XenoGears.Streams;
 using XenoGears.Strings;
 
 namespace XenoGears.CommandLine

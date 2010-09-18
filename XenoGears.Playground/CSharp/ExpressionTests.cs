@@ -20,11 +20,11 @@ namespace XenoGears.Playground.CSharp
             Expression<Action<Enum>> expr2 = e => aifo(e);
 
             Assert.AreEqual(
-                "e => Invoke(value(XenoGears.Playground.CSharp.ExpressionTests+<>c__DisplayClass2).aifo,Convert(e))", 
+                "e => Invoke(value(XenoGears.Playground.CSharp.ExpressionTests+<>c__DisplayClass2).aifo, Convert(e))", 
                 expr.ToString());
 
             Assert.AreEqual(
-                "e => Invoke(value(XenoGears.Playground.CSharp.ExpressionTests+<>c__DisplayClass2).aifo,e)", 
+                "e => Invoke(value(XenoGears.Playground.CSharp.ExpressionTests+<>c__DisplayClass2).aifo, e)", 
                 expr2.ToString());
         }
         
@@ -68,7 +68,7 @@ namespace XenoGears.Playground.CSharp
             // expression tree actually contains a call to Delegate.CreateDelegate that 
             // gets handed already resolved signature as a MethodInfo constant expression.
             Assert.AreEqual(
-                "o => Invoke(Convert(CreateDelegate(XenoGears.Playground.CSharp.ExpressionTests+DMethodGroup, o, Void MethodGroup(Int32))),0)",
+                "o => Invoke(Convert(CreateDelegate(XenoGears.Playground.CSharp.ExpressionTests+DMethodGroup, o, Void MethodGroup(Int32))), 0)",
                 expr.ToString());
         }
 
@@ -255,7 +255,7 @@ namespace XenoGears.Playground.CSharp
             Expression<Func<int, long>> natural = i => f(i);
             Assert.IsTrue(Regex.IsMatch(
                 natural.ToString(),
-                @"i => Convert\(Invoke\(value\(.*<>c__DisplayClass.?\)\.f,Convert\(i\)\)\)"));
+                @"i => Convert\(Invoke\(value\(.*<>c__DisplayClass.?\)\.f, Convert\(i\)\)\)"));
 
             Expression.Invoke(Expression.Constant(f), Expression.Constant(1));
         }

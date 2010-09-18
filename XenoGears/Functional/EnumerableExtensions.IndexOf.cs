@@ -38,7 +38,7 @@ namespace XenoGears.Functional
 
         public static IEnumerable<int> IndicesOf<T>(this IEnumerable<T> seq, Func<T, bool> predicate)
         {
-            return seq.Select((el, i) => Tuple.New(predicate(el), i)).Where(t => t.Item1).Select(t => t.Item2);
+            return seq.Select((el, i) => Tuple.Create(predicate(el), i)).Where(t => t.Item1).Select(t => t.Item2);
         }
     }
 }

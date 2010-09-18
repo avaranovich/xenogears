@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XenoGears.Playground</RootNamespace>
     <AssemblyName>XenoGears.Playground</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
@@ -35,6 +35,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -106,7 +107,6 @@
     <Compile Include="MetaTests.cs" />
     <Compile Include="Reflection\Generic\GenericArgsMappingTests.cs" />
     <Compile Include="Reflection\Generic\GenericTests.cs" />
-    <Compile Include="Functional\Tests.cs" />
     <Compile Include="Reflection\Typed\Tests.cs">
       <SubType>Code</SubType>
     </Compile>

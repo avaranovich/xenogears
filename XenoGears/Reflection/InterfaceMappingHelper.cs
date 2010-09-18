@@ -14,7 +14,7 @@ namespace XenoGears.Reflection
         public static ReadOnlyDictionary<MethodBase, MethodBase> MapImplsToInterfaces(this Type t, Type iface)
         {
             if (t == null || iface == null) return null;
-            return _im2ifCache.GetOrCreate(Tuple.New(t, iface), () =>
+            return _im2ifCache.GetOrCreate(Tuple.Create(t, iface), () =>
             {
                 var map = t.GetInterfaceMap(iface);
 
@@ -44,7 +44,7 @@ namespace XenoGears.Reflection
         public static ReadOnlyDictionary<MethodBase, MethodBase> MapInterfacesToImpls(this Type t, Type iface)
         {
             if (t == null || iface == null) return null;
-            return _if2imCache.GetOrCreate(Tuple.New(t, iface), () =>
+            return _if2imCache.GetOrCreate(Tuple.Create(t, iface), () =>
             {
                 var map = t.GetInterfaceMap(iface);
 

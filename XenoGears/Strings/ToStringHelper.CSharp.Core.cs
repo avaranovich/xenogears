@@ -79,6 +79,16 @@ namespace XenoGears.Strings
                     buffer.Append(t.GetCSharpAttributesClause(opt)).Append(" ");
                 if (opt.EmitStaticQualifier && t.IsStatic()) buffer.Append("static ");
                 buffer.Append(t.GetCSharpTypeNameQualifier(opt));
+                if (t.DeclaringType != null && !t.IsGenericParameter)
+                {
+                    var dt = t.DeclaringType;
+                    buffer.Append(dt.Name.Slice(0, dt.Name.IndexOf("`") == -1 ? dt.Name.Length : dt.Name.IndexOf("`")));
+                    if (opt.EmitTypeArgsCount && dt.XGetGenericArguments().IsNotEmpty())
+                        buffer.Append("`").Append(dt.XGetGenericArguments().Count());
+                    if (opt.EmitTypeArgs && dt.XGetGenericArguments().IsNotEmpty())
+                        buffer.Append(dt.GetCSharpTypeArgsClause(opt));
+                    buffer.Append(".");
+                }
                 buffer.Append(t.Name.Slice(0, t.Name.IndexOf("`") == -1 ? t.Name.Length : t.Name.IndexOf("`")));
                 if (opt.EmitTypeArgsCount && t.XGetGenericArguments().IsNotEmpty())
                     buffer.Append("`").Append(t.XGetGenericArguments().Count());

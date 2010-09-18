@@ -37,7 +37,7 @@ namespace XenoGears.Reflection.Emit2
                 {
                     // segregate codegen units not only by name but also by test id
                     // so that multiple tests run at once in R# won't share the same codegen unit
-                    var key = Tuple.New((Object)name, UnitTest.PersistentId);
+                    var key = Tuple.Create((Object)name, UnitTest.PersistentId);
 
                     lock (_unitsLock)
                     {
