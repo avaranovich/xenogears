@@ -19,7 +19,7 @@ namespace XenoGears.Functional
             var dims = new []{seq1.Count()};
             foreach (var perm in dims.CartesianProduct())
             {
-                yield return Tuple.New(
+                yield return Tuple.Create(
                     seq1.ElementAt(perm.ElementAt(0)));
             }
         }
@@ -34,7 +34,7 @@ namespace XenoGears.Functional
             var dims = new []{seq1.Count(), seq2.Count()};
             foreach (var perm in dims.CartesianProduct())
             {
-                yield return Tuple.New(
+                yield return Tuple.Create(
                     seq1.ElementAt(perm.ElementAt(0)),
                     seq2.ElementAt(perm.ElementAt(1)));
             }
@@ -50,7 +50,7 @@ namespace XenoGears.Functional
             var dims = new []{seq1.Count(), seq2.Count(), seq3.Count()};
             foreach (var perm in dims.CartesianProduct())
             {
-                yield return Tuple.New(
+                yield return Tuple.Create(
                     seq1.ElementAt(perm.ElementAt(0)),
                     seq2.ElementAt(perm.ElementAt(1)),
                     seq3.ElementAt(perm.ElementAt(2)));

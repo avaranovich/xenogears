@@ -102,6 +102,7 @@ namespace XenoGears.Collections.Dictionaries
             return this.GetEnumerator();
         }
 
+        [DebuggerNonUserCode]
         private abstract class Collection<T> : ICollection<T>
         {
             protected readonly IDictionary<K, V> dictionary;
@@ -165,6 +166,7 @@ namespace XenoGears.Collections.Dictionaries
 
         [DebuggerDisplay("Count = {Count}")]
         [DebuggerTypeProxy("System.Collections.Generic.Mscorlib_DictionaryKeyCollectionDebugView`2,mscorlib,Version=2.0.0.0,Culture=neutral,PublicKeyToken=b77a5c561934e089")]
+        [DebuggerNonUserCode]
         private class KeyCollection : Collection<K>
         {
             public KeyCollection(IDictionary<K, V> dictionary)
@@ -182,6 +184,7 @@ namespace XenoGears.Collections.Dictionaries
 
         [DebuggerDisplay("Count = {Count}")]
         [DebuggerTypeProxy("System.Collections.Generic.Mscorlib_DictionaryValueCollectionDebugView`2,mscorlib,Version=2.0.0.0,Culture=neutral,PublicKeyToken=b77a5c561934e089")]
+        [DebuggerNonUserCode]
         private class ValueCollection : Collection<V>
         {
             public ValueCollection(IDictionary<K, V> dictionary)
@@ -269,6 +272,7 @@ namespace XenoGears.Collections.Dictionaries
             return new DictionaryEnumerator(this);
         }
 
+        [DebuggerNonUserCode]
         private class DictionaryEnumerator : IDictionaryEnumerator
         {
             private readonly IEnumerator<KeyValuePair<K, V>> _impl;

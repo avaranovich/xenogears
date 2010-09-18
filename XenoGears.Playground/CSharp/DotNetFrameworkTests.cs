@@ -284,7 +284,7 @@ namespace XenoGears.Playground.CSharp
         public void TestCharEquality()
         {
             Expression<Func<char, char, bool>> expr = (c1, c2) => c1 == c2;
-            Assert.AreEqual("(c1, c2) => (Convert(c1) = Convert(c2))", expr.ToString());
+            Assert.AreEqual("(c1, c2) => (Convert(c1) == Convert(c2))", expr.ToString());
         }
 
         [Test]

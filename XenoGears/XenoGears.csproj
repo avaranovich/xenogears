@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XenoGears</RootNamespace>
     <AssemblyName>XenoGears</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -76,17 +76,7 @@
     <Compile Include="CommandLine\CommandLineConfig.cs" />
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
-    <Compile Include="Core\ActionsAndFuncs.cs" />
-    <Compile Include="Functional\Tuples\IStructuralComparable.cs" />
-    <Compile Include="Functional\Tuples\IStructuralEquatable.cs" />
-    <Compile Include="Functional\Tuples\Tuple!1.cs" />
-    <Compile Include="Functional\Tuples\Tuple!2.cs" />
-    <Compile Include="Functional\Tuples\Tuple!3.cs" />
-    <Compile Include="Functional\Tuples\Tuple!4.cs" />
-    <Compile Include="Functional\Tuples\Tuple!5.cs" />
-    <Compile Include="Functional\Tuples\Tuple!6.cs" />
-    <Compile Include="Functional\Tuples\Tuple!7.cs" />
-    <Compile Include="Functional\Tuples\Tuple!8.cs" />
+    <Compile Include="Functional\Tuples\TupleHelper.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\LevelLogger.Pretty.cs" />
@@ -126,7 +116,9 @@
     <Compile Include="Reflection\Typed\ApiExtensions.cs" />
     <Compile Include="Reflection\Visibility.cs" />
     <Compile Include="Reflection\VisibilityHelper.cs" />
-    <Compile Include="ResourceHelper.cs" />
+    <Compile Include="Streams\InterceptorStream.cs" />
+    <Compile Include="Streams\ResourceHelper.cs" />
+    <Compile Include="Streams\StreamUtilities.cs" />
     <Compile Include="Strings\RegexHelper.cs" />
     <Compile Include="Strings\Syms.cs" />
     <Compile Include="Threading\NativeThread.cs" />
@@ -182,26 +174,13 @@
     <Compile Include="Functional\Combinatorics.cs" />
     <Compile Include="Strings\ToFromStringHelper.cs" />
     <Compile Include="Functional\Memoize\Func.cs" />
-    <Compile Include="Functional\Tuples\Impl\MutableTupleElements.cs" />
-    <Compile Include="Functional\Tuples\IMutableTuple.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!1.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!2.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!3.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!4.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!5.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!6.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!7.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple!8.cs" />
-    <Compile Include="Functional\Tuples\MutableTuple.cs" />
     <Compile Include="Traits\Disposable\Disposable.cs" />
-    <Compile Include="Functional\EnumerableExtensions.Chop.cs" />
     <Compile Include="Functional\EnumerableExtensions.Fold.cs" />
     <Compile Include="Functional\EnumerableExtensions.IndexOf.cs" />
     <Compile Include="Functional\EnumerableExtensions.Intersperse.cs" />
     <Compile Include="Functional\EnumerableExtensions.Nth.cs" />
     <Compile Include="Functional\EnumerableExtensions.Ranges.cs" />
     <Compile Include="Functional\EnumerableExtensions.Shift.cs" />
-    <Compile Include="Functional\EnumerableExtensions.Slide.cs" />
     <Compile Include="Functional\EnumerableExtensions.Generators.cs" />
     <Compile Include="Functional\EnumerableExtensions.Scan.cs" />
     <Compile Include="Functional\EnumerableExtensions.Strings.cs" />
@@ -213,10 +192,6 @@
     <Compile Include="Functional\EnumerableExtensions.Zip.cs" />
     <Compile Include="Functional\EnumerableExtensions.Dictionaries.cs" />
     <Compile Include="Functional\EnumerableExtensions.Predicates.cs" />
-    <Compile Include="Functional\Tuples\ITuple.cs" />
-    <Compile Include="Functional\Tuples\Impl\ITupleImpl.cs" />
-    <Compile Include="Functional\Tuples\Impl\TupleImplHelper.cs" />
-    <Compile Include="Functional\Tuples\Tuple.cs" />
     <Compile Include="Exceptions\BaseException.cs" />
     <Compile Include="Exceptions\ExceptionWhenHandlingException.cs" />
     <Compile Include="Exceptions\IncludeInMessageAttribute.cs" />
@@ -285,7 +260,6 @@
     <Compile Include="Traits\Hierarchy\IImmutableHierarchy.cs" />
     <Compile Include="Traits\Hierarchy\IImmutableHierarchy2.cs" />
     <Compile Include="SafetyTools.cs" />
-    <Compile Include="StreamUtilities.cs" />
     <Compile Include="Strings\StringHelper.cs" />
     <Compile Include="TlsHelper.cs" />
     <Compile Include="Strings\ToStringHelper.Miscellaneous.cs" />
@@ -345,6 +319,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

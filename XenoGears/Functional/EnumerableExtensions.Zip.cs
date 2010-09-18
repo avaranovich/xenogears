@@ -8,23 +8,19 @@ namespace XenoGears.Functional
     {
         public static IEnumerable<Tuple<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> seq1, IEnumerable<T2> seq2)
         {
-            return Zip(seq1, seq2, (t1, t2) => Tuple.New(t1, t2));
+            return Enumerable.Zip(seq1, seq2, (t1, t2) => Tuple.Create(t1, t2));
         }
 
         public static Tuple<IEnumerable<T1>, IEnumerable<T2>> Unzip<T1, T2>(this IEnumerable<Tuple<T1, T2>> seq)
         {
-            return Tuple.New<IEnumerable<T1>, IEnumerable<T2>>(seq.Select(t => t.Item1).ToArray(), seq.Select(t => t.Item2).ToArray());
+            return Tuple.Create<IEnumerable<T1>, IEnumerable<T2>>(seq.Select(t => t.Item1).ToArray(), seq.Select(t => t.Item2).ToArray());
         }
 
-        public static Tuple<IEnumerable<T1>, IEnumerable<T2>> Unzip<T1, T2>(this IEnumerable<MutableTuple<T1, T2>> seq)
-        {
-            return Tuple.New<IEnumerable<T1>, IEnumerable<T2>>(seq.Select(t => t.Item1).ToArray(), seq.Select(t => t.Item2).ToArray());
-        }
-
-        public static IEnumerable<R> Zip<T1, T2, R>(this IEnumerable<T1> seq1, IEnumerable<T2> seq2, Func<T1, T2, R> zip)
-        {
-            return Zip(seq1, seq2, (t1, t2, i) => zip(t1, t2));
-        }
+        // note. this method was introduced in System.Core v4.0
+//        public static IEnumerable<R> Zip<T1, T2, R>(this IEnumerable<T1> seq1, IEnumerable<T2> seq2, Func<T1, T2, R> zip)
+//        {
+//            return Zip(seq1, seq2, (t1, t2, i) => zip(t1, t2));
+//        }
 
         public static IEnumerable<R> Zip<T1, T2, R>(this IEnumerable<Tuple<T1, T2>> seq, Func<T1, T2, R> zip)
         {
@@ -33,7 +29,7 @@ namespace XenoGears.Functional
 
         public static void Zip<T1, T2>(this IEnumerable<T1> seq1, IEnumerable<T2> seq2, Action<T1, T2> zip)
         {
-            Zip(seq1, seq2, (t1, t2) => { zip(t1, t2); return 0; }).Ping();
+            Enumerable.Zip(seq1, seq2, (t1, t2) => { zip(t1, t2); return 0; }).Ping();
         }
 
         public static void Zip<T1, T2>(this IEnumerable<Tuple<T1, T2>> seq, Action<T1, T2> zip)
@@ -78,17 +74,12 @@ namespace XenoGears.Functional
 
         public static IEnumerable<Tuple<T1, T2, T3>> Zip<T1, T2, T3>(this IEnumerable<T1> seq1, IEnumerable<T2> seq2, IEnumerable<T3> seq3)
         {
-            return Zip(seq1, seq2, seq3, (t1, t2, t3) => Tuple.New(t1, t2, t3));
+            return Zip(seq1, seq2, seq3, (t1, t2, t3) => Tuple.Create(t1, t2, t3));
         }
 
         public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> Unzip<T1, T2, T3>(this IEnumerable<Tuple<T1, T2, T3>> seq)
         {
-            return Tuple.New<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>(seq.Select(t => t.Item1).ToArray(), seq.Select(t => t.Item2).ToArray(), seq.Select(t => t.Item3).ToArray());
-        }
-
-        public static Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>> Unzip<T1, T2, T3>(this IEnumerable<MutableTuple<T1, T2, T3>> seq)
-        {
-            return Tuple.New<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>(seq.Select(t => t.Item1).ToArray(), seq.Select(t => t.Item2).ToArray(), seq.Select(t => t.Item3).ToArray());
+            return Tuple.Create<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>>(seq.Select(t => t.Item1).ToArray(), seq.Select(t => t.Item2).ToArray(), seq.Select(t => t.Item3).ToArray());
         }
 
         public static IEnumerable<R> Zip<T1, T2, T3, R>(this IEnumerable<T1> seq1, IEnumerable<T2> seq2, IEnumerable<T3> seq3, Func<T1, T2, T3, R> zip)

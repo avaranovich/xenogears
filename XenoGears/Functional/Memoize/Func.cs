@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using XenoGears.Assertions;
 using XenoGears.Exceptions;
 
 namespace XenoGears.Functional.Memoize
@@ -12,26 +10,26 @@ namespace XenoGears.Functional.Memoize
     {
         public static Func<R> Memoize<R>(this Func<R> func)
         {
-            var dummy = Tuple.New(0);
+            var dummy = Tuple.Create(0);
             var impl = MemoizeImpl(_ => func());
             return () => impl(dummy);
         }
 
         public static Func<T1, R> Memoize<T1, R>(this Func<T1, R> func)
         {
-            var impl = MemoizeImpl(t => func(t.Items.First().AssertCast<T1>()));
-            return arg1 => impl(Tuple.New(arg1));
+            var impl = MemoizeImpl(t => func(((Tuple<T1>)t).Item1));
+            return arg1 => impl(Tuple.Create(arg1));
         }
 
         public static Func<T1, T2, R> Memoize<T1, T2, R>(this Func<T1, T2, R> func)
         {
-            var impl = MemoizeImpl(t => func((T1)t.Items.First(), (T2)t.Items.Second()));
-            return (arg1, arg2) => impl(Tuple.New(arg1, arg2));
+            var impl = MemoizeImpl(t => func(((Tuple<T1, T2>)t).Item1, ((Tuple<T1, T2>)t).Item2));
+            return (arg1, arg2) => impl(Tuple.Create(arg1, arg2));
         }
 
-        private static Func<ITuple, R> MemoizeImpl<R>(this Func<ITuple, R> normalized)
+        private static Func<Object, R> MemoizeImpl<R>(this Func<Object, R> normalized)
         {
-            var cache = new Dictionary<ITuple, Tuple<R, Exception>>();
+            var cache = new Dictionary<Object, Tuple<R, Exception>>();
 
             return args =>
             {
@@ -50,7 +48,7 @@ namespace XenoGears.Functional.Memoize
                         exception = ex;
                     }
 
-                    cache.Add(args, Tuple.New(result, exception));
+                    cache.Add(args, Tuple.Create(result, exception));
                 }
 
                 var history = cache[args];

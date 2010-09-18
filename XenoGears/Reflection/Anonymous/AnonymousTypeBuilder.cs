@@ -8,6 +8,7 @@ using System.Text;
 using System.Linq;
 using System.Threading;
 using XenoGears.Reflection.Emit2;
+using XenoGears.Streams;
 
 namespace XenoGears.Reflection.Anonymous
 {

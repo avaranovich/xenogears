@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using XenoGears.Functional;
 
-namespace XenoGears
+namespace XenoGears.Streams
 {
     [DebuggerNonUserCode]
     public static class ResourceHelper
