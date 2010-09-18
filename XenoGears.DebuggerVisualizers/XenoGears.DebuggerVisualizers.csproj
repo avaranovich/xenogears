@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XenoGears.DebuggerVisualizers</RootNamespace>
     <AssemblyName>XenoGears.DebuggerVisualizers</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>XenoGears.DebuggerVisualizers.snk</AssemblyOriginatorKeyFile>
