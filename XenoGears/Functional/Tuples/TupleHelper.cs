@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using XenoGears.Strings;
 using XenoGears.Assertions;
 
 namespace XenoGears.Functional.Tuples
 {
+    [DebuggerNonUserCode]
     public static class TupleHelper
     {
         public static ReadOnlyCollection<Object> TupleItems(this Object tuple)
