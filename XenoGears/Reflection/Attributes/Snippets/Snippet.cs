@@ -1,34 +1,33 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 using XenoGears.Reflection.Attributes.Weight;
 
 namespace XenoGears.Reflection.Attributes.Snippets
 {
-    [DebuggerNonUserCode]
-    public class Snippet : IComparable<Snippet>
+    public class Snippet<T> : IComparable<Snippet<T>>
+        where T : MemberInfo
     {
         public SnippetAnnotationAnnotationAttribute AnnotationMetadata { get; private set; }
         public Attribute AssemblyAnnotation { get; private set; }
         public Attribute TypeAnnotation { get; private set; }
-        public Attribute MethodAnnotation { get; private set; }
+        public Attribute MemberAnnotation { get; private set; }
         public double Weight { get; private set; }
-        public double Metric { get; private set; }
-        public MethodInfo Code { get; private set; }
+        public double Metric { get { return 1 / Weight; } }
+        public T Member { get; private set; }
 
         public Snippet(
             SnippetAnnotationAnnotationAttribute annotationMetadata,
             Attribute assemblyAnnotation, 
             Attribute typeAnnotation, 
             Attribute methodAnnotation, 
-            MethodInfo code)
+            T code)
         {
             AnnotationMetadata = annotationMetadata;
             AssemblyAnnotation = assemblyAnnotation;
             TypeAnnotation = typeAnnotation;
-            MethodAnnotation = methodAnnotation;
-            Code = code;
+            MemberAnnotation = methodAnnotation;
+            Member = code;
 
             double acc;
             if (AnnotationMetadata.WeightAccumulationIsAdditive)
@@ -38,8 +37,8 @@ namespace XenoGears.Reflection.Attributes.Snippets
                     acc += ((WeightedAttribute)AssemblyAnnotation).Weight;
                 if (TypeAnnotation is WeightedAttribute)
                     acc += ((WeightedAttribute)TypeAnnotation).Weight;
-                if (MethodAnnotation is WeightedAttribute)
-                    acc += ((WeightedAttribute)MethodAnnotation).Weight;
+                if (MemberAnnotation is WeightedAttribute)
+                    acc += ((WeightedAttribute)MemberAnnotation).Weight;
             }
             else if (AnnotationMetadata.WeightAccumulationIsMultiplicative)
             {
@@ -48,8 +47,8 @@ namespace XenoGears.Reflection.Attributes.Snippets
                     acc *= ((WeightedAttribute)AssemblyAnnotation).Weight;
                 if (TypeAnnotation is WeightedAttribute)
                     acc *= ((WeightedAttribute)TypeAnnotation).Weight;
-                if (MethodAnnotation is WeightedAttribute)
-                    acc *= ((WeightedAttribute)MethodAnnotation).Weight;
+                if (MemberAnnotation is WeightedAttribute)
+                    acc *= ((WeightedAttribute)MemberAnnotation).Weight;
             }
             else
             {
@@ -57,10 +56,9 @@ namespace XenoGears.Reflection.Attributes.Snippets
             }
 
             Weight = acc;
-            Metric = 1 / acc;
         }
 
-        public int CompareTo(Snippet other)
+        public int CompareTo(Snippet<T> other)
         {
             if (other == null) return -1;
             if (this.AnnotationMetadata != other.AnnotationMetadata) return 0;
