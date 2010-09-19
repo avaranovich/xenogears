@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Web;
 using XenoGears.Functional;
 
 namespace XenoGears.Strings
@@ -201,6 +202,14 @@ namespace XenoGears.Strings
         {
             if (strings == null) return null;
             return strings.Select(s => s == null ? null : s.Trim());
+        }
+
+        public static String ToHtml(this String s)
+        {
+            if (s == null) return null;
+            s = HttpUtility.HtmlEncode(s);
+            s = s.Replace(" ", "&nbsp;").Replace(Environment.NewLine, "<br />");
+            return s;
         }
     }
 }

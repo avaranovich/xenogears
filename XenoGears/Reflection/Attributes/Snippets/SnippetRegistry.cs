@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using XenoGears.Collections.Dictionaries;
 using XenoGears.Functional;
 using XenoGears.Reflection.Shortcuts;
 
@@ -39,7 +40,7 @@ namespace XenoGears.Reflection.Attributes.Snippets
                     if (!cache.ContainsKey(typeof(A)))
                     {
                         var annotation = typeof(A).Attr<SnippetAnnotationAnnotationAttribute>();
-                        var includeAllMethods = annotation.AutoIncludeAllMembersInMarkedClasses;
+                        var includeAllMembers = annotation.AutoIncludeAllMembersInMarkedClasses;
                         var a_method = typeof(A);
                         var a_type = annotation.TypeMarker ?? a_method;
                         var a_asm = annotation.AssemblyMarker ?? a_type;
@@ -65,7 +66,7 @@ namespace XenoGears.Reflection.Attributes.Snippets
                                     {
                                         return t.GetMethods(BF.All).SelectMany(m =>
                                         {
-                                            var a_methods = includeAllMethods ? 
+                                            var a_methods = includeAllMembers ? 
                                                 ((A)null).MkArray() :  m.Attrs(a_method);
                                             if (a_methods.IsEmpty())
                                             {
@@ -90,6 +91,12 @@ namespace XenoGears.Reflection.Attributes.Snippets
             return cache[typeof(A)];
         }
 
+        public static ReadOnlyDictionary<Type, ReadOnlyCollection<Snippet<MethodInfo>>> MethodsByHost<A>()
+            where A : Attribute
+        {
+            return Methods<A>().GroupBy(s => s.Member.DeclaringType).ToDictionary(g => g.Key, g => g.ToReadOnly()).ToReadOnly();
+        }
+
         public static ReadOnlyCollection<Snippet<PropertyInfo>> Properties<A>()
             where A : Attribute
         {
@@ -104,7 +111,7 @@ namespace XenoGears.Reflection.Attributes.Snippets
                     if (!cache.ContainsKey(typeof(A)))
                     {
                         var annotation = typeof(A).Attr<SnippetAnnotationAnnotationAttribute>();
-                        var includeAllProps = annotation.AutoIncludeAllMembersInMarkedClasses;
+                        var includeAllMembers = annotation.AutoIncludeAllMembersInMarkedClasses;
                         var a_prop = typeof(A);
                         var a_type = annotation.TypeMarker ?? a_prop;
                         var a_asm = annotation.AssemblyMarker ?? a_type;
@@ -130,7 +137,7 @@ namespace XenoGears.Reflection.Attributes.Snippets
                                     {
                                         return t.GetProperties(BF.All).SelectMany(p =>
                                         {
-                                            var a_props = includeAllProps ? 
+                                            var a_props = includeAllMembers ? 
                                                 ((A)null).MkArray() :  p.Attrs(a_prop);
                                             if (a_props.IsEmpty())
                                             {
@@ -153,6 +160,12 @@ namespace XenoGears.Reflection.Attributes.Snippets
             // temporary variable is used in order
             // not to get a crash when the cache is invalidated upon new assembly load
             return cache[typeof(A)];
+        }
+
+        public static ReadOnlyDictionary<Type, ReadOnlyCollection<Snippet<PropertyInfo>>> PropertiesByHost<A>()
+            where A : Attribute
+        {
+            return Properties<A>().GroupBy(s => s.Member.DeclaringType).ToDictionary(g => g.Key, g => g.ToReadOnly()).ToReadOnly();
         }
     }
 }

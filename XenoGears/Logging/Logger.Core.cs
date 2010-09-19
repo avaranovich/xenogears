@@ -100,6 +100,11 @@ namespace XenoGears.Logging
             return this[level].Write(format, args);
         }
 
+        public LevelLogger WriteLine(Level level)
+        {
+            return this[level].WriteLine();
+        }
+
         public LevelLogger WriteLine(Level level, Object o)
         {
             return this[level].WriteLine(o);
