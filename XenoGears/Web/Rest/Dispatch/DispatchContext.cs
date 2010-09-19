@@ -26,7 +26,7 @@ namespace XenoGears.Web.Rest.Dispatch
         public String Method { get { return BestMatch == null ? null : BestMatch.Method; } }
 
         public ReadOnlyDictionary<String, String> ParsedResource { get { return BestMatch == null ? null : BestMatch.ParsedResource; } }
-        public BoundSnippet HandlerContext { get { return BestMatch == null ? null : BestMatch.HandlerContext; } }
+        public HandlerContext HandlerContext { get { return BestMatch == null ? null : BestMatch.HandlerContext; } }
         public MethodInfo HandlerCode { get { return BestMatch == null ? null : BestMatch.HandlerCode; } }
         public Action Handler { get { return BestMatch == null ? null : BestMatch.Handler; } }
 

@@ -11,7 +11,7 @@ using Log = XenoGears.Web.Logging.Log;
 
 namespace XenoGears.Web.Rest.Dispatch
 {
-    public class BoundSnippet
+    public class HandlerContext
     {
         public RestRequest Request { get; private set; }
         public ReadOnlyDictionary<String, String> Parsed { get; private set; }
@@ -20,7 +20,7 @@ namespace XenoGears.Web.Rest.Dispatch
         private LevelLogger Info { get { return Log.Dispatch.Info; } }
         private LevelLogger Error { get { return Log.Dispatch.Error; } }
 
-        public BoundSnippet(RestRequest request, ReadOnlyDictionary<String, String> parsed, MethodInfo code)
+        public HandlerContext(RestRequest request, ReadOnlyDictionary<String, String> parsed, MethodInfo code)
         {
             Request = request.AssertNotNull();
             Parsed = parsed.AssertNotNull();
