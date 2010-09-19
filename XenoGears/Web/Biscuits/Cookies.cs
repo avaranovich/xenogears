@@ -4,7 +4,7 @@ using XenoGears.Collections.Dictionaries;
 
 namespace XenoGears.Web.Biscuits
 {
-    public class Cookies : OrderedDictionary<String, Cookie>
+    public class Cookies : OrderedDictionary<String, dynamic>
     {
         public Cookies()
         {

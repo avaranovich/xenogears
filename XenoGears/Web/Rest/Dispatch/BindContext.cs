@@ -38,7 +38,7 @@ namespace XenoGears.Web.Rest.Dispatch
         public RestMethods AllowedMethods { get; private set; }
         public String Method { get; private set; }
 
-        public BoundSnippet HandlerContext { get; private set; }
+        public HandlerContext HandlerContext { get; private set; }
         public MethodInfo HandlerCode { get; private set; }
         public Action Handler { get; private set; }
 
@@ -69,7 +69,7 @@ namespace XenoGears.Web.Rest.Dispatch
 
                 var code = snippet.Member;
                 HandlerCode = code;
-                HandlerContext = new BoundSnippet(request, parsed, code);
+                HandlerContext = new HandlerContext(request, parsed, code);
                 Handler = () =>
                 {
                     HandlerContext.Validate().AssertTrue();
@@ -110,7 +110,7 @@ namespace XenoGears.Web.Rest.Dispatch
                         var boundAuthenticators = authenticators.Select(authenticator =>
                         {
                             Debug.WriteLine("    * Authorizing against {0}...", authenticator.Member.GetCSharpRef(ToCSharpOptions.InformativeWithNamespaces));
-                            return new BoundSnippet(request, parsed, authenticator.Member);
+                            return new HandlerContext(request, parsed, authenticator.Member);
                         }).ToReadOnly();
                         var authenticated = skipAuthentication || boundAuthenticators.All(authenticator => authenticator.Validate() && Equals(authenticator.Invoke(), true));
 
@@ -123,7 +123,7 @@ namespace XenoGears.Web.Rest.Dispatch
                             var boundAuthorizers = authorizers.Select(authorizer =>
                             {
                                 Debug.WriteLine("    * Authorizing against {0}...", authorizer.Member.GetCSharpRef(ToCSharpOptions.InformativeWithNamespaces));
-                                return new BoundSnippet(request, parsed, authorizer.Member);
+                                return new HandlerContext(request, parsed, authorizer.Member);
                             }).ToReadOnly();
                             var authorized = skipAuthorization || boundAuthorizers.All(authorizer => authorizer.Validate() && Equals(authorizer.Invoke(), true));
 

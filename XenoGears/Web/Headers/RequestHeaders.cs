@@ -6,14 +6,14 @@ using XenoGears.Collections.Dictionaries;
 
 namespace XenoGears.Web.Headers
 {
-    public class RequestHeaders : BaseDictionary<String, String>
+    public class RequestHeaders : BaseDictionary<String, dynamic>
     {
         public override int Count
         {
             get { throw new NotImplementedException(); }
         }
 
-        public override IEnumerator<KeyValuePair<String, String>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<String, dynamic>> GetEnumerator()
         {
             throw new NotImplementedException();
         }
@@ -23,7 +23,7 @@ namespace XenoGears.Web.Headers
             throw new NotImplementedException();
         }
 
-        public override bool TryGetValue(String key, out String value)
+        public override bool TryGetValue(String key, out dynamic value)
         {
             throw new NotImplementedException();
         }
@@ -33,7 +33,7 @@ namespace XenoGears.Web.Headers
             get { throw new NotImplementedException(); }
         }
 
-        public override void Add(String key, String value)
+        public override void Add(String key, dynamic value)
         {
             throw new NotImplementedException();
         }
@@ -48,12 +48,12 @@ namespace XenoGears.Web.Headers
             throw new NotImplementedException();
         }
 
-        protected override void SetValue(String key, String value)
+        protected override void SetValue(String key, dynamic value)
         {
             throw new NotImplementedException();
         }
 
-        public String this[HttpRequestHeader header]
+        public dynamic this[HttpRequestHeader header]
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }

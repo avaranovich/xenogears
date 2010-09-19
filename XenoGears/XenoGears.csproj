@@ -300,7 +300,7 @@
     <Compile Include="Web\Rest\Dispatch\BindResult.cs" />
     <Compile Include="Web\Rest\Dispatch\DispatchContext.cs" />
     <Compile Include="Web\Rest\Dispatch\DispatchResult.cs" />
-    <Compile Include="Web\Rest\Dispatch\BoundSnippet.cs" />
+    <Compile Include="Web\Rest\Dispatch\HandlerContext.cs" />
     <Compile Include="Web\Rest\Dispatch\RestDispatcher.cs" />
     <Compile Include="Web\Rest\Dispatch\StatusCodeHelper.cs" />
     <Compile Include="Web\Rest\RestGateway.cs" />
