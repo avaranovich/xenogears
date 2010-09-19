@@ -7,6 +7,7 @@ namespace XenoGears.Reflection.Shortcuts
     public class BF
     {
         public const BindingFlags DeclOnly = BindingFlags.DeclaredOnly;
+        public const BindingFlags IgnoreCase = BindingFlags.IgnoreCase;
 
         public const BindingFlags All = Public | Private;
         public const BindingFlags AllInstance = PublicInstance | PrivateInstance;

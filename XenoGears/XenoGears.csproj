@@ -65,10 +65,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ISymWrapper" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Dictionaries\BaseNonStrictDictionary.cs" />
@@ -76,6 +78,15 @@
     <Compile Include="CommandLine\CommandLineConfig.cs" />
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
+    <Compile Include="Config\Codebase\ConfigRegistry.cs" />
+    <Compile Include="Formats\Adapters\PropertyAdapterAttribute.cs" />
+    <Compile Include="Formats\Adapters\TypeAdapterAttribute.cs" />
+    <Compile Include="Formats\Engines\PropertyEngineAttribute.cs" />
+    <Compile Include="Formats\Engines\TypeEngineAttribute.cs" />
+    <Compile Include="Formats\Validators\NotNullAttribute.cs" />
+    <Compile Include="Formats\Validators\RegexAttribute.cs" />
+    <Compile Include="Formats\Validators\PropertyValidatorAttribute.cs" />
+    <Compile Include="Formats\Validators\TypeValidatorAttribute.cs" />
     <Compile Include="Functional\Tuples\TupleHelper.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
@@ -268,6 +279,49 @@
     <Compile Include="Versioning\AssemblyBuiltFromAttribute.cs" />
     <Compile Include="Versioning\AssemblyBuiltOnAttribute.cs" />
     <Compile Include="Versioning\AssemblyBuiltAtAttribute.cs" />
+    <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Config\Codebase\ConfigAttribute.cs" />
+    <Compile Include="Config\Codebase\ConfigCodebaseAttribute.cs" />
+    <Compile Include="Config\ConfigResource.cs" />
+    <Compile Include="Formats\Adapters\PasswordAttribute.cs" />
+    <Compile Include="Formats\Json.cs" />
+    <Compile Include="Web\Gateway.cs" />
+    <Compile Include="Web\Helpers\StatusCodeHelper.cs" />
+    <Compile Include="Web\Logging\Log.cs" />
+    <Compile Include="Web\Logging\LogConfig.cs" />
+    <Compile Include="Web\Rest\Annotations\RestMethods.cs" />
+    <Compile Include="Web\Rest\Annotations\RestMethodsHelper.cs" />
+    <Compile Include="Web\Rest\Annotations\RestResourceAttribute.cs" />
+    <Compile Include="Web\Rest\Context\RestContext.cs" />
+    <Compile Include="Web\Rest\Context\RestRequest.cs" />
+    <Compile Include="Web\Rest\Context\RestHints.cs" />
+    <Compile Include="Web\Rest\Context\RestResponse.cs" />
+    <Compile Include="Web\Rest\Dispatch\BindContext.cs" />
+    <Compile Include="Web\Rest\Dispatch\BindResult.cs" />
+    <Compile Include="Web\Rest\Dispatch\DispatchContext.cs" />
+    <Compile Include="Web\Rest\Dispatch\DispatchResult.cs" />
+    <Compile Include="Web\Rest\Dispatch\BoundSnippet.cs" />
+    <Compile Include="Web\Rest\Dispatch\RestDispatcher.cs" />
+    <Compile Include="Web\Rest\Dispatch\StatusCodeHelper.cs" />
+    <Compile Include="Web\Rest\RestGateway.cs" />
+    <Compile Include="Web\Rest\Security\AuthenticationFilterAttribute.cs" />
+    <Compile Include="Web\Rest\Security\AuthorizationFilterAttribute.cs" />
+    <Compile Include="Web\Rest\Security\SecurityCodebase.cs" />
+    <Compile Include="Web\Helpers\CallStack.cs" />
+    <Compile Include="Web\Helpers\ContentType.cs" />
+    <Compile Include="Web\Biscuits\Cookie.cs" />
+    <Compile Include="Web\Biscuits\CookieHelper.cs" />
+    <Compile Include="Web\Biscuits\Cookies.cs" />
+    <Compile Include="Web\Helpers\Debug.cs" />
+    <Compile Include="Web\Headers\HeaderHelper.cs" />
+    <Compile Include="Web\Headers\RequestHeaders.cs" />
+    <Compile Include="Web\Headers\ResponseHeaders.cs" />
+    <Compile Include="Web\Helpers\HijackHelper.cs" />
+    <Compile Include="Web\Helpers\IisLogWriter.cs" />
+    <Compile Include="Web\Urls\ParsedUrl.cs" />
+    <Compile Include="Web\Urls\Query.cs" />
+    <Compile Include="Web\Urls\Url.cs" />
+    <Compile Include="Web\Urls\UrlTrait.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\AssemblyInfo.embedded" />
