@@ -2,10 +2,11 @@
 using System.Reflection;
 using System.Text;
 using XenoGears.Assertions;
+using XenoGears.Formats.Annotations.Adapters;
 
 namespace XenoGears.Formats.Adapters
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class PasswordAttribute : PropertyAdapterAttribute
     {
         public override Object AfterDeserialize(PropertyInfo pi, Object value)

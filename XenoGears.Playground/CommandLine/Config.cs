@@ -20,7 +20,7 @@ namespace XenoGears.Playground.CommandLine
     {
         [Param("name", "prj-name", "project-name", Description = "Name of the project. Defaults to the name of target dir.")]
         public String ProjectName { get; private set; }
-        private static bool ValidateProjectName(String name) { return name.IsMatch(@"^\w*$"); }
+        private static bool ValidateProjectName(String name) { return name.Matches(@"^\w*$"); }
         private static String DefaultProjectName { get { return null; } }
 
         [Param("template", "template-name", Description = "Codebase template.")]

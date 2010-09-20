@@ -11,9 +11,15 @@ namespace XenoGears.Formats
 {
     public partial class Json : BaseDictionary<dynamic, dynamic>, IDynamicMetaObjectProvider
     {
-        private readonly Object _primitive;
-        private readonly OrderedDictionary<String, Json> _complex;
-        private bool? _isobject = null;
+        internal Object _my_primitive;
+        internal OrderedDictionary<String, Json> _my_complex;
+        internal bool? _my_isobject = null;
+
+        private readonly Json _wrappee;
+        private Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
+        private OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
+        private bool? _isobject { get { return _wrappee != null ? _wrappee._isobject : _my_isobject; } set { if (_wrappee != null) _wrappee._isobject = value; else _my_isobject = value; } }
+
         public bool IsPrimitive { get { return _complex == null; } }
         public bool IsComplex { get { return _complex != null; } }
         public bool IsObject { get { return _complex != null && (_isobject ?? false); } }
@@ -65,22 +71,34 @@ namespace XenoGears.Formats
             public override IEnumerable<String> GetDynamicMemberNames()
             {
                 _json.IsComplex.AssertTrue();
-                return _json.Keys.Cast<String>();
+                var keys = _json.Keys.Cast<String>();
+                return _json.IsArray ? keys.OrderBy(key => int.Parse(key)) : keys;
             }
 
+            // todo. this won't work for interfaces => need to hack Microsoft.CSharp for that
             public override bool TryConvert(ConvertBinder binder, out Object result)
             {
-                throw new NotImplementedException();
+                if (binder.Type == typeof(Json))
+                {
+                    result = _json;
+                    return true;
+                }
+
+                result = _json.Deserialize(binder.Type);
+                return true;
             }
 
             public override bool TryGetMember(GetMemberBinder binder, out Object result)
             {
-                throw new NotImplementedException();
+                result = _json[binder.Name];
+                return true;
             }
 
             public override bool TrySetMember(SetMemberBinder binder, Object value)
             {
-                throw new NotImplementedException();
+                value = _json.ImportValue(value);
+                _json[binder.Name] = value;
+                return true;
             }
         }
 
@@ -203,17 +221,14 @@ namespace XenoGears.Formats
 
         #endregion
 
-        #region Equality
+        #region Equality implementation
 
-        public static bool operator !=(dynamic value, Json json) { return !(value == json); }
-        public static bool operator ==(dynamic value, Json json) { return json == value; }
-        public static bool operator !=(Json json, dynamic value) { return !(json == value); }
-        public static bool operator ==(Json json, dynamic value) { return json == new Json(value); }
+        public static bool operator !=(Object value, Json json) { return !(value == json); }
+        public static bool operator ==(Object value, Json json) { return Equals(json, value); }
+        public static bool operator !=(Json json, Object value) { return !(json == value); }
+        public static bool operator ==(Json json, Object value) { return Equals(json, value); }
         public static bool operator !=(Json json, Json value) { return !(json == value); }
-        public static bool operator ==(Json json, Json value)
-        {
-            return Equals(json, new Json(value));
-        }
+        public static bool operator ==(Json json, Json value) { return Equals(json, value); }
 
         public override bool Equals(Object obj)
         {

@@ -24,6 +24,18 @@ namespace XenoGears.Strings
             return Regex.IsMatch(input, pattern, options);
         }
 
+        public static bool Matches(this String input, String pattern)
+        {
+            if (input == null) return false;
+            return Regex.IsMatch(input, pattern);
+        }
+
+        public static bool Matches(this String input, String pattern, RegexOptions options)
+        {
+            if (input == null) return false;
+            return Regex.IsMatch(input, pattern, options);
+        }
+
         public static Match Match(this String input, String pattern)
         {
             if (input == null) return null;
@@ -74,6 +86,16 @@ namespace XenoGears.Strings
             return input.Replace(pattern, replacer, RegexOptions.None);
         }
 
+        public static String Replace(this String input, String pattern, String replacer)
+        {
+            return input.Replace(pattern, replacer, RegexOptions.None);
+        }
+
+        public static String Replace(this String input, String pattern, RegexOptions options, String replacer)
+        {
+            return input.Replace(pattern, replacer, options);
+        }
+
         public static String Replace(this String input, String pattern, RegexOptions options, Func<Match, String> replacer)
         {
             return input.Replace(pattern, replacer, options);
@@ -82,6 +104,12 @@ namespace XenoGears.Strings
         public static String Replace(this String input, String pattern, RegexOptions options, Func<ReadOnlyDictionary<String, String>, String> replacer)
         {
             return input.Replace(pattern, replacer, options);
+        }
+
+        public static String Replace(this String input, String pattern, String replacer, RegexOptions options)
+        {
+            if (input == null) return null;
+            return Regex.Replace(input, pattern, m => replacer, options);
         }
 
         public static String Replace(this String input, String pattern, Func<Match, String> replacer, RegexOptions options)
