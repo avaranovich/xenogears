@@ -1,0 +1,9 @@
+﻿[{
+    ok : false,
+    bars : { "ein" : [{qux:1, baz:"ein"}, {qux:2, baz:""}], "zwei" : [{qux:1}], "drei" : null }
+    "foos" : [{ok:true}, {ok:false, bars:{}}]
+},
+
+{
+    ok : true
+}]

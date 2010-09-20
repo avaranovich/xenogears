@@ -123,7 +123,7 @@ namespace XenoGears.Playground.Formats
             }
         }
 
-        [Test, Category("Hot")]
+        [Test]
         public void TestCasts()
         {
             dynamic foo = new Foo(10);

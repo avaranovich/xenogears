@@ -11,23 +11,23 @@ namespace XenoGears.Formats
 {
     public partial class Json
     {
-        public static Json ParseOrDefault(String json)
+        public static dynamic ParseOrDefault(String json)
         {
             return ParseOrDefault(json, null as Json);
         }
 
-        public static Json ParseOrDefault(String json, Json @default)
+        public static dynamic ParseOrDefault(String json, dynamic @default)
         {
             return ParseOrDefault(json, () => @default);
         }
 
-        public static Json ParseOrDefault(String json, Func<Json> @default)
+        public static dynamic ParseOrDefault(String json, Func<dynamic> @default)
         {
             try { return Parse(json); }
-            catch { return (@default ?? (() => null))(); }
+            catch { return new Json((@default ?? (() => null))()); }
         }
 
-        public static Json Parse(String s)
+        public static dynamic Parse(String s)
         {
             s = s ?? String.Empty;
             s = s.Replace(@"//.*$", "", RegexOptions.Multiline);
