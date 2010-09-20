@@ -25,7 +25,7 @@ namespace XenoGears.Playground.Formats
             String Baz { get; set; }
         }
 
-        [Test]
+        [Test, Category("Hot")]
         public void Test1()
         {
             var json = Json.Parse(InputText());
