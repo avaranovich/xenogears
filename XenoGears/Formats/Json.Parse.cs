@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using XenoGears.Assertions;
@@ -10,9 +9,6 @@ using XenoGears.Strings;
 
 namespace XenoGears.Formats
 {
-    // todo.
-    // also understand inline comments!!
-
     public partial class Json
     {
         public static Json ParseOrDefault(String json)
@@ -93,6 +89,7 @@ namespace XenoGears.Formats
                         }
 
                         // todo. maybe add custom converters, e.g. for datetime
+                        // todo. maybe even integrate this with V8, but what for?
                         throw AssertionHelper.Fail();
                     }
                 }))();
@@ -104,7 +101,7 @@ namespace XenoGears.Formats
         }
 
         // Splits JSON lists and object definitions into structural parts.
-        // String.Split method won't work for lists of object.
+        // String.Split method won't work for lists of objects.
         private static IEnumerable<String> DisassembleJsonObject(String s)
         {
             var brackBalance = 0;
