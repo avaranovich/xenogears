@@ -104,7 +104,12 @@ namespace XenoGears.Formats
 
         #endregion
 
-        #region Dictionary implementation
+        #region Collection API
+
+        public override bool IsReadOnly
+        {
+            get { return IsPrimitive; }
+        }
 
         public override int Count
         {
@@ -119,17 +124,6 @@ namespace XenoGears.Formats
         {
             IsComplex.AssertTrue();
             return _complex.ToDictionary(kvp => ExportKey(kvp.Key), kvp => ExportValue(kvp.Value)).GetEnumerator();
-        }
-
-        public override bool ContainsKey(dynamic key)
-        {
-            IsComplex.AssertTrue();
-            return _complex.ContainsKey(ImportKey(key));
-        }
-
-        public bool ContainsValue(dynamic value)
-        {
-            return IndexOf(ImportValue(value)) != -1;
         }
 
         public override bool TryGetValue(dynamic key, out dynamic value)
@@ -147,15 +141,10 @@ namespace XenoGears.Formats
             }
         }
 
-        public override bool IsReadOnly
-        {
-            get { return IsPrimitive; }
-        }
-
-        public override void Add(dynamic key, dynamic value)
+        protected override void SetValue(dynamic key, dynamic value)
         {
             IsComplex.AssertTrue();
-            _complex.Add(ImportKey(key), ImportValue(value));
+            _complex[ImportKey(key)] = ImportValue(value);
         }
 
         public override bool Remove(dynamic key)
@@ -170,15 +159,29 @@ namespace XenoGears.Formats
             _complex.Clear();
         }
 
-        protected override void SetValue(dynamic key, dynamic value)
+        #region Object-specific API
+
+        public override bool ContainsKey(dynamic key)
         {
-            IsComplex.AssertTrue();
-            _complex[ImportKey(key)] = ImportValue(value);
+            IsObject.AssertTrue();
+            return _complex.ContainsKey(ImportKey(key));
+        }
+
+        public bool ContainsValue(dynamic value)
+        {
+            IsObject.AssertTrue();
+            return IndexOf(ImportValue(value)) != -1;
+        }
+
+        public override void Add(dynamic key, dynamic value)
+        {
+            IsObject.AssertTrue();
+            _complex.Add(ImportKey(key), ImportValue(value));
         }
 
         #endregion
 
-        #region Partial list implementation
+        #region Array-specific API
 
         public void Add(dynamic value)
         {
@@ -189,7 +192,7 @@ namespace XenoGears.Formats
 
         public bool Contains(dynamic value)
         {
-            // note. this method does also work in dictionary mode
+            IsArray.AssertTrue();
             return IndexOf(ImportValue(value)) != -1;
         }
 
@@ -221,7 +224,9 @@ namespace XenoGears.Formats
 
         #endregion
 
-        #region Equality implementation
+        #endregion
+
+        #region Equality boilerplate
 
         public static bool operator !=(Object value, Json json) { return !(value == json); }
         public static bool operator ==(Object value, Json json) { return Equals(json, value); }
@@ -264,7 +269,9 @@ namespace XenoGears.Formats
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            var state = IsPrimitive ? 1 : IsArray ? 2 : IsObject ? 3 : IsComplex ? 4 : ((Func<int>)(() => { throw AssertionHelper.Fail(); }))();
+            var ordered = (_complex ?? new OrderedDictionary<String, Json>()).OrderBy(kvp => IsArray ? (Object)int.Parse(kvp.Key) : kvp.Key);
+            return ordered.Fold(state, (curr, kvp) => curr ^ kvp.GetHashCode());
         }
 
         #endregion
