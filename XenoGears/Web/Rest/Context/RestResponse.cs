@@ -46,7 +46,7 @@ namespace XenoGears.Web.Rest.Context
                 if (key.IsNullOrEmpty()) return null;
                 var is_header = Char.IsUpper(key[0]);
                 var s_value = is_header ? Headers[key] : Cookies[key].Value;
-                return Json.ParseOrDefault(s_value);
+                return Json.ParseOrDefault(s_value) ?? new Json(s_value);
             }
             set
             {
@@ -101,6 +101,7 @@ namespace XenoGears.Web.Rest.Context
             Fail(result);
         }
 
+        // todo. when outputting HTML, also inject the "$(document).ready(function(){window.log.server(<actual log>});"
         private void Complete(dynamic result = null)
         {
             if (result == null) Native.End();
