@@ -38,13 +38,13 @@ namespace XenoGears.Config
         [RestResource(Uri = "/config", Allow = RestMethods.Merge)]
         public static void Merge(Json json)
         {
-            json.Keys.ForEach(name => Put(name, json[name]));
+            json.Keys.ForEach(name => Merge(name, json[name]));
         }
 
         [RestResource(Uri = "/config/{name}", Allow = RestMethods.Merge)]
         public static void Merge(String name, Json json)
         {
-            AppConfig.Put(name, json);
+            AppConfig.Merge(name, json);
         }
     }
 }

@@ -23,7 +23,8 @@ namespace XenoGears.Web.Logging
         {
             return _instance._loggers.GetOrCreate(name, () =>
             {
-                var logger = Logger.Get(name);
+                // this is done in order to provide per-request logs
+                var logger = Logger.Get(name + "_" + Guid.NewGuid().ToString().Replace("-", "_"));
                 logger.OverrideWriter(_instance._medium);
                 logger.Writer.Multiplex(new IisLogWriter(_instance._ctx));
 
