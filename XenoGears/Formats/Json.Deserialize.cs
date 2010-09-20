@@ -14,19 +14,30 @@ namespace XenoGears.Formats
     {
         public static T Deserialize<T>(String json)
         {
-            return (T)Deserialize(typeof(T), json);
+            return (T)Deserialize(json, typeof(T));
         }
 
-        public static Object Deserialize(Type t, String json)
+        public static T Deserialize<T>(String json, T pattern)
         {
-            if (json == null) { t.IsValueType.AssertFalse(); return null; }
-            return Parse(json).Deserialize(t);
+            return (T)Deserialize(json, typeof(T));
         }
 
-        public static Object Deserialize(MemberInfo mi, String json)
+        public static Object Deserialize(String json, Type descriptor)
         {
-            if (json == null) { mi.SlotType().IsValueType.AssertFalse(); return null; }
-            return Parse(json).Deserialize(mi);
+            if (json == null) { descriptor.IsValueType.AssertFalse(); return null; }
+            return Parse(json).Deserialize(descriptor);
+        }
+
+        public static Object Deserialize(String json, PropertyInfo descriptor)
+        {
+            if (json == null) { descriptor.SlotType().IsValueType.AssertFalse(); return null; }
+            return Parse(json).Deserialize(descriptor);
+        }
+
+        public static Object Deserialize(String json, MemberInfo descriptor)
+        {
+            if (json == null) { descriptor.SlotType().IsValueType.AssertFalse(); return null; }
+            return Parse(json).Deserialize(descriptor);
         }
 
         public T Deserialize<T>()
@@ -34,19 +45,24 @@ namespace XenoGears.Formats
             return (T)Deserialize(typeof(T));
         }
 
-        public Object Deserialize(Type t)
+        public T Deserialize<T>(T pattern)
         {
-            return Deserialize((MemberInfo)t);
+            return (T)Deserialize(typeof(T));
         }
 
-        public Object Deserialize(PropertyInfo pi)
+        public Object Deserialize(Type descriptor)
         {
-            return Deserialize((MemberInfo)pi);
+            return Deserialize((MemberInfo)descriptor);
         }
 
-        public Object Deserialize(MemberInfo mi)
+        public Object Deserialize(PropertyInfo descriptor)
         {
-            mi = mi ?? ((Func<MemberInfo>)(() => { throw AssertionHelper.Fail(); }))();
+            return Deserialize((MemberInfo)descriptor);
+        }
+
+        public Object Deserialize(MemberInfo descriptor)
+        {
+            var mi = descriptor ?? ((Func<MemberInfo>)(() => { throw AssertionHelper.Fail(); }))();
             var pi = mi as PropertyInfo;
             var t = mi is Type ? mi : (mi is PropertyInfo ? ((PropertyInfo)mi).PropertyType : ((Func<Type>)(() => { throw AssertionHelper.Fail(); }))());
 

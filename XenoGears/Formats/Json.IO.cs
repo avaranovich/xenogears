@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Web;
-using XenoGears.Assertions;
 using XenoGears.Streams;
 using XenoGears.Strings;
 
@@ -10,7 +10,7 @@ namespace XenoGears.Formats
 {
     public partial class Json
     {
-        public static Json Load(String uri)
+        public static dynamic Load(String uri)
         {
             if (uri == null) return null;
 
@@ -33,7 +33,7 @@ namespace XenoGears.Formats
                     try { return Parse(s_json); }
                     catch (Exception ex)
                     {
-                        throw new Exception(String.Format("Failed to parse response from \"{1}\":{2}{0}{3}",
+                        throw new Exception(String.Format("Failed to parse JSON response from \"{1}\":{2}{0}{3}",
                             Environment.NewLine, uri, ex.Message, s_json));
                     }
                 }
@@ -71,10 +71,80 @@ namespace XenoGears.Formats
                 try { return Parse(s_json); }
                 catch (Exception ex)
                 {
-                    throw new Exception(String.Format("Failed to parse response from \"{1}\":{2}{0}{3}",
+                    throw new Exception(String.Format("Failed to parse JSON from \"{1}\":{2}{0}{3}",
                         Environment.NewLine, uri, ex.Message, s_json));
                 }
             }
+        }
+
+        public static dynamic LoadOrDefault(String uri)
+        {
+            return LoadOrDefault(uri, null as Json);
+        }
+
+        public static dynamic LoadOrDefault(String uri, dynamic @default)
+        {
+            return LoadOrDefault(uri, () => @default);
+        }
+
+        public static dynamic LoadOrDefault(String uri, Func<dynamic> @default)
+        {
+            try { return Load(uri); }
+            catch { return new Json((@default ?? (() => null))()); }
+        }
+
+        public static dynamic Read(Stream s)
+        {
+            var s_json = new StreamReader(s).ReadToEnd();
+            try { return Parse(s_json); }
+            catch (Exception ex)
+            {
+                throw new Exception(String.Format("Failed to parse JSON from stream \"{1}\":{2}{0}{3}",
+                    Environment.NewLine, s, ex.Message, s_json));
+            }
+        }
+
+        public static dynamic ReadOrDefault(Stream s)
+        {
+            return ReadOrDefault(s, null as Json);
+        }
+
+        public static dynamic ReadOrDefault(Stream s, dynamic @default)
+        {
+            return ReadOrDefault(s, () => @default);
+        }
+
+        public static dynamic ReadOrDefault(Stream s, Func<dynamic> @default)
+        {
+            try { return Read(s); }
+            catch { return new Json((@default ?? (() => null))()); }
+        }
+
+        public static dynamic Read(TextReader r)
+        {
+            var s_json = r.ReadToEnd();
+            try { return Parse(s_json); }
+            catch (Exception ex)
+            {
+                throw new Exception(String.Format("Failed to parse JSON from reader \"{1}\":{2}{0}{3}",
+                    Environment.NewLine, r, ex.Message, s_json));
+            }
+        }
+
+        public static dynamic ReadOrDefault(TextReader r)
+        {
+            return ReadOrDefault(r, null as Json);
+        }
+
+        public static dynamic ReadOrDefault(TextReader r, dynamic @default)
+        {
+            return ReadOrDefault(r, () => @default);
+        }
+
+        public static dynamic ReadOrDefault(TextReader r, Func<dynamic> @default)
+        {
+            try { return Read(r); }
+            catch { return new Json((@default ?? (() => null))()); }
         }
 
         public static void Save(String uri, Json json)
@@ -133,6 +203,36 @@ namespace XenoGears.Formats
                 if (s_json == null) File.Delete(path);
                 else File.WriteAllText(path, s_json);
             }
+        }
+
+        public void Save(String uri)
+        {
+            Save(uri, this);
+        }
+
+        public static void Write(Stream s, Json json)
+        {
+            if (s == null || json == null) return;
+            var s_json = json.ToCompactString();
+            var b_json = Encoding.UTF8.GetBytes(s_json);
+            s.Write(b_json, 0, b_json.Length);
+        }
+
+        public void Write(Stream s)
+        {
+            Write(s, this);
+        }
+
+        public static void Write(TextWriter w, Json json)
+        {
+            if (w == null || json == null) return;
+            var s_json = json.ToCompactString();
+            w.Write(s_json);
+        }
+
+        public void Write(TextWriter w)
+        {
+            Write(w, this);
         }
     }
 }

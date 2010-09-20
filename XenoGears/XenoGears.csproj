@@ -84,13 +84,14 @@
     <Compile Include="Formats\Annotations\Adapters\TypeAdapterAttribute.cs" />
     <Compile Include="Formats\Annotations\Engines\EngineAttribute.cs" />
     <Compile Include="Formats\Engines\DefaultEngineAttribute.cs" />
-    <Compile Include="Formats\Json.Load.cs" />
+    <Compile Include="Formats\Json.IO.cs" />
     <Compile Include="Formats\Json.Api.cs" />
     <Compile Include="Formats\Annotations\Engines\PropertyEngineAttribute.cs" />
     <Compile Include="Formats\Annotations\Engines\TypeEngineAttribute.cs" />
     <Compile Include="Formats\Json.Deserialize.cs" />
     <Compile Include="Formats\Json.Parse.cs" />
     <Compile Include="Formats\Json.ToString.cs" />
+    <Compile Include="Formats\JsonExtensions.cs" />
     <Compile Include="Formats\Validators\NotNullAttribute.cs" />
     <Compile Include="Formats\Validators\RegexAttribute.cs" />
     <Compile Include="Formats\Annotations\Validators\PropertyValidatorAttribute.cs" />

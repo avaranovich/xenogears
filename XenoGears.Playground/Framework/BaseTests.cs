@@ -53,6 +53,56 @@ namespace XenoGears.Playground.Framework
             Out = null;
         }
 
+        protected virtual Assembly InputAssembly()
+        {
+            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
+            return test_fixture.Assembly;
+        }
+
+        protected virtual String InputNamespace()
+        {
+            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
+            return test_fixture.Namespace + ".Reference";
+        }
+
+        protected virtual ReadOnlyCollection<String> InputWannabes()
+        {
+            var unit_test = UnitTest.CurrentTest.AssertNotNull();
+            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
+
+            var fnameWannabes = new List<String>();
+            var cs_opt = ToCSharpOptions.Informative;
+            cs_opt.EmitCtorNameAsClassName = true;
+            var s_name = unit_test.IsConstructor ? unit_test.DeclaringType.GetCSharpRef(cs_opt).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!") : unit_test.Name;
+            var s_sig = unit_test.Params().Select(p => p.GetCSharpRef(cs_opt).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!")).StringJoin("_");
+            var s_declt = test_fixture.GetCSharpRef(cs_opt).Replace("<", "[").Replace(">", "]").Replace("&", "!").Replace("*", "!");
+            fnameWannabes.Add(s_name);
+            fnameWannabes.Add(s_name + "_" + s_sig);
+            fnameWannabes.Add(s_declt + "_" + s_name);
+            fnameWannabes.Add(s_declt + "_" + s_name + "_" + s_sig);
+            fnameWannabes.ForEach(wb => fnameWannabes.Add(wb + ".in"));
+
+            return fnameWannabes.ToReadOnly();
+        }
+
+        protected virtual String InputText()
+        {
+            var res_asm = InputAssembly();
+            var resources = res_asm.Resources();
+            var wannabes = InputWannabes().Select(name => InputNamespace() + "." + name).ToReadOnly();
+            var f_reference = wannabes.SingleOrDefault2(wannabe => resources.ExactlyOne(name => String.Compare(name, wannabe, true) == 0));
+            return f_reference == null ? null : res_asm.ReadText(f_reference);
+        }
+
+        protected virtual byte[] InputBinary()
+        {
+            var res_asm = InputAssembly();
+            var resources = res_asm.Resources();
+            var wannabes = InputWannabes().Select(name => InputNamespace() + "." + name).ToReadOnly();
+            var f_reference = wannabes.SingleOrDefault2(wannabe => resources.ExactlyOne(name => String.Compare(name, wannabe, true) == 0));
+            return f_reference == null ? null : res_asm.ReadBinary(f_reference);
+        }
+
         protected virtual String PreprocessReference(String s_reference)
         {
             return s_reference;
@@ -75,14 +125,12 @@ namespace XenoGears.Playground.Framework
 
         protected virtual Assembly ReferenceAssembly()
         {
-            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
-            return test_fixture.Assembly;
+            return InputAssembly();
         }
 
         protected virtual String ReferenceNamespace()
         {
-            var test_fixture = UnitTest.CurrentFixture.AssertNotNull();
-            return test_fixture.Namespace + ".Reference";
+            return InputNamespace();
         }
 
         protected virtual ReadOnlyCollection<String> ReferenceWannabes()
@@ -100,6 +148,7 @@ namespace XenoGears.Playground.Framework
             fnameWannabes.Add(s_name + "_" + s_sig);
             fnameWannabes.Add(s_declt + "_" + s_name);
             fnameWannabes.Add(s_declt + "_" + s_name + "_" + s_sig);
+            fnameWannabes.ForEach(wb => fnameWannabes.Add(wb + ".out"));
 
             return fnameWannabes.ToReadOnly();
         }

@@ -10,19 +10,24 @@ namespace XenoGears.Formats
 {
     public partial class Json
     {
-        public static String Serialize(Object value)
+        public static dynamic Serialize(Object value)
         {
-            return new Json(value).ToString();
+            return new Json(value);
         }
 
-        public static String Serialize(Type t, Object value)
+        public static dynamic Serialize(Object value, Type descriptor)
         {
-            return new Json(value).ToString();
+            return new Json(value, descriptor);
         }
 
-        public static String Serialize(MemberInfo mi, Object value)
+        public static dynamic Serialize(Object value, PropertyInfo descriptor)
         {
-            return new Json(value).ToString();
+            return new Json(value, descriptor);
+        }
+
+        public static dynamic Serialize(Object value, MemberInfo descriptor)
+        {
+            return new Json(value, descriptor);
         }
 
         public Json()
@@ -30,23 +35,23 @@ namespace XenoGears.Formats
         }
 
         public Json(Object value)
-            : this(value == null ? null : value.GetType(), value)
+            : this(value, value == null ? null : value.GetType())
         {
         }
 
-        public Json(Type t, Object value)
-            : this((MemberInfo)t, value)
+        public Json(Object value, Type descriptor)
+            : this(value, (MemberInfo)descriptor)
         {
         }
 
-        public Json(PropertyInfo pi, Object value)
-            : this((MemberInfo)pi, value)
+        public Json(Object value, PropertyInfo descriptor)
+            : this(value, (MemberInfo)descriptor)
         {
         }
 
-        public Json(MemberInfo mi, Object value)
+        public Json(Object value, MemberInfo descriptor)
         {
-            mi = mi ?? (value == null ? null : value.GetType());
+            var mi = descriptor ?? (value == null ? null : value.GetType());
             var pi = mi as PropertyInfo;
             var t = mi is Type ? mi : (value == null ? null : value.GetType());
 
