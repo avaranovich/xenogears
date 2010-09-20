@@ -32,7 +32,7 @@ namespace XenoGears.Web.Rest.Context
             {
                 if (key.IsNullOrEmpty()) return null;
                 var is_header = Char.IsUpper(key[0]);
-                return is_header ? Headers[key] : Json.ParseOrDefault(Query[key]);
+                return is_header ? Headers[key] : (Json.ParseOrDefault(Query[key]) ?? new Json(Query[key]));
             }
         }
 

@@ -81,8 +81,13 @@
     <Compile Include="Config\Codebase\ConfigRegistry.cs" />
     <Compile Include="Formats\Adapters\PropertyAdapterAttribute.cs" />
     <Compile Include="Formats\Adapters\TypeAdapterAttribute.cs" />
+    <Compile Include="Formats\Json.Load.cs" />
+    <Compile Include="Formats\Json.Api.cs" />
     <Compile Include="Formats\Engines\PropertyEngineAttribute.cs" />
     <Compile Include="Formats\Engines\TypeEngineAttribute.cs" />
+    <Compile Include="Formats\Json.Deserialize.cs" />
+    <Compile Include="Formats\Json.Parse.cs" />
+    <Compile Include="Formats\Json.ToString.cs" />
     <Compile Include="Formats\Validators\NotNullAttribute.cs" />
     <Compile Include="Formats\Validators\RegexAttribute.cs" />
     <Compile Include="Formats\Validators\PropertyValidatorAttribute.cs" />
@@ -284,7 +289,7 @@
     <Compile Include="Config\Codebase\ConfigCodebaseAttribute.cs" />
     <Compile Include="Config\ConfigResource.cs" />
     <Compile Include="Formats\Adapters\PasswordAttribute.cs" />
-    <Compile Include="Formats\Json.cs" />
+    <Compile Include="Formats\Json.Serialize.cs" />
     <Compile Include="Web\Gateway.cs" />
     <Compile Include="Web\Helpers\StatusCodeHelper.cs" />
     <Compile Include="Web\Logging\Log.cs" />
