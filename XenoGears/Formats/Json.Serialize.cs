@@ -30,7 +30,7 @@ namespace XenoGears.Formats
             return new Json(value, descriptor);
         }
 
-        public Json()
+        protected Json()
         {
         }
 

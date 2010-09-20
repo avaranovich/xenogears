@@ -36,6 +36,8 @@ namespace XenoGears.Formats
         {
             if (this.IsPrimitive)
             {
+                if (_primitive == null) writer.Write("null");
+
                 var s = _primitive as String;
                 if (s != null) writer.Write(s.ToJsonString());
 

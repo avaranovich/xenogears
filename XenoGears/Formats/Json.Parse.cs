@@ -38,7 +38,8 @@ namespace XenoGears.Formats
             var json = new Json();
             if (s[0] == '{')
             {
-                var contents = s.AssertExtract(@"^\s*\{\s*(?<contents>.*?)\*\}\s*$");
+                json._my_state = State.Object;
+                var contents = s.AssertExtract(@"^\s*\{\s*(?<contents>.*?)\s*\}\s*$", RegexOptions.Singleline);
                 var parts = DisassembleJsonObject(contents).ToReadOnly();
 
                 parts.ForEach(part =>
@@ -55,7 +56,8 @@ namespace XenoGears.Formats
             }
             else if (s[0] == '[')
             {
-                var contents = s.AssertExtract(@"^\s*\{\s*(?<contents>.*?)\*\}\s*$");
+                json._my_state = State.Array;
+                var contents = s.AssertExtract(@"^\s*\[\s*(?<contents>.*?)\s*\]\s*$", RegexOptions.Singleline);
                 var parts = DisassembleJsonObject(contents).ToReadOnly();
                 parts.ForEach((part, i) => json[i] = Parse(part));
             }
@@ -94,6 +96,7 @@ namespace XenoGears.Formats
                     }
                 }))();
 
+                json._my_state = State.Primitive;
                 json._my_primitive = primitive;
             }
 

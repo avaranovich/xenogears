@@ -11,41 +11,42 @@ namespace XenoGears.Formats
 {
     public partial class Json : BaseDictionary<dynamic, dynamic>, IDynamicMetaObjectProvider
     {
-        internal Object _my_primitive;
-        internal OrderedDictionary<String, Json> _my_complex;
-        internal bool? _my_isobject = null;
+        private Object _my_primitive = null;
+        private OrderedDictionary<String, Json> _my_complex = new OrderedDictionary<String, Json>();
+        protected State _my_state = 0;
+        protected enum State { Primitive = 1, Object, Array }
 
         private readonly Json _wrappee;
         private Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
         private OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
-        private bool? _isobject { get { return _wrappee != null ? _wrappee._isobject : _my_isobject; } set { if (_wrappee != null) _wrappee._isobject = value; else _my_isobject = value; } }
+        private State _state { get { return _wrappee != null ? _wrappee._state : _my_state; } set { if (_wrappee != null) _wrappee._state = value; else _my_state = value; } }
 
-        public bool IsPrimitive { get { return _complex == null; } }
-        public bool IsComplex { get { return _complex != null; } }
-        public bool IsObject { get { return _complex != null && (_isobject ?? false); } }
-        public bool IsArray { get { return _complex != null && (_isobject ?? false); } }
+        public bool IsPrimitive { get { return _state == State.Primitive; } }
+        public bool IsComplex { get { return IsObject || IsArray; } }
+        public bool IsObject { get { return _state == State.Object; } }
+        public bool IsArray { get { return _state == State.Array; } }
 
         #region Dynamic keys/values
 
         private String ImportKey(dynamic key)
         {
             if (key == null) throw AssertionHelper.Fail();
-            if (key is String) return key;
-            if (key is sbyte) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
-            if (key is byte) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
-            if (key is short) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
-            if (key is ushort) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
-            if (key is int) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
-            if (key is uint) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
-            if (key is long) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
-            if (key is ulong) { (_isobject == true).AssertFalse(); _isobject = false; return key.ToString(); }
+            if (key is String) { IsObject.AssertTrue(); return key; }
+            if (key is sbyte) { IsArray.AssertTrue(); return key.ToString(); }
+            if (key is byte) { IsArray.AssertTrue(); return key.ToString(); }
+            if (key is short) { IsArray.AssertTrue(); return key.ToString(); }
+            if (key is ushort) { IsArray.AssertTrue(); return key.ToString(); }
+            if (key is int) { IsArray.AssertTrue(); return key.ToString(); }
+            if (key is uint) { IsArray.AssertTrue(); return key.ToString(); }
+            if (key is long) { IsArray.AssertTrue(); return key.ToString(); }
+            if (key is ulong) { IsArray.AssertTrue(); return key.ToString(); }
             throw AssertionHelper.Fail();
         }
 
         private dynamic ExportKey(String key)
         {
             if (key == null) throw AssertionHelper.Fail();
-            return (_isobject ?? true) ? (dynamic)key : int.Parse(key);
+            return IsArray ? int.Parse(key) : (dynamic)key;
         }
 
         private Json ImportValue(dynamic value)
@@ -70,7 +71,6 @@ namespace XenoGears.Formats
 
             public override IEnumerable<String> GetDynamicMemberNames()
             {
-                _json.IsComplex.AssertTrue();
                 var keys = _json.Keys.Cast<String>();
                 return _json.IsArray ? keys.OrderBy(key => int.Parse(key)) : keys;
             }
@@ -115,14 +115,14 @@ namespace XenoGears.Formats
         {
             get
             {
-                IsComplex.AssertTrue();
+                if (_complex == null) return 0;
                 return _complex.Count();
             }
         }
 
         public override IEnumerator<KeyValuePair<dynamic, dynamic>> GetEnumerator()
         {
-            IsComplex.AssertTrue();
+            if (_complex == null) return Seq.Empty<KeyValuePair<dynamic, dynamic>>().GetEnumerator();
             return _complex.ToDictionary(kvp => ExportKey(kvp.Key), kvp => ExportValue(kvp.Value)).GetEnumerator();
         }
 
