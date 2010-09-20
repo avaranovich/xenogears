@@ -34,7 +34,7 @@ namespace XenoGears.Formats
         {
             // todo. special processing for:
             // 1) Json
-            // 2) HttpCookie
+            // 2) dynamic
             throw new NotImplementedException();
         }
 
