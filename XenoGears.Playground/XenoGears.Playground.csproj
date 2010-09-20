@@ -124,8 +124,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Formats\Reference\Test1.in" />
-    <None Include="Formats\Reference\Test1.out" />
+    <EmbeddedResource Include="Formats\Reference\Test1.in" />
+    <EmbeddedResource Include="Formats\Reference\Test1.out" />
     <None Include="Properties\AssemblyInfo.template" />
     <None Include="XenoGears.Playground.snk" />
   </ItemGroup>

@@ -448,6 +448,11 @@ namespace XenoGears.Assertions
             return input.AssertParse(pattern).AssertSingle().Value;
         }
 
+        public static String AssertExtract(this String input, String pattern, RegexOptions options)
+        {
+            return input.AssertParse(pattern, options).AssertSingle().Value;
+        }
+
         public static T AssertFirst<T>(this IEnumerable<T> seq)
         {
             var actual = seq.Count();

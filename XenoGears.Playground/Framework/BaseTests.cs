@@ -80,7 +80,7 @@ namespace XenoGears.Playground.Framework
             fnameWannabes.Add(s_name + "_" + s_sig);
             fnameWannabes.Add(s_declt + "_" + s_name);
             fnameWannabes.Add(s_declt + "_" + s_name + "_" + s_sig);
-            fnameWannabes.ForEach(wb => fnameWannabes.Add(wb + ".in"));
+            fnameWannabes.AsEnumerable().ForEach(wb => fnameWannabes.Add(wb + ".in"));
 
             return fnameWannabes.ToReadOnly();
         }
@@ -148,7 +148,7 @@ namespace XenoGears.Playground.Framework
             fnameWannabes.Add(s_name + "_" + s_sig);
             fnameWannabes.Add(s_declt + "_" + s_name);
             fnameWannabes.Add(s_declt + "_" + s_name + "_" + s_sig);
-            fnameWannabes.ForEach(wb => fnameWannabes.Add(wb + ".out"));
+            fnameWannabes.AsEnumerable().ForEach(wb => fnameWannabes.Add(wb + ".out"));
 
             return fnameWannabes.ToReadOnly();
         }

@@ -28,7 +28,8 @@ namespace XenoGears.Playground.Formats
         [Test, Category("Hot")]
         public void Test1()
         {
-            var json = Json.Parse(InputText());
+            var s_json = InputText();
+            var json = Json.Parse(s_json);
             Assert.AreEqual(false, (bool)json[0].ok);
             Assert.AreEqual("ein", json[0].bars.ein[0].baz);
             Assert.AreEqual(2, json[0].bars.ein[1].qux);
