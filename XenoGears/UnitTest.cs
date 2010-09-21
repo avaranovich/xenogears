@@ -22,56 +22,70 @@ namespace XenoGears
                 if (from_ctx != null) return from_ctx;
 
                 var frames = new StackTrace().GetFrames().Select(f => f.GetMethod()).ToArray();
-                var suspect1 = frames.Nth(-4);
-                var asm_suspect1 = suspect1.DeclaringType.Assembly;
-                var insideResharper = asm_suspect1.GetName().FullName.Contains("JetBrains");
-                if (insideResharper)
+                var suspect1 = frames.NthOrDefault(-4);
+                if (suspect1 != null)
                 {
-                    var ver = asm_suspect1.GetName().Version;
-                    if (ver.Major == 4 && ver.Minor == 5)
+                    var asm_suspect1 = suspect1.DeclaringType.Assembly;
+                    var insideResharper = asm_suspect1.GetName().FullName.Contains("JetBrains");
+                    if (insideResharper)
                     {
-                        var ourFirstFrame = frames.Reverse().First(mb =>
+                        var ver = asm_suspect1.GetName().Version;
+                        if (ver.Major == 4 && ver.Minor == 5)
                         {
-                            var asm = mb.DeclaringType.Assembly.GetName().FullName;
-                            return !(asm.Contains("JetBrains") || asm.Contains("System") || asm.Contains("mscorlib"));
-                        });
+                            var ourFirstFrame = frames.Reverse().First(mb =>
+                            {
+                                var asm = mb.DeclaringType.Assembly.GetName().FullName;
+                                return !(asm.Contains("JetBrains") || asm.Contains("System") || asm.Contains("mscorlib"));
+                            });
 
-                        return ourFirstFrame.AssertCast<MethodInfo>();
-                    }
-                    else if (ver.Major == 5 && ver.Minor == 1)
-                    {
-                        var ourFirstFrame = frames.Reverse().First(mb =>
+                            return ourFirstFrame.AssertCast<MethodInfo>();
+                        }
+                        else if (ver.Major == 5 && ver.Minor == 1)
                         {
-                            var asm = mb.DeclaringType.Assembly.GetName().FullName;
-                            return !(asm.Contains("JetBrains") || asm.Contains("System") || asm.Contains("mscorlib") || asm.Contains("nunit.core"));
-                        });
+                            var ourFirstFrame = frames.Reverse().First(mb =>
+                            {
+                                var asm = mb.DeclaringType.Assembly.GetName().FullName;
+                                return !(asm.Contains("JetBrains") || asm.Contains("System") || asm.Contains("mscorlib") || asm.Contains("nunit.core"));
+                            });
 
-                        return ourFirstFrame.AssertCast<MethodInfo>();
+                            return ourFirstFrame.AssertCast<MethodInfo>();
+                        }
+                        else
+                        {
+                            throw AssertionHelper.Fail();
+                        }
                     }
                     else
                     {
-                        throw AssertionHelper.Fail();
+                        var suspect2 = frames.NthOrDefault(-7);
+                        if (suspect2 != null)
+                        {
+                            var asm_suspect2 = suspect2.DeclaringType.Assembly;
+                            var insideNUnitRunner = asm_suspect2.GetName().FullName.Contains("nunit.core");
+                            if (insideNUnitRunner)
+                            {
+                                var ourFirstFrame = frames.Reverse().First(mb =>
+                                {
+                                    var asm = mb.DeclaringType.Assembly.GetName().FullName;
+                                    return !(asm.Contains("nunit.core") || asm.Contains("System") || asm.Contains("mscorlib"));
+                                });
+
+                                return ourFirstFrame.AssertCast<MethodInfo>();
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                 }
                 else
                 {
-                    var suspect2 = frames.Nth(-7);
-                    var asm_suspect2 = suspect2.DeclaringType.Assembly;
-                    var insideNUnitRunner = asm_suspect2.GetName().FullName.Contains("nunit.core");
-                    if (insideNUnitRunner)
-                    {
-                        var ourFirstFrame = frames.Reverse().First(mb =>
-                        {
-                            var asm = mb.DeclaringType.Assembly.GetName().FullName;
-                            return !(asm.Contains("nunit.core") || asm.Contains("System") || asm.Contains("mscorlib"));
-                        });
-
-                        return ourFirstFrame.AssertCast<MethodInfo>();
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return null;
                 }
             }
         }

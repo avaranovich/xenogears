@@ -94,6 +94,7 @@ namespace XenoGears.Reflection.Emit2
                 // however, we need not to neglect because R#'s unit-test runner never exits process
                 AppDomain.CurrentDomain.DomainUnload += (o, e) => dumpAssembly();
                 AppDomain.CurrentDomain.ProcessExit += (o, e) => dumpAssembly();
+                AppDomain.CurrentDomain.UnhandledException += (o, e) => dumpAssembly();
             }
             catch (Exception ex)
             {
