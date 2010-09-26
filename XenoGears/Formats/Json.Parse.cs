@@ -50,8 +50,9 @@ namespace XenoGears.Formats
                     var map = (map1 ?? map2 ?? map3).AssertNotNull();
 
                     var key = map["key"].Trim();
-                    var value = map["value"].Trim();
-                    json.Add(key, Parse(value));
+                    var s_value = map["value"].Trim();
+                    var value = Parse(s_value);
+                    json.Add(key, value);
                 });
             }
             else if (s[0] == '[')

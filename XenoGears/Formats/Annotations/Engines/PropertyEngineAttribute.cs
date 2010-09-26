@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 
 namespace XenoGears.Formats.Annotations.Engines
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public abstract class PropertyEngineAttribute : EngineAttribute
     {
         public sealed override Object Deserialize(MemberInfo mi, Json json) { return Deserialize(mi.AssertCast<PropertyInfo>(), json); }

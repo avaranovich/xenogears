@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 using XenoGears.Formats.Annotations.Validators;
@@ -6,6 +7,7 @@ using XenoGears.Formats.Annotations.Validators;
 namespace XenoGears.Formats.Validators
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    [DebuggerNonUserCode]
     public class NotEmptyAttribute : PropertyValidatorAttribute
     {
         public override void Validate(PropertyInfo pi, Object value)

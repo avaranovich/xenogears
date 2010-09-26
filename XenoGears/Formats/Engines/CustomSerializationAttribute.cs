@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using XenoGears.Assertions;
 using XenoGears.Formats.Annotations.Engines;
 using XenoGears.Functional;
@@ -8,6 +9,7 @@ using XenoGears.Reflection.Generics;
 namespace XenoGears.Formats.Engines
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public class CustomSerializationAttribute : TypeEngineAttribute
     {
         public override Object Deserialize(Type t, Json json)

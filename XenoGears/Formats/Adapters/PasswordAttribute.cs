@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using XenoGears.Assertions;
@@ -7,6 +8,7 @@ using XenoGears.Formats.Annotations.Adapters;
 namespace XenoGears.Formats.Adapters
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public class PasswordAttribute : PropertyAdapterAttribute
     {
         public override Object AfterDeserialize(PropertyInfo pi, Object value)

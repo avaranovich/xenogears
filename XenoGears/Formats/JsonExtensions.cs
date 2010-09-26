@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
 namespace XenoGears.Formats
 {
+    [DebuggerNonUserCode]
     public static class JsonExtensions
     {
         public static dynamic ParseJson(this String url)

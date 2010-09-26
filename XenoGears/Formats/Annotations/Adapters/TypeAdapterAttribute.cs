@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 
 namespace XenoGears.Formats.Annotations.Adapters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public abstract class TypeAdapterAttribute : AdapterAttribute
     {
         public sealed override Object AfterDeserialize(MemberInfo mi, Object value) { return AfterDeserialize(mi.AssertCast<Type>(), value); }

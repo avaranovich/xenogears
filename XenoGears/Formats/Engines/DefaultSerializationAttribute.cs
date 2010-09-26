@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using XenoGears.Formats.Annotations.Engines;
 
 namespace XenoGears.Formats.Engines
@@ -10,6 +11,7 @@ namespace XenoGears.Formats.Engines
     // 4) deserialization is case-insensitive
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public class DefaultSerializationAttribute : TypeEngineAttribute
     {
         public override Object Deserialize(Type t, Json json)

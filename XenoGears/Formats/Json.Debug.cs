@@ -9,6 +9,7 @@ namespace XenoGears.Formats
 {
     [DebuggerDisplay("{ToCompactString(), nq}")]
     [DebuggerTypeProxy(typeof(JsonDebugView))]
+    [DebuggerNonUserCode]
     public partial class Json
     {
         [DebuggerDisplay("{ToString(), nq}{\"\", nq}", Name = "{_name, nq}{\"\", nq}")]
