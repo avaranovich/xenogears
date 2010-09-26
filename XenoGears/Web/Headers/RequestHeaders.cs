@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Web;
 using XenoGears.Collections.Dictionaries;
 
 namespace XenoGears.Web.Headers
 {
+    [DebuggerNonUserCode]
     public class RequestHeaders : BaseDictionary<String, dynamic>
     {
         public override int Count

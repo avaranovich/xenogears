@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ using XenoGears.Functional;
 
 namespace XenoGears.Web.Urls
 {
+    [DebuggerNonUserCode]
     public class ParsedUrl
     {
         // todo. ensure that this instance is immutable

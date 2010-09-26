@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Collections.Dictionaries;
@@ -9,6 +10,7 @@ using XenoGears.Reflection.Shortcuts;
 
 namespace XenoGears.Reflection.Attributes.Snippets
 {
+    [DebuggerNonUserCode]
     public static class SnippetRegistry
     {
         private static readonly Object _cacheLock = new Object();

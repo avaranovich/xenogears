@@ -1,7 +1,9 @@
-﻿using System.Web;
+﻿using System.Diagnostics;
+using System.Web;
 
 namespace XenoGears.Web.Rest.Context
 {
+    [DebuggerNonUserCode]
     public class RestContext
     {
         public static RestContext Current

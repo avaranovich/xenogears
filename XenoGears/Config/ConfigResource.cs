@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using XenoGears.Config.Codebase;
 using XenoGears.Formats;
@@ -8,6 +9,7 @@ using XenoGears.Web.Rest.Annotations;
 namespace XenoGears.Config
 {
     [RestResource(Allow = RestMethods.Get | RestMethods.Post)]
+    [DebuggerNonUserCode]
     public static class ConfigResource
     {
         [RestResource(Uri = "/config", Allow = RestMethods.Get)]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Formats;
@@ -17,6 +18,7 @@ using XenoGears.Strings;
 
 namespace XenoGears.Web.Rest.Dispatch
 {
+    [DebuggerNonUserCode]
     public class BindContext
     {
         public RestRequest Request { get; private set; }

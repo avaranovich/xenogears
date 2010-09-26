@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Logging;
@@ -12,6 +13,7 @@ using Log = XenoGears.Web.Logging.Log;
 
 namespace XenoGears.Web.Rest.Dispatch
 {
+    [DebuggerNonUserCode]
     public class DispatchContext
     {
         public DispatchResult Result { get; private set; }

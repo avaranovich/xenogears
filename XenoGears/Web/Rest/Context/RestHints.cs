@@ -1,9 +1,11 @@
 ﻿using System;
-using XenoGears.Web.Helpers;
+using System.Diagnostics;
 using XenoGears.Functional;
+using Debug = XenoGears.Web.Helpers.Debug;
 
 namespace XenoGears.Web.Rest.Context
 {
+    [DebuggerNonUserCode]
     public class RestHints
     {
         public bool Prettyprint { get; private set; }

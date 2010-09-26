@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace XenoGears.Web.Helpers
 {
+    [DebuggerNonUserCode]
     public class ContentType
     {
         public String Mime { get; private set; }

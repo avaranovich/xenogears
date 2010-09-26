@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -14,6 +15,7 @@ using Log = XenoGears.Web.Logging.Log;
 
 namespace XenoGears.Web.Rest
 {
+    [DebuggerNonUserCode]
     public class RestGateway : IHttpHandler
     {
         public bool IsReusable { get { return false; } }

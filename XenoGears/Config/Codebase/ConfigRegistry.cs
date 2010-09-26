@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using XenoGears.Collections.Dictionaries;
 using XenoGears.Functional;
 using XenoGears.Reflection.Attributes;
@@ -7,6 +8,7 @@ using XenoGears.Assertions;
 
 namespace XenoGears.Config.Codebase
 {
+    [DebuggerNonUserCode]
     public static class ConfigRegistry
     {
         private static Dictionary<String, Type> _cache = new Dictionary<String, Type>();

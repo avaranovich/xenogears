@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using XenoGears.Assertions;
 
 namespace XenoGears.Reflection.Attributes.Snippets
@@ -8,6 +9,7 @@ namespace XenoGears.Reflection.Attributes.Snippets
     // it's an Attribute that Annotates attributes that Annotate snippets of code
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public class SnippetAnnotationAnnotationAttribute : Attribute
     {
         public Type AssemblyMarker { get; set; }

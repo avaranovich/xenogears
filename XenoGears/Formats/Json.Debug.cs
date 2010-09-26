@@ -13,6 +13,7 @@ namespace XenoGears.Formats
     public partial class Json
     {
         [DebuggerDisplay("{ToString(), nq}{\"\", nq}", Name = "{_name, nq}{\"\", nq}")]
+        [DebuggerNonUserCode]
         private class JsonDebugView
         {
             [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly Json _json;

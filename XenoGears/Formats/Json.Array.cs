@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 
 namespace XenoGears.Formats
 {
+    [DebuggerNonUserCode]
     public class JsonArray : Json
     {
         public JsonArray()

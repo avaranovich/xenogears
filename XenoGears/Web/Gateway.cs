@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web;
 using XenoGears.Strings;
 using XenoGears.Web.Logging;
 using XenoGears.Web.Rest;
 using XenoGears.Functional;
 using XenoGears.Web.Helpers;
+using Debug = XenoGears.Web.Helpers.Debug;
 
 namespace XenoGears.Web
 {
+    [DebuggerNonUserCode]
     public class Gateway : IHttpModule
     {
         public void Init(HttpApplication app)

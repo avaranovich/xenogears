@@ -1,7 +1,9 @@
-﻿using System.Web;
+﻿using System.Diagnostics;
+using System.Web;
 
 namespace XenoGears.Web.Helpers
 {
+    [DebuggerNonUserCode]
     public static class CallStack
     {
         public static bool Enabled

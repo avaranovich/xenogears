@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web;
 using XenoGears.Assertions;
 using XenoGears.Functional;
 
 namespace XenoGears.Web.Urls
 {
+    [DebuggerNonUserCode]
     public class Url : ICloneable
     {
         private bool _isReadOnly = false;

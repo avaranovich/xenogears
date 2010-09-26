@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using XenoGears.Assertions;
 using XenoGears.Functional;
 
 namespace XenoGears.Web.Rest.Annotations
 {
+    [DebuggerNonUserCode]
     internal static class RestMethodsHelper
     {
         public static String ToVerbsList(this RestMethods meths)
