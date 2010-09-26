@@ -67,7 +67,7 @@ namespace XenoGears.Formats
 
             var prop_engine = pi.AttrOrNull<PropertyEngineAttribute>();
             var type_engine = t.AttrOrNull<TypeEngineAttribute>();
-            var engine = prop_engine ?? (EngineAttribute)type_engine ?? new DefaultEngineAttribute();
+            var engine = prop_engine ?? (EngineAttribute)type_engine ?? new DefaultSerializationAttribute();
             _wrappee = engine.Serialize(mi, value);
         }
     }
