@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 using XenoGears.Reflection.Attributes.Weight;
 
 namespace XenoGears.Reflection.Attributes.Snippets
 {
+    [DebuggerNonUserCode]
     public class Snippet<T> : IComparable<Snippet<T>>
         where T : MemberInfo
     {

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web;
 using XenoGears.Collections.Dictionaries;
 
 namespace XenoGears.Web.Biscuits
 {
+    [DebuggerNonUserCode]
     public class Cookies : OrderedDictionary<String, dynamic>
     {
         public Cookies()

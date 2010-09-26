@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Assertions;
@@ -11,19 +12,20 @@ using Log = XenoGears.Web.Logging.Log;
 
 namespace XenoGears.Web.Rest.Dispatch
 {
+    [DebuggerNonUserCode]
     public class HandlerContext
     {
         public RestRequest Request { get; private set; }
-        public ReadOnlyDictionary<String, String> Parsed { get; private set; }
+        public ReadOnlyDictionary<String, String> Env { get; private set; }
         public MethodInfo Code { get; private set; }
         private LevelLogger Debug { get { return Log.Dispatch.Debug; } }
         private LevelLogger Info { get { return Log.Dispatch.Info; } }
         private LevelLogger Error { get { return Log.Dispatch.Error; } }
 
-        public HandlerContext(RestRequest request, ReadOnlyDictionary<String, String> parsed, MethodInfo code)
+        public HandlerContext(RestRequest request, ReadOnlyDictionary<String, String> env, MethodInfo code)
         {
             Request = request.AssertNotNull();
-            Parsed = parsed.AssertNotNull();
+            Env = env.AssertNotNull();
             Code = code.AssertNotNull();
 
             // todo:
@@ -37,7 +39,7 @@ namespace XenoGears.Web.Rest.Dispatch
             // 8) try to bind everything, rather than stop at first error
 
             Debug.EnsureBlankLine();
-            Debug.WriteLine("    * Parsed resource: {0}", Parsed.Select(kvp => String.Format("{0} = {1}", kvp.Key, kvp.Value)).StringJoin());
+            Debug.WriteLine("    * Env: {0}", Env.Select(kvp => String.Format("{0} = {1}", kvp.Key, kvp.Value)).StringJoin());
             Debug.WriteLine("    * Query: {0}", request.Query.Select(kvp => String.Format("{0} = {1}", kvp.Key, (String)kvp.Value)).StringJoin().Fluent(s => s.IsEmpty() ? "<empty>" : s));
             Debug.WriteLine("    * Data: {0}", ((Json)request.Data).ToCompactString().Fluent(s => s.IsEmpty() ? "<empty>" : s));
             // todo. after that log:

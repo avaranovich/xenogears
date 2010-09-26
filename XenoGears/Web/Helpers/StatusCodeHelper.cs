@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 
 namespace XenoGears.Web.Helpers
 {
+    [DebuggerNonUserCode]
     public static class StatusCodeHelper
     {
         public static bool IsSuccess(this HttpStatusCode code)

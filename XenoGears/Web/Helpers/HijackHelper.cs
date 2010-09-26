@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web;
 using XenoGears.Web.Rest.Context;
 using XenoGears.Streams;
@@ -6,6 +7,7 @@ using XenoGears.Assertions;
 
 namespace XenoGears.Web.Helpers
 {
+    [DebuggerNonUserCode]
     public static class HijackHelper
     {
         public static void HijackOutputStream(this HttpResponse resp)

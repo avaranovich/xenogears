@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -12,9 +13,11 @@ using XenoGears.Assertions;
 using XenoGears.Web.Helpers;
 using XenoGears.Strings;
 using XenoGears.Web.Logging;
+using Debug = XenoGears.Web.Helpers.Debug;
 
 namespace XenoGears.Web.Rest.Context
 {
+    [DebuggerNonUserCode]
     public class RestResponse : BaseWriter
     {
         private readonly RestContext _ctx;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -64,6 +65,7 @@ namespace XenoGears.Formats
         #region Dynamic proxy
 
         DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression parameter) { return new DynamicJson(this).GetMetaObject(parameter); }
+//        [DebuggerNonUserCode] private class DynamicJson : DynamicObject
         private class DynamicJson : DynamicObject
         {
             private readonly Json _json;

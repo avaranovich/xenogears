@@ -1,7 +1,9 @@
-﻿using XenoGears.Web.Rest.Context;
+﻿using System.Diagnostics;
+using XenoGears.Web.Rest.Context;
 
 namespace XenoGears.Web.Rest.Dispatch
 {
+    [DebuggerNonUserCode]
     public static class RestDispatcher
     {
         public static DispatchContext Dispatch(this RestRequest req)

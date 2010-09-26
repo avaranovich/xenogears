@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Web;
 using XenoGears.Web.Helpers;
@@ -9,6 +10,7 @@ using XenoGears.Functional;
 
 namespace XenoGears.Web.Logging
 {
+    [DebuggerNonUserCode]
     public class Log
     {
         private readonly StringBuilder _medium = new StringBuilder();
@@ -27,8 +29,6 @@ namespace XenoGears.Web.Logging
                 var logger = Logger.Get(name + "_" + Guid.NewGuid().ToString().Replace("-", "_"));
                 logger.OverrideWriter(_instance._medium);
                 logger.Writer.Multiplex(new IisLogWriter(_instance._ctx));
-
-                // todo. implement hot-swap of logger levels
                 logger.MinLevel = LogConfig.Current.GetOrDefault(name.Replace(".", "_").ToLower(), Level.Debug);
                 return logger;
             });

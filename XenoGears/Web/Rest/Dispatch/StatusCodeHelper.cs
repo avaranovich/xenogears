@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using XenoGears.Assertions;
 
 namespace XenoGears.Web.Rest.Dispatch
 {
+    [DebuggerNonUserCode]
     public static class StatusCodeHelper
     {
         public static HttpStatusCode ToHttpStatusCode(this BindResult result)

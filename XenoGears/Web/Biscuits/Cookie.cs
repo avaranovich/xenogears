@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web;
 
 namespace XenoGears.Web.Biscuits
 {
+    [DebuggerNonUserCode]
     public class Cookie
     {
         public String Value { get { throw new NotImplementedException(); } }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using XenoGears.Config.Codebase;
 using XenoGears.Formats;
 using XenoGears.Assertions;
@@ -8,6 +9,7 @@ using XenoGears.Reflection.Shortcuts;
 
 namespace XenoGears.Config
 {
+    [DebuggerNonUserCode]
     public static class AppConfig
     {
         public static T Get<T>()

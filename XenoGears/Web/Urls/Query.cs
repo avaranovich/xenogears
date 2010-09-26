@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web;
 using XenoGears.Assertions;
 using XenoGears.Collections.Dictionaries;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace XenoGears.Web.Urls
 {
+    [DebuggerNonUserCode]
     public class Query : BaseNonStrictDictionary<String, String>, ICloneable
     {
         private IDictionary<String, String> _impl;

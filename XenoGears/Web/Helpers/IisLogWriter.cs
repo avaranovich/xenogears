@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Web;
 using XenoGears.Assertions;
@@ -6,6 +7,7 @@ using XenoGears.Strings.Writers;
 
 namespace XenoGears.Web.Helpers
 {
+    [DebuggerNonUserCode]
     public class IisLogWriter : BaseWriter
     {
         private HttpContext Ctx { get; set; }

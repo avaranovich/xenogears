@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Web;
 using XenoGears.Formats;
 using XenoGears.Web.Biscuits;
@@ -11,6 +12,7 @@ using XenoGears.Assertions;
 
 namespace XenoGears.Web.Rest.Context
 {
+    [DebuggerNonUserCode]
     public class RestRequest
     {
         private readonly RestContext _ctx;
