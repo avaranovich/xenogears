@@ -82,12 +82,12 @@ namespace XenoGears.Formats
             return LoadOrDefault(uri, null as Json);
         }
 
-        public static dynamic LoadOrDefault(String uri, dynamic @default)
+        public static dynamic LoadOrDefault(String uri, Object @default)
         {
             return LoadOrDefault(uri, () => @default);
         }
 
-        public static dynamic LoadOrDefault(String uri, Func<dynamic> @default)
+        public static dynamic LoadOrDefault(String uri, Func<Object> @default)
         {
             try { return Load(uri); }
             catch { return new Json((@default ?? (() => null))()); }
@@ -109,12 +109,12 @@ namespace XenoGears.Formats
             return ReadOrDefault(s, null as Json);
         }
 
-        public static dynamic ReadOrDefault(Stream s, dynamic @default)
+        public static dynamic ReadOrDefault(Stream s, Object @default)
         {
             return ReadOrDefault(s, () => @default);
         }
 
-        public static dynamic ReadOrDefault(Stream s, Func<dynamic> @default)
+        public static dynamic ReadOrDefault(Stream s, Func<Object> @default)
         {
             try { return Read(s); }
             catch { return new Json((@default ?? (() => null))()); }
@@ -136,12 +136,12 @@ namespace XenoGears.Formats
             return ReadOrDefault(r, null as Json);
         }
 
-        public static dynamic ReadOrDefault(TextReader r, dynamic @default)
+        public static dynamic ReadOrDefault(TextReader r, Object @default)
         {
             return ReadOrDefault(r, () => @default);
         }
 
-        public static dynamic ReadOrDefault(TextReader r, Func<dynamic> @default)
+        public static dynamic ReadOrDefault(TextReader r, Func<Object> @default)
         {
             try { return Read(r); }
             catch { return new Json((@default ?? (() => null))()); }

@@ -30,11 +30,13 @@ namespace XenoGears.Playground.Formats
         {
             var s_json = InputText();
             var json = Json.Parse(s_json);
+            Assert.AreEqual(new Json(false), json[0].ok);
             Assert.AreEqual(false, (bool)json[0].ok);
-            Assert.AreEqual("ein", json[0].bars.ein[0].baz);
-            Assert.AreEqual(2, json[0].bars.ein[1].qux);
-            Assert.AreEqual(new {}, json[0].foos[1].bars);
-            Assert.AreEqual(null, json[0].bars.drei);
+            Assert.AreEqual(new Json("ein"), json[0].bars.ein[0].baz);
+            Assert.AreEqual(2, (int)json[0].bars.ein[1].qux);
+            Assert.AreEqual(new Json(new {}), json[0].foos[1].bars);
+            Assert.AreEqual(new Json(null), json[0].bars.drei);
+            Assert.AreEqual(null, (List<IBar>)json[0].bars.drei);
 
             var anon = new Object[]
             {

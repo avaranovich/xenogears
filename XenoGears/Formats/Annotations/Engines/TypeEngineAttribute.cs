@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 
 namespace XenoGears.Formats.Annotations.Engines
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public abstract class TypeEngineAttribute : EngineAttribute
     {
         public sealed override Object Deserialize(MemberInfo mi, Json json) { return Deserialize(mi.AssertCast<Type>(), json); }

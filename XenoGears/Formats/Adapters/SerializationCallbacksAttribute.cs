@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using XenoGears.Assertions;
 using XenoGears.Formats.Annotations.Adapters;
 using XenoGears.Functional;
@@ -8,6 +9,7 @@ using XenoGears.Reflection.Shortcuts;
 namespace XenoGears.Formats.Adapters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public class SerializationCallbacksAttribute : TypeAdapterAttribute
     {
         public override Object AfterDeserialize(Type t, Object value)
