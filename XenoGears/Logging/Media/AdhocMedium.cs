@@ -18,7 +18,8 @@ namespace XenoGears.Logging.Media
             get
             {
                 var unit_test = UnitTest.CurrentTest;
-                return unit_test != null ? Trace : Console;
+//                return unit_test != null ? Trace : Console;
+                return Console;
             }
         }
 
