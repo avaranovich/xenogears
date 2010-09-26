@@ -29,6 +29,7 @@ namespace XenoGears.Playground.Formats
         public void Test1()
         {
             var s_json = InputText();
+
             var json = Json.Parse(s_json);
             Assert.AreEqual(new Json(false), json[0].ok);
             Assert.AreEqual(false, (bool)json[0].ok);
@@ -37,6 +38,8 @@ namespace XenoGears.Playground.Formats
             Assert.AreEqual(new Json(new {}), json[0].foos[1].bars);
             Assert.AreEqual(new Json(null), json[0].bars.drei);
             Assert.AreEqual(null, (List<IBar>)json[0].bars.drei);
+            Assert.IsTrue(Seq.Equal(new []{0, 1}, json.Keys));
+            Assert.IsTrue(Seq.Equal(new []{"ok", "bars", "foos"}, json[0].Keys));
 
             var anon = new Object[]
             {
