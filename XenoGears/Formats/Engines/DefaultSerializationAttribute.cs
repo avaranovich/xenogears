@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using XenoGears.Formats.Annotations.Engines;
 
 namespace XenoGears.Formats.Engines
@@ -10,14 +9,15 @@ namespace XenoGears.Formats.Engines
     // 3) support interfaces => just create stubs for those
     // 4) deserialization is case-insensitive
 
-    public class DefaultEngineAttribute : EngineAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    public class DefaultSerializationAttribute : TypeEngineAttribute
     {
-        public override Object Deserialize(MemberInfo mi, Json json)
+        public override Object Deserialize(Type t, Json json)
         {
             throw new NotImplementedException();
         }
 
-        public override Json Serialize(MemberInfo mi, Object value)
+        public override Json Serialize(Type t, Object value)
         {
             throw new NotImplementedException();
         }

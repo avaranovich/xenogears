@@ -79,11 +79,13 @@
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
     <Compile Include="Config\Codebase\ConfigRegistry.cs" />
+    <Compile Include="Formats\Adapters\SerializationCallbacksAttribute.cs" />
     <Compile Include="Formats\Annotations\Adapters\AdapterAttribute.cs" />
     <Compile Include="Formats\Annotations\Adapters\PropertyAdapterAttribute.cs" />
     <Compile Include="Formats\Annotations\Adapters\TypeAdapterAttribute.cs" />
     <Compile Include="Formats\Annotations\Engines\EngineAttribute.cs" />
-    <Compile Include="Formats\Engines\DefaultEngineAttribute.cs" />
+    <Compile Include="Formats\Engines\CustomSerializationAttribute.cs" />
+    <Compile Include="Formats\Engines\DefaultSerializationAttribute.cs" />
     <Compile Include="Formats\Json.Debug.cs" />
     <Compile Include="Formats\Json.IO.cs" />
     <Compile Include="Formats\Json.Api.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Formats\Json.Array.cs" />
     <Compile Include="Formats\JsonExtensions.cs" />
     <Compile Include="Formats\Json.Object.cs" />
+    <Compile Include="Formats\Validators\NotEmptyAttribute.cs" />
     <Compile Include="Formats\Validators\NotNullAttribute.cs" />
     <Compile Include="Formats\Validators\RegexAttribute.cs" />
     <Compile Include="Formats\Annotations\Validators\PropertyValidatorAttribute.cs" />
