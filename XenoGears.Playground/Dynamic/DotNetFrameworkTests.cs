@@ -9,10 +9,10 @@ using XenoGears.Functional;
 using XenoGears.Reflection;
 using XenoGears.Reflection.Generics;
 
-namespace XenoGears.Playground.Formats
+namespace XenoGears.Playground.Dynamic
 {
     [TestFixture]
-    public class DynamicTests
+    public class DotNetFrameworkTests
     {
         private class Foo : DynamicObject
         {

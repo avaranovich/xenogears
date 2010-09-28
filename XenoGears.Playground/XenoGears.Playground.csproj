@@ -97,9 +97,11 @@
     <EmbeddedResource Include="CommandLine\Reference\Parse_Empty" />
     <Compile Include="CommandLine\Tests.Core.cs" />
     <Compile Include="CommandLine\Tests.Boilerplate.cs" />
+    <Compile Include="Dynamic\DynamicProxyTests.cs" />
+    <Compile Include="Dynamic\Expando.cs" />
     <Compile Include="Formats\JsonTests.cs" />
     <Compile Include="Framework\BaseTests.cs" />
-    <Compile Include="Formats\DynamicTests.cs" />
+    <Compile Include="Dynamic\DotNetFrameworkTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSharp\Domain\Company.cs" />
     <Compile Include="CSharp\Domain\Employee.cs" />

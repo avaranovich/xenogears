@@ -99,5 +99,47 @@ namespace XenoGears.Functional
         {
             return dictionary.Cast<Object>().ToDictionary(el => (K)el.Get("Key"), el => (V)el.Get("Value"));
         }
+
+        public static Dictionary<K, T> ToDictionary<T, K>(this IEnumerable<T> seq, Func<T, int, K> keySelector)
+        {
+            return seq.ToDictionary(keySelector, EqualityComparer<K>.Default);
+        }
+
+        public static Dictionary<K, T> ToDictionary<T, K>(this IEnumerable<T> seq, Func<T, int, K> keySelector, IEqualityComparer<K> comparer)
+        {
+            return seq.ToDictionary(keySelector, el => el, comparer);
+        }
+
+        public static Dictionary<K, V> ToDictionary<T, K, V>(this IEnumerable<T> seq, Func<T, K> keySelector, Func<T, int, V> valueSelector)
+        {
+            return seq.ToDictionary(keySelector, valueSelector, EqualityComparer<K>.Default);
+        }
+
+        public static Dictionary<K, V> ToDictionary<T, K, V>(this IEnumerable<T> seq, Func<T, K> keySelector, Func<T, int, V> valueSelector, IEqualityComparer<K> comparer)
+        {
+            return seq.ToDictionary((el, _) => keySelector(el), valueSelector, comparer);
+        }
+
+        public static Dictionary<K, V> ToDictionary<T, K, V>(this IEnumerable<T> seq, Func<T, int, K> keySelector, Func<T, V> valueSelector)
+        {
+            return seq.ToDictionary(keySelector, valueSelector, EqualityComparer<K>.Default);
+        }
+
+        public static Dictionary<K, V> ToDictionary<T, K, V>(this IEnumerable<T> seq, Func<T, int, K> keySelector, Func<T, V> valueSelector, IEqualityComparer<K> comparer)
+        {
+            return seq.ToDictionary(keySelector, (el, _) => valueSelector(el), EqualityComparer<K>.Default);
+        }
+
+        public static Dictionary<K, V> ToDictionary<T, K, V>(this IEnumerable<T> seq, Func<T, int, K> keySelector, Func<T, int, V> valueSelector)
+        {
+            return seq.ToDictionary(keySelector, valueSelector, EqualityComparer<K>.Default);
+        }
+
+        public static Dictionary<K, V> ToDictionary<T, K, V>(this IEnumerable<T> seq, Func<T, int, K> keySelector, Func<T, int, V> valueSelector, IEqualityComparer<K> comparer)
+        {
+            var map = new Dictionary<K, V>();
+            seq.ForEach((el, i) => map.Add(keySelector(el, i), valueSelector(el, i)));
+            return map;
+        }
     }
 }

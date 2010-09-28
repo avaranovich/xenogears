@@ -20,7 +20,7 @@ namespace XenoGears.Exceptions
         public Guid Id { get; private set; }
 
         [IncludeInMessage]
-        public abstract bool IsUnexpected { get; }
+        public virtual bool IsUnexpected { get { return true; } }
 
         protected BaseException()
             : this(null)

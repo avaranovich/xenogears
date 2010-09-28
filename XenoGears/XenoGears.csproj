@@ -79,8 +79,11 @@
     <Compile Include="CommandLine\Annotations\ConfigAttribute.cs" />
     <Compile Include="CommandLine\Exceptions\ConfigException.cs" />
     <Compile Include="Config\Codebase\ConfigRegistry.cs" />
+    <Compile Include="Dynamic\BindException.cs" />
+    <Compile Include="Dynamic\DynamicObject.cs" />
     <Compile Include="Dynamic\FallbackException.cs" />
-    <Compile Include="Dynamic\DynamicProxy.cs" />
+    <Compile Include="Dynamic\IDynamicObject.cs" />
+    <Compile Include="Dynamic\SimpleMetaObject.cs" />
     <Compile Include="Formats\Adapters\SerializationCallbacksAttribute.cs" />
     <Compile Include="Formats\Annotations\Adapters\AdapterAttribute.cs" />
     <Compile Include="Formats\Annotations\Adapters\PropertyAdapterAttribute.cs" />
