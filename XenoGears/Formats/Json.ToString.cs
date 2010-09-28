@@ -48,21 +48,24 @@ namespace XenoGears.Formats
                 var is_int = _primitive is int;
                 if (is_int)
                 {
-                    writer.Write(_primitive.ToInvariantString());
+                    var i = (int)_primitive;
+                    writer.Write(i.ToInvariantString());
                     return;
                 }
 
                 var is_double = _primitive is double;
                 if (is_double)
                 {
-                    writer.Write(_primitive.ToInvariantString());
+                    var d = (double)_primitive;
+                    writer.Write(d.ToInvariantString());
                     return;
                 }
 
                 var is_bool = _primitive is bool;
                 if (is_bool)
                 {
-                    writer.Write(is_bool.ToInvariantString().ToLower());
+                    var b = (bool)_primitive;
+                    writer.Write(b.ToInvariantString().ToLower());
                     return;
                 }
 
@@ -72,16 +75,16 @@ namespace XenoGears.Formats
             }
             else if (this.IsArray)
             {
-                var keys = ((IDynamicMetaObjectProvider)this).GetMetaObject(Expression.Constant(this)).GetDynamicMemberNames();
+                var keys = Keys.AssertCast<int>();
                 writer.Write(String.Format("[{0}]", keys.Select((key, i) =>
                 {
-                    (key == i.ToString()).AssertTrue();
+                    (key == i).AssertTrue();
                     return this[key].ToCompactString();
                 }).StringJoin(",")));
             }
             else if (this.IsObject)
             {
-                var keys = ((IDynamicMetaObjectProvider)this).GetMetaObject(Expression.Constant(this)).GetDynamicMemberNames();
+                var keys = Keys.AssertCast<String>();
                 writer.Write(String.Format("{{{0}}}", keys.Select((key, i) => String.Format("\"{0}\":{1}", key, this[key].ToCompactString())).StringJoin(",")));
             }
             else
@@ -101,12 +104,12 @@ namespace XenoGears.Formats
                 writer.Write("[");
                 writer.Indent++;
 
-                var keys = ((IDynamicMetaObjectProvider)this).GetMetaObject(Expression.Constant(this)).GetDynamicMemberNames();
+                var keys = Keys.AssertCast<int>();
                 if (keys.IsNotEmpty())
                 {
                     keys.ForEach((key, i) =>
                     {
-                        (key == i.ToString()).AssertTrue();
+                        (key == i).AssertTrue();
                         if (this[key].IsComplex) writer.WriteLine();
                         this[key].BuildPrettyString(writer);
                         if (i < this.Count() - 1) writer.Write(",");
@@ -123,7 +126,7 @@ namespace XenoGears.Formats
                 writer.Write("{");
                 writer.Indent++;
 
-                var keys = ((IDynamicMetaObjectProvider)this).GetMetaObject(Expression.Constant(this)).GetDynamicMemberNames();
+                var keys = Keys.AssertCast<String>();
                 if (keys.IsNotEmpty())
                 {
                     keys.ForEach((key, i) =>
