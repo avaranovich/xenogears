@@ -53,6 +53,7 @@ namespace XenoGears.Formats
 
         private Json ImportValue(dynamic value)
         {
+            if (value is Json) return (Json)value;
             return new Json(value);
         }
 
