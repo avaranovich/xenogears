@@ -36,7 +36,11 @@ namespace XenoGears.Formats
         {
             if (this.IsPrimitive)
             {
-                if (_primitive == null) writer.Write("null");
+                if (_primitive == null)
+                {
+                    writer.Write("null");
+                    return;
+                }
 
                 var s = _primitive as String;
                 if (s != null)
