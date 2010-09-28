@@ -67,8 +67,7 @@ namespace XenoGears.Formats
         #region Dynamic proxy
 
         DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) { return new JsonProxy(expression, this); }
-//        [DebuggerNonUserCode] private class JsonMeta : DynamicMetaObject
-        private class JsonProxy : SimpleMetaObject
+        [DebuggerNonUserCode] private class JsonProxy : SimpleMetaObject
         {
             private Json Json { get { return Value.AssertCast<Json>().AssertNotNull(); } }
             public JsonProxy(Expression expression, Object proxee) : base(expression, proxee) {}
@@ -81,17 +80,24 @@ namespace XenoGears.Formats
 
             public override Object Convert(ConvertBinder binder)
             {
+                if (binder.Type == typeof(Object)) return Json;
                 if (binder.Type == typeof(Json)) return Json;
                 return Json.Deserialize(binder.Type);
             }
 
             public override Object GetMember(GetMemberBinder binder)
             {
+                var default_bind = typeof(Json).GetProperty(binder.Name) != null;
+                if (default_bind) throw Fallback();
+
                 return Json[binder.Name];
             }
 
             public override void SetMember(SetMemberBinder binder, Object value)
             {
+                var default_bind = typeof(Json).GetProperty(binder.Name) != null;
+                if (default_bind) throw Fallback();
+
                 Json[binder.Name] = value;
             }
         }
@@ -123,7 +129,7 @@ namespace XenoGears.Formats
         public override bool TryGetValue(dynamic key, out dynamic value)
         {
             IsComplex.AssertTrue();
-            if (ContainsKey(ImportKey(key)))
+            if (_complex.ContainsKey(ImportKey(key)))
             {
                 value = ExportValue(_complex[ImportKey(key)]);
                 return true;

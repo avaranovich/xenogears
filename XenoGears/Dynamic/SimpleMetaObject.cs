@@ -148,7 +148,7 @@ namespace XenoGears.Dynamic
                     Expression.Constant(this),
                     typeof(SimpleMetaObject).GetMethod("DispatchGetIndex", BF.PrivateInstance),
                     Expression.Constant(binder),
-                    Expression.NewArrayInit(typeof(Object), indexes.Select(index => index.Expression)))),
+                    Expression.NewArrayInit(typeof(Object), indexes.Select(index => Expression.Convert(index.Expression, typeof(Object)))))),
                 // 2. return dispatchResult.Success ? dispatchResult.Result : `fallback`;
                 Expression.Condition(
                     Expression.Property(dispatchResult, "Success"),
@@ -173,7 +173,7 @@ namespace XenoGears.Dynamic
                     Expression.Constant(this),
                     typeof(SimpleMetaObject).GetMethod("DispatchSetIndex", BF.PrivateInstance),
                     Expression.Constant(binder),
-                    Expression.NewArrayInit(typeof(Object), indexes.Select(index => index.Expression)),
+                    Expression.NewArrayInit(typeof(Object), indexes.Select(index => Expression.Convert(index.Expression, typeof(Object)))),
                     Expression.Convert(value.Expression, typeof(Object)))),
                 // 2. if (dispatchResult.Success) return value;
                 //    else `fallback`;
@@ -200,7 +200,7 @@ namespace XenoGears.Dynamic
                     Expression.Constant(this),
                     typeof(SimpleMetaObject).GetMethod("DispatchDeleteIndex", BF.PrivateInstance),
                     Expression.Constant(binder),
-                    Expression.NewArrayInit(typeof(Object), indexes.Select(index => index.Expression)))),
+                    Expression.NewArrayInit(typeof(Object), indexes.Select(index => Expression.Convert(index.Expression, typeof(Object)))))),
                 // 2. if (!dispatchResult.Success) `fallback`;
                 Expression.IfThen(
                     Expression.Not(Expression.Property(dispatchResult, "Success")),
