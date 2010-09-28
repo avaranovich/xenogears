@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
+using XenoGears.Exceptions;
 
 namespace XenoGears.Dynamic
 {
-    public class FallbackException : Exception
+    [DebuggerNonUserCode]
+    public class FallbackException : BaseException
     {
     }
 }

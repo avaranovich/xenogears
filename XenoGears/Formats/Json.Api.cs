@@ -67,7 +67,7 @@ namespace XenoGears.Formats
 
         DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) { return new JsonProxy(expression, this); }
 //        [DebuggerNonUserCode] private class JsonMeta : DynamicMetaObject
-        private class JsonProxy : DynamicProxy
+        private class JsonProxy : SimpleMetaObject
         {
             private Json Json { get { return Value.AssertCast<Json>().AssertNotNull(); } }
             public JsonProxy(Expression expression, Object proxee) : base(expression, proxee) {}
