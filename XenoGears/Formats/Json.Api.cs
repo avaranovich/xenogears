@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using XenoGears.Collections.Dictionaries;
 using XenoGears.Assertions;
+using XenoGears.Dynamic;
 using XenoGears.Functional;
 
 namespace XenoGears.Formats
@@ -64,43 +65,33 @@ namespace XenoGears.Formats
 
         #region Dynamic proxy
 
-        DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression parameter) { return new DynamicJson(this).GetMetaObject(parameter); }
-//        [DebuggerNonUserCode] private class DynamicJson : DynamicObject
-        private class DynamicJson : DynamicObject
+        DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) { return new JsonProxy(expression, this); }
+//        [DebuggerNonUserCode] private class JsonMeta : DynamicMetaObject
+        private class JsonProxy : DynamicProxy
         {
-            private readonly Json _json;
-            public DynamicJson(Json json) { _json = json; }
+            private Json Json { get { return Value.AssertCast<Json>().AssertNotNull(); } }
+            public JsonProxy(Expression expression, Object proxee) : base(expression, proxee) {}
 
             public override IEnumerable<String> GetDynamicMemberNames()
             {
-                var keys = _json.Keys.Cast<String>();
-                return _json.IsArray ? keys.OrderBy(key => int.Parse(key)) : keys;
+                var keys = Json.Keys.Cast<String>();
+                return Json.IsArray ? keys.OrderBy(key => int.Parse(key)) : keys;
             }
 
-            // todo. this won't work for interfaces => need to hack Microsoft.CSharp for that
-            public override bool TryConvert(ConvertBinder binder, out Object result)
+            public override Object Convert(ConvertBinder binder)
             {
-                if (binder.Type == typeof(Json))
-                {
-                    result = _json;
-                    return true;
-                }
-
-                result = _json.Deserialize(binder.Type);
-                return true;
+                if (binder.Type == typeof(Json)) return Json;
+                return Json.Deserialize(binder.Type);
             }
 
-            public override bool TryGetMember(GetMemberBinder binder, out Object result)
+            public override Object GetMember(GetMemberBinder binder)
             {
-                result = _json[binder.Name];
-                return true;
+                return Json[binder.Name];
             }
 
-            public override bool TrySetMember(SetMemberBinder binder, Object value)
+            public override void SetMember(SetMemberBinder binder, Object value)
             {
-                value = _json.ImportValue(value);
-                _json[binder.Name] = value;
-                return true;
+                Json[binder.Name] = value;
             }
         }
 

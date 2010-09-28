@@ -135,7 +135,7 @@ namespace XenoGears.Reflection.Attributes
         public static T AttrOrNull<T>(this ICustomAttributeProvider cap)
             where T : Attribute
         {
-            (cap != null).AssertTrue();
+            if (cap == null) return null;
             return (T)cap.AttrOrNull(typeof(T));
         }
 
