@@ -39,14 +39,14 @@ namespace XenoGears.Formats
             if (s[0] == '{')
             {
                 json._my_state = State.Object;
-                var contents = s.AssertExtract(@"^\s*\{\s*(?<contents>.*?)\s*\}\s*$", RegexOptions.Singleline);
-                var parts = DisassembleJsonObject(contents).ToReadOnly();
+                var contents = s.AssertExtract(@"^\s*\{\s*(?<contents>.*)\s*\}\s*$", RegexOptions.Singleline);
+                var parts = DisassembleJsonObject(contents.Trim()).ToReadOnly();
 
                 parts.ForEach(part =>
                 {
-                    var map1 = part.Parse(@"^""(?<key>.*?)"":(?<value>.*)$");
-                    var map2 = part.Parse(@"^'(?<key>.*?)':(?<value>.*)$");
-                    var map3 = part.Parse(@"^(?<key>.*?):(?<value>.*)$");
+                    var map1 = part.Parse(@"^\s*""(?<key>.*?)""\s*:\s*(?<value>.*)\s*$");
+                    var map2 = part.Parse(@"^\s*'(?<key>.*?)'\s*:\s*(?<value>.*)\s*$");
+                    var map3 = part.Parse(@"^\s*(?<key>.*?)\s*:\s*(?<value>.*)\s*$");
                     var map = (map1 ?? map2 ?? map3).AssertNotNull();
 
                     var key = map["key"].Trim();
@@ -58,14 +58,15 @@ namespace XenoGears.Formats
             else if (s[0] == '[')
             {
                 json._my_state = State.Array;
-                var contents = s.AssertExtract(@"^\s*\[\s*(?<contents>.*?)\s*\]\s*$", RegexOptions.Singleline);
-                var parts = DisassembleJsonObject(contents).ToReadOnly();
+                var contents = s.AssertExtract(@"^\s*\[\s*(?<contents>.*)\s*\]\s*$", RegexOptions.Singleline);
+                var parts = DisassembleJsonObject(contents.Trim()).ToReadOnly();
                 parts.ForEach((part, i) => json[i] = Parse(part));
             }
             else
             {
                 var primitive = ((Func<Object>)(() =>
                 {
+                    if (s == "null") return null;
                     if (s == "false") return false;
                     if (s == "true") return true;
 
