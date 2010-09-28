@@ -37,7 +37,7 @@ namespace XenoGears.Playground.Formats
             Assert.AreEqual(2, (int)json[0].bars.ein[1].qux);
             Assert.AreEqual(new Json(new {}), json[0].foos[1].bars);
             Assert.AreEqual(new Json(null), json[0].bars.drei);
-            Assert.AreEqual(null, (List<IBar>)json[0].bars.drei);
+            Assert.AreEqual(null, (IList<IBar>)json[0].bars.drei);
             Assert.IsTrue(Seq.Equal(new []{0, 1}, json.Keys));
             Assert.IsTrue(Seq.Equal(new []{"ok", "bars", "foos"}, json[0].Keys));
 
