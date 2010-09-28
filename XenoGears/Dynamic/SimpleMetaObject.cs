@@ -13,6 +13,11 @@ namespace XenoGears.Dynamic
     [DebuggerNonUserCode]
     public class SimpleMetaObject : DynamicMetaObject
     {
+        // if set to true, the SMO will wrap all unhandled exceptions in BindException
+        // sometimes this might be useful, e.g. when underlying domain logic must not throw
+        // sometimes this might not be useful, since it will also wrap domain exceptions
+        public bool WrapExceptions { get; set; }
+
         public override IEnumerable<String> GetDynamicMemberNames() { return Seq.Empty<String>(); }
         public SimpleMetaObject(Expression expression, Object proxee) : base(expression, BindingRestrictions.Empty, proxee) { }
 
@@ -358,9 +363,16 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("arg", arg);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("arg", arg);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -387,8 +399,15 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                } 
             }
         }
 
@@ -415,9 +434,16 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("args", args);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("args", args);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -443,9 +469,16 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("indexes", indexes);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("indexes", indexes);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -471,8 +504,15 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -499,9 +539,16 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("indexes", indexes);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("indexes", indexes);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -528,8 +575,15 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -556,9 +610,16 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("args", args);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("args", args);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -585,9 +646,16 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("args", args);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("args", args);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -613,10 +681,17 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("indexes", indexes);
-                bind_args.Add("value", value);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("indexes", indexes);
+                    bind_args.Add("value", value);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -642,9 +717,16 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                bind_args.Add("value", value);
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    bind_args.Add("value", value);
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
@@ -671,8 +753,15 @@ namespace XenoGears.Dynamic
             }
             catch (Exception ex)
             {
-                var bind_args = new OrderedDictionary<String, Object>();
-                throw new BindException(binder, bind_args, ex);
+                if (WrapExceptions)
+                {
+                    var bind_args = new OrderedDictionary<String, Object>();
+                    throw new BindException(binder, bind_args, ex);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 
