@@ -331,7 +331,7 @@ namespace XenoGears.Dynamic
 
         #region DispatchXXX (boilerplate logic that connects dynamic dispatch requests to virtual methods of the class)
 
-        private class DispatchResult { public bool Success { get; set; } public Object Result { get; set; } }
+        [DebuggerNonUserCode] private class DispatchResult { public bool Success { get; set; } public Object Result { get; set; } }
         private DispatchResult Succeed(Object result = null) { return new DispatchResult {Success = true, Result = result}; }
         private DispatchResult Fail() { return new DispatchResult { Success = false }; }
 

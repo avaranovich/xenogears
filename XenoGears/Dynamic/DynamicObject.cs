@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq.Expressions;
 
 namespace XenoGears.Dynamic
 {
-    public class DynamicObject : IDynamicObject
+    [DebuggerNonUserCode]
+    public abstract class DynamicObject : IDynamicObject
     {
         public DynamicMetaObject GetMetaObject(Expression parameter)
         {
