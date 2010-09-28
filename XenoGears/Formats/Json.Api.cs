@@ -67,11 +67,13 @@ namespace XenoGears.Formats
         #region Dynamic proxy
 
         DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) { return new JsonProxy(expression, this); }
-        [DebuggerNonUserCode] private class JsonProxy : SimpleMetaObject
+//        [DebuggerNonUserCode] private class JsonProxy : SimpleMetaObject
+        private class JsonProxy : SimpleMetaObject
         {
             private Json Json { get { return Value.AssertCast<Json>().AssertNotNull(); } }
             public JsonProxy(Expression expression, Object proxee) : base(expression, proxee) {}
 
+            [DebuggerNonUserCode]
             public override IEnumerable<String> GetDynamicMemberNames()
             {
                 if (Json.IsPrimitive) { return Seq.Empty<String>(); }
@@ -88,6 +90,7 @@ namespace XenoGears.Formats
                 return Json.Deserialize(binder.Type);
             }
 
+            [DebuggerNonUserCode]
             public override Object GetMember(GetMemberBinder binder)
             {
                 var default_bind = typeof(Json).GetProperty(binder.Name) != null;
@@ -96,6 +99,7 @@ namespace XenoGears.Formats
                 return Json[binder.Name];
             }
 
+            [DebuggerNonUserCode]
             public override void SetMember(SetMemberBinder binder, Object value)
             {
                 var default_bind = typeof(Json).GetProperty(binder.Name) != null;
