@@ -74,8 +74,11 @@ namespace XenoGears.Formats
 
             public override IEnumerable<String> GetDynamicMemberNames()
             {
-                var keys = Json.Keys.Cast<String>();
-                return Json.IsArray ? keys.OrderBy(key => int.Parse(key)) : keys;
+                if (Json.IsPrimitive) { return Seq.Empty<String>(); }
+                else if (Json.IsObject) { return Json.Keys.Cast<String>(); }
+                else if (Json.IsArray) { return Seq.Empty<String>(); }
+//                else throw AssertionHelper.Fail();
+                else { return Seq.Empty<String>(); }
             }
 
             public override Object Convert(ConvertBinder binder)

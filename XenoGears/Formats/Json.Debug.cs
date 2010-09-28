@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using XenoGears.Functional;
+using XenoGears.Strings;
 
 namespace XenoGears.Formats
 {
@@ -19,7 +20,7 @@ namespace XenoGears.Formats
             [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly Json _json;
             [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly String _name;
             public JsonDebugView(Json json) { _json = json; }
-            public JsonDebugView(Json json, String name) { _json = json; _name = name; }
+            public JsonDebugView(Json json, Object name) { _json = json; _name = name.ToInvariantString(); }
             public override String ToString() { return _json.ToString(); }
 
             [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
@@ -27,8 +28,7 @@ namespace XenoGears.Formats
             {
                 get
                 {
-                    var keys = ((IDynamicMetaObjectProvider)_json).GetMetaObject(Expression.Constant(_json)).GetDynamicMemberNames().ToReadOnly();
-                    if (_json.IsArray) keys = keys.OrderBy(key => int.Parse(key)).ToReadOnly();
+                    var keys = _json.Keys;
                     return keys.Select(key => new JsonDebugView(_json[key], key)).ToArray();
                 }
             }
