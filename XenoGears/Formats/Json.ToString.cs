@@ -39,16 +39,32 @@ namespace XenoGears.Formats
                 if (_primitive == null) writer.Write("null");
 
                 var s = _primitive as String;
-                if (s != null) writer.Write(s.ToJsonString());
+                if (s != null)
+                {
+                    writer.Write(s.ToJsonString());
+                    return;
+                }
 
                 var is_int = _primitive is int;
-                if (is_int) writer.Write(_primitive.ToInvariantString());
+                if (is_int)
+                {
+                    writer.Write(_primitive.ToInvariantString());
+                    return;
+                }
 
                 var is_double = _primitive is double;
-                if (is_double) writer.Write(_primitive.ToInvariantString());
+                if (is_double)
+                {
+                    writer.Write(_primitive.ToInvariantString());
+                    return;
+                }
 
                 var is_bool = _primitive is bool;
-                if (is_bool) writer.Write(is_bool.ToInvariantString().ToLower());
+                if (is_bool)
+                {
+                    writer.Write(is_bool.ToInvariantString().ToLower());
+                    return;
+                }
 
                 // todo. maybe add custom converters, e.g. for datetime
                 // todo. maybe even return clientcontext-bound code, but for what?
