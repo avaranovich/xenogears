@@ -136,9 +136,18 @@ namespace XenoGears.Formats
         public override bool TryGetValue(dynamic key, out dynamic value)
         {
             IsComplex.AssertTrue();
-            if (_complex.ContainsKey(ImportKey(key)))
+
+            // todo. wtf does the commented code crash?!
+//            var imported = ImportKey(key);
+            String imported;
+            if (key is int) imported = ImportKey((int)key);
+            else if (key is String) imported = ImportKey((String)key);
+            else imported = (String)ImportKey(key);
+
+            var containsKey = _complex.ContainsKey(imported);
+            if (containsKey)
             {
-                value = ExportValue(_complex[ImportKey(key)]);
+                value = ExportValue(_complex[imported]);
                 return true;
             }
             else
@@ -235,18 +244,14 @@ namespace XenoGears.Formats
 
         #region Equality boilerplate
 
-        public static bool operator !=(Object value, Json json) { return !(value == json); }
-        public static bool operator ==(Object value, Json json) { return Equals(json, value); }
-        public static bool operator !=(Json json, Object value) { return !(json == value); }
-        public static bool operator ==(Json json, Object value) { return Equals(json, value); }
         public static bool operator !=(Json json, Json value) { return !(json == value); }
         public static bool operator ==(Json json, Json value) { return Equals(json, value); }
 
         public override bool Equals(Object obj)
         {
-            if (!(obj is Json)) return Equals(new Json(obj));
-
             var other = obj as Json;
+            if (other == null) return false;
+
             if (this.IsPrimitive || other.IsPrimitive)
             {
                 if (this.IsPrimitive ^ other.IsPrimitive) return false;
