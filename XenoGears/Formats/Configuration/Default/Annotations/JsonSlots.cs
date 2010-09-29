@@ -2,8 +2,8 @@
 {
     public enum JsonSlots
     {
-        Default = 0,
-        OptOutPublic = 0,
+        Default = 1,
+        OptOutPublic = 1,
         OptOutNonPublic,
         OptIn,
     }

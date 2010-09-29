@@ -90,6 +90,10 @@
     <Compile Include="Formats\Annotations\Adapters\TypeAdapter.cs" />
     <Compile Include="Formats\Annotations\Engines\Engine.cs" />
     <Compile Include="Formats\Configuration\Config.cs" />
+    <Compile Include="Formats\Configuration\Default\Annotations\JsonSlotsHelper.cs" />
+    <Compile Include="Formats\Configuration\Default\Fluent\FluentRule.cs" />
+    <Compile Include="Formats\Configuration\Default\Fluent\IFluentSettings.cs" />
+    <Compile Include="Formats\Configuration\Default\Rule.cs" />
     <Compile Include="Formats\Configuration\Repository.cs" />
     <Compile Include="Formats\Configuration\PropertyConfig.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonAttribute.cs" />
@@ -97,13 +101,11 @@
     <Compile Include="Formats\Configuration\Default\Annotations\JsonIncludeAttribute.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonShape.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonSlots.cs" />
-    <Compile Include="Formats\Configuration\Default\Fluent\IFluent.cs" />
-    <Compile Include="Formats\Configuration\Default\Fluent\SingleFluent.cs" />
+    <Compile Include="Formats\Configuration\Default\Fluent\FluentConfig.cs" />
     <Compile Include="Formats\Configuration\Default\Gateway.cs" />
     <Compile Include="Formats\Configuration\Default\Config.cs" />
     <Compile Include="Formats\Configuration\Rule.cs" />
     <Compile Include="Formats\Configuration\TypeConfig.cs" />
-    <Compile Include="Formats\Configuration\Default\Fluent\MultiFluent.cs" />
     <Compile Include="Formats\Json.Primitive.cs" />
     <Compile Include="Formats\Engines\AdhocEngine.cs" />
     <Compile Include="Formats\Engines\DefaultEngine.cs" />

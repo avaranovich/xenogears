@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace XenoGears.Formats.Configuration.Default.Fluent
 {
-    internal interface IFluent<T>
+    internal interface IFluentSettings<T>
     {
         T DefaultCtor { get; }
         T NotDefaultCtor { get; }
