@@ -96,6 +96,7 @@
     <Compile Include="Formats\Adapters\Core\Adapter.cs" />
     <Compile Include="Formats\Adapters\Core\PropertyAdapter.cs" />
     <Compile Include="Formats\Adapters\Core\TypeAdapter.cs" />
+    <Compile Include="Formats\Configuration\Default\Annotations\JsonShapeHelper.cs" />
     <Compile Include="Formats\Configuration\PropertyConfig.cs" />
     <Compile Include="Formats\Configuration\PropertyRule.cs" />
     <Compile Include="Formats\Configuration\TypeConfig.cs" />

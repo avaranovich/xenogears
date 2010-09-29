@@ -22,16 +22,19 @@ namespace XenoGears.Formats.Configuration
         protected Config(MemberInfo member)
         {
             Member = member;
+            Hash = new Dictionary<Object, Object>();
         }
 
         protected Config(Type type)
         {
             Member = type;
+            Hash = new Dictionary<Object, Object>();
         }
 
         protected Config(PropertyInfo property)
         {
             Member = property;
+            Hash = new Dictionary<Object, Object>();
         }
     }
 }

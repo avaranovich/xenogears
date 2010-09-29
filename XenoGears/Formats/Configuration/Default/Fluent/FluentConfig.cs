@@ -56,13 +56,13 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         public FluentConfig NotProperties(Func<PropertyInfo, bool> properties) { return NotProperties((_1, _properties) => _properties.Where(properties ?? (_2 => false))); }
         public FluentConfig IsNotObject { get { Config.IsObject = false; Config.Slots = null; return this; } }
 
-        public FluentConfig IsList { get { if (!Config.IsList) { Config.IsList = true; Config.ListElement = null; } return this; } }
-        public FluentConfig IsListOf(Type listElement) { Config.IsList = true; Config.ListElement = listElement; return this; }
+        public FluentConfig IsList { get { if (!Config.IsList) { Config.IsList = true; Config.ListElement = Config.Type.ListElement(); } return this; } }
+        public FluentConfig IsListOf(Type listElement) { Config.IsList = true; Config.ListElement = listElement ?? Config.Type.ListElement(); return this; }
         public FluentConfig IsListOf(Func<Type, Type> listElement) { return IsListOf((listElement ?? (_ => null))(Config.Type)); }
         public FluentConfig IsNotList { get { Config.IsList = false; Config.ListElement = null; return this; } }
 
-        public FluentConfig IsHash { get { if (!Config.IsHash) { Config.IsHash = true; Config.HashElement = null; } return this; } }
-        public FluentConfig IsHashOf(Type hashElement) { Config.IsHash = true; Config.HashElement = hashElement; return this; }
+        public FluentConfig IsHash { get { if (!Config.IsHash) { Config.IsHash = true; Config.HashElement = Config.Type.HashElement(); } return this; } }
+        public FluentConfig IsHashOf(Type hashElement) { Config.IsHash = true; Config.HashElement = hashElement ?? Config.Type.HashElement(); return this; }
         public FluentConfig IsHashOf(Func<Type, Type> hashElement) { return IsHashOf((hashElement ?? (_ => null))(Config.Type)); }
         public FluentConfig IsNotHash { get { Config.IsHash = false; Config.HashElement = null; return this; } }
     }
