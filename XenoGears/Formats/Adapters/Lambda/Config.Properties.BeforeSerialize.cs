@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 using XenoGears.Formats.Adapters.Core;
@@ -10,6 +11,7 @@ namespace XenoGears.Formats.Adapters.Lambda
 {
     public static partial class LambdaAdapters
     {
+        [DebuggerNonUserCode]
         internal class LambdaBeforeSerializePropertyAdapter : PropertyAdapter
         {
             public LambdaBeforeSerializePropertyAdapter(Func<PropertyInfo, Object, Object> beforeSerialize)

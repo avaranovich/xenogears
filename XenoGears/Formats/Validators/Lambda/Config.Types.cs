@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using XenoGears.Assertions;
 using XenoGears.Formats.Configuration;
 using XenoGears.Formats.Validators.Core;
@@ -9,6 +10,7 @@ namespace XenoGears.Formats.Validators.Lambda
 {
     public static partial class LambdaValidators
     {
+        [DebuggerNonUserCode]
         internal class LambdaTypeValidator : TypeValidator
         {
             public LambdaTypeValidator(Action<Object> logic)

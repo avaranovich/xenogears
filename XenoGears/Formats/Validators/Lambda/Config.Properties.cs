@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 using XenoGears.Formats.Configuration;
@@ -8,8 +9,10 @@ using XenoGears.Functional;
 
 namespace XenoGears.Formats.Validators.Lambda
 {
+    [DebuggerNonUserCode]
     public static partial class LambdaValidators
     {
+        [DebuggerNonUserCode]
         internal class LambdaPropertyValidator : PropertyValidator
         {
             public LambdaPropertyValidator(Action<Object> logic)
