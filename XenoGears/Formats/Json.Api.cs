@@ -13,10 +13,10 @@ namespace XenoGears.Formats
 {
     public partial class Json : BaseDictionary<dynamic, dynamic>, IDynamicMetaObjectProvider
     {
-        private Object _my_primitive = null;
-        private OrderedDictionary<String, Json> _my_complex = new OrderedDictionary<String, Json>();
-        protected State _my_state = 0;
-        protected enum State { Primitive = 1, Object, Array }
+        internal Object _my_primitive = null;
+        internal OrderedDictionary<String, Json> _my_complex = new OrderedDictionary<String, Json>();
+        internal State _my_state = 0;
+        internal enum State { Primitive = 1, Object, Array }
 
         private readonly Json _wrappee;
         private Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }

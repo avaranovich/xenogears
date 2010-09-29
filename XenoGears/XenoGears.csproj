@@ -89,6 +89,16 @@
     <Compile Include="Formats\Annotations\Adapters\PropertyAdapterAttribute.cs" />
     <Compile Include="Formats\Annotations\Adapters\TypeAdapterAttribute.cs" />
     <Compile Include="Formats\Annotations\Engines\EngineAttribute.cs" />
+    <Compile Include="Formats\Engines\Configuration\Annotations\JsonAttribute.cs" />
+    <Compile Include="Formats\Engines\Configuration\Annotations\JsonExcludeAttribute.cs" />
+    <Compile Include="Formats\Engines\Configuration\Annotations\JsonIncludeAttribute.cs" />
+    <Compile Include="Formats\Engines\Configuration\Annotations\JsonShape.cs" />
+    <Compile Include="Formats\Engines\Configuration\Annotations\JsonSlots.cs" />
+    <Compile Include="Formats\Engines\Configuration\Fluent\IFluent.cs" />
+    <Compile Include="Formats\Engines\Configuration\Fluent\SingleFluent.cs" />
+    <Compile Include="Formats\Engines\Configuration\JsonMetadata.cs" />
+    <Compile Include="Formats\Engines\Configuration\JsonRegistry.cs" />
+    <Compile Include="Formats\Engines\Configuration\Fluent\MultiFluent.cs" />
     <Compile Include="Formats\Json.Primitive.cs" />
     <Compile Include="Formats\Engines\CustomSerializationAttribute.cs" />
     <Compile Include="Formats\Engines\DefaultSerializationAttribute.cs" />
