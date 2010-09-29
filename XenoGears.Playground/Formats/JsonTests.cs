@@ -66,13 +66,13 @@ namespace XenoGears.Playground.Formats
         public void Test1()
         {
             typeof(Foo).Config().DefaultEngine().OptOutNonPublic.NotSlots(mi => mi.Name == "Calc");
-            typeof(IBar).GetProperty("Qux").Config().AfterDeserialize((Qux qux) => qux.Value *= 10);
-            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize((pi, o) => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; });
+            typeof(IBar).GetProperty("Qux").Config().AfterDeserialize((Qux qux) => { qux.Value *= 10; return qux; });
+            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize((pi, o) => Log.WriteLine("AfterDeserialize Foo::", pi.Name).Ignore());
             typeof(Foo).GetProperty("Ok").Config().Engine((pi, j) => { Log.WriteLine("Deserializing Foo::Ok"); return new DefaultEngine().Deserialize(pi, j); },
                 (pi, o) => { Log.WriteLine("Serializing Foo::Ok"); return new DefaultEngine().Serialize(pi, o); });
             typeof(Foo).GetProperty("Ok").Config().AddValidator(_ => Log.WriteLine("Validating Foo::Ok"));
             typeof(Foo).Config().AddValidator(_ => Log.WriteLine("Validating Foo"));
-            typeof(Foo).Config().AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo"); return o; });
+            typeof(Foo).Config().AfterDeserialize(o => Log.WriteLine("AfterDeserialize Foo").Ignore());
 
             var s_json = InputText();
             var json = Json.Parse(s_json);
