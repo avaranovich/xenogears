@@ -17,6 +17,8 @@ namespace XenoGears.Formats.Engines.Configuration
 
         public static MultiFluent AdHoc(Func<Type, bool> t)
         {
+            // todo. configure all these types once and forget about this config
+            // do not persist this stuff as a rule for all upcoming types
             throw new NotImplementedException();
         }
 
@@ -32,11 +34,14 @@ namespace XenoGears.Formats.Engines.Configuration
 
         public static MultiFluent Rule(Func<Type, bool> t)
         {
-            throw new NotImplementedException();
+            IDisposable _;
+            return Rule(t, out _);
         }
 
         public static MultiFluent Rule(Func<Type, bool> t, out IDisposable registration)
         {
+            // todo. configure all these types now and apply the configuration for upcoming types
+            // do persist this stuff as a rule for all upcoming types
             throw new NotImplementedException();
         }
     }
