@@ -10,13 +10,14 @@ namespace XenoGears.Formats.Configuration
     [DebuggerNonUserCode]
     public class TypeRule : Rule
     {
-        public Func<Type, bool> Filter { get; private set; }
+        public new Func<Type, bool> Filter { get; set; }
+        public bool AppliesTo(Type t) { return t != null && Filter(t); }
         public TypeRule(Func<Type, bool> filter, bool isAdhoc) : base(filter, isAdhoc) { Filter = filter; }
 
         private readonly List<Action<TypeConfig>> _clauses = new List<Action<TypeConfig>>();
         public List<Action<TypeConfig>> Clauses { get { return _clauses; } }
-        internal TypeRule Record(Action<TypeConfig> change) { Clauses.Add(change); return this; }
-        internal TypeRule Record<T>(Func<TypeConfig, T> change) { Clauses.Add(cfg => change(cfg)); return this; }
+        internal TypeRule Record(Action<TypeConfig> change) { Clauses.Add(change); Apply(); return this; }
+        internal TypeRule Record<T>(Func<TypeConfig, T> change) { Clauses.Add(cfg => change(cfg)); Apply(); return this; }
 
         public void Apply()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using XenoGears.Functional;
 using XenoGears.Traits.Disposable;
@@ -18,7 +19,13 @@ namespace XenoGears.Formats.Configuration
         public static PropertyConfig Adhoc(this PropertyInfo pi)
         {
             if (pi == null) return new PropertyConfig(pi);
-            return Repository.Configs.GetOrCreate(pi, () => new PropertyConfig(pi)).AssertCast<PropertyConfig>();
+            return Repository.Configs.GetOrCreate(pi, () =>
+            {
+                var config = new PropertyConfig(pi);
+                var rules = Repository.Rules.OfType<PropertyRule>().Where(rule => rule.AppliesTo(pi)).ToReadOnly();
+                rules.ForEach(rule => rule.Apply(config));
+                return config;
+            }).AssertCast<PropertyConfig>();
         }
 
         public static PropertyRule Adhoc(this Func<PropertyInfo, bool> pi)

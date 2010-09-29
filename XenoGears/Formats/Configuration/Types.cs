@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using XenoGears.Functional;
 using XenoGears.Traits.Disposable;
 using XenoGears.Assertions;
@@ -17,7 +18,13 @@ namespace XenoGears.Formats.Configuration
         public static TypeConfig Adhoc(this Type t)
         {
             if (t == null) return new TypeConfig(t);
-            return Repository.Configs.GetOrCreate(t, () => new TypeConfig(t)).AssertCast<TypeConfig>();
+            return Repository.Configs.GetOrCreate(t, () =>
+            {
+                var config = new TypeConfig(t);
+                var rules = Repository.Rules.OfType<TypeRule>().Where(rule => rule.AppliesTo(t)).ToReadOnly();
+                rules.ForEach(rule => rule.Apply(config));
+                return config;
+            }).AssertCast<TypeConfig>();
         }
 
         public static TypeRule Adhoc(this Func<Type, bool> t)

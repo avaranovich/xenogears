@@ -11,13 +11,14 @@ namespace XenoGears.Formats.Configuration
     [DebuggerNonUserCode]
     public class PropertyRule : Rule
     {
-        public Func<PropertyInfo, bool> Filter { get; private set; }
+        public new Func<PropertyInfo, bool> Filter { get; set; }
+        public bool AppliesTo(PropertyInfo pi) { return pi != null && Filter(pi); }
         public PropertyRule(Func<PropertyInfo, bool> filter, bool isAdhoc) : base(filter, isAdhoc) { Filter = filter; }
 
         private readonly List<Action<PropertyConfig>> _clauses = new List<Action<PropertyConfig>>();
         public List<Action<PropertyConfig>> Clauses { get { return _clauses; } }
-        internal PropertyRule Record(Action<PropertyConfig> change) { Clauses.Add(change); return this; }
-        internal PropertyRule Record<T>(Func<PropertyConfig, T> change) { Clauses.Add(cfg => change(cfg)); return this; }
+        internal PropertyRule Record(Action<PropertyConfig> change) { Clauses.Add(change); Apply(); return this; }
+        internal PropertyRule Record<T>(Func<PropertyConfig, T> change) { Clauses.Add(cfg => change(cfg)); Apply(); return this; }
 
         public void Apply()
         {

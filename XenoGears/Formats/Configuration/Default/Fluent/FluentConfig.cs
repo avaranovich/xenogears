@@ -11,8 +11,8 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
     [DebuggerNonUserCode]
     public class FluentConfig : IFluentSettings<FluentConfig>
     {
-        public Config Config { get; private set; }
-        public FluentConfig(Config config) { Config = config; }
+        public TypeConfig Config { get; private set; }
+        public FluentConfig(TypeConfig config) { Config = config; }
 
         public FluentConfig DefaultCtor { get { Config.DefaultCtor = true; return this; } }
         public FluentConfig NotDefaultCtor { get { Config.DefaultCtor = false; return this; } }
