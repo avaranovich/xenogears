@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 
 namespace XenoGears.Formats.Configuration
 {
-    public class Rule
+    [DebuggerNonUserCode]
+    public abstract class Rule
     {
         private Func<MemberInfo, bool> Filter { get; set; }
-        public bool AppliesTo(MemberInfo member) { return Filter(member); }
+        public bool AppliesTo(MemberInfo member) { return member != null && Filter(member); }
 
         public bool IsAdhoc { get; private set; }
         public bool IsPermanent { get { return !IsAdhoc; } }
@@ -41,6 +43,24 @@ namespace XenoGears.Formats.Configuration
             Filter = mi => mi is PropertyInfo && property(mi.AssertCast<PropertyInfo>());
             IsAdhoc = isAdhoc;
             Hash = new Dictionary<Object, Object>();
+        }
+    }
+
+    [DebuggerNonUserCode]
+    public class TypeRule : Rule
+    {
+        public TypeRule(Func<Type, bool> type, bool isAdhoc) 
+            : base(type, isAdhoc)
+        {
+        }
+    }
+
+    [DebuggerNonUserCode]
+    public class PropertyRule : Rule
+    {
+        public PropertyRule(Func<PropertyInfo, bool> property, bool isAdhoc) 
+            : base(property, isAdhoc)
+        {
         }
     }
 }

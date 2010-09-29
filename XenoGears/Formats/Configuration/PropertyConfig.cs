@@ -1,34 +1,64 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
+using XenoGears.Assertions;
+using XenoGears.Formats.Adapters.Core;
+using XenoGears.Formats.Adapters.Lambda;
+using XenoGears.Formats.Engines.Core;
+using XenoGears.Formats.Engines.Lambda;
+using XenoGears.Formats.Validators.Core;
+using XenoGears.Formats.Validators.Lambda;
 using XenoGears.Functional;
-using XenoGears.Traits.Disposable;
+using XenoGears.Reflection.Attributes;
 
 namespace XenoGears.Formats.Configuration
 {
-    public static class PropertyConfig
+    [DebuggerNonUserCode]
+    public class PropertyConfig : Config
     {
-        public static Config Adhoc(this PropertyInfo pi)
+        public PropertyConfig(PropertyInfo property)
+            : base(property)
         {
-            return Repository.Configs.GetOrCreate(pi, () => new Config(pi));
         }
 
-        public static Rule Adhoc(this Func<PropertyInfo, bool> pi)
+        // todo. support inheritance here
+        // e.g. make adapters for overriden prop also find adapters for base prop
+        // we could also support generics here =)
+
+        public ReadOnlyCollection<PropertyAdapter> Adapters
         {
-            return new Rule(pi, true);
+            get
+            {
+                var lam_adapters = (Hash.GetOrDefault(typeof(LambdaAdapters.LambdaAfterDeserializePropertyAdapter)).AssertCast<IEnumerable<PropertyAdapter>>() ?? Seq.Empty<PropertyAdapter>()).OrderBy(adapter => adapter.Weight).ToReadOnly();
+                lam_adapters = Seq.Concat(lam_adapters, (Hash.GetOrDefault(typeof(LambdaAdapters.LambdaAfterDeserializePropertyAdapter)).AssertCast<IEnumerable<PropertyAdapter>>() ?? Seq.Empty<PropertyAdapter>())).OrderBy(adapter => adapter.Weight).ToReadOnly();
+                var a_adapters = (Type.Attrs<PropertyAdapter>() ?? Seq.Empty<PropertyAdapter>()).OrderBy(adapter => adapter.Weight).ToReadOnly();
+                var adapters = Seq.Concat(lam_adapters, a_adapters).OrderBy(adapter => adapter.Weight).ToReadOnly();
+                return adapters;
+            }
         }
 
-        public static Rule Rule(this Func<PropertyInfo, bool> pi)
+        public ReadOnlyCollection<PropertyValidator> Validators
         {
-            IDisposable _;
-            return Rule(pi, out _);
+            get
+            {
+                var lam_validators = Hash.GetOrDefault(typeof(LambdaValidators.LambdaPropertyValidator)).AssertCast<IEnumerable<PropertyValidator>>() ?? Seq.Empty<PropertyValidator>();
+                var a_validators = Property.Attrs<PropertyValidator>() ?? Seq.Empty<PropertyValidator>();
+                var validators = Seq.Concat(lam_validators, a_validators).ToReadOnly();
+                return validators;
+            }
         }
 
-        public static Rule Rule(this Func<PropertyInfo, bool> pi, out IDisposable unreg)
+        public PropertyEngine Engine
         {
-            var rule = new Rule(pi, false);
-            Repository.Rules.Add(rule);
-            unreg = new DisposableAction(() => Repository.Rules.Remove(rule));
-            return rule;
+            get
+            {
+                var lam_engine = Hash.GetOrDefault(typeof(LambdaEngines.LambdaPropertyEngine)).AssertCast<PropertyEngine>();
+                var a_engine = Property.AttrOrNull<PropertyEngine>();
+                var type_engine = lam_engine ?? a_engine;
+                return type_engine;
+            }
         }
     }
 }

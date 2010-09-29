@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace XenoGears.Formats.Annotations.Engines
+namespace XenoGears.Formats.Engines.Core
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]

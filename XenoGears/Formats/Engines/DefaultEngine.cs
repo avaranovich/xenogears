@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using XenoGears.Formats.Annotations.Engines;
+using XenoGears.Formats.Engines.Core;
 using XenoGears.Assertions;
 using XenoGears.Reflection.Shortcuts;
 using XenoGears.Strings;

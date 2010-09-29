@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace XenoGears.Formats.Annotations.Validators
+namespace XenoGears.Formats.Validators.Core
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
     [DebuggerNonUserCode]

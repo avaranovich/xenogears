@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using XenoGears.Assertions;
-using XenoGears.Formats.Annotations.Adapters;
+using XenoGears.Formats.Adapters.Core;
 using XenoGears.Functional;
 using XenoGears.Reflection.Generics;
 using XenoGears.Reflection.Shortcuts;
