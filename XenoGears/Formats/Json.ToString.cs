@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using XenoGears.Assertions;
 using XenoGears.Functional;
@@ -49,11 +47,75 @@ namespace XenoGears.Formats
                     return;
                 }
 
+                var is_sbyte = _primitive is sbyte;
+                if (is_sbyte)
+                {
+                    var i = (sbyte)_primitive;
+                    writer.Write(i.ToInvariantString());
+                    return;
+                }
+
+                var is_byte = _primitive is byte;
+                if (is_byte)
+                {
+                    var ui = (byte)_primitive;
+                    writer.Write(ui.ToInvariantString());
+                    return;
+                }
+
+                var is_short = _primitive is short;
+                if (is_short)
+                {
+                    var i = (short)_primitive;
+                    writer.Write(i.ToInvariantString());
+                    return;
+                }
+
+                var is_ushort = _primitive is ushort;
+                if (is_ushort)
+                {
+                    var ui = (ushort)_primitive;
+                    writer.Write(ui.ToInvariantString());
+                    return;
+                }
+
                 var is_int = _primitive is int;
                 if (is_int)
                 {
                     var i = (int)_primitive;
                     writer.Write(i.ToInvariantString());
+                    return;
+                }
+
+                var is_uint = _primitive is uint;
+                if (is_uint)
+                {
+                    var ui = (uint)_primitive;
+                    writer.Write(ui.ToInvariantString());
+                    return;
+                }
+
+                var is_long = _primitive is long;
+                if (is_long)
+                {
+                    var i = (long)_primitive;
+                    writer.Write(i.ToInvariantString());
+                    return;
+                }
+
+                var is_ulong = _primitive is ulong;
+                if (is_ulong)
+                {
+                    var ui = (ulong)_primitive;
+                    writer.Write(ui.ToInvariantString());
+                    return;
+                }
+
+                var is_float = _primitive is float;
+                if (is_float)
+                {
+                    var f = (float)_primitive;
+                    writer.Write(f.ToInvariantString());
                     return;
                 }
 
