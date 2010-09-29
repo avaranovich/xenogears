@@ -155,6 +155,18 @@ namespace XenoGears.Reflection
                     unambiguousDic.XGetGenericArguments()[1]);
         }
 
+        public static Type GetDictionaryKey(this Type t)
+        {
+            var kvp_el = t.GetDictionaryElement();
+            return kvp_el == null ? null : kvp_el.Value.Key;
+        }
+
+        public static Type GetDictionaryValue(this Type t)
+        {
+            var kvp_el = t.GetDictionaryElement();
+            return kvp_el == null ? null : kvp_el.Value.Value;
+        }
+
         public static bool IsReferenceType(this Type t)
         {
             if (t == null) return false;

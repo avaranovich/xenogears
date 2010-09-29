@@ -1,4 +1,4 @@
-﻿namespace XenoGears.Formats.Engines.Configuration.Annotations
+﻿namespace XenoGears.Formats.Configuration.Default.Annotations
 {
     public enum JsonShape
     {
