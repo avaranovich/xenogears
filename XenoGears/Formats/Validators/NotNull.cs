@@ -8,19 +8,11 @@ namespace XenoGears.Formats.Validators
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     [DebuggerNonUserCode]
-    public class RegexAttribute : PropertyValidatorAttribute
+    public class NotNull : PropertyValidator
     {
-        public String Regex { get; set; }
-
-        public RegexAttribute(String regex)
-        {
-            Regex = regex;
-        }
-
         public override void Validate(PropertyInfo pi, Object value)
         {
-            var s_value = value.AssertCast<String>();
-            s_value.AssertMatch(Regex);
+            (Equals(value, null) || Equals(value, String.Empty)).AssertTrue();
         }
     }
 }

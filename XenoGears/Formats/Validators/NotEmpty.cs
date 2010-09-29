@@ -8,7 +8,7 @@ namespace XenoGears.Formats.Validators
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     [DebuggerNonUserCode]
-    public class NotEmptyAttribute : PropertyValidatorAttribute
+    public class NotEmpty : PropertyValidator
     {
         public override void Validate(PropertyInfo pi, Object value)
         {

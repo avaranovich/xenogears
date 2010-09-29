@@ -10,7 +10,7 @@ namespace XenoGears.Formats.Engines
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]
-    public class CustomSerializationAttribute : TypeEngineAttribute
+    public class AdhocEngine : TypeEngine
     {
         public override Object Deserialize(Type t, Json json)
         {

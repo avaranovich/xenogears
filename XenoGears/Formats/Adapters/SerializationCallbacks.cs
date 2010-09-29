@@ -10,7 +10,7 @@ namespace XenoGears.Formats.Adapters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]
-    public class SerializationCallbacksAttribute : TypeAdapterAttribute
+    public class SerializationCallbacks : TypeAdapter
     {
         public override Object AfterDeserialize(Type t, Object value)
         {

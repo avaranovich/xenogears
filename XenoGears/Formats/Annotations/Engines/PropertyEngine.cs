@@ -7,7 +7,7 @@ namespace XenoGears.Formats.Annotations.Engines
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]
-    public abstract class PropertyEngineAttribute : EngineAttribute
+    public abstract class PropertyEngine : Engine
     {
         public sealed override Object Deserialize(MemberInfo mi, Json json) { return Deserialize(mi.AssertCast<PropertyInfo>(), json); }
         public sealed override Json Serialize(MemberInfo mi, Object value) { return Serialize(mi.AssertCast<PropertyInfo>(), value); }

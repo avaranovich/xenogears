@@ -7,7 +7,7 @@ namespace XenoGears.Formats.Annotations.Validators
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
     [DebuggerNonUserCode]
-    public abstract class TypeValidatorAttribute : ValidatorAttribute
+    public abstract class TypeValidator : Validator
     {
         public sealed override void Validate(MemberInfo mi, Object value) { Validate(mi.AssertCast<Type>(), value); }
         public abstract void Validate(Type t, Object value);
