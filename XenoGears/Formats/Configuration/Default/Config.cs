@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using XenoGears.Assertions;
 
-namespace XenoGears.Formats.Configuration
+namespace XenoGears.Formats.Configuration.Default
 {
-    public class JsonMetadata
+    public class Config
     {
         internal bool Initialized { get; set; }
         public Type Type { get; private set; }
-        public JsonMetadata(Type type) { Type = type.AssertNotNull(); }
+        public Config(Type type) { Type = type.AssertNotNull(); }
 
         public bool DefaultCtor { get; set; }
 
