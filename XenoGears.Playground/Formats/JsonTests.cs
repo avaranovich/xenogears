@@ -69,7 +69,8 @@ namespace XenoGears.Playground.Formats
         {
             typeof(Foo).Config().DefaultEngine().OptOutNonPublic.NotSlots(mi => mi.Name == "Calc");
             typeof(IBar).GetProperty("Qux").Config().AfterDeserialize((Qux qux) => qux.Value *= 10);
-            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; });
+            // todo. uncomment this and make it compile
+//            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; });
             typeof(Foo).GetProperty("Ok").Config().Engine((pi, j) => { Log.WriteLine("Deserializing Foo::Ok"); return new DefaultEngine().Deserialize(pi, j); },
                 (pi, o) => { Log.WriteLine("Serializing Foo::Ok"); return new DefaultEngine().Serialize(pi, o); });
             typeof(Foo).GetProperty("Ok").Config().AddValidator(_ => Log.WriteLine("Validating Foo::Ok"));
