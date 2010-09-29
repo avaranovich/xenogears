@@ -5,7 +5,6 @@ using XenoGears.Collections.Dictionaries;
 using XenoGears.Formats;
 using XenoGears.Formats.Adapters.Core;
 using XenoGears.Formats.Configuration.Default.Annotations;
-using XenoGears.Formats.Configuration.Default.Fluent;
 using XenoGears.Formats.Engines;
 using XenoGears.Functional;
 using XenoGears.Playground.Framework;
@@ -14,7 +13,6 @@ using XenoGears.Formats.Configuration;
 using XenoGears.Formats.Configuration.Default;
 using XenoGears.Assertions;
 using XenoGears.Formats.Adapters.Lambda;
-using XenoGears.Reflection.Shortcuts;
 using XenoGears.Formats.Engines.Lambda;
 using XenoGears.Formats.Validators.Lambda;
 
@@ -69,8 +67,7 @@ namespace XenoGears.Playground.Formats
         {
             typeof(Foo).Config().DefaultEngine().OptOutNonPublic.NotSlots(mi => mi.Name == "Calc");
             typeof(IBar).GetProperty("Qux").Config().AfterDeserialize((Qux qux) => qux.Value *= 10);
-            // todo. uncomment this and make it compile
-//            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; });
+            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize((pi, o) => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; });
             typeof(Foo).GetProperty("Ok").Config().Engine((pi, j) => { Log.WriteLine("Deserializing Foo::Ok"); return new DefaultEngine().Deserialize(pi, j); },
                 (pi, o) => { Log.WriteLine("Serializing Foo::Ok"); return new DefaultEngine().Serialize(pi, o); });
             typeof(Foo).GetProperty("Ok").Config().AddValidator(_ => Log.WriteLine("Validating Foo::Ok"));

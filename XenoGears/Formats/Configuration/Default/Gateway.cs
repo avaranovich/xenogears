@@ -11,7 +11,7 @@ namespace XenoGears.Formats.Configuration.Default
     {
         public static FluentConfig DefaultEngine(this Configuration.Config generic_config)
         {
-            var type_config = generic_config.AssertCast<TypeConfig>().AssertNotNull();
+            var type_config = generic_config.AssertCast<Configuration.TypeConfig>().AssertNotNull();
             return DefaultEngine(type_config);
         }
 
@@ -20,7 +20,7 @@ namespace XenoGears.Formats.Configuration.Default
             return generic_config.Hash.GetOrCreate(typeof(Gateway), () =>
             {
                 var type = generic_config.Type;
-                var new_config = new Config(type);
+                var new_config = new TypeConfig(type);
                 var new_fluent_config = new FluentConfig(new_config);
 
                 var generic_rules = Repository.Rules.Where(rule => rule.Hash.ContainsKey(typeof(Gateway))).ToReadOnly();
@@ -34,7 +34,7 @@ namespace XenoGears.Formats.Configuration.Default
 
         public static FluentRule DefaultEngine(this Configuration.Rule generic_rule)
         {
-            var type_rule = generic_rule.AssertCast<TypeRule>().AssertNotNull();
+            var type_rule = generic_rule.AssertCast<Configuration.TypeRule>().AssertNotNull();
             return DefaultEngine(type_rule);
         }
 
@@ -42,7 +42,7 @@ namespace XenoGears.Formats.Configuration.Default
         {
             return generic_rule.Hash.GetOrCreate(typeof(Gateway), () =>
             {
-                var new_rule = new Rule(generic_rule.AppliesTo);
+                var new_rule = new TypeRule(generic_rule.AppliesTo);
                 return new FluentRule(new_rule);
             }).AssertCast<FluentRule>();
         }

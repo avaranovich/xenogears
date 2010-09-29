@@ -113,7 +113,7 @@
     <Compile Include="Formats\Configuration\Default\Annotations\JsonSlotsHelper.cs" />
     <Compile Include="Formats\Configuration\Default\Fluent\FluentRule.cs" />
     <Compile Include="Formats\Configuration\Default\Fluent\IFluentSettings.cs" />
-    <Compile Include="Formats\Configuration\Default\Rule.cs" />
+    <Compile Include="Formats\Configuration\Default\TypeRule.cs" />
     <Compile Include="Formats\Configuration\Repository.cs" />
     <Compile Include="Formats\Configuration\Properties.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonAttribute.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="Formats\Configuration\Default\Annotations\JsonSlots.cs" />
     <Compile Include="Formats\Configuration\Default\Fluent\FluentConfig.cs" />
     <Compile Include="Formats\Configuration\Default\Gateway.cs" />
-    <Compile Include="Formats\Configuration\Default\Config.cs" />
+    <Compile Include="Formats\Configuration\Default\TypeConfig.cs" />
     <Compile Include="Formats\Configuration\Rule.cs" />
     <Compile Include="Formats\Configuration\Types.cs" />
     <Compile Include="Formats\Json.Primitive.cs" />

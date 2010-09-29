@@ -9,10 +9,10 @@ using XenoGears.Functional;
 namespace XenoGears.Formats.Configuration.Default
 {
     [DebuggerNonUserCode]
-    public class Rule
+    public class TypeRule
     {
         public Func<Type, bool> Filter { get; private set; }
-        public Rule(Func<Type, bool> filter) { Filter = filter.AssertNotNull(); }
+        public TypeRule(Func<Type, bool> filter) { Filter = filter.AssertNotNull(); }
 
         private readonly List<Action<FluentConfig>> _clauses = new List<Action<FluentConfig>>();
         public List<Action<FluentConfig>> Clauses { get { return _clauses; } }

@@ -9,7 +9,7 @@ namespace XenoGears.Formats.Configuration
     [DebuggerNonUserCode]
     public abstract class Rule
     {
-        private Func<MemberInfo, bool> Filter { get; set; }
+        public Func<MemberInfo, bool> Filter { get; set; }
         public bool AppliesTo(MemberInfo member) { return member != null && Filter(member); }
 
         public bool IsAdhoc { get; private set; }

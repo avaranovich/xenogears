@@ -9,10 +9,10 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
     [DebuggerNonUserCode]
     public class FluentRule : IFluentSettings<FluentRule>
     {
-        public Rule Rule { get; private set; }
-        public FluentRule(Rule rule) { Rule = rule.AssertNotNull(); }
-        private FluentRule Record(Action<FluentConfig> change) { Rule.Clauses.Add(change); return this; }
-        private FluentRule Record<T>(Func<FluentConfig, T> change) { Rule.Clauses.Add(cfg => change(cfg)); return this; }
+        public TypeRule Rule { get; private set; }
+        public FluentRule(TypeRule rule) { Rule = rule.AssertNotNull(); }
+        private FluentRule Record(Action<FluentConfig> change) { Rule.Clauses.Add(change); Rule.Apply(); return this; }
+        private FluentRule Record<T>(Func<FluentConfig, T> change) { Rule.Clauses.Add(cfg => change(cfg)); Rule.Apply(); return this; }
 
         public FluentRule DefaultCtor { get { return Record(cfg => cfg.DefaultCtor); } }
         public FluentRule NotDefaultCtor { get { return Record(cfg => cfg.NotDefaultCtor); } }

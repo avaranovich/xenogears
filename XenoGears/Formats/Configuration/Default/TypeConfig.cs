@@ -6,10 +6,10 @@ using System.Reflection;
 namespace XenoGears.Formats.Configuration.Default
 {
     [DebuggerNonUserCode]
-    public class Config
+    public class TypeConfig
     {
         public Type Type { get; private set; }
-        public Config(Type type) { Type = type; }
+        public TypeConfig(Type type) { Type = type; }
 
         public bool DefaultCtor { get; set; }
 
