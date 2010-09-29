@@ -1,7 +1,7 @@
 ﻿using System;
-using XenoGears.Formats.Engines.Configuration.Fluent;
+using XenoGears.Formats.Configuration.Default.Fluent;
 
-namespace XenoGears.Formats.Engines.Configuration
+namespace XenoGears.Formats.Configuration
 {
     public static class JsonRegistry
     {

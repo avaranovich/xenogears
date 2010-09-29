@@ -34,13 +34,13 @@ namespace XenoGears.Formats.Engines
 //                t == typeof(sbyte) || t == typeof(short) || t == typeof(int) || t == typeof(long) ||
 //                t == typeof(byte) || t == typeof(ushort) || t == typeof(uint) || t == typeof(ulong))
 //            {
-//                return new Json{_my_primitive = null, _my_state = Json.State.Primitive};
+//                return new Json{_my_primitive = value, _my_state = Json.State.Primitive};
 //            }
 //            else if (t.SupportsSerializationToString())
 //            {
 //                var s_value = value.ToInvariantString();
 //                s_value = String.Format("{0}'{1}", t.GetCSharpRef(new ToCSharpOptions()), s_value);
-//                return Serialize(typeof(String), s_value);
+//                return new Json{_my_primitive = s_value, _my_state = Json.State.Primitive};
 //            }
 //            else
 //            {

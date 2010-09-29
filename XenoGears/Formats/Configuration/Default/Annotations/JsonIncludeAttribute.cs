@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XenoGears.Formats.Engines.Configuration.Annotations
+namespace XenoGears.Formats.Configuration.Default.Annotations
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public class JsonIncludeAttribute : Attribute
