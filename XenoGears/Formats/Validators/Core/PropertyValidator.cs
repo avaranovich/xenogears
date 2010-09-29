@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 
-namespace XenoGears.Formats.Annotations.Validators
+namespace XenoGears.Formats.Validators.Core
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     [DebuggerNonUserCode]

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using XenoGears.Assertions;
-using XenoGears.Formats.Annotations.Adapters;
+using XenoGears.Formats.Adapters.Core;
 
 namespace XenoGears.Formats.Adapters
 {

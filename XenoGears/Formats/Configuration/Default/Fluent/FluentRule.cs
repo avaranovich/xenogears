@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 
 namespace XenoGears.Formats.Configuration.Default.Fluent
 {
+    [DebuggerNonUserCode]
     public class FluentRule : IFluentSettings<FluentRule>
     {
         public Rule Rule { get; private set; }
@@ -16,7 +18,6 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         public FluentRule NotDefaultCtor { get { return Record(cfg => cfg.NotDefaultCtor); } }
 
         public FluentRule IsPrimitive { get { return Record(cfg => cfg.IsPrimitive); } }
-        public FluentRule IsPrimitiveOf(Func<Object, Object> dynamicPrimitive) { return Record(cfg => cfg.IsPrimitiveOf(dynamicPrimitive)); }
         public FluentRule IsNotPrimitive { get { return Record(cfg => cfg.IsNotPrimitive); } }
 
         public FluentRule IsObject { get { return Record(cfg => cfg.IsObject); } }
@@ -53,19 +54,16 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         public FluentRule NotProperties(IEnumerable<PropertyInfo> properties) { return Record(cfg => cfg.NotProperties(properties)); }
         public FluentRule NotProperties(Func<Type, IEnumerable<PropertyInfo>, IEnumerable<PropertyInfo>> properties) { return Record(cfg => cfg.NotProperties(properties)); }
         public FluentRule NotProperties(Func<PropertyInfo, bool> properties) { return Record(cfg => cfg.NotProperties(properties)); }
-        public FluentRule IsObjectOf(Func<Object, Dictionary<String, Object>> dynamicObject) { return Record(cfg => cfg.IsObjectOf(dynamicObject)); }
         public FluentRule IsNotObject { get { return Record(cfg => cfg.IsNotObject); } }
 
         public FluentRule IsList{ get { return Record(cfg => cfg.IsList); } }
         public FluentRule IsListOf(Type listElement) { return Record(cfg => cfg.IsListOf(listElement)); }
         public FluentRule IsListOf(Func<Type, Type> listElement) { return Record(cfg => cfg.IsListOf(listElement)); }
-        public FluentRule IsListOf(Func<Object, IEnumerable<Object>> dynamicList) { return Record(cfg => cfg.IsListOf(dynamicList)); }
         public FluentRule IsNotList { get { return Record(cfg => cfg.IsNotList); } }
 
         public FluentRule IsHash { get { return Record(cfg => cfg.IsHash); } }
         public FluentRule IsHashOf(Type hashElement) { return Record(cfg => cfg.IsHashOf(hashElement)); }
         public FluentRule IsHashOf(Func<Type, Type> hashElement) { return Record(cfg => cfg.IsHashOf(hashElement)); }
-        public FluentRule IsHashOf(Func<Object, Dictionary<Object, Object>> dynamicHash) { return Record(cfg => cfg.IsHashOf(dynamicHash)); }
         public FluentRule IsNotHash { get { return Record(cfg => cfg.IsNotHash); } }
     }
 }

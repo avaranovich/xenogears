@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace XenoGears.Formats.Configuration.Default.Annotations
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    [DebuggerNonUserCode]
     public class JsonAttribute : Attribute
     {
         public JsonShape Shape { get; set; }

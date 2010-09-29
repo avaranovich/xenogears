@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using XenoGears.Assertions;
 using System.Linq;
 using XenoGears.Formats.Configuration.Default.Fluent;
@@ -7,6 +8,7 @@ using XenoGears.Functional;
 
 namespace XenoGears.Formats.Configuration.Default
 {
+    [DebuggerNonUserCode]
     public class Rule
     {
         public Func<Type, bool> Filter { get; private set; }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Linq;
 using XenoGears.Formats.Configuration.Default.Fluent;
 using XenoGears.Functional;
@@ -6,9 +6,16 @@ using XenoGears.Assertions;
 
 namespace XenoGears.Formats.Configuration.Default
 {
+    [DebuggerNonUserCode]
     public static class Gateway
     {
         public static FluentConfig DefaultEngine(this Configuration.Config generic_config)
+        {
+            var type_config = generic_config.AssertCast<TypeConfig>().AssertNotNull();
+            return DefaultEngine(type_config);
+        }
+
+        public static FluentConfig DefaultEngine(this Configuration.TypeConfig generic_config)
         {
             return generic_config.Hash.GetOrCreate(typeof(Gateway), () =>
             {
@@ -25,6 +32,12 @@ namespace XenoGears.Formats.Configuration.Default
         }
 
         public static FluentRule DefaultEngine(this Configuration.Rule generic_rule)
+        {
+            var type_rule = generic_rule.AssertCast<TypeRule>().AssertNotNull();
+            return DefaultEngine(type_rule);
+        }
+
+        public static FluentRule DefaultEngine(this Configuration.TypeRule generic_rule)
         {
             return generic_rule.Hash.GetOrCreate(typeof(Gateway), () =>
             {

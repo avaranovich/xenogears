@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Reflection;
-using XenoGears.Assertions;
-using XenoGears.Formats.Annotations.Adapters;
-using XenoGears.Formats.Annotations.Engines;
-using XenoGears.Formats.Annotations.Validators;
+using XenoGears.Formats.Engines.Core;
 using XenoGears.Formats.Engines;
+using XenoGears.Functional;
 using XenoGears.Reflection;
-using XenoGears.Reflection.Attributes;
+using XenoGears.Formats.Configuration;
+using XenoGears.Assertions;
 
 namespace XenoGears.Formats
 {
@@ -64,22 +63,14 @@ namespace XenoGears.Formats
         {
             var mi = descriptor ?? ((Func<MemberInfo>)(() => { throw AssertionHelper.Fail(); }))();
             var pi = mi as PropertyInfo;
-            var t = mi is Type ? mi : (mi is PropertyInfo ? ((PropertyInfo)mi).PropertyType : ((Func<Type>)(() => { throw AssertionHelper.Fail(); }))());
+            var t = mi is Type ? (Type)mi : (mi is PropertyInfo ? ((PropertyInfo)mi).PropertyType : ((Func<Type>)(() => { throw AssertionHelper.Fail(); }))());
 
-            var prop_engine = pi.AttrOrNull<PropertyEngine>();
-            var type_engine = t.AttrOrNull<TypeEngine>();
-            var engine = prop_engine ?? (Engine)type_engine ?? new DefaultEngine();
+            var engine = pi.Config().Engine ?? pi.Config().Engine ?? (Engine)new DefaultEngine();
             var value = engine.Deserialize(mi, this);
-
-            var type_adapter = t.AttrOrNull<TypeAdapter>();
-            if (type_adapter != null) value = type_adapter.BeforeSerialize(t, value);
-            var prop_adapter = pi.AttrOrNull<PropertyAdapter>();
-            if (prop_adapter != null) value = prop_adapter.BeforeSerialize(pi, value);
-
-            var type_validator = t.AttrOrNull<TypeValidator>();
-            if (type_validator != null) type_validator.Validate(t, value);
-            var prop_validator = pi.AttrOrNull<PropertyValidator>();
-            if (prop_validator != null) prop_validator.Validate(pi, value);
+            value = t.Config().Adapters.Fold(value, (curr, adapter) => adapter.AfterDeserialize(t, curr));
+            value = pi.Config().Adapters.Fold(value, (curr, adapter) => adapter.AfterDeserialize(pi, curr));
+            t.Config().Validators.ForEach(validator => validator.Validate(t, value));
+            pi.Config().Validators.ForEach(validator => validator.Validate(pi, value));
 
             return value;
         }

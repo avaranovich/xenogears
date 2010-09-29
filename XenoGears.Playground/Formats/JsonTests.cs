@@ -3,9 +3,20 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using XenoGears.Collections.Dictionaries;
 using XenoGears.Formats;
+using XenoGears.Formats.Adapters.Core;
+using XenoGears.Formats.Configuration.Default.Annotations;
+using XenoGears.Formats.Configuration.Default.Fluent;
+using XenoGears.Formats.Engines;
 using XenoGears.Functional;
 using XenoGears.Playground.Framework;
 using System.Linq;
+using XenoGears.Formats.Configuration;
+using XenoGears.Formats.Configuration.Default;
+using XenoGears.Assertions;
+using XenoGears.Formats.Adapters.Lambda;
+using XenoGears.Reflection.Shortcuts;
+using XenoGears.Formats.Engines.Lambda;
+using XenoGears.Formats.Validators.Lambda;
 
 namespace XenoGears.Playground.Formats
 {
@@ -16,20 +27,57 @@ namespace XenoGears.Playground.Formats
         {
             public bool Ok { get; private set; }
             public OrderedDictionary<String, IList<IBar>> Bars { get; private set; }
-            public List<Foo> Foos { get; set; }
+            internal List<Foo> Foos { get; set; }
+
+            private int Calc { get { return Ok.SafeHashCode() ^ Bars.SafeHashCode() ^ Foos.SafeHashCode(); } }
+        }
+
+        [AttributeUsage(AttributeTargets.Class)]
+        private class IBarAdapter : TypeAdapter
+        {
+            public override Object AfterDeserialize(Type t, Object value)
+            {
+                var bar = value.AssertCast<IBar>();
+                if (bar == null) return null;
+                bar.Baz = bar.Baz ?? "null";
+                return bar;
+            }
         }
 
         private interface IBar
         {
-            int Qux { get; set; }
+            Qux Qux { get; set; }
             String Baz { get; set; }
+        }
+
+        [AdhocEngine, Json(DefaultCtor = false)]
+        private class Qux
+        {
+            public int Value { get; set; }
+            public Qux(int value) { Value = value; }
+
+            public bool Equals(Qux other) { if (ReferenceEquals(null, other)) return false; if (ReferenceEquals(this, other)) return true; return other.Value == Value; }
+            public override bool Equals(object obj) { if (ReferenceEquals(null, obj)) return false; if (ReferenceEquals(this, obj)) return true; if (obj.GetType() != typeof(Qux)) return false; return Equals((Qux)obj); }
+            public override int GetHashCode() { return Value; }
+
+            private void Deserialize(dynamic json) { Value = (int)json; }
+            private Json Serialize() { return new JsonPrimitive(Value); }
         }
 
         [Test, Category("Hot")]
         public void Test1()
         {
-            var s_json = InputText();
+            typeof(Foo).Adhoc().DefaultEngine().OptOutNonPublic.NotSlots(mi => mi.Name == "Calc");
+            typeof(IBar).GetProperty("Qux").Adhoc().AfterDeserialize((Qux qux) => qux.Value *= 10);
+            // todo. add rules support for lambda stuff
+            typeof(Foo).GetProperties(BF.AllInstance).ForEach(pi => pi.Adhoc().AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; }));
+            typeof(Foo).GetProperty("Ok").Adhoc().Engine((pi, j) => { Log.WriteLine("Deserializing Foo::Ok"); return new DefaultEngine().Deserialize(pi, j); },
+                (pi, o) => { Log.WriteLine("Serializing Foo::Ok"); return new DefaultEngine().Serialize(pi, o); });
+            typeof(Foo).GetProperty("Ok").Adhoc().AddValidator(_ => Log.WriteLine("Validating Foo::Ok"));
+            typeof(Foo).Adhoc().AddValidator(_ => Log.WriteLine("Validating Foo"));
+            typeof(Foo).Adhoc().AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo"); return o; });
 
+            var s_json = InputText();
             var json = Json.Parse(s_json);
             Assert.AreEqual(new Json(false), json[0].ok);
             Assert.AreEqual(false, (bool)json[0].ok);
@@ -84,18 +132,18 @@ namespace XenoGears.Playground.Formats
                         var bar0_value = bar0.Value;
                         Assert.AreEqual(2, bar0_value.Count);
                         var bar0_value0 = bar0_value[0];
-                            Assert.AreEqual(1, bar0_value0.Qux);
+                            Assert.AreEqual(new Qux(10), bar0_value0.Qux); // property adapter!
                             Assert.AreEqual("ein", bar0_value0.Baz);
                         var bar0_value1 = bar0_value[1];
-                            Assert.AreEqual(2, bar0_value1.Qux);
+                            Assert.AreEqual(new Qux(20), bar0_value1.Qux); // property adapter!
                             Assert.AreEqual("", bar0_value1.Baz);
                     var bar1 = foo0_bars.AsEnumerable().Nth(1);
                         Assert.AreEqual("zwei", bar1.Key);
                         var bar1_value = bar1.Value;
                         Assert.AreEqual(1, bar1_value.Count);
                         var bar1_value0 = bar1_value[0];
-                            Assert.AreEqual(1, bar1_value0.Qux);
-                            Assert.AreEqual(null, bar1_value0.Baz);
+                            Assert.AreEqual(new Qux(10), bar1_value0.Qux); // property adapter!
+                            Assert.AreEqual("null", bar1_value0.Baz); // type adapter!
                     var bar2 = foo0_bars.AsEnumerable().Nth(2);
                         Assert.AreEqual("drei", bar2.Key);
                         Assert.AreEqual(null, bar2.Value);
@@ -114,8 +162,9 @@ namespace XenoGears.Playground.Formats
                 Assert.AreEqual(null, foo1.Bars);
                 Assert.AreEqual(null, foo1.Foos);
 
-            var result = foos.ToJson().ToPrettyString();
-            VerifyResult(result);
+            Log.WriteLine(Environment.NewLine + "FINAL RESULT:");
+            Log.WriteLine(foos.ToJson().ToPrettyString());
+            VerifyResult(Out.ToString());
         }
     }
 }

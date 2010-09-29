@@ -10,7 +10,6 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         T NotDefaultCtor { get; }
 
         T IsPrimitive { get; }
-        T IsPrimitiveOf(Func<Object, Object> dynamicPrimitive);
         T IsNotPrimitive { get; }
 
         T IsObject { get; }
@@ -47,19 +46,16 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         T NotProperties(IEnumerable<PropertyInfo> properties);
         T NotProperties(Func<Type, IEnumerable<PropertyInfo>, IEnumerable<PropertyInfo>> properties);
         T NotProperties(Func<PropertyInfo, bool> properties);
-        T IsObjectOf(Func<Object, Dictionary<String, Object>> dynamicObject);
         T IsNotObject { get; }
 
         T IsList { get; }
         T IsListOf(Type listElement);
         T IsListOf(Func<Type, Type> listElement);
-        T IsListOf(Func<Object, IEnumerable<Object>> dynamicList);
         T IsNotList { get; }
 
         T IsHash { get; }
         T IsHashOf(Type hashElement);
         T IsHashOf(Func<Type, Type> hashElement);
-        T IsHashOf(Func<Object, Dictionary<Object, Object>> dynamicHash);
         T IsNotHash { get; }
     }
 }

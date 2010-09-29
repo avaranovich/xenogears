@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using XenoGears.Formats.Annotations.Adapters;
-using XenoGears.Formats.Annotations.Engines;
-using XenoGears.Formats.Annotations.Validators;
+using XenoGears.Formats.Engines.Core;
 using XenoGears.Formats.Engines;
-using XenoGears.Reflection.Attributes;
+using XenoGears.Functional;
+using XenoGears.Formats.Configuration;
 
 namespace XenoGears.Formats
 {
@@ -53,21 +52,13 @@ namespace XenoGears.Formats
         {
             var mi = descriptor ?? (value == null ? null : value.GetType());
             var pi = mi as PropertyInfo;
-            var t = mi is Type ? mi : (value == null ? null : value.GetType());
+            var t = mi is Type ? (Type)mi : (value == null ? null : value.GetType());
 
-            var type_validator = t.AttrOrNull<TypeValidator>();
-            if (type_validator != null) type_validator.Validate(t, value);
-            var prop_validator = pi.AttrOrNull<PropertyValidator>();
-            if (prop_validator != null) prop_validator.Validate(pi, value);
-
-            var type_adapter = t.AttrOrNull<TypeAdapter>();
-            if (type_adapter != null) value = type_adapter.BeforeSerialize(t, value);
-            var prop_adapter = pi.AttrOrNull<PropertyAdapter>();
-            if (prop_adapter != null) value = prop_adapter.BeforeSerialize(pi, value);
-
-            var prop_engine = pi.AttrOrNull<PropertyEngine>();
-            var type_engine = t.AttrOrNull<TypeEngine>();
-            var engine = prop_engine ?? (Engine)type_engine ?? new DefaultEngine();
+            pi.Config().Validators.ForEach(validator => validator.Validate(pi, value));
+            t.Config().Validators.ForEach(validator => validator.Validate(t, value));
+            value = pi.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(pi, curr));
+            value = t.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(t, curr));
+            var engine = pi.Config().Engine ?? pi.Config().Engine ?? (Engine)new DefaultEngine();
             _wrappee = engine.Serialize(mi, value);
         }
     }

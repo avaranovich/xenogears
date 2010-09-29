@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
-using XenoGears.Formats.Annotations.Validators;
+using XenoGears.Formats.Validators.Core;
 
 namespace XenoGears.Formats.Validators
 {
