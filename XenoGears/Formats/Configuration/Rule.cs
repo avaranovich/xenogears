@@ -22,14 +22,14 @@ namespace XenoGears.Formats.Configuration
         public Rule Put(String key, Object value) { Hash[key] = value; return this; }
         public Rule Remove(String key) { Hash.Remove(key); return this; }
 
-        public Rule(Func<MemberInfo, bool> member, bool isAdhoc)
+        protected Rule(Func<MemberInfo, bool> member, bool isAdhoc)
         {
             Filter = member.AssertNotNull();
             IsAdhoc = isAdhoc;
             Hash = new Dictionary<Object, Object>();
         }
 
-        public Rule(Func<Type, bool> type, bool isAdhoc)
+        protected Rule(Func<Type, bool> type, bool isAdhoc)
         {
             type.AssertNotNull();
             Filter = mi => mi is Type && type(mi.AssertCast<Type>());
@@ -37,30 +37,12 @@ namespace XenoGears.Formats.Configuration
             Hash = new Dictionary<Object, Object>();
         }
 
-        public Rule(Func<PropertyInfo, bool> property, bool isAdhoc)
+        protected Rule(Func<PropertyInfo, bool> property, bool isAdhoc)
         {
             property.AssertNotNull();
             Filter = mi => mi is PropertyInfo && property(mi.AssertCast<PropertyInfo>());
             IsAdhoc = isAdhoc;
             Hash = new Dictionary<Object, Object>();
-        }
-    }
-
-    [DebuggerNonUserCode]
-    public class TypeRule : Rule
-    {
-        public TypeRule(Func<Type, bool> type, bool isAdhoc) 
-            : base(type, isAdhoc)
-        {
-        }
-    }
-
-    [DebuggerNonUserCode]
-    public class PropertyRule : Rule
-    {
-        public PropertyRule(Func<PropertyInfo, bool> property, bool isAdhoc) 
-            : base(property, isAdhoc)
-        {
         }
     }
 }

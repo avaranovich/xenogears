@@ -23,7 +23,8 @@ namespace XenoGears.Formats.Configuration.Default
                 var new_config = new Config(type);
                 var new_fluent_config = new FluentConfig(new_config);
 
-                var fluent_rules = Repository.Rules.Where(rule => rule.AppliesTo(type)).Select(rule => rule.DefaultEngine()).ToReadOnly();
+                var generic_rules = Repository.Rules.Where(rule => rule.Hash.ContainsKey(typeof(Gateway))).ToReadOnly();
+                var fluent_rules = generic_rules.Where(rule => rule.AppliesTo(type)).Select(rule => rule.DefaultEngine()).ToReadOnly();
                 var rules = fluent_rules.Select(rule => rule.Rule).ToReadOnly();
                 rules.ForEach(rule => rule.Apply(new_fluent_config));
 

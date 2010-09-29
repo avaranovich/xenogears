@@ -93,7 +93,9 @@
     <Compile Include="Formats\Adapters\Core\PropertyAdapter.cs" />
     <Compile Include="Formats\Adapters\Core\TypeAdapter.cs" />
     <Compile Include="Formats\Configuration\PropertyConfig.cs" />
+    <Compile Include="Formats\Configuration\PropertyRule.cs" />
     <Compile Include="Formats\Configuration\TypeConfig.cs" />
+    <Compile Include="Formats\Configuration\TypeRule.cs" />
     <Compile Include="Formats\Engines\Lambda\Properties.cs" />
     <Compile Include="Formats\Engines\Lambda\Types.cs" />
     <Compile Include="Formats\Validators\Lambda\Properties.cs" />
