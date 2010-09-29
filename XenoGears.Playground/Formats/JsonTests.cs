@@ -67,15 +67,14 @@ namespace XenoGears.Playground.Formats
         [Test, Category("Hot")]
         public void Test1()
         {
-            typeof(Foo).Adhoc().DefaultEngine().OptOutNonPublic.NotSlots(mi => mi.Name == "Calc");
-            typeof(IBar).GetProperty("Qux").Adhoc().AfterDeserialize((Qux qux) => qux.Value *= 10);
-            // todo. add rules support for lambda stuff
-            typeof(Foo).GetProperties(BF.AllInstance).ForEach(pi => pi.Adhoc().AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; }));
-            typeof(Foo).GetProperty("Ok").Adhoc().Engine((pi, j) => { Log.WriteLine("Deserializing Foo::Ok"); return new DefaultEngine().Deserialize(pi, j); },
+            typeof(Foo).Config().DefaultEngine().OptOutNonPublic.NotSlots(mi => mi.Name == "Calc");
+            typeof(IBar).GetProperty("Qux").Config().AfterDeserialize((Qux qux) => qux.Value *= 10);
+            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo::", pi.Name); return o; });
+            typeof(Foo).GetProperty("Ok").Config().Engine((pi, j) => { Log.WriteLine("Deserializing Foo::Ok"); return new DefaultEngine().Deserialize(pi, j); },
                 (pi, o) => { Log.WriteLine("Serializing Foo::Ok"); return new DefaultEngine().Serialize(pi, o); });
-            typeof(Foo).GetProperty("Ok").Adhoc().AddValidator(_ => Log.WriteLine("Validating Foo::Ok"));
-            typeof(Foo).Adhoc().AddValidator(_ => Log.WriteLine("Validating Foo"));
-            typeof(Foo).Adhoc().AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo"); return o; });
+            typeof(Foo).GetProperty("Ok").Config().AddValidator(_ => Log.WriteLine("Validating Foo::Ok"));
+            typeof(Foo).Config().AddValidator(_ => Log.WriteLine("Validating Foo"));
+            typeof(Foo).Config().AfterDeserialize(o => { Log.WriteLine("AfterDeserialize Foo"); return o; });
 
             var s_json = InputText();
             var json = Json.Parse(s_json);
