@@ -7,7 +7,6 @@ namespace XenoGears.Formats.Configuration.Default
 {
     public class Config
     {
-        internal bool Initialized { get; set; }
         public Type Type { get; private set; }
         public Config(Type type) { Type = type.AssertNotNull(); }
 
