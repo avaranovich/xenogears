@@ -3,19 +3,19 @@ using XenoGears.Formats.Configuration.Default.Fluent;
 
 namespace XenoGears.Formats.Configuration
 {
-    public static class JsonRegistry
+    public static class JsonConfig
     {
         public static JsonMetadata Metadata(this Type t)
         {
             throw new NotImplementedException();
         }
 
-        public static SingleFluent AdHoc(this Type t)
+        public static SingleFluent Adhoc(this Type t)
         {
             throw new NotImplementedException();
         }
 
-        public static MultiFluent AdHoc(Func<Type, bool> t)
+        public static MultiFluent Adhoc(Func<Type, bool> t)
         {
             // todo. configure all these types once and forget about this config
             // do not persist this stuff as a rule for all upcoming types

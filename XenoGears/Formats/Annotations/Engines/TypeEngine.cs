@@ -7,7 +7,7 @@ namespace XenoGears.Formats.Annotations.Engines
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]
-    public abstract class TypeEngineAttribute : EngineAttribute
+    public abstract class TypeEngine : Engine
     {
         public sealed override Object Deserialize(MemberInfo mi, Json json) { return Deserialize(mi.AssertCast<Type>(), json); }
         public sealed override Json Serialize(MemberInfo mi, Object value) { return Serialize(mi.AssertCast<Type>(), value); }

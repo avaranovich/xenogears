@@ -7,7 +7,7 @@ namespace XenoGears.Formats.Annotations.Adapters
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]
-    public abstract class PropertyAdapterAttribute : AdapterAttribute
+    public abstract class PropertyAdapter : Adapter
     {
         public sealed override Object AfterDeserialize(MemberInfo mi, Object value) { return AfterDeserialize(mi.AssertCast<PropertyInfo>(), value); }
         public sealed override Object BeforeSerialize(MemberInfo mi, Object value) { return BeforeSerialize(mi.AssertCast<PropertyInfo>(), value); }

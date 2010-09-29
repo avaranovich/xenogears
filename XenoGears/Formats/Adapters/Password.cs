@@ -9,7 +9,7 @@ namespace XenoGears.Formats.Adapters
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]
-    public class PasswordAttribute : PropertyAdapterAttribute
+    public class Password : PropertyAdapter
     {
         public override Object AfterDeserialize(PropertyInfo pi, Object value)
         {

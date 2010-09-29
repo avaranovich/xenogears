@@ -55,19 +55,19 @@ namespace XenoGears.Formats
             var pi = mi as PropertyInfo;
             var t = mi is Type ? mi : (value == null ? null : value.GetType());
 
-            var type_validator = t.AttrOrNull<TypeValidatorAttribute>();
+            var type_validator = t.AttrOrNull<TypeValidator>();
             if (type_validator != null) type_validator.Validate(t, value);
-            var prop_validator = pi.AttrOrNull<PropertyValidatorAttribute>();
+            var prop_validator = pi.AttrOrNull<PropertyValidator>();
             if (prop_validator != null) prop_validator.Validate(pi, value);
 
-            var type_adapter = t.AttrOrNull<TypeAdapterAttribute>();
+            var type_adapter = t.AttrOrNull<TypeAdapter>();
             if (type_adapter != null) value = type_adapter.BeforeSerialize(t, value);
-            var prop_adapter = pi.AttrOrNull<PropertyAdapterAttribute>();
+            var prop_adapter = pi.AttrOrNull<PropertyAdapter>();
             if (prop_adapter != null) value = prop_adapter.BeforeSerialize(pi, value);
 
-            var prop_engine = pi.AttrOrNull<PropertyEngineAttribute>();
-            var type_engine = t.AttrOrNull<TypeEngineAttribute>();
-            var engine = prop_engine ?? (EngineAttribute)type_engine ?? new DefaultSerializationAttribute();
+            var prop_engine = pi.AttrOrNull<PropertyEngine>();
+            var type_engine = t.AttrOrNull<TypeEngine>();
+            var engine = prop_engine ?? (Engine)type_engine ?? new DefaultEngine();
             _wrappee = engine.Serialize(mi, value);
         }
     }
