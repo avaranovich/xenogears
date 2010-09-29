@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 using XenoGears.Formats.Configuration;
@@ -6,8 +7,10 @@ using XenoGears.Formats.Engines.Core;
 
 namespace XenoGears.Formats.Engines.Lambda
 {
+    [DebuggerNonUserCode]
     public static partial class LambdaEngines
     {
+        [DebuggerNonUserCode]
         internal class LambdaPropertyEngine : PropertyEngine
         {
             public LambdaPropertyEngine(Func<PropertyInfo, Json, Object> deserialize, Func<PropertyInfo, Object, Json> serialize)

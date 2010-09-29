@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
 using XenoGears.Formats.Adapters.Core;
@@ -8,8 +9,10 @@ using XenoGears.Functional;
 
 namespace XenoGears.Formats.Adapters.Lambda
 {
+    [DebuggerNonUserCode]
     public static partial class LambdaAdapters
     {
+        [DebuggerNonUserCode]
         internal class LambdaAfterDeserializePropertyAdapter : PropertyAdapter
         {
             public LambdaAfterDeserializePropertyAdapter(Func<PropertyInfo, Object, Object> afterDeserialize)
