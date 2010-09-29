@@ -92,7 +92,7 @@
     <Compile Include="Formats\Adapters\Lambda\Rule.Properties.AfterDeserialize.cs" />
     <Compile Include="Formats\Adapters\Lambda\Rule.Types.AfterDeserialize.cs" />
     <Compile Include="Formats\Adapters\Lambda\Rule.Types.BeforeSerialize.cs" />
-    <Compile Include="Formats\Adapters\SerializationCallbacks.cs" />
+    <Compile Include="Formats\Adapters\Callbacks.cs" />
     <Compile Include="Formats\Adapters\Core\Adapter.cs" />
     <Compile Include="Formats\Adapters\Core\PropertyAdapter.cs" />
     <Compile Include="Formats\Adapters\Core\TypeAdapter.cs" />

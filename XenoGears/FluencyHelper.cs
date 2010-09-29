@@ -16,5 +16,10 @@ namespace XenoGears
         {
             return func(obj);
         }
+
+        public static void Ignore<T>(this T obj)
+        {
+            return;
+        }
     }
 }

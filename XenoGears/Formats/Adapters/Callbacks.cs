@@ -10,7 +10,7 @@ namespace XenoGears.Formats.Adapters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
     [DebuggerNonUserCode]
-    public class SerializationCallbacks : TypeAdapter
+    public class Callbacks : TypeAdapter
     {
         public override Object AfterDeserialize(Type t, Object value)
         {
@@ -18,7 +18,7 @@ namespace XenoGears.Formats.Adapters
             {
                 var m_afterdeserialize = t.GetMethods(BF.AllInstance).AssertSingle(m =>
                     !m.IsStatic && m.Name == "AfterDeserialize" && Seq.Equal(m.Params(), Type.EmptyTypes) && m.Ret() == typeof(void));
-                m_afterdeserialize.Invoke(value, Type.EmptyTypes);
+                if (m_afterdeserialize != null) m_afterdeserialize.Invoke(value, Type.EmptyTypes);
             }
 
             return value;
@@ -30,7 +30,7 @@ namespace XenoGears.Formats.Adapters
             {
                 var m_beforeserialize = t.GetMethods(BF.AllInstance).AssertSingle(m =>
                     !m.IsStatic && m.Name == "BeforeSerialize" && Seq.Equal(m.Params(), Type.EmptyTypes) && m.Ret() == typeof(void));
-                m_beforeserialize.Invoke(value, Type.EmptyTypes);
+                if (m_beforeserialize != null) m_beforeserialize.Invoke(value, Type.EmptyTypes);
             }
 
             return value;
