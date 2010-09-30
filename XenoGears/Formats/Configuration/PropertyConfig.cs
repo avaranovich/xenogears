@@ -23,10 +23,6 @@ namespace XenoGears.Formats.Configuration
         {
         }
 
-        // todo. support inheritance here
-        // e.g. make adapters for overriden prop also find adapters for base prop
-        // we could also support generics here =)
-
         public ReadOnlyCollection<PropertyAdapter> Adapters
         {
             get

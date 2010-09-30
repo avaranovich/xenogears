@@ -150,8 +150,6 @@ namespace XenoGears.Formats
                     return;
                 }
 
-                // todo. maybe add custom converters, e.g. for datetime
-                // todo. maybe even return clientcontext-bound code, but for what?
                 throw AssertionHelper.Fail();
             }
             else if (this.IsArray)
