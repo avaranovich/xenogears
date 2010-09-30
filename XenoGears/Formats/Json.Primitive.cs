@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using XenoGears.Assertions;
+using XenoGears.Reflection;
 
 namespace XenoGears.Formats
 {
@@ -9,8 +10,9 @@ namespace XenoGears.Formats
     public class JsonPrimitive : Json
     {
         public JsonPrimitive(Object value) 
-            : base(value)
+            : base(value.IsJsonPrimitive() ? null : value)
         {
+            if (value.IsJsonPrimitive()) _my_primitive = value;
             (_my_state == State.Primitive).AssertTrue();
         }
 

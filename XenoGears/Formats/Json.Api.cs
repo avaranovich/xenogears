@@ -18,10 +18,10 @@ namespace XenoGears.Formats
         internal State _my_state = 0;
         internal enum State { Primitive = 1, Object, Array }
 
-        private readonly Json _wrappee;
-        private Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
-        private OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
-        private State _state { get { return _wrappee != null ? _wrappee._state : _my_state; } set { if (_wrappee != null) _wrappee._state = value; else _my_state = value; } }
+        internal readonly Json _wrappee;
+        internal Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
+        internal OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
+        internal State _state { get { return _wrappee != null ? _wrappee._state : _my_state; } set { if (_wrappee != null) _wrappee._state = value; else _my_state = value; } }
 
         public bool IsPrimitive { get { return _state == State.Primitive; } }
         public bool IsComplex { get { return IsObject || IsArray; } }
@@ -30,10 +30,10 @@ namespace XenoGears.Formats
 
         #region Dynamic keys/values
 
-        private String ImportKey(dynamic key)
+        private String ImportKey(Object key)
         {
             if (key == null) throw AssertionHelper.Fail();
-            if (key is String) { IsObject.AssertTrue(); return key; }
+            if (key is String) { IsObject.AssertTrue(); return key.ToString(); }
             if (key is sbyte) { IsArray.AssertTrue(); return key.ToString(); }
             if (key is byte) { IsArray.AssertTrue(); return key.ToString(); }
             if (key is short) { IsArray.AssertTrue(); return key.ToString(); }
@@ -45,19 +45,19 @@ namespace XenoGears.Formats
             throw AssertionHelper.Fail();
         }
 
-        private dynamic ExportKey(String key)
+        private Object ExportKey(String key)
         {
             if (key == null) throw AssertionHelper.Fail();
-            return IsArray ? int.Parse(key) : (dynamic)key;
+            return IsArray ? int.Parse(key) : (Object)key;
         }
 
-        private Json ImportValue(dynamic value)
+        private Json ImportValue(Object value)
         {
             if (value is Json) return (Json)value;
             return new Json(value);
         }
 
-        private dynamic ExportValue(Json value)
+        private Object ExportValue(Json value)
         {
             return value;
         }
@@ -67,8 +67,7 @@ namespace XenoGears.Formats
         #region Dynamic proxy
 
         DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) { return new JsonProxy(expression, this); }
-//        [DebuggerNonUserCode] private class JsonProxy : SimpleMetaObject
-        private class JsonProxy : SimpleMetaObject
+        [DebuggerNonUserCode] private class JsonProxy : SimpleMetaObject
         {
             private Json Json { get { return Value.AssertCast<Json>().AssertNotNull(); } }
             public JsonProxy(Expression expression, Object proxee) : base(expression, proxee) {}
@@ -139,15 +138,11 @@ namespace XenoGears.Formats
 
             // todo. wtf does the commented code crash?!
 //            var imported = ImportKey(key);
-            String imported;
-            if (key is int) imported = ImportKey((int)key);
-            else if (key is String) imported = ImportKey((String)key);
-            else imported = (String)ImportKey(key);
 
-            var containsKey = _complex.ContainsKey(imported);
+            var containsKey = _complex.ContainsKey(ImportKey((Object)key));
             if (containsKey)
             {
-                value = ExportValue(_complex[imported]);
+                value = ExportValue(_complex[ImportKey((Object)key)]);
                 return true;
             }
             else
@@ -160,13 +155,15 @@ namespace XenoGears.Formats
         protected override void SetValue(dynamic key, dynamic value)
         {
             IsComplex.AssertTrue();
-            _complex[ImportKey(key)] = ImportValue(value);
+            // todo. wtf dynamic ain't work here as well
+            _complex[ImportKey((Object)key)] = ImportValue((Object)value);
         }
 
         public override bool Remove(dynamic key)
         {
             IsComplex.AssertTrue();
-            return _complex.Remove(ImportKey(key));
+            // todo. wtf dynamic ain't work here as well
+            return _complex.Remove(ImportKey((Object)key));
         }
 
         public override void Clear()
@@ -180,19 +177,22 @@ namespace XenoGears.Formats
         public override bool ContainsKey(dynamic key)
         {
             IsObject.AssertTrue();
-            return _complex.ContainsKey(ImportKey(key));
+            // todo. wtf dynamic ain't work here as well
+            return _complex.ContainsKey(ImportKey((Object)key));
         }
 
         public bool ContainsValue(dynamic value)
         {
             IsObject.AssertTrue();
-            return IndexOf(ImportValue(value)) != -1;
+            // todo. wtf dynamic ain't work here as well
+            return IndexOf(ImportValue((Object)value)) != -1;
         }
 
         public override void Add(dynamic key, dynamic value)
         {
             IsObject.AssertTrue();
-            _complex.Add(ImportKey(key), ImportValue(value));
+            // todo. wtf dynamic ain't work here as well
+            _complex.Add(ImportKey((Object)key), ImportValue((Object)value));
         }
 
         #endregion
@@ -203,7 +203,8 @@ namespace XenoGears.Formats
         {
             IsArray.AssertTrue();
             var max_index = _complex.Keys.Select(s => int.Parse(s)).MaxOrDefault(-1);
-            Add(max_index + 1, value);
+            // todo. wtf dynamic ain't work here as well
+            _complex.Add(ImportKey(max_index + 1), ImportValue((Object)value));
         }
 
         public bool Contains(dynamic value)
@@ -215,7 +216,8 @@ namespace XenoGears.Formats
         public int IndexOf(dynamic value)
         {
             IsArray.AssertTrue();
-            return _complex.IndexOf(kvp => Equals(kvp.Value, ImportValue(value)));
+            // todo. wtf dynamic ain't work here as well
+            return _complex.IndexOf(kvp => Equals(kvp.Value, ImportValue((Object)value)));
         }
 
         public void Insert(int index, dynamic value)
@@ -223,7 +225,8 @@ namespace XenoGears.Formats
             IsArray.AssertTrue();
 
             var before = _complex.Where(kvp => int.Parse(kvp.Key) < index).ToDictionary();
-            var inserted = new KeyValuePair<String, Json>(ImportKey(index), ImportValue(value)).MkArray().ToDictionary();
+            // todo. wtf dynamic ain't work here as well
+            var inserted = new KeyValuePair<String, Json>(ImportKey(index), ImportValue((Object)value)).MkArray().ToDictionary();
             var after = _complex.Where(kvp => int.Parse(kvp.Key) >= index).ToDictionary(kvp => (int.Parse(kvp.Key) + 1).ToString(), kvp => kvp.Value);
 
             _complex.Clear();

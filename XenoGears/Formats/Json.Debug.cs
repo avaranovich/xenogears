@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
-using XenoGears.Functional;
 using XenoGears.Strings;
 
 namespace XenoGears.Formats
 {
     [DebuggerDisplay("{ToCompactString(), nq}")]
     [DebuggerTypeProxy(typeof(JsonDebugView))]
-//    [DebuggerNonUserCode]
+    [DebuggerNonUserCode]
     public partial class Json
     {
         [DebuggerDisplay("{ToString(), nq}{\"\", nq}", Name = "{_name, nq}{\"\", nq}")]

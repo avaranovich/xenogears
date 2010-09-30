@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using XenoGears.Assertions;
 using XenoGears.Formats.Grammar;
 using XenoGears.Functional;
-using XenoGears.Strings;
 
 namespace XenoGears.Formats
 {
@@ -18,12 +15,12 @@ namespace XenoGears.Formats
             return ParseOrDefault(json, null as Json);
         }
 
-        public static dynamic ParseOrDefault(String json, dynamic @default)
+        public static dynamic ParseOrDefault(String json, Object @default)
         {
             return ParseOrDefault(json, () => @default);
         }
 
-        public static dynamic ParseOrDefault(String json, Func<dynamic> @default)
+        public static dynamic ParseOrDefault(String json, Func<Object> @default)
         {
             try { return Parse(json); }
             catch { return new Json((@default ?? (() => null))()); }
@@ -332,6 +329,7 @@ namespace XenoGears.Formats
             String key = null;
             while (reader.Read())
             {
+                var end_of_object = false;
                 switch (reader.Token)
                 {
                     case JsonToken.PropertyName:
@@ -352,6 +350,8 @@ namespace XenoGears.Formats
                         state = gief_key;
                         break;
                     case JsonToken.ObjectEnd:
+                        if (state != gief_key) throw new JsonException(String.Format("Unexpected end of object in state {0}", state));
+                        end_of_object = true;
                         break;
                     case JsonToken.None:
                     case JsonToken.ArrayEnd:
@@ -359,15 +359,10 @@ namespace XenoGears.Formats
                         throw new JsonException(String.Format("Unexpected token {0} when reading object in state {1}", reader.Token, state));
                 }
 
-                if (reader.Token == JsonToken.ObjectEnd)
-                {
-                    if (state != gief_key) throw new JsonException(String.Format("Unexpected end of object in state {0}", state));
-                    break;
-                }
+                if (end_of_object) break;
             }
 
             if (reader.Token != JsonToken.ObjectEnd) throw new JsonException(String.Format("Unexpected end of object at token {0} in state {1}", reader.Token, state));
-            reader.Read();
             return json;
         }
 
@@ -378,6 +373,7 @@ namespace XenoGears.Formats
 
             while (reader.Read())
             {
+                var end_of_array = false;
                 switch (reader.Token)
                 {
                     case JsonToken.Int:
@@ -391,6 +387,7 @@ namespace XenoGears.Formats
                         json.Add(ReadJson(reader));
                         break;
                     case JsonToken.ArrayEnd:
+                        end_of_array = true;
                         break;
                     case JsonToken.None:
                     case JsonToken.PropertyName:
@@ -399,11 +396,10 @@ namespace XenoGears.Formats
                         throw new JsonException(String.Format("Unexpected token {0} when reading array", reader.Token));
                 }
 
-                if (reader.Token == JsonToken.ArrayEnd) break;
+                if (end_of_array) break;
             }
 
             if (reader.Token != JsonToken.ArrayEnd) throw new JsonException(String.Format("Unexpected end of array at token {0}", reader.Token));
-            reader.Read();
             return json;
         }
 

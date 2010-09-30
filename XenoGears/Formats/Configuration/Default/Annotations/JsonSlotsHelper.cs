@@ -34,19 +34,19 @@ namespace XenoGears.Formats.Configuration.Default.Annotations
         {
             if (options == Annotations.JsonSlots.OptOutPublic)
             {
-                return t.GetProperties(BF.PublicInstance).Where(pi => !pi.HasAttr<JsonExcludeAttribute>()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.PublicInstance).Where(pi => !pi.HasAttr<JsonExcludeAttribute>() && pi.CanRead && pi.CanWrite && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else if (options == Annotations.JsonSlots.OptOutNonPublic)
             {
-                return t.GetProperties(BF.AllInstance).Where(pi => !pi.HasAttr<JsonExcludeAttribute>()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.AllInstance).Where(pi => !pi.HasAttr<JsonExcludeAttribute>() && pi.CanRead && pi.CanWrite && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else if (options == Annotations.JsonSlots.OptInPublic)
             {
-                return t.GetProperties(BF.PublicInstance).Where(pi => pi.HasAttr<JsonIncludeAttribute>()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.PublicInstance).Where(pi => pi.HasAttr<JsonIncludeAttribute>() && pi.CanRead && pi.CanWrite && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else if (options == Annotations.JsonSlots.OptInNonPublic)
             {
-                return t.GetProperties(BF.AllInstance).Where(pi => pi.HasAttr<JsonIncludeAttribute>()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.AllInstance).Where(pi => pi.HasAttr<JsonIncludeAttribute>() && pi.CanRead && pi.CanWrite && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else
             {
