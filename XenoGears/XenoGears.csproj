@@ -96,6 +96,7 @@
     <Compile Include="Formats\Adapters\Core\Adapter.cs" />
     <Compile Include="Formats\Adapters\Core\PropertyAdapter.cs" />
     <Compile Include="Formats\Adapters\Core\TypeAdapter.cs" />
+    <Compile Include="Formats\Configuration\Default\Annotations\JsonFieldAttribute.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonPropertyAttribute.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonShapeHelper.cs" />
     <Compile Include="Formats\Configuration\PropertyConfig.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Formats\Foo\Bar.cs" />
     <Compile Include="Formats\Grammar\JsonException.cs" />
     <Compile Include="Formats\Grammar\JsonReader.cs" />
-    <Compile Include="Formats\Grammar\JsonWriter.cs" />
     <Compile Include="Formats\Grammar\Lexer.cs" />
     <Compile Include="Formats\Grammar\ParserToken.cs" />
     <Compile Include="Formats\Validators\Lambda\Rule.Properties.cs" />
