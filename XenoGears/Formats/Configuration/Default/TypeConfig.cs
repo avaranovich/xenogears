@@ -33,9 +33,7 @@ namespace XenoGears.Formats.Configuration.Default
                 var a_json = type.AttrOrNull<JsonAttribute>() ?? new JsonAttribute();
                 DefaultCtor = a_json.DefaultCtor && type.HasDefaultCtor();
 
-                IsPrimitive = type == typeof(string) || type == typeof(bool) || type == typeof(float) || type == typeof(double) ||
-                    type == typeof(sbyte) || type == typeof(short) || type == typeof(int) || type == typeof(long) ||
-                    type == typeof(byte) || type == typeof(ushort) || type == typeof(uint) || type == typeof(ulong);
+                IsPrimitive = type.IsJsonPrimitive();
                 IsPrimitive |= type.SupportsSerializationToString();
                 IsPrimitive &= a_json.Shape.HasFlag(JsonShape.Primitive);
 
@@ -52,8 +50,7 @@ namespace XenoGears.Formats.Configuration.Default
                 IsHash &= a_json.Shape.HasFlag(JsonShape.Hash);
 
                 if (IsPrimitive) { IsObject = false; IsList = false; IsHash = false; }
-                if (IsHash) { IsObject = false; IsList = false; }
-                if (IsList) { IsObject = false; }
+                if (IsHash) { IsList = false; }
             }
         }
     }

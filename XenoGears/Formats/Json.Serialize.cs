@@ -50,16 +50,24 @@ namespace XenoGears.Formats
 
         public Json(Object value, MemberInfo descriptor)
         {
-            var mi = descriptor ?? (value == null ? null : value.GetType());
-            var pi = mi as PropertyInfo;
-            var t = mi is Type ? (Type)mi : (value == null ? null : value.GetType());
+            if (value == null)
+            {
+                _my_state = State.Primitive;
+                _my_primitive = null;
+            }
+            else
+            {
+                var mi = descriptor ?? (value == null ? null : value.GetType());
+                var pi = mi as PropertyInfo;
+                var t = mi is Type ? (Type)mi : (value == null ? null : value.GetType());
 
-            pi.Config().Validators.ForEach(validator => validator.Validate(pi, value));
-            t.Config().Validators.ForEach(validator => validator.Validate(t, value));
-            value = pi.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(pi, curr));
-            value = t.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(t, curr));
-            var engine = pi.Config().Engine ?? pi.Config().Engine ?? (Engine)new DefaultEngine();
-            _wrappee = engine.Serialize(mi, value);
+                pi.Config().Validators.ForEach(validator => validator.Validate(pi, value));
+                t.Config().Validators.ForEach(validator => validator.Validate(t, value));
+                value = pi.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(pi, curr));
+                value = t.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(t, curr));
+                var engine = pi.Config().Engine ?? pi.Config().Engine ?? (Engine)new DefaultEngine();
+                _wrappee = engine.Serialize(mi, value);
+            }
         }
     }
 }

@@ -27,7 +27,22 @@ namespace XenoGears.Formats
 
         public sealed override String ToString()
         {
-            return ToCompactString();
+            if (this.IsPrimitive)
+            {
+                return String.Format("primitive: {0}", _primitive.ToInvariantString());
+            }
+            else if (this.IsArray)
+            {
+                return String.Format("array: {0} {1}", Keys.Count(), Keys.Count() == 1 ? "element" : "elements");
+            }
+            else if (this.IsObject)
+            {
+                return String.Format("object: {0}", Keys.StringJoin());
+            }
+            else
+            {
+                throw AssertionHelper.Fail();
+            }
         }
 
         public void BuildCompactString(TextWriter writer)

@@ -18,14 +18,14 @@ namespace XenoGears.Formats
             return Json.ParseOrDefault(url);
         }
 
-        public static dynamic ParseJsonOrDefault(this String url, dynamic json)
+        public static dynamic ParseJsonOrDefault(this String url, Object json)
         {
-            return Json.ParseOrDefault(url);
+            return Json.ParseOrDefault(url, json);
         }
 
-        public static dynamic ParseJsonOrDefault(this String url, Func<dynamic> json)
+        public static dynamic ParseJsonOrDefault(this String url, Func<Object> json)
         {
-            return Json.ParseOrDefault(url);
+            return Json.ParseOrDefault(url, json);
         }
 
         public static dynamic LoadJson(this String url)
@@ -38,14 +38,14 @@ namespace XenoGears.Formats
             return Json.LoadOrDefault(url);
         }
 
-        public static dynamic LoadJsonOrDefault(this String url, dynamic json)
+        public static dynamic LoadJsonOrDefault(this String url, Object json)
         {
-            return Json.LoadOrDefault(url);
+            return Json.LoadOrDefault(url, json);
         }
 
-        public static dynamic LoadJsonOrDefault(this String url, Func<dynamic> json)
+        public static dynamic LoadJsonOrDefault(this String url, Func<Object> json)
         {
-            return Json.LoadOrDefault(url);
+            return Json.LoadOrDefault(url, json);
         }
 
         public static dynamic ReadJson(this Stream s)
@@ -58,14 +58,14 @@ namespace XenoGears.Formats
             return Json.ReadOrDefault(s);
         }
 
-        public static dynamic ReadJsonOrDefault(this Stream s, dynamic json)
+        public static dynamic ReadJsonOrDefault(this Stream s, Object json)
         {
-            return Json.ReadOrDefault(s);
+            return Json.ReadOrDefault(s, json);
         }
 
-        public static dynamic ReadJsonOrDefault(this Stream s, Func<dynamic> json)
+        public static dynamic ReadJsonOrDefault(this Stream s, Func<Object> json)
         {
-            return Json.ReadOrDefault(s);
+            return Json.ReadOrDefault(s, json);
         }
 
         public static dynamic ReadJson(this TextReader w)
@@ -78,27 +78,27 @@ namespace XenoGears.Formats
             return Json.ReadOrDefault(w);
         }
 
-        public static dynamic ReadJsonOrDefault(this TextReader w, dynamic json)
+        public static dynamic ReadJsonOrDefault(this TextReader w, Object json)
         {
-            return Json.ReadOrDefault(w);
+            return Json.ReadOrDefault(w, json);
         }
 
-        public static dynamic ReadJsonOrDefault(this TextReader w, Func<dynamic> json)
+        public static dynamic ReadJsonOrDefault(this TextReader w, Func<Object> json)
         {
-            return Json.ReadOrDefault(w);
+            return Json.ReadOrDefault(w, json);
         }
 
-        public static void SaveJson(this String url, dynamic json)
+        public static void SaveJson(this String url, Object json)
         {
             new Json(json).Save(url);
         }
 
-        public static void WriteJson(this Stream s, dynamic json)
+        public static void WriteJson(this Stream s, Object json)
         {
             new Json(json).Write(s);
         }
 
-        public static void WriteJson(this TextWriter w, dynamic json)
+        public static void WriteJson(this TextWriter w, Object json)
         {
             new Json(json).Write(w);
         }

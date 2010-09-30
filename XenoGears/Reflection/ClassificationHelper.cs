@@ -591,7 +591,21 @@ namespace XenoGears.Reflection
         public static bool HasDefaultCtor(this Type t)
         {
             if (t == null) return false;
-            return t.GetConstructor(Type.EmptyTypes) != null;
+            return t.GetConstructors(BF.AllInstance).Any(ci => ci.Paramc() == 0);
+        }
+
+        public static bool IsJsonPrimitive(this Type t)
+        {
+            return t == typeof(string) || t == typeof(bool) || t == typeof(float) || t == typeof(double) ||
+                t == typeof(sbyte) || t == typeof(short) || t == typeof(int) || t == typeof(long) ||
+                t == typeof(byte) || t == typeof(ushort) || t == typeof(uint) || t == typeof(ulong);
+        }
+
+        public static bool IsJsonPrimitive(this Object obj)
+        {
+            if (obj == null) return true;
+            if (obj is Type) return (obj as Type).IsJsonPrimitive();
+            return obj.GetType().IsJsonPrimitive();
         }
     }
 }

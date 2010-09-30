@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using XenoGears.Formats.Engines.Core;
+using XenoGears.Formats.Configuration;
+using XenoGears.Formats.Configuration.Default;
+using XenoGears.Assertions;
+using XenoGears.Reflection;
+using XenoGears.Strings;
 
 namespace XenoGears.Formats.Engines
 {
@@ -17,12 +22,47 @@ namespace XenoGears.Formats.Engines
     {
         public override Object Deserialize(Type t, Json json)
         {
-            throw new NotImplementedException();
+            var cfg = t.Config().DefaultEngine().Config;
+            if (cfg.IsPrimitive)
+            {
+                if (t.IsJsonPrimitive())
+                {
+                    return json._primitive;
+                }
+                else
+                {
+                    t.SupportsSerializationToString().AssertTrue();
+                    var s_value = json._primitive.AssertCast<String>();
+                    return s_value.FromInvariantString(t);
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public override Json Serialize(Type t, Object value)
         {
-            throw new NotImplementedException();
+            if (value == null) return new Json(null);
+
+            var cfg = t.Config().DefaultEngine().Config;
+            if (cfg.IsPrimitive)
+            {
+                if (t.IsJsonPrimitive())
+                {
+                    return new JsonPrimitive(value);
+                }
+                else
+                {
+                    t.SupportsSerializationToString().AssertTrue();
+                    return new JsonPrimitive(t.ToInvariantString());
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

@@ -41,6 +41,16 @@ namespace XenoGears.Strings
             return t.FromFormattedString(s, format, CultureInfo.InvariantCulture);
         }
 
+        public static Object FromInvariantString(this String s, Type t)
+        {
+            return t.FromFormattedString(s, CultureInfo.InvariantCulture);
+        }
+
+        public static Object FromInvariantString(this String s, Type t, String format)
+        {
+            return t.FromFormattedString(s, format, CultureInfo.InvariantCulture);
+        }
+
         public static String ToInvariantString(this Object @object)
         {
             return @object.ToFormattedString(CultureInfo.InvariantCulture);
@@ -71,6 +81,16 @@ namespace XenoGears.Strings
             return t.FromFormattedString(s, format, locale);
         }
 
+        public static Object FromLocalString(this String s, Type t, CultureInfo locale)
+        {
+            return t.FromFormattedString(s, locale);
+        }
+
+        public static Object FromLocalString(this String s, Type t, String format, CultureInfo locale)
+        {
+            return t.FromFormattedString(s, format, locale);
+        }
+
         public static String ToLocalString(this Object @object, CultureInfo locale)
         {
             return @object.ToFormattedString(locale);
@@ -87,6 +107,11 @@ namespace XenoGears.Strings
         }
 
         public static Object FromFormattedString(this Type t, String s, String format)
+        {
+            return t.FromFormattedString(s, format, CultureInfo.InvariantCulture);
+        }
+
+        public static Object FromFormattedString(this String s, Type t, String format)
         {
             return t.FromFormattedString(s, format, CultureInfo.InvariantCulture);
         }
@@ -139,6 +164,11 @@ namespace XenoGears.Strings
             }
         }
 
+        public static Object FromFormattedString(this String s, Type t, IFormatProvider provider)
+        {
+            return t.FromFormattedString(s, provider);
+        }
+
         public static Object FromFormattedString(this Type t, String s, String format, IFormatProvider provider)
         {
             if (s == null)
@@ -159,6 +189,11 @@ namespace XenoGears.Strings
                     throw new NotSupportedException(t.ToString());
                 }
             }
+        }
+
+        public static Object FromFormattedString(this String s, Type t, String format, IFormatProvider provider)
+        {
+            return t.FromFormattedString(s, format, provider);
         }
 
         public static String ToFormattedString(this Object @object, IFormatProvider provider)

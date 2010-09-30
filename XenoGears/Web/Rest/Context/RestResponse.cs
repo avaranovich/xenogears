@@ -73,19 +73,19 @@ namespace XenoGears.Web.Rest.Context
             set { throw new NotImplementedException(); }
         }
 
-        public void Succeed(dynamic result = null)
+        public void Succeed(Object result = null)
         {
             StatusCode.IsSuccess().AssertTrue();
             Complete(result);
         }
 
-        public void Succeed(HttpStatusCode statusCode, dynamic result = null)
+        public void Succeed(HttpStatusCode statusCode, Object result = null)
         {
             StatusCode = statusCode;
             Succeed(result);
         }
 
-        public void Fail(dynamic result = null)
+        public void Fail(Object result = null)
         {
             if (StatusCode == HttpStatusCode.OK)
             {
@@ -98,14 +98,14 @@ namespace XenoGears.Web.Rest.Context
             Complete(result);
         }
 
-        public void Fail(HttpStatusCode statusCode, dynamic result = null)
+        public void Fail(HttpStatusCode statusCode, Object result = null)
         {
             StatusCode = statusCode;
             Fail(result);
         }
 
         // todo. when outputting HTML, also inject the "$(document).ready(function(){window.log.server(<actual log>});"
-        private void Complete(dynamic result = null)
+        private void Complete(Object result = null)
         {
             if (result == null) Native.End();
 
