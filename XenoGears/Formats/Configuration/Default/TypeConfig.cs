@@ -51,6 +51,7 @@ namespace XenoGears.Formats.Configuration.Default
 
                 if (IsPrimitive) { IsObject = false; IsList = false; IsHash = false; }
                 if (IsHash) { IsList = false; }
+                if (!IsPrimitive && !IsList && !IsHash) IsObject = true;
             }
         }
     }

@@ -198,11 +198,9 @@ namespace XenoGears.Reflection
         {
             if (source == null) return null;
             if (source.DeclaringType == null) return null;
-            return (
-                from prop in source.DeclaringType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                where prop.GetAccessors(true).Contains(source)
-                select prop
-                ).FirstOrDefault();
+
+            var props = source.DeclaringType.GetProperties(BF.All);
+            return props.SingleOrDefault(prop => prop.GetAccessors(true).Any(mi => mi.MethodHandle == source.MethodHandle));
         }
 
         public static bool Overrides(this MemberInfo wb_child, MemberInfo wb_parent)
@@ -231,12 +229,38 @@ namespace XenoGears.Reflection
 
         public static Object GetValue(this MemberInfo mi, Object target)
         {
-            throw new NotImplementedException();
+            if (mi is FieldInfo)
+            {
+                var fi = mi.AssertCast<FieldInfo>();
+                return fi.GetValue(target);
+            }
+            else if (mi is PropertyInfo)
+            {
+                var pi = mi.AssertCast<PropertyInfo>();
+                return pi.GetValue(target);
+            }
+            else
+            {
+                throw AssertionHelper.Fail();
+            }
         }
 
-        public static Object SetValue(this MemberInfo mi, Object target, Object value, params Object[] args)
+        public static void SetValue(this MemberInfo mi, Object target, Object value)
         {
-            throw new NotImplementedException();
+            if (mi is FieldInfo)
+            {
+                var fi = mi.AssertCast<FieldInfo>();
+                fi.SetValue(target, value);
+            }
+            else if (mi is PropertyInfo)
+            {
+                var pi = mi.AssertCast<PropertyInfo>();
+                pi.SetValue(target, value);
+            }
+            else
+            {
+                throw AssertionHelper.Fail();
+            }
         }
     }
 }
