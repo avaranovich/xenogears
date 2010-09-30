@@ -42,7 +42,7 @@ namespace XenoGears.Formats
     {
         private void Primitive_BuildDebugString(TextWriter writer)
         {
-            writer.Write(_my_primitive);
+            Primitive_BuildCompactString(writer);
         }
 
         private void Primitive_BuildCompactString(TextWriter writer)

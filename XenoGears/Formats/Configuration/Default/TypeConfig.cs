@@ -30,28 +30,42 @@ namespace XenoGears.Formats.Configuration.Default
 
             if (type != null)
             {
-                var a_json = type.AttrOrNull<JsonAttribute>() ?? new JsonAttribute();
-                DefaultCtor = a_json.DefaultCtor && type.HasDefaultCtor();
+                if (type.IsArray)
+                {
+                    DefaultCtor = false;
+                    IsPrimitive = false;
+                    Slots = new List<MemberInfo>();
+                    IsObject = false;
+                    ListElement = type.GetElementType();
+                    IsList = true;
+                    HashElement = null;
+                    IsHash = false;
+                }
+                else
+                {
+                    var a_json = type.AttrOrNull<JsonAttribute>() ?? new JsonAttribute();
+                    DefaultCtor = a_json.DefaultCtor && type.HasDefaultCtor();
 
-                IsPrimitive = type.IsJsonPrimitive();
-                IsPrimitive |= type.SupportsSerializationToString();
-                IsPrimitive &= a_json.Shape.HasFlag(JsonShape.Primitive);
+                    IsPrimitive = type.IsJsonPrimitive();
+                    IsPrimitive |= type.SupportsSerializationToString();
+                    IsPrimitive &= a_json.Shape.HasFlag(JsonShape.Primitive);
 
-                Slots = type.JsonSlots(JsonSlots.Default).ToList();
-                IsObject = Slots.IsNotEmpty();
-                IsObject &= a_json.Shape.HasFlag(JsonShape.Object);
+                    Slots = type.JsonSlots(JsonSlots.Default).ToList();
+                    IsObject = Slots.IsNotEmpty();
+                    IsObject &= a_json.Shape.HasFlag(JsonShape.Object);
 
-                ListElement = type.ListElement();
-                IsList = ListElement != null;
-                IsList &= a_json.Shape.HasFlag(JsonShape.List);
+                    ListElement = type.ListElement();
+                    IsList = ListElement != null;
+                    IsList &= a_json.Shape.HasFlag(JsonShape.List);
 
-                HashElement = type.HashElement();
-                IsHash = HashElement != null;
-                IsHash &= a_json.Shape.HasFlag(JsonShape.Hash);
+                    HashElement = type.HashElement();
+                    IsHash = HashElement != null;
+                    IsHash &= a_json.Shape.HasFlag(JsonShape.Hash);
 
-                if (IsPrimitive) { IsObject = false; IsList = false; IsHash = false; }
-                if (IsHash) { IsList = false; }
-                if (!IsPrimitive && !IsList && !IsHash) IsObject = true;
+                    if (IsPrimitive) { IsObject = false; IsList = false; IsHash = false; }
+                    if (IsHash) { IsList = false; }
+                    if (!IsPrimitive && !IsList && !IsHash) IsObject = true;
+                }
             }
         }
     }

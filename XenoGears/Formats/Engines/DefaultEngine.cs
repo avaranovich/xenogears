@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using XenoGears.Formats.Configuration.Default.Annotations;
 using XenoGears.Formats.Engines.Core;
 using XenoGears.Formats.Configuration;
 using XenoGears.Formats.Configuration.Default;
@@ -14,6 +15,7 @@ using XenoGears.Reflection.Shortcuts;
 using XenoGears.Strings;
 using XenoGears.Formats.Engines.Default;
 using XenoGears.Reflection.Generics;
+using XenoGears.Reflection.Attributes;
 
 namespace XenoGears.Formats.Engines
 {
@@ -42,6 +44,7 @@ namespace XenoGears.Formats.Engines
             else
             {
                 var obj = t.Reify();
+                if (t.IsArray) obj = Enumerable.ToList((dynamic)obj);
 
                 if (cfg.IsHash)
                 {
@@ -53,6 +56,8 @@ namespace XenoGears.Formats.Engines
                     json.Cast<String, Json>().ForEach(kvp =>
                     {
                         var key = kvp.Key;
+                        // todo. what if the value passed has a subtype of t_v
+                        // we won't be able to find out this and will deserialize incorrectly!
                         var value = kvp.Value.Deserialize(t_v);
                         add.Invoke(obj, new []{key, value});
                     });
@@ -65,6 +70,8 @@ namespace XenoGears.Formats.Engines
                     json.IsArray.AssertTrue();
                     json.Values.Cast<Json>().ForEach(j_value =>
                     {
+                        // todo. what if the value passed has a subtype of t_v
+                        // we won't be able to find out this and will deserialize incorrectly!
                         var value = j_value.Deserialize(t_v);
                         add.Invoke(obj, new []{value});
                     });
@@ -86,6 +93,7 @@ namespace XenoGears.Formats.Engines
                     throw AssertionHelper.Fail();
                 }
 
+                if (t.IsArray) obj = Enumerable.ToArray((dynamic)obj);
                 return obj;
             }
         }
@@ -119,7 +127,7 @@ namespace XenoGears.Formats.Engines
                     hash.ForEach(kvp =>
                     {
                         var key = kvp.Key;
-                        var value = Json.Serialize(kvp.Value, cfg.HashElement);
+                        var value = Json.Serialize(kvp.Value);
                         json.Add(key, value);
                     });
 
@@ -132,7 +140,7 @@ namespace XenoGears.Formats.Engines
                     var json = new JsonArray();
                     list.ForEach(value =>
                     {
-                        var j_value = Json.Serialize(value, cfg.ListElement);
+                        var j_value = Json.Serialize(value);
                         json.Add(j_value);
                     });
 
@@ -142,10 +150,11 @@ namespace XenoGears.Formats.Engines
                 {
                     var json = new JsonObject();
 
-                    cfg.Slots.ForEach(mi =>
+                    cfg.Slots.Where(mi => mi.CanRead()).ForEach(mi =>
                     {
-                        // todo. respect styling and JsonPropertyAttribute::Name
-                        var key = ((Func<String>)(() => { throw new NotImplementedException(); }));
+                        var a_include = mi.AttrOrNull<JsonIncludeAttribute>();
+                        var a_key = a_include == null ? null : a_include.Name;
+                        var key = a_key ?? mi.Name.ToLower();
                         var value = mi.GetValue(obj);
                         var j_value = Json.Serialize(value, mi);
                         json.Add(key, j_value);

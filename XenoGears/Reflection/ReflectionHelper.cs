@@ -227,6 +227,23 @@ namespace XenoGears.Reflection
             }
         }
 
+        public static bool CanRead(this MemberInfo mi)
+        {
+            if (mi is FieldInfo)
+            {
+                return true;
+            }
+            else if (mi is PropertyInfo)
+            {
+                var pi = mi.AssertCast<PropertyInfo>();
+                return pi.CanRead;
+            }
+            else
+            {
+                throw AssertionHelper.Fail();
+            }
+        }
+
         public static Object GetValue(this MemberInfo mi, Object target)
         {
             if (mi is FieldInfo)
@@ -238,6 +255,23 @@ namespace XenoGears.Reflection
             {
                 var pi = mi.AssertCast<PropertyInfo>();
                 return pi.GetValue(target);
+            }
+            else
+            {
+                throw AssertionHelper.Fail();
+            }
+        }
+
+        public static bool CanWrite(this MemberInfo mi)
+        {
+            if (mi is FieldInfo)
+            {
+                return true;
+            }
+            else if (mi is PropertyInfo)
+            {
+                var pi = mi.AssertCast<PropertyInfo>();
+                return pi.CanWrite;
             }
             else
             {

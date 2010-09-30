@@ -5,6 +5,7 @@ using XenoGears.Formats.Engines;
 using XenoGears.Functional;
 using XenoGears.Formats.Configuration;
 using XenoGears.Assertions;
+using XenoGears.Reflection;
 
 namespace XenoGears.Formats
 {
@@ -35,8 +36,13 @@ namespace XenoGears.Formats
         }
 
         public Json(Object value)
-            : this(value, value == null ? null : value.GetType())
+            : this(value.IsJsonPrimitive() ? null : value, value == null || value.IsJsonPrimitive() ? null : value.GetType())
         {
+            if (value.IsJsonPrimitive())
+            {
+                _my_primitive = value;
+                _my_state = State.Primitive;
+            }
         }
 
         public Json(Object value, Type descriptor)
