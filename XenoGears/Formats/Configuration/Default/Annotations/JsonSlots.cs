@@ -5,6 +5,7 @@
         Default = 1,
         OptOutPublic = 1,
         OptOutNonPublic,
-        OptIn,
+        OptInPublic,
+        OptInNonPublic,
     }
 }

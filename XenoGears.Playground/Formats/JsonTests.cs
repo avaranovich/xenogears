@@ -78,7 +78,7 @@ namespace XenoGears.Playground.Formats
             var json = Json.Parse(s_json);
             Assert.AreEqual(new Json(false), json[0].ok);
             Assert.AreEqual(false, (bool)json[0].ok);
-            Assert.AreEqual(new Json("ei'\\\"n"), json[0].bars.ein[0].baz);
+            Assert.AreEqual(new Json("ei/*,[{]}',[{]}\\,[{]}\",[{]}n//*/"), json[0].bars.ein[0].baz);
             Assert.AreEqual(2, (int)json[0].bars.ein[1].qux);
             Assert.AreEqual(new Json(new {}), json[0].foos[1].bars);
             Assert.AreEqual(new Json(null), json[0].bars.drei);
@@ -95,7 +95,7 @@ namespace XenoGears.Playground.Formats
                     {
                         ein = new []
                         {
-                            new { qux = 1, baz = "ei'\\\"n" },
+                            new { qux = 1, baz = "ei/*,[{]}',[{]}\\,[{]}\",[{]}n//*/" },
                             new { qux = 2, baz = "" }
                         },
                         zwei = new []
@@ -130,7 +130,7 @@ namespace XenoGears.Playground.Formats
                         Assert.AreEqual(2, bar0_value.Count);
                         var bar0_value0 = bar0_value[0];
                             Assert.AreEqual(new Qux(10), bar0_value0.Qux); // property adapter!
-                            Assert.AreEqual("ei'\\\"n", bar0_value0.Baz);
+                            Assert.AreEqual("ei/*,[{]}',[{]}\\,[{]}\",[{]}n//*/", bar0_value0.Baz);
                         var bar0_value1 = bar0_value[1];
                             Assert.AreEqual(new Qux(20), bar0_value1.Qux); // property adapter!
                             Assert.AreEqual("", bar0_value1.Baz);

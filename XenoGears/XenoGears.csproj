@@ -105,6 +105,12 @@
     <Compile Include="Formats\Engines\Lambda\Config.Types.cs" />
     <Compile Include="Formats\Engines\Lambda\Rule.Properties.cs" />
     <Compile Include="Formats\Engines\Lambda\Rule.Types.cs" />
+    <Compile Include="Formats\Foo\Bar.cs" />
+    <Compile Include="Formats\Grammar\JsonException.cs" />
+    <Compile Include="Formats\Grammar\JsonReader.cs" />
+    <Compile Include="Formats\Grammar\JsonWriter.cs" />
+    <Compile Include="Formats\Grammar\Lexer.cs" />
+    <Compile Include="Formats\Grammar\ParserToken.cs" />
     <Compile Include="Formats\Validators\Lambda\Rule.Properties.cs" />
     <Compile Include="Formats\Validators\Lambda\Rule.Types.cs" />
     <Compile Include="Formats\Validators\Lambda\Config.Properties.cs" />
@@ -410,6 +416,7 @@
     <EmbeddedResource Include="XenoGears.snk" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Formats\todo.txt" />
     <Content Include="Logging\todo.txt" />
   </ItemGroup>
   <ItemGroup>

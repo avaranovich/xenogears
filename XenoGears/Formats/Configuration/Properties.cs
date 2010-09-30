@@ -31,7 +31,7 @@ namespace XenoGears.Formats.Configuration
         public static PropertyRule Adhoc(this Func<PropertyInfo, bool> pi)
         {
             pi.AssertNotNull();
-            return new PropertyRule(pi, true);
+            return new PropertyRule(pi);
         }
 
         public static PropertyRule Rule(this Func<PropertyInfo, bool> pi)
@@ -44,7 +44,7 @@ namespace XenoGears.Formats.Configuration
         public static PropertyRule Rule(this Func<PropertyInfo, bool> pi, out IDisposable unreg)
         {
             pi.AssertNotNull();
-            var rule = new PropertyRule(pi, false);
+            var rule = new PropertyRule(pi);
             Repository.Rules.Add(rule);
             unreg = new DisposableAction(() => Repository.Rules.Remove(rule));
             return rule;

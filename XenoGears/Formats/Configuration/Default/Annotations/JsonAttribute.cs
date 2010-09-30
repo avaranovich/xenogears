@@ -13,25 +13,32 @@ namespace XenoGears.Formats.Configuration.Default.Annotations
 
         public JsonAttribute()
         {
+            Shape = JsonShape.Primitive | JsonShape.Object | JsonShape.List | JsonShape.Hash;
+            Slots = JsonSlots.Default;
+            DefaultCtor = true;
         }
 
         public JsonAttribute(JsonShape shape)
+            : this()
         {
             Shape = shape;
         }
 
         public JsonAttribute(JsonSlots slots)
+            : this()
         {
             Slots = slots;
         }
 
         public JsonAttribute(JsonShape shape, JsonSlots slots)
+            : this()
         {
             Shape = shape;
             Slots = slots;
         }
 
         public JsonAttribute(JsonSlots slots, JsonShape shape)
+            : this()
         {
             Shape = shape;
             Slots = slots;

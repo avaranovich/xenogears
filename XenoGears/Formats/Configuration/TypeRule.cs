@@ -12,7 +12,7 @@ namespace XenoGears.Formats.Configuration
     {
         public new Func<Type, bool> Filter { get; set; }
         public bool AppliesTo(Type t) { return t != null && Filter(t); }
-        public TypeRule(Func<Type, bool> filter, bool isAdhoc) : base(filter, isAdhoc) { Filter = filter; }
+        public TypeRule(Func<Type, bool> filter) : base(filter) { Filter = filter; }
 
         private readonly List<Action<TypeConfig>> _clauses = new List<Action<TypeConfig>>();
         public List<Action<TypeConfig>> Clauses { get { return _clauses; } }

@@ -23,7 +23,8 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         public FluentRule IsObject { get { return Record(cfg => cfg.IsObject); } }
         public FluentRule OptOutPublic { get { return Record(cfg => cfg.OptOutPublic); } }
         public FluentRule OptOutNonPublic { get { return Record(cfg => cfg.OptOutNonPublic); } }
-        public FluentRule OptIn { get { return Record(cfg => cfg.OptIn); } }
+        public FluentRule OptInPublic { get { return Record(cfg => cfg.OptInPublic); } }
+        public FluentRule OptInNonPublic { get { return Record(cfg => cfg.OptInNonPublic); } }
         public FluentRule Slots(Func<Type, IEnumerable<MemberInfo>> slots) { return Record(cfg => cfg.Slots(slots)); }
         public FluentRule Slots(params MemberInfo[] slots) { return Record(cfg => cfg.Slots(slots)); }
         public FluentRule Slots(IEnumerable<MemberInfo> slots) { return Record(cfg => cfg.Slots(slots)); }

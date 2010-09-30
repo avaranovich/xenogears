@@ -15,7 +15,8 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         T IsObject { get; }
         T OptOutPublic { get; }
         T OptOutNonPublic { get; }
-        T OptIn { get; }
+        T OptInPublic { get; }
+        T OptInNonPublic { get; }
         T Slots(Func<Type, IEnumerable<MemberInfo>> slots);
         T Slots(params MemberInfo[] slots);
         T Slots(IEnumerable<MemberInfo> slots);

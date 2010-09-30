@@ -12,9 +12,6 @@ namespace XenoGears.Formats.Configuration
         public Func<MemberInfo, bool> Filter { get; set; }
         public bool AppliesTo(MemberInfo member) { return member != null && Filter(member); }
 
-        public bool IsAdhoc { get; private set; }
-        public bool IsPermanent { get { return !IsAdhoc; } }
-
         public Dictionary<Object, Object> Hash { get; private set; }
         public Object Get(String key) { return Hash[key]; }
         public Rule Get(String key, out Object value) { value = Hash[key]; return this; }
@@ -22,26 +19,23 @@ namespace XenoGears.Formats.Configuration
         public Rule Put(String key, Object value) { Hash[key] = value; return this; }
         public Rule Remove(String key) { Hash.Remove(key); return this; }
 
-        protected Rule(Func<MemberInfo, bool> member, bool isAdhoc)
+        protected Rule(Func<MemberInfo, bool> member)
         {
             Filter = member.AssertNotNull();
-            IsAdhoc = isAdhoc;
             Hash = new Dictionary<Object, Object>();
         }
 
-        protected Rule(Func<Type, bool> type, bool isAdhoc)
+        protected Rule(Func<Type, bool> type)
         {
             type.AssertNotNull();
             Filter = mi => mi is Type && type(mi.AssertCast<Type>());
-            IsAdhoc = isAdhoc;
             Hash = new Dictionary<Object, Object>();
         }
 
-        protected Rule(Func<PropertyInfo, bool> property, bool isAdhoc)
+        protected Rule(Func<PropertyInfo, bool> property)
         {
             property.AssertNotNull();
             Filter = mi => mi is PropertyInfo && property(mi.AssertCast<PropertyInfo>());
-            IsAdhoc = isAdhoc;
             Hash = new Dictionary<Object, Object>();
         }
     }
