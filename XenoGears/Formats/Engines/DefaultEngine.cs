@@ -78,7 +78,7 @@ namespace XenoGears.Formats.Engines
                         // todo. match key with properties from cfg.Slots (respect styling and JsonPropertyAttribute::Name)
                         var mi = ((Func<MemberInfo>)(() => { throw new NotImplementedException(); }))();
                         var value = kvp.Value.Deserialize(mi);
-                        mi.SetValue(obj, value, null);
+                        mi.SetValue(obj, value);
                     });
                 }
                 else
