@@ -96,11 +96,13 @@
     <Compile Include="Formats\Adapters\Core\Adapter.cs" />
     <Compile Include="Formats\Adapters\Core\PropertyAdapter.cs" />
     <Compile Include="Formats\Adapters\Core\TypeAdapter.cs" />
+    <Compile Include="Formats\Configuration\Default\Annotations\JsonPropertyAttribute.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonShapeHelper.cs" />
     <Compile Include="Formats\Configuration\PropertyConfig.cs" />
     <Compile Include="Formats\Configuration\PropertyRule.cs" />
     <Compile Include="Formats\Configuration\TypeConfig.cs" />
     <Compile Include="Formats\Configuration\TypeRule.cs" />
+    <Compile Include="Formats\Engines\Default\Demiurge.cs" />
     <Compile Include="Formats\Engines\Lambda\Config.Properties.cs" />
     <Compile Include="Formats\Engines\Lambda\Config.Types.cs" />
     <Compile Include="Formats\Engines\Lambda\Rule.Properties.cs" />

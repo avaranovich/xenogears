@@ -21,12 +21,15 @@ namespace XenoGears.Playground.Formats
     [TestFixture]
     public class JsonTests : BaseTests
     {
-        private class Foo
+        private class BaseFoo
         {
             public bool Ok { get; private set; }
-            public OrderedDictionary<String, IList<IBar>> Bars { get; private set; }
             internal List<Foo> Foos { get; set; }
+        }
 
+        private class Foo : BaseFoo
+        {
+            public OrderedDictionary<String, IList<IBar>> Bars { get; private set; }
             private int Calc { get { return Ok.SafeHashCode() ^ Bars.SafeHashCode() ^ Foos.SafeHashCode(); } }
         }
 
@@ -42,10 +45,14 @@ namespace XenoGears.Playground.Formats
             }
         }
 
-        private interface IBar
+        private interface IBaz
+        {
+            String Baz { get; set; }
+        }
+
+        private interface IBar : IBaz
         {
             Qux Qux { get; set; }
-            String Baz { get; set; }
         }
 
         [AdhocEngine, Json(DefaultCtor = false)]

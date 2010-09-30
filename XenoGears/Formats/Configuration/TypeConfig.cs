@@ -24,10 +24,6 @@ namespace XenoGears.Formats.Configuration
         {
         }
 
-        // todo. support inheritance here
-        // e.g. make adapters for derived class also find adapters for base class
-        // we could also support generics here =)
-
         public ReadOnlyCollection<TypeAdapter> Adapters
         {
             get

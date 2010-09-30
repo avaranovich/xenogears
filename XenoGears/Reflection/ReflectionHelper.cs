@@ -228,5 +228,15 @@ namespace XenoGears.Reflection
                 return false;
             }
         }
+
+        public static Object GetValue(this MemberInfo mi, Object target)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Object SetValue(this MemberInfo mi, Object target, Object value, params Object[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

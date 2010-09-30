@@ -13,15 +13,15 @@ namespace XenoGears.Formats
 {
     public partial class Json : BaseDictionary<dynamic, dynamic>, IDynamicMetaObjectProvider
     {
-        internal Object _my_primitive = null;
-        internal OrderedDictionary<String, Json> _my_complex = new OrderedDictionary<String, Json>();
-        internal State _my_state = 0;
-        internal enum State { Primitive = 1, Object, Array }
+        protected Object _my_primitive = null;
+        protected OrderedDictionary<String, Json> _my_complex = new OrderedDictionary<String, Json>();
+        protected State _my_state = 0;
+        protected enum State { Primitive = 1, Object, Array }
 
-        internal readonly Json _wrappee;
-        internal Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
-        internal OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
-        internal State _state { get { return _wrappee != null ? _wrappee._state : _my_state; } set { if (_wrappee != null) _wrappee._state = value; else _my_state = value; } }
+        private readonly Json _wrappee;
+        private Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
+        private OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
+        private State _state { get { return _wrappee != null ? _wrappee._state : _my_state; } set { if (_wrappee != null) _wrappee._state = value; else _my_state = value; } }
 
         public bool IsPrimitive { get { return _state == State.Primitive; } }
         public bool IsComplex { get { return IsObject || IsArray; } }
@@ -110,7 +110,25 @@ namespace XenoGears.Formats
 
         #endregion
 
-        #region Collection API
+        #region Primitive API
+
+        public bool HasValue
+        {
+            get { return IsPrimitive; }
+        }
+
+        public Object Value
+        {
+            get
+            {
+                IsPrimitive.AssertTrue();
+                return _primitive;
+            }
+        }
+
+        #endregion
+
+        #region Complex API
 
         public override bool IsReadOnly
         {
