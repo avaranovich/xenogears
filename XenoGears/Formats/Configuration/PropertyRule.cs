@@ -13,7 +13,7 @@ namespace XenoGears.Formats.Configuration
     {
         public new Func<PropertyInfo, bool> Filter { get; set; }
         public bool AppliesTo(PropertyInfo pi) { return pi != null && Filter(pi); }
-        public PropertyRule(Func<PropertyInfo, bool> filter, bool isAdhoc) : base(filter, isAdhoc) { Filter = filter; }
+        public PropertyRule(Func<PropertyInfo, bool> filter) : base(filter) { Filter = filter; }
 
         private readonly List<Action<PropertyConfig>> _clauses = new List<Action<PropertyConfig>>();
         public List<Action<PropertyConfig>> Clauses { get { return _clauses; } }

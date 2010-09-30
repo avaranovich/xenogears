@@ -8,11 +8,6 @@ namespace XenoGears.Formats
     [DebuggerNonUserCode]
     public class JsonPrimitive : Json
     {
-        public JsonPrimitive()
-        {
-            _my_state = State.Primitive;
-        }
-
         public JsonPrimitive(Object value) 
             : base(value)
         {

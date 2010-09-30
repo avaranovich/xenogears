@@ -1,8 +1,10 @@
-﻿namespace XenoGears.Formats.Configuration.Default.Annotations
+﻿using System;
+
+namespace XenoGears.Formats.Configuration.Default.Annotations
 {
+    [Flags]
     public enum JsonShape
     {
-        Default = 0,
         Primitive = 1,
         Object = 2,
         List = 4,

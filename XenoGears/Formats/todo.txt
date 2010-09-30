@@ -1,0 +1,6 @@
+﻿todos for JSON serialization/deserialization engine:
+1) support fields (this will require not only FieldXXX analogues for TypeXXX and PropertyXXX classes and methods,
+   but also generic MemberInfo, i.e. MemberXXX (?) stuff => this is inconvenient, so we'll need to think about something else)
+2) improve performance via caching configs and generating dynamic methods for reflective accesses
+3) support extensibility via standalone methods marked with [AfterDeserialize] or [Engine] attributes,
+   so that customization becomes declarative rather than imperative.

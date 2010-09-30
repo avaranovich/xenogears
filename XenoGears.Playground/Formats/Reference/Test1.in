@@ -1,9 +1,17 @@
 ﻿[{
     ok : false,
-    bars : { "ein" : [{qux:1, baz:"ei'\\\"n"}, {qux:2, baz:""}], "zwei" : [{qux:1}], "drei" : null },
+    // quux : "foo",
+    bars : { "ein" : [{qux:1, baz:"e/*i,[{]}',[{]}\\,[{]}\",[{]}n//*/"}, {qux:2, baz:""}], "zwei" : [{qux:1}], "drei" : null },
     "foos" : [{ok:true}, {ok:false, bars:{}}]
 },
 
+// sline comment
+/* mline comment
+
 {
+    ok : false
+    },
+
+*/{
     ok : true
 }]

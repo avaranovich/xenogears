@@ -30,7 +30,7 @@ namespace XenoGears.Formats.Configuration
         public static TypeRule Adhoc(this Func<Type, bool> t)
         {
             t.AssertNotNull();
-            return new TypeRule(t, true);
+            return new TypeRule(t);
         }
 
         public static TypeRule Rule(this Func<Type, bool> t)
@@ -43,7 +43,7 @@ namespace XenoGears.Formats.Configuration
         public static TypeRule Rule(this Func<Type, bool> t, out IDisposable unreg)
         {
             t.AssertNotNull();
-            var rule = new TypeRule(t, false);
+            var rule = new TypeRule(t);
             Repository.Rules.Add(rule);
             unreg = new DisposableAction(() => Repository.Rules.Remove(rule));
             return rule;

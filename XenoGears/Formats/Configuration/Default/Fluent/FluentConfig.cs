@@ -23,7 +23,8 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         public FluentConfig IsObject { get { if (!Config.IsObject) { Config.IsObject = true; Config.Slots = Config.Type.JsonSlots(JsonSlots.Default).ToList(); } return this; } }
         public FluentConfig OptOutPublic { get { Config.IsObject = true; Config.Slots = Config.Type.JsonSlots(JsonSlots.OptOutPublic).ToList(); return this; } }
         public FluentConfig OptOutNonPublic { get { Config.IsObject = true; Config.Slots = Config.Type.JsonSlots(JsonSlots.OptOutNonPublic).ToList(); return this; } }
-        public FluentConfig OptIn { get { Config.IsObject = true; Config.Slots = Config.Type.JsonSlots(JsonSlots.OptIn).ToList(); return this; } }
+        public FluentConfig OptInPublic { get { Config.IsObject = true; Config.Slots = Config.Type.JsonSlots(JsonSlots.OptInPublic).ToList(); return this; } }
+        public FluentConfig OptInNonPublic { get { Config.IsObject = true; Config.Slots = Config.Type.JsonSlots(JsonSlots.OptInNonPublic).ToList(); return this; } }
         public FluentConfig Slots(Func<Type, IEnumerable<MemberInfo>> slots) { var _1 = IsObject; Config.Slots.RemoveElements(slot => slot is MemberInfo); return Slots((slots ?? (_2 => Seq.Empty<MemberInfo>()))(Config.Type)); }
         public FluentConfig Slots(params MemberInfo[] slots) { return Slots((IEnumerable<MemberInfo>)slots); }
         public FluentConfig Slots(IEnumerable<MemberInfo> slots) { var _ = IsObject; Config.Slots.AddElements(slots ?? Seq.Empty<MemberInfo>()); return this; }

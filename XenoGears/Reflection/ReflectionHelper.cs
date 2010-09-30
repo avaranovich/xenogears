@@ -204,5 +204,29 @@ namespace XenoGears.Reflection
                 select prop
                 ).FirstOrDefault();
         }
+
+        public static bool Overrides(this MemberInfo wb_child, MemberInfo wb_parent)
+        {
+            if (wb_child == null || wb_parent == null) return false;
+
+            if (wb_child is MethodInfo || wb_parent is MethodInfo)
+            {
+                var mi_child = wb_child as MethodInfo;
+                var mi_parent = wb_parent as MethodInfo;
+                if (mi_child == null || mi_parent == null) return false;
+                return mi_child.Hierarchy().Contains(mi_parent);
+            }
+            else if (wb_child is PropertyInfo || wb_parent is PropertyInfo)
+            {
+                var pi_child = wb_child as PropertyInfo;
+                var pi_parent = wb_parent as PropertyInfo;
+                if (pi_child == null || pi_parent == null) return false;
+                return pi_child.Hierarchy().Contains(pi_parent);
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
