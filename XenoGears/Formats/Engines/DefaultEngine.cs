@@ -20,7 +20,7 @@ using XenoGears.Reflection.Attributes;
 namespace XenoGears.Formats.Engines
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
-    [DebuggerNonUserCode]
+//    [DebuggerNonUserCode]
     public class DefaultEngine : TypeEngine
     {
         public override Object Deserialize(Type t, Json json)

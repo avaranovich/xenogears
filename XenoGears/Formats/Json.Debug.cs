@@ -26,7 +26,7 @@ namespace XenoGears.Formats
                 get
                 {
                     var keys = _json.Keys;
-                    return keys.Select(key => new JsonDebugView(_json[key], key)).ToArray();
+                    return keys.Select(key => new JsonDebugView(_json[(Object)key], ((Object)key).ToString())).ToArray();
                 }
             }
         }
