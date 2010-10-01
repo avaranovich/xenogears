@@ -20,7 +20,7 @@ namespace XenoGears.Formats.Engines
         {
             var m_deserialize = t.GetMethods(BF.All).AssertSingle(m => m.Name == "Deserialize" && (
                 Seq.Equal(m.Params(), typeof(Json)) || 
-                (Seq.Equal(m.Params(), typeof(Object)) && m.Param(0).HasAttr<DynamicAttribute>())));
+                (Seq.Equal(m.Params(), typeof(Object)) && m.GetParameters()[0].HasAttr<DynamicAttribute>())));
             if (m_deserialize.IsStatic)
             {
                 (m_deserialize.Ret() != typeof(void)).AssertTrue();

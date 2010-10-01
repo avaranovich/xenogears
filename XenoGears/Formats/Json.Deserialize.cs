@@ -65,7 +65,7 @@ namespace XenoGears.Formats
             var pi = mi as PropertyInfo;
             var t = mi is Type ? (Type)mi : (mi is PropertyInfo ? ((PropertyInfo)mi).PropertyType : ((Func<Type>)(() => { throw AssertionHelper.Fail(); }))());
 
-            var engine = pi.Config().Engine ?? (Engine)new DefaultEngine();
+            var engine = pi.Config().Engine ?? t.Config().Engine ?? (Engine)new DefaultEngine();
             if (engine is TypeEngine && !(mi is Type)) mi = mi.Type();
             var value = engine.Deserialize(mi, this);
             value = t.Config().Adapters.Fold(value, (curr, adapter) => adapter.AfterDeserialize(t, curr));

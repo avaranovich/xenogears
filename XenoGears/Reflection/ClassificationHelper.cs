@@ -121,11 +121,17 @@ namespace XenoGears.Reflection
             if (t == null) return null;
             var unambiguousEnum =
                 t.SameMetadataToken(typeof(IEnumerable<>)) ? t :
-                t.GetInterfaces().Where(iface => iface.SameMetadataToken(typeof(IEnumerable<>))).SingleOrDefault();
+                t.GetInterfaces().Where(iface => iface.SameMetadataToken(typeof(IEnumerable<>))).SingleOrDefault2();
             return unambiguousEnum == null ? null : unambiguousEnum.XGetGenericArguments().Single();
         }
 
         public static Type GetListElement(this Type t)
+        {
+            var adder = t.GetListAdder();
+            return adder == null ? null : adder.Params().AssertSingle();
+        }
+
+        public static MethodInfo GetListAdder(this Type t)
         {
             if (t == null) return null;
             var enumOfT = t.GetEnumerableElement();
@@ -135,11 +141,8 @@ namespace XenoGears.Reflection
             }
             else
             {
-                var defaultCtor = t.GetConstructor(new Type[0]);
-                var addMethod = t.GetMethod("Add", enumOfT.MkArray());
-
-                var isListTypeOfT = ((addMethod != null && defaultCtor != null) /*|| enumCtor != null || vaCtor != null*/);
-                return isListTypeOfT ? enumOfT : null;
+                return t.Hierarchy().SelectMany(ht => ht.GetMethods(BF.All))
+                    .FirstOrDefault(m => m.Name == "Add" && Seq.Equal(m.Params(), enumOfT.MkArray()));
             }
         }
 
@@ -148,7 +151,7 @@ namespace XenoGears.Reflection
             if (t == null) return null;
             var unambiguousDic =
                 t.SameMetadataToken(typeof(IDictionary<,>)) ? t :
-                t.GetInterfaces().Where(iface => iface.SameMetadataToken(typeof(IDictionary<,>))).SingleOrDefault();
+                t.GetInterfaces().Where(iface => iface.SameMetadataToken(typeof(IDictionary<,>))).SingleOrDefault2();
             return unambiguousDic == null ? null : (KeyValuePair<Type, Type>?)
                 new KeyValuePair<Type, Type>(
                     unambiguousDic.XGetGenericArguments()[0],
@@ -167,6 +170,21 @@ namespace XenoGears.Reflection
             return kvp_el == null ? null : kvp_el.Value.Value;
         }
 
+        public static MethodInfo GetDictionaryAdder(this Type t)
+        {
+            if (t == null) return null;
+            var key = t.GetDictionaryKey();
+            var value = t.GetDictionaryValue();
+            if (key == null || value == null)
+            {
+                return null;
+            }
+            else
+            {
+                return t.Hierarchy().SelectMany(ht => ht.GetMethods(BF.All))
+                    .FirstOrDefault(m => m.Name == "Add" && Seq.Equal(m.Params(), new []{key, value}));
+            }
+        }
         public static bool IsReferenceType(this Type t)
         {
             if (t == null) return false;

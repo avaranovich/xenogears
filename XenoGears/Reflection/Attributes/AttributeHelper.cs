@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using XenoGears.Functional;
 using XenoGears.Reflection.Shortcuts;
 using XenoGears.Assertions;
+using XenoGears.Reflection.Generics;
 
 namespace XenoGears.Reflection.Attributes
 {
@@ -41,7 +43,8 @@ namespace XenoGears.Reflection.Attributes
                 var hierarchy = pi.DeclaringType.Hierarchy();
                 return hierarchy.Any(t1 =>
                 {
-                    var basep = t1.GetProperties(BF.All).SingleOrDefault(p => p.Name == pi.Name && p.DeclaringType == t1);
+                    var basep = t1.GetProperties(BF.All | BF.DeclOnly).SingleOrDefault(p => p.DeclaringType == t1 &&
+                        p.Name == pi.Name && Seq.Equal(p.GetIndexParameters().Select(ppi => ppi.ParameterType), pi.GetIndexParameters().Select(ppi => ppi.ParameterType)));
                     return basep == null ? false : basep.IsDefined(t, true);
                 });
             }
@@ -87,7 +90,8 @@ namespace XenoGears.Reflection.Attributes
                 var hierarchy = pi.DeclaringType.Hierarchy();
                 return hierarchy.SelectMany(t1 =>
                 {
-                    var basep = t1.GetProperties(BF.All).SingleOrDefault(p => p.Name == pi.Name && p.DeclaringType == t1);
+                    var basep = t1.GetProperties(BF.All | BF.DeclOnly).SingleOrDefault(p => p.DeclaringType == t1 &&
+                        p.Name == pi.Name && Seq.Equal(p.GetIndexParameters().Select(ppi => ppi.ParameterType), pi.GetIndexParameters().Select(ppi => ppi.ParameterType)));
                     return basep == null ? Enumerable.Empty<Attribute>() : basep.GetCustomAttributes(t, true).Cast<Attribute>();
                 })
                 // this is necessary to shield us from a codegen bug

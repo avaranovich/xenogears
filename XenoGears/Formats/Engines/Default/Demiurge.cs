@@ -46,7 +46,11 @@ namespace XenoGears.Formats.Engines.Default
                 {
                     var name = String.Format("Reified_{0}", t.Name);
                     var rt = unit.Module.DefineType(name, TA.Public);
-                    var abstracts = t.GetProperties(BF.AllInstance).Where(p => p.IsAbstract()).ToReadOnly();
+                    if (t.IsInterface) t.Hierarchy().ForEach(rt.AddInterfaceImplementation);
+                    else rt.SetParent(t);
+
+                    var abstracts = t.Hierarchy().SelectMany(ht => ht.GetProperties(BF.AllInstance)).Where(p => p.IsAbstract()).ToReadOnly();
+                    abstracts = abstracts.Where(p1 => abstracts.None(p2 => p2.Overrides(p1))).ToReadOnly();
                     abstracts.ForEach(p =>
                     {
                         MethodBuilder get, set;
