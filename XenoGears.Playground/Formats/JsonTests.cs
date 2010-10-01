@@ -163,7 +163,7 @@ namespace XenoGears.Playground.Formats
                     Assert.AreEqual(null, foo0_foo0.Foos);
                 var foo0_foo1 = foo0_foos[1];
                     Assert.AreEqual(false, foo0_foo1.Ok);
-                    Assert.AreEqual(1, foo0_foo1.Bars.Count);
+                    Assert.AreEqual(0, foo0_foo1.Bars.Count);
                     Assert.AreEqual(null, foo0_foo1.Foos);
             var foo1 = foos[1];
                 Assert.AreEqual(true, foo1.Ok);
