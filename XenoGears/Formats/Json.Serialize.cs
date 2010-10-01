@@ -57,12 +57,15 @@ namespace XenoGears.Formats
 
         public Json(Object value, MemberInfo descriptor)
         {
+            if (value == null && descriptor == null) return;
             var mi = descriptor ?? (value == null ? null : value.GetType());
             var pi = mi as PropertyInfo;
             var t = mi is Type ? (Type)mi : (value == null ? null : value.GetType());
 
             pi.Config().Validators.ForEach(validator => validator.Validate(pi, value));
             t.Config().Validators.ForEach(validator => validator.Validate(t, value));
+            // todo. after BeforeSerialize value might have become undesirably changed in-place!
+            // how do we revert such changes and hydrate the object back to life?!
             value = pi.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(pi, curr));
             value = t.Config().Adapters.Fold(value, (curr, adapter) => adapter.BeforeSerialize(t, curr));
 

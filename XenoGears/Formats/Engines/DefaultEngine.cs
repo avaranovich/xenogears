@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using XenoGears.Formats.Configuration.Default.Annotations;
 using XenoGears.Formats.Engines.Core;
 using XenoGears.Formats.Configuration;
@@ -20,7 +19,7 @@ using XenoGears.Reflection.Attributes;
 namespace XenoGears.Formats.Engines
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
-//    [DebuggerNonUserCode]
+    [DebuggerNonUserCode]
     public class DefaultEngine : TypeEngine
     {
         public override Object Deserialize(Type t, Json json)
@@ -127,7 +126,7 @@ namespace XenoGears.Formats.Engines
                 {
                     var cast = typeof(EnumerableExtensions).GetMethod("Cast", BF.PublicStatic).AssertNotNull();
                     cast = cast.XMakeGenericMethod(typeof(String), typeof(Object));
-                    var hash = (IDictionary<String, Object>)cast.Invoke(obj, null);
+                    var hash = (IDictionary<String, Object>)cast.Invoke(null, new[]{obj});
 
                     var json = new JsonObject();
                     hash.ForEach(kvp =>
