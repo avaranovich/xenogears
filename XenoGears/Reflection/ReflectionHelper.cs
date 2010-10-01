@@ -296,5 +296,23 @@ namespace XenoGears.Reflection
                 throw AssertionHelper.Fail();
             }
         }
+
+        public static Type Type(this MemberInfo mi)
+        {
+            if (mi is FieldInfo)
+            {
+                var fi = mi.AssertCast<FieldInfo>();
+                return fi.FieldType;
+            }
+            else if (mi is PropertyInfo)
+            {
+                var pi = mi.AssertCast<PropertyInfo>();
+                return pi.PropertyType;
+            }
+            else
+            {
+                throw AssertionHelper.Fail();
+            }
+        }
     }
 }

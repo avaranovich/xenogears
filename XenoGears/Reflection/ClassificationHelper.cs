@@ -607,5 +607,10 @@ namespace XenoGears.Reflection
             if (obj is Type) return (obj as Type).IsJsonPrimitive();
             return obj.GetType().IsJsonPrimitive();
         }
+
+        public static bool IsAbstract(this PropertyInfo pi)
+        {
+            return pi.GetAccessors(true).Any(mi => mi.IsAbstract);
+        }
     }
 }
