@@ -48,7 +48,7 @@ namespace XenoGears.Formats.Engines
 
                 if (cfg.IsHash)
                 {
-                    var add = t.GetMethods(BF.AllInstance).AssertSingle(m => m.Name == "Add" && m.Paramc() == 2);
+                    var add = t.GetDictionaryAdder().AssertNotNull();
                     (add.Param(0) == typeof(String)).AssertTrue();
                     var t_v = add.Param(1);
 
@@ -64,7 +64,7 @@ namespace XenoGears.Formats.Engines
                 }
                 else if (cfg.IsList)
                 {
-                    var add = t.GetMethods(BF.AllInstance).AssertSingle(m => m.Name == "Add" && m.Paramc() == 1);
+                    var add = t.GetListAdder().AssertNotNull();
                     var t_v = add.Param(0);
 
                     json.IsArray.AssertTrue();

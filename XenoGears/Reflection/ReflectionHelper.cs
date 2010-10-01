@@ -212,14 +212,14 @@ namespace XenoGears.Reflection
                 var mi_child = wb_child as MethodInfo;
                 var mi_parent = wb_parent as MethodInfo;
                 if (mi_child == null || mi_parent == null) return false;
-                return mi_child.Hierarchy().Contains(mi_parent);
+                return mi_child != mi_parent && mi_child.Hierarchy().Contains(mi_parent);
             }
             else if (wb_child is PropertyInfo || wb_parent is PropertyInfo)
             {
                 var pi_child = wb_child as PropertyInfo;
                 var pi_parent = wb_parent as PropertyInfo;
                 if (pi_child == null || pi_parent == null) return false;
-                return pi_child.Hierarchy().Contains(pi_parent);
+                return pi_child != pi_parent && pi_child.Hierarchy().Contains(pi_parent);
             }
             else
             {
@@ -254,6 +254,7 @@ namespace XenoGears.Reflection
             else if (mi is PropertyInfo)
             {
                 var pi = mi.AssertCast<PropertyInfo>();
+                pi = pi.DeclaringType.GetProperties(BF.All | BF.DeclOnly).AssertSingle(pid => pid.MetadataToken == pi.MetadataToken);
                 var get = pi.GetGetMethod(true);
                 return get.Invoke(target, null);
             }
@@ -290,6 +291,7 @@ namespace XenoGears.Reflection
             else if (mi is PropertyInfo)
             {
                 var pi = mi.AssertCast<PropertyInfo>();
+                pi = pi.DeclaringType.GetProperties(BF.All | BF.DeclOnly).AssertSingle(pid => pid.MetadataToken == pi.MetadataToken);
                 var set = pi.GetSetMethod(true);
                 set.Invoke(target, new []{value});
             }
