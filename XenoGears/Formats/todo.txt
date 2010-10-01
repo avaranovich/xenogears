@@ -3,6 +3,8 @@
 2) support inheritance for TypeConfig and PropertyConfig thingies
    e.g. make adapters for overriden/child prop/class also find adapters for base prop/class
    here we can also support generics (definitions and instances) =)
+   keep in mind!!! that here we can face shitloads of duplications (e.g. what if some rule applies both to descendant and child?!)
+   or what if both implemented interfaces have their engines specified?
 3) support fields (this will require not only FieldXXX analogues for TypeXXX and PropertyXXX classes and methods,
    but also generic MemberInfo, i.e. MemberXXX (?) stuff => this is inconvenient, so we'll need to think about something else)
 4) support extensibility via standalone methods marked with [AfterDeserialize] or [Engine] attributes,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection.Emit;
 using XenoGears.Assertions;
 using XenoGears.Formats.Configuration.Default;
@@ -16,6 +17,7 @@ using XenoGears.Strings;
 
 namespace XenoGears.Formats.Engines.Default
 {
+    [DebuggerNonUserCode]
     internal static class Demiurge
     {
         public static Object Reify(this Type t)

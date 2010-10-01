@@ -108,7 +108,6 @@
     <Compile Include="Formats\Engines\Lambda\Config.Types.cs" />
     <Compile Include="Formats\Engines\Lambda\Rule.Properties.cs" />
     <Compile Include="Formats\Engines\Lambda\Rule.Types.cs" />
-    <Compile Include="Formats\Foo\Bar.cs" />
     <Compile Include="Formats\Grammar\JsonException.cs" />
     <Compile Include="Formats\Grammar\JsonReader.cs" />
     <Compile Include="Formats\Grammar\Lexer.cs" />

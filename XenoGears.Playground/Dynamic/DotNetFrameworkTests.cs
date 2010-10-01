@@ -123,7 +123,7 @@ namespace XenoGears.Playground.Dynamic
             }
         }
 
-        [Test]
+        [Test, ExpectedException(typeof(InvalidCastException))]
         public void TestCasts()
         {
             dynamic foo = new Foo(10);
