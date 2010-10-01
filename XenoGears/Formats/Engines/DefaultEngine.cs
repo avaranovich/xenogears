@@ -40,7 +40,7 @@ namespace XenoGears.Formats.Engines
                     var s_value = json.Value.AssertCast<String>();
                     return s_value.FromInvariantString(t);
                 }
-            }
+            }   
             else
             {
                 var obj = t.Reify();
@@ -65,7 +65,7 @@ namespace XenoGears.Formats.Engines
                 else if (cfg.IsList)
                 {
                     var add = t.GetMethods(BF.AllInstance).AssertSingle(m => m.Name == "Add" && m.Paramc() == 1);
-                    var t_v = add.Param(1);
+                    var t_v = add.Param(0);
 
                     json.IsArray.AssertTrue();
                     json.Values.Cast<Json>().ForEach(j_value =>
@@ -82,8 +82,14 @@ namespace XenoGears.Formats.Engines
                     json.Cast<String, Json>().ForEach(kvp =>
                     {
                         var key = kvp.Key;
-                        // todo. match key with properties from cfg.Slots (respect styling and JsonPropertyAttribute::Name)
-                        var mi = ((Func<MemberInfo>)(() => { throw new NotImplementedException(); }))();
+                        var mi = cfg.Slots.AssertSingle(s =>
+                        {
+                            var a_include = s.AttrOrNull<JsonIncludeAttribute>();
+                            var a_key = a_include == null ? null : a_include.Name;
+                            var name = a_key ?? s.Name;
+                            return String.Compare(name, key, true) == 0;
+                        });
+
                         var value = kvp.Value.Deserialize(mi);
                         mi.SetValue(obj, value);
                     });

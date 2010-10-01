@@ -78,7 +78,7 @@ namespace XenoGears.Formats
             else
             {
                 var engine = pi.Config().Engine ?? (Engine)new DefaultEngine();
-                if (pi != null && engine is TypeEngine) mi = pi.PropertyType;
+                if (engine is TypeEngine && !(mi is Type)) mi = mi.Type();
                 _wrappee = engine.Serialize(mi, value);
             }
         }
