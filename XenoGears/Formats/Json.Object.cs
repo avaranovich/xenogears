@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -70,7 +71,7 @@ namespace XenoGears.Formats
                 {
                     writer.WriteLine();
                     writer.Write("\"{0}\" : ", key);
-                    if (this[key].IsComplex) writer.WriteLine();
+                    if (((IEnumerable)this[key].Keys).Cast<Object>().Count() > 0) writer.WriteLine();
                     this[key].BuildPrettyString(writer);
                     if (i < this.Count() - 1) writer.Write(",");
                 });

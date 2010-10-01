@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -70,7 +71,8 @@ namespace XenoGears.Formats
                 keys.ForEach((key, i) =>
                 {
                     (key == i).AssertTrue();
-                    if (this[key].IsComplex) writer.WriteLine();
+                    // todo. omg what's with these dynamic invocations?!
+                    if (((IEnumerable)this[key].Keys).Cast<Object>().Count() > 0) writer.WriteLine();
                     this[key].BuildPrettyString(writer);
                     if (i < this.Count() - 1) writer.Write(",");
                 });
