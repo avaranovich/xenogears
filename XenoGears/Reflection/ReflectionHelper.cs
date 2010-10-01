@@ -254,7 +254,8 @@ namespace XenoGears.Reflection
             else if (mi is PropertyInfo)
             {
                 var pi = mi.AssertCast<PropertyInfo>();
-                return pi.GetValue(target, null);
+                var get = pi.GetGetMethod(true);
+                return get.Invoke(target, null);
             }
             else
             {
@@ -289,7 +290,8 @@ namespace XenoGears.Reflection
             else if (mi is PropertyInfo)
             {
                 var pi = mi.AssertCast<PropertyInfo>();
-                pi.SetValue(target, value, null);
+                var set = pi.GetSetMethod(true);
+                set.Invoke(target, new []{value});
             }
             else
             {
