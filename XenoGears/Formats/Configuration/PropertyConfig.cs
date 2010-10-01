@@ -28,7 +28,7 @@ namespace XenoGears.Formats.Configuration
             get
             {
                 var lam_adapters = (Hash.GetOrDefault(typeof(LambdaAdapters.LambdaAfterDeserializePropertyAdapter)).AssertCast<IEnumerable<PropertyAdapter>>() ?? Seq.Empty<PropertyAdapter>()).OrderBy(adapter => adapter.Weight).ToReadOnly();
-                lam_adapters = Seq.Concat(lam_adapters, (Hash.GetOrDefault(typeof(LambdaAdapters.LambdaAfterDeserializePropertyAdapter)).AssertCast<IEnumerable<PropertyAdapter>>() ?? Seq.Empty<PropertyAdapter>())).OrderBy(adapter => adapter.Weight).ToReadOnly();
+                lam_adapters = Seq.Concat(lam_adapters, (Hash.GetOrDefault(typeof(LambdaAdapters.LambdaBeforeSerializePropertyAdapter)).AssertCast<IEnumerable<PropertyAdapter>>() ?? Seq.Empty<PropertyAdapter>())).OrderBy(adapter => adapter.Weight).ToReadOnly();
                 var a_adapters = (Type.Attrs<PropertyAdapter>() ?? Seq.Empty<PropertyAdapter>()).OrderBy(adapter => adapter.Weight).ToReadOnly();
                 var adapters = Seq.Concat(lam_adapters, a_adapters).OrderBy(adapter => adapter.Weight).ToReadOnly();
                 return adapters;

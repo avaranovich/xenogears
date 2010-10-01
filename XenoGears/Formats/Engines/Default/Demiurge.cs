@@ -42,7 +42,7 @@ namespace XenoGears.Formats.Engines.Default
             {
                 var key = typeof(Demiurge).Assembly.ReadKey("XenoGears.XenoGears.snk");
                 var unit = Codegen.Units["XenoGears.Demiurge", key];
-                return unit.Context.GetOrCreate(t, () =>
+                t = unit.Context.GetOrCreate(t, () =>
                 {
                     var name = String.Format("Reified_{0}", t.Name);
                     var rt = unit.Module.DefineType(name, TA.Public);
@@ -62,7 +62,7 @@ namespace XenoGears.Formats.Engines.Default
                     });
 
                     return rt.CreateType();
-                });
+                }).AssertCast<Type>();
             }
 
             var cfg = t.Config().DefaultEngine().Config;

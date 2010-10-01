@@ -21,6 +21,7 @@ FINAL RESULT:
             [
                 {
                     "qux" : 1,
+                    "baz" : null
                 }
             ],
             "drei" : null
@@ -28,15 +29,20 @@ FINAL RESULT:
         "foos" :
         [
             {
-                "ok" : true
+                "ok" : true,
+                "bars" : null,
+                "foos" : null
             },
             {
                 "ok" : false,
-                "bars" : {}
+                "bars" : {},
+                "foos" : null
             }
         ]
     },
     {
         "ok" : true
+        "bars" : null,
+        "foos" : null
     }
 ]
