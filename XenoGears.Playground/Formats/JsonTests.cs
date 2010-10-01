@@ -33,7 +33,7 @@ namespace XenoGears.Playground.Formats
             private int Calc { get { return Ok.SafeHashCode() ^ Bars.SafeHashCode() ^ Foos.SafeHashCode(); } }
         }
 
-        [AttributeUsage(AttributeTargets.Class)]
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
         private class IBarAdapter : TypeAdapter
         {
             public override Object AfterDeserialize(Type t, Object value)
@@ -50,6 +50,7 @@ namespace XenoGears.Playground.Formats
             String Baz { get; set; }
         }
 
+        [IBarAdapter]
         public interface IBar : IBaz
         {
             Qux Qux { get; set; }
@@ -74,7 +75,7 @@ namespace XenoGears.Playground.Formats
         {
             typeof(Foo).Config().DefaultEngine().OptOutNonPublic.NotSlots(mi => mi.Name == "Calc");
             typeof(IBar).GetProperty("Qux").Config().AfterDeserialize((Qux qux) => { qux.Value *= 10; return qux; });
-            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize((pi, o) => Log.WriteLine("AfterDeserialize Foo::", pi.Name).Ignore());
+            Properties.Rule(pi => pi.DeclaringType == typeof(Foo)).AfterDeserialize((pi, o) => Log.WriteLine("AfterDeserialize Foo::{0}", pi.Name).Ignore());
             typeof(Foo).GetProperty("Ok").Config().Engine((pi, j) => { Log.WriteLine("Deserializing Foo::Ok"); return new DefaultEngine().Deserialize(pi.PropertyType, j); },
                 (pi, o) => { Log.WriteLine("Serializing Foo::Ok"); return new DefaultEngine().Serialize(pi, o); });
             typeof(Foo).GetProperty("Ok").Config().AddValidator(_ => Log.WriteLine("Validating Foo::Ok"));
@@ -130,7 +131,7 @@ namespace XenoGears.Playground.Formats
             Assert.AreEqual(anon.ToJson().ToPrettyString(), json.ToPrettyString());
 
             var foos = (List<Foo>)json;
-            Assert.AreEqual(1, foos.Count);
+            Assert.AreEqual(2, foos.Count);
             var foo0 = foos[0];
                 Assert.AreEqual(false, foo0.Ok);
                 var foo0_bars = foo0.Bars;
@@ -162,8 +163,8 @@ namespace XenoGears.Playground.Formats
                     Assert.AreEqual(null, foo0_foo0.Foos);
                 var foo0_foo1 = foo0_foos[1];
                     Assert.AreEqual(false, foo0_foo1.Ok);
-                    Assert.AreEqual(1, foo0_foo0.Bars.Count);
-                    Assert.AreEqual(null, foo0_foo0.Foos);
+                    Assert.AreEqual(1, foo0_foo1.Bars.Count);
+                    Assert.AreEqual(null, foo0_foo1.Foos);
             var foo1 = foos[1];
                 Assert.AreEqual(true, foo1.Ok);
                 Assert.AreEqual(null, foo1.Bars);
