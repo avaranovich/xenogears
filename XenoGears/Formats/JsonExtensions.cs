@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using XenoGears.Web.Urls;
 
 namespace XenoGears.Formats
 {
@@ -48,6 +49,66 @@ namespace XenoGears.Formats
             return Json.LoadOrDefault(url, json);
         }
 
+        public static dynamic LoadJson(this FileInfo url)
+        {
+            return Json.Load(url == null ? null : url.FullName);
+        }
+
+        public static dynamic LoadJsonOrDefault(this FileInfo url)
+        {
+            return Json.LoadOrDefault(url == null ? null : url.FullName);
+        }
+
+        public static dynamic LoadJsonOrDefault(this FileInfo url, Object json)
+        {
+            return Json.LoadOrDefault(url == null ? null : url.FullName, json);
+        }
+
+        public static dynamic LoadJsonOrDefault(this FileInfo url, Func<Object> json)
+        {
+            return Json.LoadOrDefault(url == null ? null : url.FullName, json);
+        }
+
+        public static dynamic LoadJson(this Uri url)
+        {
+            return Json.Load(url == null ? null : url.AbsoluteUri);
+        }
+
+        public static dynamic LoadJsonOrDefault(this Uri url)
+        {
+            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri);
+        }
+
+        public static dynamic LoadJsonOrDefault(this Uri url, Object json)
+        {
+            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri, json);
+        }
+
+        public static dynamic LoadJsonOrDefault(this Uri url, Func<Object> json)
+        {
+            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri, json);
+        }
+
+        public static dynamic LoadJson(this Url url)
+        {
+            return Json.Load(url);
+        }
+
+        public static dynamic LoadJsonOrDefault(this Url url)
+        {
+            return Json.LoadOrDefault(url);
+        }
+
+        public static dynamic LoadJsonOrDefault(this Url url, Object json)
+        {
+            return Json.LoadOrDefault(url, json);
+        }
+
+        public static dynamic LoadJsonOrDefault(this Url url, Func<Object> json)
+        {
+            return Json.LoadOrDefault(url, json);
+        }
+
         public static dynamic ReadJson(this Stream s)
         {
             return Json.Read(s);
@@ -89,6 +150,21 @@ namespace XenoGears.Formats
         }
 
         public static void SaveJson(this String url, Object json)
+        {
+            new Json(json).Save(url);
+        }
+
+        public static void SaveJson(this FileInfo url, Object json)
+        {
+            new Json(json).Save(url == null ? null : url.FullName);
+        }
+
+        public static void SaveJson(this Uri url, Object json)
+        {
+            new Json(json).Save(url.AbsoluteUri);
+        }
+
+        public static void SaveJson(this Url url, Object json)
         {
             new Json(json).Save(url);
         }
