@@ -71,6 +71,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Dictionaries\BaseNonStrictDictionary.cs" />
@@ -103,6 +105,8 @@
     <Compile Include="Formats\Configuration\PropertyRule.cs" />
     <Compile Include="Formats\Configuration\TypeConfig.cs" />
     <Compile Include="Formats\Configuration\TypeRule.cs" />
+    <Compile Include="Formats\XmlExtensions.cs" />
+    <Compile Include="Formats\Xml.IO.cs" />
     <Compile Include="Formats\Engines\Default\Demiurge.cs" />
     <Compile Include="Formats\Engines\Lambda\Config.Properties.cs" />
     <Compile Include="Formats\Engines\Lambda\Config.Types.cs" />
@@ -353,6 +357,7 @@
     <Compile Include="Formats\Adapters\Password.cs" />
     <Compile Include="Formats\Json.Serialize.cs" />
     <Compile Include="Web\Gateway.cs" />
+    <Compile Include="Web\Helpers\Locale.cs" />
     <Compile Include="Web\Helpers\StatusCodeHelper.cs" />
     <Compile Include="Web\Logging\Log.cs" />
     <Compile Include="Web\Logging\LogConfig.cs" />

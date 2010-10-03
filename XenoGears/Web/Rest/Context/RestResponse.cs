@@ -149,6 +149,7 @@ namespace XenoGears.Web.Rest.Context
             var result_string = result as String;
             if (result_string != null)
             {
+                // todo. if this is HTML, inject log into it and show via javascript upon hotkey press
                 (this.Text() == null || this.Text().IsEmpty()).AssertTrue();
                 Write(result_string);
                 Native.End();

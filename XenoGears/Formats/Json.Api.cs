@@ -166,7 +166,9 @@ namespace XenoGears.Formats
             else
             {
                 value = null;
-                return false;
+                // todo. we return nulls when the property ain't exist!
+                // this is analogous to javascript's behavior that returns undefined
+                return true;
             }
         }
 

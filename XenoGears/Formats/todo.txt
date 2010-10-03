@@ -9,5 +9,5 @@
    but also generic MemberInfo, i.e. MemberXXX (?) stuff => this is inconvenient, so we'll need to think about something else)
 4) support extensibility via standalone methods marked with [AfterDeserialize] or [Engine] attributes,
    so that customization becomes declarative rather than imperative.
-5) support dynamic objects (but how will we deserialize them without knowing names/types of their slots?!)
-   here we can also support DynamicMetaObject::BindCreateInstance
+5) also support extensibility via standalone methods marked with [JsonConfig], 
+   so that assemblies can declaratively deploy their private JSON extensibility rules
