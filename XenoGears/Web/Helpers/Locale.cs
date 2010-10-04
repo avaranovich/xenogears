@@ -8,7 +8,7 @@ namespace XenoGears.Web.Helpers
     [DebuggerNonUserCode]
     public static class Locale
     {
-        public static CultureInfo Current
+        public static CultureInfo Client
         {
             get
             {
@@ -17,6 +17,11 @@ namespace XenoGears.Web.Helpers
                 if (lang == null) return null;
                 return CultureInfo.GetCultureInfo(lang);
             }
+        }
+
+        public static CultureInfo Server
+        {
+            get { return CultureInfo.CurrentCulture; }
         }
     }
 }

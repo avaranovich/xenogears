@@ -185,6 +185,42 @@ namespace XenoGears.Reflection
                     .FirstOrDefault(m => m.Name == "Add" && Seq.Equal(m.Params(), new []{key, value}));
             }
         }
+
+        public static MethodInfo GetDictionaryGetter(this Type t)
+        {
+            if (t == null) return null;
+            var key = t.GetDictionaryKey();
+            var value = t.GetDictionaryValue();
+            if (key == null || value == null)
+            {
+                return null;
+            }
+            else
+            {
+                var indexer = t.GetProperties(BF.PublicInstance).AssertSingle(
+                    p => p.PropertyType == value && Seq.Equal(p.GetIndexParameters().Select(pi => pi.ParameterType), key.MkArray()));
+                return indexer.GetGetMethod();
+            }
+        }
+
+
+        public static MethodInfo GetDictionarySetter(this Type t)
+        {
+            if (t == null) return null;
+            var key = t.GetDictionaryKey();
+            var value = t.GetDictionaryValue();
+            if (key == null || value == null)
+            {
+                return null;
+            }
+            else
+            {
+                var indexer = t.GetProperties(BF.PublicInstance).AssertSingle(
+                    p => p.PropertyType == value && Seq.Equal(p.GetIndexParameters().Select(pi => pi.ParameterType), key.MkArray()));
+                return indexer.GetSetMethod();
+            }
+        }
+
         public static bool IsReferenceType(this Type t)
         {
             if (t == null) return false;

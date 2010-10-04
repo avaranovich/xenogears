@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using XenoGears.Web.Urls;
 
@@ -29,24 +30,24 @@ namespace XenoGears.Formats
             return Json.ParseOrDefault(url, json);
         }
 
-        public static dynamic LoadJson(this String url)
+        public static dynamic LoadJson(this String url, ICredentials credentials = null)
         {
-            return Json.Load(url);
+            return Json.Load(url, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this String url)
+        public static dynamic LoadJsonOrDefault(this String url, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url);
+            return Json.LoadOrDefault(url, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this String url, Object json)
+        public static dynamic LoadJsonOrDefault(this String url, Object json, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url, json);
+            return Json.LoadOrDefault(url, json, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this String url, Func<Object> json)
+        public static dynamic LoadJsonOrDefault(this String url, Func<Object> json, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url, json);
+            return Json.LoadOrDefault(url, json, credentials);
         }
 
         public static dynamic LoadJson(this FileInfo url)
@@ -69,44 +70,44 @@ namespace XenoGears.Formats
             return Json.LoadOrDefault(url == null ? null : url.FullName, json);
         }
 
-        public static dynamic LoadJson(this Uri url)
+        public static dynamic LoadJson(this Uri url, ICredentials credentials = null)
         {
-            return Json.Load(url == null ? null : url.AbsoluteUri);
+            return Json.Load(url == null ? null : url.AbsoluteUri, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this Uri url)
+        public static dynamic LoadJsonOrDefault(this Uri url, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri);
+            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this Uri url, Object json)
+        public static dynamic LoadJsonOrDefault(this Uri url, Object json, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri, json);
+            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri, json, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this Uri url, Func<Object> json)
+        public static dynamic LoadJsonOrDefault(this Uri url, Func<Object> json, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri, json);
+            return Json.LoadOrDefault(url == null ? null : url.AbsoluteUri, json, credentials);
         }
 
-        public static dynamic LoadJson(this Url url)
+        public static dynamic LoadJson(this Url url, ICredentials credentials = null)
         {
-            return Json.Load(url);
+            return Json.Load(url, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this Url url)
+        public static dynamic LoadJsonOrDefault(this Url url, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url);
+            return Json.LoadOrDefault(url, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this Url url, Object json)
+        public static dynamic LoadJsonOrDefault(this Url url, Object json, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url, json);
+            return Json.LoadOrDefault(url, json, credentials);
         }
 
-        public static dynamic LoadJsonOrDefault(this Url url, Func<Object> json)
+        public static dynamic LoadJsonOrDefault(this Url url, Func<Object> json, ICredentials credentials = null)
         {
-            return Json.LoadOrDefault(url, json);
+            return Json.LoadOrDefault(url, json, credentials);
         }
 
         public static dynamic ReadJson(this Stream s)
@@ -149,24 +150,24 @@ namespace XenoGears.Formats
             return Json.ReadOrDefault(w, json);
         }
 
-        public static void SaveJson(this String url, Object json)
+        public static void SaveJson(this String url, Object json, ICredentials credentials = null)
         {
-            new Json(json).Save(url);
+            new Json(json).Save(url, credentials);
         }
 
-        public static void SaveJson(this FileInfo url, Object json)
+        public static void SaveJson(this FileInfo url, Object json, ICredentials credentials = null)
         {
-            new Json(json).Save(url == null ? null : url.FullName);
+            new Json(json).Save(url == null ? null : url.FullName, credentials);
         }
 
-        public static void SaveJson(this Uri url, Object json)
+        public static void SaveJson(this Uri url, Object json, ICredentials credentials = null)
         {
-            new Json(json).Save(url.AbsoluteUri);
+            new Json(json).Save(url.AbsoluteUri, credentials);
         }
 
-        public static void SaveJson(this Url url, Object json)
+        public static void SaveJson(this Url url, Object json, ICredentials credentials = null)
         {
-            new Json(json).Save(url);
+            new Json(json).Save(url, credentials);
         }
 
         public static void WriteJson(this Stream s, Object json)
