@@ -10,7 +10,7 @@ namespace XenoGears.Formats
 {
     public partial class Json
     {
-        public static dynamic Load(String uri)
+        public static dynamic Load(String uri, ICredentials credentials = null)
         {
             if (uri == null) return null;
 
@@ -18,7 +18,7 @@ namespace XenoGears.Formats
             if (is_remote)
             {
                 var req = (HttpWebRequest)WebRequest.Create(uri);
-                req.Credentials = CredentialCache.DefaultCredentials;
+                req.Credentials = credentials ?? CredentialCache.DefaultCredentials;
 
                 try
                 {
@@ -62,7 +62,7 @@ namespace XenoGears.Formats
                 if (uri.StartsWith("file:///")) uri = uri.Slice("file:///".Length);
 
                 var is_web = HttpContext.Current != null;
-                var path = is_web ? HttpContext.Current.Server.MapPath(uri) : uri;
+                var path = is_web && uri.StartsWith("~") ? HttpContext.Current.Server.MapPath(uri) : uri;
                 path = Path.GetFullPath(path);
                 if (!File.Exists(path)) throw new Exception(String.Format(
                     "READ for \"{0}\" has failed: file \"{1}\" does not exist", uri, path));
@@ -77,19 +77,19 @@ namespace XenoGears.Formats
             }
         }
 
-        public static dynamic LoadOrDefault(String uri)
+        public static dynamic LoadOrDefault(String uri, ICredentials credentials = null)
         {
-            return LoadOrDefault(uri, null as Json);
+            return LoadOrDefault(uri, null as Json, credentials);
         }
 
-        public static dynamic LoadOrDefault(String uri, Object @default)
+        public static dynamic LoadOrDefault(String uri, Object @default, ICredentials credentials = null)
         {
-            return LoadOrDefault(uri, () => @default);
+            return LoadOrDefault(uri, () => @default, credentials);
         }
 
-        public static dynamic LoadOrDefault(String uri, Func<Object> @default)
+        public static dynamic LoadOrDefault(String uri, Func<Object> @default, ICredentials credentials = null)
         {
-            try { return Load(uri); }
+            try { return Load(uri, credentials); }
             catch { return new Json((@default ?? (() => null))()); }
         }
 
@@ -147,7 +147,7 @@ namespace XenoGears.Formats
             catch { return new Json((@default ?? (() => null))()); }
         }
 
-        public static void Save(String uri, Json json)
+        public static void Save(String uri, Json json, ICredentials credentials = null)
         {
             if (uri == null) return;
 
@@ -155,7 +155,7 @@ namespace XenoGears.Formats
             if (is_remote)
             {
                 var req = (HttpWebRequest)WebRequest.Create(uri);
-                req.Credentials = CredentialCache.DefaultCredentials;
+                req.Credentials = credentials ?? CredentialCache.DefaultCredentials;
 
                 req.Method = json == null ? "DELETE" : "POST";
                 if (json != null) new StreamWriter(req.GetRequestStream()).Write(json.ToCompactString());
@@ -194,7 +194,7 @@ namespace XenoGears.Formats
                 if (uri.StartsWith("file:///")) uri = uri.Slice("file:///".Length);
 
                 var is_web = HttpContext.Current != null;
-                var path = is_web ? HttpContext.Current.Server.MapPath(uri) : uri;
+                var path = is_web && uri.StartsWith("~") ? HttpContext.Current.Server.MapPath(uri) : uri;
                 path = Path.GetFullPath(path);
                 if (!File.Exists(path)) throw new Exception(String.Format(
                     "{2} for \"{0}\" has failed: file \"{1}\" does not exist", uri, path, json == null ? "DELETE" : "WRITE"));
@@ -205,9 +205,9 @@ namespace XenoGears.Formats
             }
         }
 
-        public void Save(String uri)
+        public void Save(String uri, ICredentials credentials = null)
         {
-            Save(uri, this);
+            Save(uri, this, credentials);
         }
 
         public static void Write(Stream s, Json json)

@@ -47,7 +47,7 @@ namespace XenoGears.Formats.Engines
 
                 if (cfg.IsHash)
                 {
-                    var add = t.GetDictionaryAdder().AssertNotNull();
+                    var add = t.GetDictionarySetter().AssertNotNull();
                     (add.Param(0) == typeof(String)).AssertTrue();
                     var t_v = add.Param(1);
 

@@ -32,7 +32,11 @@ namespace XenoGears.Formats.Configuration.Default.Annotations
 
         private static ReadOnlyCollection<MemberInfo> JsonSlotsForThisVeryT(this Type t, JsonSlots options)
         {
-            if (options == Annotations.JsonSlots.OptOutPublic)
+            if (options == Annotations.JsonSlots.None)
+            {
+                return Seq.Empty<MemberInfo>().ToReadOnly();
+            }
+            else if (options == Annotations.JsonSlots.OptOutPublic)
             {
                 return t.GetProperties(BF.PublicInstance).Where(pi => !pi.HasAttr<JsonExcludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }

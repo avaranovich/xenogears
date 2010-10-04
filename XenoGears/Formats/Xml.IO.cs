@@ -16,6 +16,11 @@ namespace XenoGears.Formats
         public static XDocument Parse(String s)
         {
             if (s == null) return null;
+
+            // todo. support other useful HTML entities
+            // see http://techtrouts.com/webkit-entity-nbsp-not-defined-convert-html-entities-to-xml/
+            s = s.Replace("&nbsp;", "&#160;");
+
             return XDocument.Parse(s);
         }
 
@@ -35,7 +40,7 @@ namespace XenoGears.Formats
             catch { return (@default ?? (() => null))(); }
         }
 
-        public static XDocument Load(String uri)
+        public static XDocument Load(String uri, ICredentials credentials = null)
         {
             if (uri == null) return null;
 
@@ -43,7 +48,7 @@ namespace XenoGears.Formats
             if (is_remote)
             {
                 var req = (HttpWebRequest)WebRequest.Create(uri);
-                req.Credentials = CredentialCache.DefaultCredentials;
+                req.Credentials = credentials ?? CredentialCache.DefaultCredentials;
 
                 try
                 {
@@ -87,12 +92,15 @@ namespace XenoGears.Formats
                 if (uri.StartsWith("file:///")) uri = uri.Slice("file:///".Length);
 
                 var is_web = HttpContext.Current != null;
-                var path = is_web ? HttpContext.Current.Server.MapPath(uri) : uri;
+                var path = is_web && uri.StartsWith("~") ? HttpContext.Current.Server.MapPath(uri) : uri;
                 path = Path.GetFullPath(path);
                 if (!File.Exists(path)) throw new Exception(String.Format(
                     "READ for \"{0}\" has failed: file \"{1}\" does not exist", uri, path));
 
                 var s_xml = File.ReadAllText(path);
+                var charset = s_xml.Extract(@"<meta\s+http-equiv=""Content-Type""\s+content=""text/html;charset=(?<charset>.*?)""");
+                if (charset != null) s_xml = File.ReadAllText(path, Encoding.GetEncoding(charset));
+
                 try { return Parse(s_xml); }
                 catch (Exception ex)
                 {
@@ -102,19 +110,19 @@ namespace XenoGears.Formats
             }
         }
 
-        public static XDocument LoadOrDefault(String uri)
+        public static XDocument LoadOrDefault(String uri, ICredentials credentials = null)
         {
-            return LoadOrDefault(uri, null as XDocument);
+            return LoadOrDefault(uri, null as XDocument, credentials);
         }
 
-        public static XDocument LoadOrDefault(String uri, XDocument @default)
+        public static XDocument LoadOrDefault(String uri, XDocument @default, ICredentials credentials = null)
         {
-            return LoadOrDefault(uri, () => @default);
+            return LoadOrDefault(uri, () => @default, credentials);
         }
 
-        public static XDocument LoadOrDefault(String uri, Func<XDocument> @default)
+        public static XDocument LoadOrDefault(String uri, Func<XDocument> @default, ICredentials credentials = null)
         {
-            try { return Load(uri); }
+            try { return Load(uri, credentials); }
             catch { return (@default ?? (() => null))(); }
         }
 
@@ -172,7 +180,7 @@ namespace XenoGears.Formats
             catch { return (@default ?? (() => null))(); }
         }
 
-        public static void Save(String uri, XDocument xml)
+        public static void Save(String uri, XDocument xml, ICredentials credentials = null)
         {
             if (uri == null) return;
 
@@ -180,7 +188,7 @@ namespace XenoGears.Formats
             if (is_remote)
             {
                 var req = (HttpWebRequest)WebRequest.Create(uri);
-                req.Credentials = CredentialCache.DefaultCredentials;
+                req.Credentials = credentials ?? CredentialCache.DefaultCredentials;
 
                 req.Method = xml == null ? "DELETE" : "POST";
                 if (xml != null) new StreamWriter(req.GetRequestStream()).Write(xml.ToString());
@@ -219,14 +227,18 @@ namespace XenoGears.Formats
                 if (uri.StartsWith("file:///")) uri = uri.Slice("file:///".Length);
 
                 var is_web = HttpContext.Current != null;
-                var path = is_web ? HttpContext.Current.Server.MapPath(uri) : uri;
+                var path = is_web && uri.StartsWith("~") ? HttpContext.Current.Server.MapPath(uri) : uri;
                 path = Path.GetFullPath(path);
                 if (!File.Exists(path)) throw new Exception(String.Format(
                     "{2} for \"{0}\" has failed: file \"{1}\" does not exist", uri, path, xml == null ? "DELETE" : "WRITE"));
 
-                var s_json = xml == null ? null : xml.ToString();
-                if (s_json == null) File.Delete(path);
-                else File.WriteAllText(path, s_json);
+                var s_xml = xml == null ? null : xml.ToString();
+                if (s_xml == null) File.Delete(path);
+                else
+                {
+                    var charset = s_xml.Extract(@"<meta\s+http-equiv=""Content-Type""\s+content=""text/html;charset=(?<charset>.*?)""");
+                    File.WriteAllText(path, s_xml, charset == null ? Encoding.UTF8 : Encoding.GetEncoding(charset));
+                }
             }
         }
 
