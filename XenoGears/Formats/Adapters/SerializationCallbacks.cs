@@ -16,7 +16,7 @@ namespace XenoGears.Formats.Adapters
         {
             if (value != null)
             {
-                var m_afterdeserialize = t.GetMethods(BF.AllInstance).AssertSingle(m =>
+                var m_afterdeserialize = t.GetMethods(BF.AllInstance).AssertSingleOrDefault(m =>
                     !m.IsStatic && m.Name == "AfterDeserialize" && Seq.Equal(m.Params(), Type.EmptyTypes) && m.Ret() == typeof(void));
                 if (m_afterdeserialize != null) m_afterdeserialize.Invoke(value, Type.EmptyTypes);
             }
@@ -28,7 +28,7 @@ namespace XenoGears.Formats.Adapters
         {
             if (value != null)
             {
-                var m_beforeserialize = t.GetMethods(BF.AllInstance).AssertSingle(m =>
+                var m_beforeserialize = t.GetMethods(BF.AllInstance).AssertSingleOrDefault(m =>
                     !m.IsStatic && m.Name == "BeforeSerialize" && Seq.Equal(m.Params(), Type.EmptyTypes) && m.Ret() == typeof(void));
                 if (m_beforeserialize != null) m_beforeserialize.Invoke(value, Type.EmptyTypes);
             }

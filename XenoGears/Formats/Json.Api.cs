@@ -11,7 +11,7 @@ using XenoGears.Functional;
 
 namespace XenoGears.Formats
 {
-    public partial class Json : BaseDictionary<dynamic, dynamic>, IDynamicMetaObjectProvider
+    public partial class Json : BaseDictionary<dynamic, dynamic>, IDynamicMetaObjectProvider, ICloneable
     {
         protected Object _my_primitive = null;
         protected OrderedDictionary<String, Json> _my_complex = new OrderedDictionary<String, Json>();
@@ -19,9 +19,9 @@ namespace XenoGears.Formats
         protected enum State { Primitive = 1, Object, Array }
 
         private readonly Json _wrappee;
-        private Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
-        private OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
-        private State _state { get { return _wrappee != null ? _wrappee._state : _my_state; } set { if (_wrappee != null) _wrappee._state = value; else _my_state = value; } }
+        protected Object _primitive { get { return _wrappee != null ? _wrappee._primitive : _my_primitive; } }
+        protected OrderedDictionary<String, Json> _complex { get { return _wrappee != null ? _wrappee._complex : _my_complex; } }
+        protected State _state { get { return _wrappee != null ? _wrappee._state : _my_state; } set { if (_wrappee != null) _wrappee._state = value; else _my_state = value; } }
 
         public bool IsPrimitive { get { return _state == State.Primitive; } }
         public bool IsComplex { get { return IsObject || IsArray; } }
@@ -307,6 +307,20 @@ namespace XenoGears.Formats
             var state = IsPrimitive ? 1 : IsArray ? 2 : IsObject ? 3 : IsComplex ? 4 : ((Func<int>)(() => { throw AssertionHelper.Fail(); }))();
             var ordered = (_complex ?? new OrderedDictionary<String, Json>()).OrderBy(kvp => IsArray ? (Object)int.Parse(kvp.Key) : kvp.Key);
             return ordered.Fold(state, (curr, kvp) => curr ^ kvp.GetHashCode());
+        }
+
+        #endregion
+
+        #region Cloning boilerplate
+
+        Object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
+        public Json Clone()
+        {
+            return Parse(this.ToCompactString());
         }
 
         #endregion

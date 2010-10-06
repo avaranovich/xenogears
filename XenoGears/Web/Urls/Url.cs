@@ -7,7 +7,7 @@ using XenoGears.Functional;
 namespace XenoGears.Web.Urls
 {
     [DebuggerNonUserCode]
-    public class Url : ICloneable
+    public partial class Url : ICloneable
     {
         private bool _isReadOnly = false;
         public void MakeReadOnly() { _isReadOnly = true; }

@@ -18,7 +18,7 @@ namespace XenoGears.Formats
             [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly String _name;
             public JsonDebugView(Json json) { _json = json; }
             public JsonDebugView(Json json, Object name) { _json = json; _name = name.ToInvariantString(); }
-            public override String ToString() { return _json.ToString(); }
+            public override String ToString() { return _json.ToDebugString(); }
 
             [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
             public Object zStructure

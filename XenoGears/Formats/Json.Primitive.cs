@@ -16,25 +16,30 @@ namespace XenoGears.Formats
             : base(value.IsJsonPrimitive() ? null : value)
         {
             if (value.IsJsonPrimitive()) _my_primitive = value;
-            (_my_state == State.Primitive).AssertTrue();
+            (_state == State.Primitive).AssertTrue();
         }
 
         public JsonPrimitive(Object value, Type descriptor)
             : base(value, descriptor)
         {
-            (_my_state == State.Primitive).AssertTrue();
+            (_state == State.Primitive).AssertTrue();
         }
 
         public JsonPrimitive(Object value, PropertyInfo descriptor)
             : base(value, descriptor)
         {
-            (_my_state == State.Primitive).AssertTrue();
+            (_state == State.Primitive).AssertTrue();
         }
 
         public JsonPrimitive(Object value, MemberInfo descriptor)
             : base(value, descriptor)
         {
-            (_my_state == State.Primitive).AssertTrue();
+            (_state == State.Primitive).AssertTrue();
+        }
+
+        public new JsonPrimitive Clone()
+        {
+            return base.Clone().AssertCast2<JsonPrimitive>();
         }
     }
 
