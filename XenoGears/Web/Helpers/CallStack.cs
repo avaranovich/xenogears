@@ -23,5 +23,10 @@ namespace XenoGears.Web.Helpers
                 return debugEnabled && customErrorsDisabled;
             }
         }
+
+        public static bool Disabled
+        {
+            get { return !Enabled; }
+        }
     }
 }
