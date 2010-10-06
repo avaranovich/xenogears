@@ -10,5 +10,10 @@ namespace XenoGears.Web.Helpers
         {
             get { return HttpContext.Current.IsDebuggingEnabled; }
         }
+
+        public static bool Disabled
+        {
+            get { return !Enabled; }
+        }
     }
 }
