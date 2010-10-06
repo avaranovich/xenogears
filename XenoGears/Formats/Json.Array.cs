@@ -21,25 +21,30 @@ namespace XenoGears.Formats
         public JsonArray(Object value) 
             : base(value)
         {
-            (_my_state == State.Array).AssertTrue();
+            (_state == State.Array).AssertTrue();
         }
 
         public JsonArray(Object value, Type descriptor)
             : base(value, descriptor)
         {
-            (_my_state == State.Array).AssertTrue();
+            (_state == State.Array).AssertTrue();
         }
 
         public JsonArray(Object value, PropertyInfo descriptor)
             : base(value, descriptor)
         {
-            (_my_state == State.Array).AssertTrue();
+            (_state == State.Array).AssertTrue();
         }
 
         public JsonArray(Object value, MemberInfo descriptor)
             : base(value, descriptor)
         {
-            (_my_state == State.Array).AssertTrue();
+            (_state == State.Array).AssertTrue();
+        }
+
+        public new JsonArray Clone()
+        {
+            return base.Clone().AssertCast2<JsonArray>();
         }
     }
 

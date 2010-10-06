@@ -10,7 +10,7 @@ namespace XenoGears.Formats
     {
         public sealed override String ToString()
         {
-            return ToDebugString();
+            return ToCompactString();
         }
 
         public String ToDebugString()

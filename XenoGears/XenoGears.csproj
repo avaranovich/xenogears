@@ -98,6 +98,7 @@
     <Compile Include="Formats\Adapters\Core\Adapter.cs" />
     <Compile Include="Formats\Adapters\Core\PropertyAdapter.cs" />
     <Compile Include="Formats\Adapters\Core\TypeAdapter.cs" />
+    <Compile Include="Formats\Configuration\Default\Annotations\JsonIncludeHelper.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonFieldAttribute.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonPropertyAttribute.cs" />
     <Compile Include="Formats\Configuration\Default\Annotations\JsonShapeHelper.cs" />
@@ -359,6 +360,7 @@
     <Compile Include="Web\Gateway.cs" />
     <Compile Include="Web\Helpers\Locale.cs" />
     <Compile Include="Web\Helpers\StatusCodeHelper.cs" />
+    <Compile Include="Web\Helpers\Weblog.cs" />
     <Compile Include="Web\Logging\Log.cs" />
     <Compile Include="Web\Logging\LogConfig.cs" />
     <Compile Include="Web\Rest\Annotations\RestMethods.cs" />

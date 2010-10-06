@@ -49,6 +49,7 @@ namespace XenoGears.Formats
             {
                 var req = (HttpWebRequest)WebRequest.Create(uri);
                 req.Credentials = credentials ?? CredentialCache.DefaultCredentials;
+                req.Accept = "application/xml,application/atom+xml,*/*";
 
                 try
                 {

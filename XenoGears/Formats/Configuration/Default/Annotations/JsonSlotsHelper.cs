@@ -13,7 +13,7 @@ using XenoGears.Reflection.Attributes;
 namespace XenoGears.Formats.Configuration.Default.Annotations
 {
     [DebuggerNonUserCode]
-    internal static class JsonSlotsHelper
+    public static class JsonSlotsHelper
     {
         public static ReadOnlyCollection<MemberInfo> JsonSlots(this Type root, JsonSlots options)
         {

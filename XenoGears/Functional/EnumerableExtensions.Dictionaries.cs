@@ -12,9 +12,12 @@ namespace XenoGears.Functional
     {
         public static V GetAndRemove<K, V>(this IDictionary<K, V> map, K key)
         {
-            var value = map[key];
-            map.Remove(key);
-            return value;
+            lock (map)
+            {
+                var value = map[key];
+                map.Remove(key);
+                return value;
+            }
         }
 
         public static V GetOrDefault<K, V>(this IDictionary<K, V> map, K key)
@@ -54,15 +57,18 @@ namespace XenoGears.Functional
 
         public static V GetOrCreate<K, V>(this IDictionary<K, V> map, K key, Func<K, V> factory)
         {
-            if (map.ContainsKey(key))
+            lock (map)
             {
-                return map[key];
-            }
-            else
-            {
-                var created = factory(key);
-                map[key] = created; // poor man's synchronization
-                return created;
+                if (map.ContainsKey(key))
+                {
+                    return map[key];
+                }
+                else
+                {
+                    var created = factory(key);
+                    map[key] = created;
+                    return created;
+                }
             }
         }
 
