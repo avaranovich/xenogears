@@ -10,7 +10,17 @@ namespace XenoGears.Formats
 {
     public partial class Json
     {
-        public static dynamic Load(String uri, ICredentials credentials = null)
+        public static dynamic Load(String uri)
+        {
+            return Load(uri, null as Json, null as ICredentials);
+        }
+
+        public static dynamic Load(String uri, Json args, ICredentials credentials = null)
+        {
+            return Load(uri, credentials, args);
+        }
+
+        public static dynamic Load(String uri, ICredentials credentials, Json args = null)
         {
             if (uri == null) return null;
 
@@ -78,19 +88,19 @@ namespace XenoGears.Formats
             }
         }
 
-        public static dynamic LoadOrDefault(String uri, ICredentials credentials = null)
+        public static dynamic LoadOrDefault(String uri, ICredentials credentials = null, Json args = null)
         {
-            return LoadOrDefault(uri, null as Json, credentials);
+            return LoadOrDefault(uri, null as Json, credentials, args);
         }
 
-        public static dynamic LoadOrDefault(String uri, Object @default, ICredentials credentials = null)
+        public static dynamic LoadOrDefault(String uri, Object @default, ICredentials credentials = null, Json args = null)
         {
-            return LoadOrDefault(uri, () => @default, credentials);
+            return LoadOrDefault(uri, () => @default, credentials, args);
         }
 
-        public static dynamic LoadOrDefault(String uri, Func<Object> @default, ICredentials credentials = null)
+        public static dynamic LoadOrDefault(String uri, Func<Object> @default, ICredentials credentials = null, Json args = null)
         {
-            try { return Load(uri, credentials); }
+            try { return Load(uri, credentials, args); }
             catch { return new Json((@default ?? (() => null))()); }
         }
 
