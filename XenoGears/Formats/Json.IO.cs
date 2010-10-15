@@ -31,6 +31,9 @@ namespace XenoGears.Formats
                 req.Credentials = credentials ?? CredentialCache.DefaultCredentials;
                 req.Accept = "application/json,*/*";
 
+                req.Method = args == null ? "GET" : "POST";
+                if (args != null) req.GetRequestStream().WriteJson(args);
+
                 try
                 {
                     var resp = (HttpWebResponse)req.GetResponse();
