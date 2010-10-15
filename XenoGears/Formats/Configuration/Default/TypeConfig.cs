@@ -50,7 +50,7 @@ namespace XenoGears.Formats.Configuration.Default
                     IsPrimitive |= type.SupportsSerializationToString();
                     IsPrimitive &= a_json.Shape.HasFlag(JsonShape.Primitive);
 
-                    Slots = type.JsonSlots(JsonSlots.Default).ToList();
+                    Slots = type.JsonSlots(a_json.Slots).ToList();
                     IsObject = Slots.IsNotEmpty();
                     IsObject &= a_json.Shape.HasFlag(JsonShape.Object);
 

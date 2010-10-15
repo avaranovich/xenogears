@@ -35,8 +35,7 @@ namespace XenoGears.Web.Urls
 
         public override String ToString()
         {
-            return this.Select(kvp => kvp.Value.IsNullOrEmpty() ? kvp.Key :
-                String.Format("{0}={1}", kvp.Key, kvp.Value)).StringJoin("&");
+            return this.Where(kvp => kvp.Value != null).Select(kvp => String.Format("{0}={1}", kvp.Key, kvp.Value)).StringJoin("&");
         }
 
         #region Boilerplate of implementing dictionary methods

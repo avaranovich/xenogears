@@ -56,13 +56,13 @@ namespace XenoGears.Functional
             }
         }
 
-//        public static void Ping(this IEnumerable seq)
-//        {
-//            foreach (var element in seq ?? new ArrayList())
-//            {
-//                // just do nothing
-//            }
-//        }
+        public static void Ping(this IEnumerable seq)
+        {
+            foreach (var element in seq ?? new ArrayList())
+            {
+                // just do nothing
+            }
+        }
 
         public static void Ping<T>(this IEnumerable<T> seq)
         {
