@@ -92,13 +92,13 @@ namespace XenoGears.Formats
             iofs.ForEach(iof =>
             {
                 int start = -1, end = -1;
-                for (var i = iof - 1; i > 0; --i)
+                for (var i = iof - 1; i >= 0; --i)
                 {
                     var p = i == 0 ? '\0' : s[i - 1];
                     var c = s[i];
                     var n = i == s.Length - 1 ? '\0' : s[i + 1];
 
-                    if (Char.IsWhiteSpace(c) || comments.Contains(i))
+                    if (c == '{' || c == ',' || Char.IsWhiteSpace(c) || comments.Contains(i))
                     {
                         if (end == -1) continue;
                         else
