@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -35,7 +36,7 @@ namespace XenoGears.Strings
             if (input == null) return false;
             return Regex.IsMatch(input, pattern, options);
         }
-
+        
         public static Match Match(this String input, String pattern)
         {
             if (input == null) return null;
@@ -48,12 +49,36 @@ namespace XenoGears.Strings
             return Regex.Match(input, pattern, options);
         }
 
+        public static ReadOnlyCollection<Match> MatchMulti(this String input, String pattern)
+        {
+            if (input == null) return null;
+            return Regex.Matches(input, pattern).Cast<Match>().ToReadOnly();
+        }
+
+        public static ReadOnlyCollection<Match> MatchMulti(this String input, String pattern, RegexOptions options)
+        {
+            if (input == null) return null;
+            return Regex.Matches(input, pattern, options).Cast<Match>().ToReadOnly();
+        }
+
         public static ReadOnlyDictionary<String, String> Parse(this String input, String pattern)
         {
-            return input.Parse(pattern, RegexOptions.None);
+            var parsed = input.ParseMulti(pattern, RegexOptions.None);
+            return parsed == null ? null : parsed.AssertSingleOrDefault();
         }
 
         public static ReadOnlyDictionary<String, String> Parse(this String input, String pattern, RegexOptions options)
+        {
+            var parsed = input.ParseMulti(pattern, options);
+            return parsed == null ? null : parsed.AssertSingleOrDefault();
+        }
+
+        public static ReadOnlyCollection<ReadOnlyDictionary<String, String>> ParseMulti(this String input, String pattern)
+        {
+            return input.ParseMulti(pattern, RegexOptions.None);
+        }
+
+        public static ReadOnlyCollection<ReadOnlyDictionary<String, String>> ParseMulti(this String input, String pattern, RegexOptions options)
         {
             if (input == null) return null;
 
@@ -65,9 +90,14 @@ namespace XenoGears.Strings
                 names.Add(name);
             }
 
-            var m = input.Match(pattern, options);
-            if (m == null || !m.Success) return null;
-            return names.ToDictionary(name => name, name => m.Result("${" + name + "}")).ToReadOnly();
+            var ms = input.MatchMulti(pattern, options);
+            if (ms == null) return null;
+
+            return ms.Select(m =>
+            {
+                if (!m.Success) return null;
+                return names.ToDictionary(name => name, name => m.Result("${" + name + "}")).ToReadOnly();
+            }).Where(m => m != null).ToReadOnly();
         }
 
         public static String Extract(this String input, String pattern)
@@ -79,6 +109,17 @@ namespace XenoGears.Strings
         {
             var parsed = input.Parse(pattern);
             return parsed == null ? null : parsed.AssertSingle().Value;
+        }
+
+        public static ReadOnlyCollection<String> ExtractMulti(this String input, String pattern)
+        {
+            return input.ExtractMulti(pattern, RegexOptions.None);
+        }
+
+        public static ReadOnlyCollection<String> ExtractMulti(this String input, String pattern, RegexOptions options)
+        {
+            var parseds = input.ParseMulti(pattern);
+            return parseds == null ? null : parseds.Select(parsed => parsed.AssertSingle().Value).ToReadOnly();
         }
 
         public static String Replace(this String input, String pattern, Func<Match, String> replacer)
