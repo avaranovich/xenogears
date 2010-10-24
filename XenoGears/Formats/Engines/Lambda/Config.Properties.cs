@@ -54,8 +54,7 @@ namespace XenoGears.Formats.Engines.Lambda
         public static PropertyConfig Engine<T>(this PropertyConfig config, Func<Json, T> deserialize, Func<T, Json> serialize)
         {
             if (deserialize == null || serialize == null) return config;
-            return config.Engine((pi, j) => { typeof(T).IsAssignableFrom(pi.PropertyType).AssertTrue(); return deserialize(j).AssertCast<T>(); },
-                (pi, o) => { typeof(T).IsAssignableFrom(pi.PropertyType).AssertTrue(); return serialize(o.AssertCast<T>()); });
+            return config.Engine((pi, j) => deserialize(j).AssertCast<T>(), (pi, o) => serialize(o.AssertCast<T>()));
         }
 
         public static PropertyConfig Engine(this PropertyConfig config, Func<PropertyInfo, Json, Object> deserialize, Func<PropertyInfo, Object, Json> serialize)

@@ -43,7 +43,7 @@ namespace XenoGears.Formats.Adapters.Lambda
         public static PropertyConfig AfterDeserialize<T>(this PropertyConfig config, Action<T> afterDeserialize, double weight = 1.0)
         {
             if (afterDeserialize == null) return config;
-            return config.AfterDeserialize((pi, o) => { typeof(T).IsAssignableFrom(pi.PropertyType).AssertTrue(); afterDeserialize(o.AssertCast<T>()); }, weight);
+            return config.AfterDeserialize((pi, o) => afterDeserialize(o.AssertCast<T>()), weight);
         }
 
         public static PropertyConfig AfterDeserialize(this PropertyConfig config, Action<Object> afterDeserialize, double weight = 1.0)
@@ -65,7 +65,7 @@ namespace XenoGears.Formats.Adapters.Lambda
         public static PropertyConfig AfterDeserialize<T>(this PropertyConfig config, Func<T, Object> afterDeserialize, double weight = 1.0)
         {
             if (afterDeserialize == null) return config;
-            return config.AfterDeserialize((pi, o) => { typeof(T).IsAssignableFrom(pi.PropertyType).AssertTrue(); afterDeserialize(o.AssertCast<T>()); }, weight);
+            return config.AfterDeserialize((pi, o) => afterDeserialize(o.AssertCast<T>()), weight);
         }
 
         public static PropertyConfig AfterDeserialize(this PropertyConfig config, Func<Object, Object> afterDeserialize, double weight = 1.0)

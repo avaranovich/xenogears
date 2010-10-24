@@ -41,7 +41,7 @@ namespace XenoGears.Formats.Adapters.Lambda
         public static TypeConfig BeforeSerialize<T>(this TypeConfig config, Action<T> beforeSerialize, double weight = 1.0)
         {
             if (beforeSerialize == null) return config;
-            return config.BeforeSerialize((t, o) => { typeof(T).IsAssignableFrom(t).AssertTrue(); beforeSerialize(o.AssertCast<T>()); }, weight);
+            return config.BeforeSerialize((t, o) => beforeSerialize(o.AssertCast<T>()), weight);
         }
 
         public static TypeConfig BeforeSerialize(this TypeConfig config, Action<Object> beforeSerialize, double weight = 1.0)
@@ -63,7 +63,7 @@ namespace XenoGears.Formats.Adapters.Lambda
         public static TypeConfig BeforeSerialize<T>(this TypeConfig config, Func<T, Object> beforeSerialize, double weight = 1.0)
         {
             if (beforeSerialize == null) return config;
-            return config.BeforeSerialize((t, o) => { typeof(T).IsAssignableFrom(t).AssertTrue(); beforeSerialize(o.AssertCast<T>()); }, weight);
+            return config.BeforeSerialize((t, o) => beforeSerialize(o.AssertCast<T>()), weight);
         }
 
         public static TypeConfig BeforeSerialize(this TypeConfig config, Func<Object, Object> beforeSerialize, double weight = 1.0)

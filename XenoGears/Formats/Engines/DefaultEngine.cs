@@ -26,6 +26,9 @@ namespace XenoGears.Formats.Engines
         {
             if (json.HasValue && json.Value == null) return null;
 
+            if (t.IsNullable()) return json.Deserialize(t.UndecorateNullable());
+            if (t == typeof(DateTime)) { /* do nothing - just deserialize from UTC string */ }
+
             var cfg = t.Config().DefaultEngine().Config;
             if (cfg.IsPrimitive)
             {
@@ -43,6 +46,7 @@ namespace XenoGears.Formats.Engines
             else
             {
                 var obj = t.Reify();
+                t = obj.GetType();
                 if (t.IsArray) obj = Enumerable.ToList((dynamic)obj);
 
                 if (cfg.IsHash)
@@ -106,6 +110,8 @@ namespace XenoGears.Formats.Engines
         public override Json Serialize(Type t, Object obj)
         {
             if (obj == null) return new Json(null);
+            if (t.IsNullable()) return Json.Serialize(obj.UndecorateNullable(), t.UndecorateNullable());
+            if (t == typeof(DateTime)) return new Json(obj.AssertCast<DateTime>().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffZ"));
 
             var cfg = t.Config().DefaultEngine().Config;
             if (cfg.IsPrimitive)
@@ -117,7 +123,7 @@ namespace XenoGears.Formats.Engines
                 else
                 {
                     t.SupportsSerializationToString().AssertTrue();
-                    return new JsonPrimitive(t.ToInvariantString());
+                    return new JsonPrimitive(obj.ToInvariantString());
                 }
             }
             else
@@ -159,7 +165,7 @@ namespace XenoGears.Formats.Engines
                     {
                         var a_include = mi.AttrOrNull<JsonIncludeAttribute>();
                         var a_key = a_include == null ? null : a_include.Name;
-                        var key = a_key ?? mi.Name.ToLower();
+                        var key = a_key ?? (cfg.LowercaseSlotNames ? mi.Name.ToLower() : mi.Name);
                         var value = mi.GetValue(obj);
                         var j_value = Json.Serialize(value, mi);
                         json.Add(key, j_value);

@@ -4,8 +4,8 @@
     {
         None = 0,
         Default = 1,
-        OptOutPublic = 1,
-        OptOutNonPublic,
+        OptOutNonPublic = 1,
+        OptOutPublic,
         OptInPublic,
         OptInNonPublic,
     }

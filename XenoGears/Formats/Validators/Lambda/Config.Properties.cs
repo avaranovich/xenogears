@@ -34,7 +34,7 @@ namespace XenoGears.Formats.Validators.Lambda
         public static PropertyConfig AddValidator<T>(this PropertyConfig config, Action<T> validator)
         {
             if (validator == null) return config;
-            return config.AddValidator((pi, o) => { typeof(T).IsAssignableFrom(pi.PropertyType).AssertTrue(); validator(o.AssertCast<T>()); });
+            return config.AddValidator((pi, o) => validator(o.AssertCast<T>()));
         }
 
         public static PropertyConfig AddValidator(this PropertyConfig config, Action<Object> validator)
