@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using XenoGears.Functional;
+using XenoGears.Reflection.Shortcuts;
 using XenoGears.Traits.Disposable;
 using XenoGears.Assertions;
 
@@ -19,6 +20,7 @@ namespace XenoGears.Formats.Configuration
         public static PropertyConfig Adhoc(this PropertyInfo pi)
         {
             if (pi == null) return new PropertyConfig(pi);
+            pi = pi.DeclaringType.GetProperty(pi.Name, BF.All | BF.DeclOnly);
             return Repository.Configs.GetOrCreate(pi, () =>
             {
                 var config = new PropertyConfig(pi);
