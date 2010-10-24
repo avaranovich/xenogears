@@ -52,8 +52,8 @@ namespace XenoGears.Formats.Engines.Lambda
         public static TypeConfig Engine<T>(this TypeConfig config, Func<Json, T> deserialize, Func<T, Json> serialize)
         {
             if (deserialize == null || serialize == null) return config;
-            return config.Engine((t, j) => { typeof(T).IsAssignableFrom(t).AssertTrue(); return deserialize(j).AssertCast<T>(); },
-                (t, o) => { typeof(T).IsAssignableFrom(t).AssertTrue(); return serialize(o.AssertCast<T>()); });
+            return config.Engine((t, j) => deserialize(j).AssertCast<T>(),
+                (t, o) => serialize(o.AssertCast<T>()));
         }
 
         public static TypeConfig Engine(this TypeConfig config, Func<Type, Json, Object> deserialize, Func<Type, Object, Json> serialize)

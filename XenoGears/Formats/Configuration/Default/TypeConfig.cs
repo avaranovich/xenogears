@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace XenoGears.Formats.Configuration.Default
         public bool IsPrimitive { get; set; }
         public bool IsObject { get; set; }
         public List<MemberInfo> Slots { get; set; }
+        public bool LowercaseSlotNames { get; set; }
         public bool IsList { get; set; }
         public Type ListElement { get; set; }
         public bool IsHash { get; set; }
@@ -35,6 +37,7 @@ namespace XenoGears.Formats.Configuration.Default
                     DefaultCtor = false;
                     IsPrimitive = false;
                     Slots = new List<MemberInfo>();
+                    LowercaseSlotNames = true;
                     IsObject = false;
                     ListElement = type.GetElementType();
                     IsList = true;
@@ -51,6 +54,7 @@ namespace XenoGears.Formats.Configuration.Default
                     IsPrimitive &= a_json.Shape.HasFlag(JsonShape.Primitive);
 
                     Slots = type.JsonSlots(a_json.Slots).ToList();
+                    LowercaseSlotNames = true;
                     IsObject = Slots.IsNotEmpty();
                     IsObject &= a_json.Shape.HasFlag(JsonShape.Object);
 

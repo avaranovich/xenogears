@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -122,7 +123,15 @@ namespace XenoGears.Reflection
             var unambiguousEnum =
                 t.SameMetadataToken(typeof(IEnumerable<>)) ? t :
                 t.GetInterfaces().Where(iface => iface.SameMetadataToken(typeof(IEnumerable<>))).SingleOrDefault2();
-            return unambiguousEnum == null ? null : unambiguousEnum.XGetGenericArguments().Single();
+            if (unambiguousEnum != null)
+            {
+                return unambiguousEnum.XGetGenericArguments().Single();
+            }
+            else
+            {
+                var is_untypedenum = t == typeof(IEnumerable) || t.GetInterfaces().Any(iface => iface == typeof(IEnumerable));
+                return is_untypedenum ? typeof(Object) : null;
+            }
         }
 
         public static Type GetListElement(this Type t)
@@ -135,14 +144,14 @@ namespace XenoGears.Reflection
         {
             if (t == null) return null;
             var enumOfT = t.GetEnumerableElement();
-            if (enumOfT == null)
-            {
-                return null;
-            }
-            else
+            if (enumOfT != null)
             {
                 return t.Hierarchy().SelectMany(ht => ht.GetMethods(BF.All))
                     .FirstOrDefault(m => m.Name == "Add" && Seq.Equal(m.Params(), enumOfT.MkArray()));
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -152,10 +161,15 @@ namespace XenoGears.Reflection
             var unambiguousDic =
                 t.SameMetadataToken(typeof(IDictionary<,>)) ? t :
                 t.GetInterfaces().Where(iface => iface.SameMetadataToken(typeof(IDictionary<,>))).SingleOrDefault2();
-            return unambiguousDic == null ? null : (KeyValuePair<Type, Type>?)
-                new KeyValuePair<Type, Type>(
-                    unambiguousDic.XGetGenericArguments()[0],
-                    unambiguousDic.XGetGenericArguments()[1]);
+            if (unambiguousDic != null)
+            {
+                return new KeyValuePair<Type, Type>(unambiguousDic.XGetGenericArguments()[0], unambiguousDic.XGetGenericArguments()[1]);
+            }
+            else
+            {
+                var is_untypeddic = t == typeof(IDictionary) || t.GetInterfaces().Any(iface => iface == typeof(IDictionary));
+                return is_untypeddic ? new KeyValuePair<Type, Type>(typeof(Object), typeof(Object)) : (KeyValuePair<Type, Type>?)null;
+            }
         }
 
         public static Type GetDictionaryKey(this Type t)
@@ -650,6 +664,7 @@ namespace XenoGears.Reflection
 
         public static bool IsJsonPrimitive(this Type t)
         {
+            if (t.IsNullable()) return t.UndecorateNullable().IsJsonPrimitive();
             return t == typeof(string) || t == typeof(bool) || t == typeof(float) || t == typeof(double) ||
                 t == typeof(sbyte) || t == typeof(short) || t == typeof(int) || t == typeof(long) ||
                 t == typeof(byte) || t == typeof(ushort) || t == typeof(uint) || t == typeof(ulong);

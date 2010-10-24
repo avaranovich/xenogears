@@ -9,7 +9,9 @@ namespace XenoGears.Formats.Configuration.Default.Annotations
     {
         public static Type ListElement(this Type t)
         {
-            return t.GetListElement();
+            // note. I'm commenting this line because we might want to support serialization-only scenarios
+//            return t.GetListElement();
+            return t.GetEnumerableElement();
         }
 
         public static Type HashElement(this Type t)

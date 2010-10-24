@@ -55,6 +55,9 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         public FluentConfig NotProperties(IEnumerable<PropertyInfo> properties) { var _ = IsObject; Config.Slots.RemoveElements(properties ?? Seq.Empty<MemberInfo>()); return this; }
         public FluentConfig NotProperties(Func<Type, IEnumerable<PropertyInfo>, IEnumerable<PropertyInfo>> properties) { return NotProperties((properties ?? ((_1, _2) => Seq.Empty<PropertyInfo>()))(Config.Type, Config.Slots.OfType<PropertyInfo>())); }
         public FluentConfig NotProperties(Func<PropertyInfo, bool> properties) { return NotProperties((_1, _properties) => _properties.Where(properties ?? (_2 => false))); }
+        public FluentConfig LowercaseSlotNames() { Config.LowercaseSlotNames = true; return this; }
+        public FluentConfig VerbatimSlotNames() { Config.LowercaseSlotNames = false; return this; }
+
         public FluentConfig IsNotObject { get { Config.IsObject = false; Config.Slots = null; return this; } }
 
         public FluentConfig IsList { get { if (!Config.IsList) { Config.IsList = true; Config.ListElement = Config.Type.ListElement(); } return this; } }

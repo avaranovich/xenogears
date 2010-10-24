@@ -55,6 +55,8 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         public FluentRule NotProperties(IEnumerable<PropertyInfo> properties) { return Record(cfg => cfg.NotProperties(properties)); }
         public FluentRule NotProperties(Func<Type, IEnumerable<PropertyInfo>, IEnumerable<PropertyInfo>> properties) { return Record(cfg => cfg.NotProperties(properties)); }
         public FluentRule NotProperties(Func<PropertyInfo, bool> properties) { return Record(cfg => cfg.NotProperties(properties)); }
+        public FluentRule LowercaseSlotNames() { return Record(cfg => cfg.LowercaseSlotNames()); }
+        public FluentRule VerbatimSlotNames() { return Record(cfg => cfg.VerbatimSlotNames()); }
         public FluentRule IsNotObject { get { return Record(cfg => cfg.IsNotObject); } }
 
         public FluentRule IsList{ get { return Record(cfg => cfg.IsList); } }

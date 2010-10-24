@@ -27,7 +27,7 @@ namespace XenoGears.Formats.Configuration.Default.Annotations
                 slots.AddElements(t_slots);
             });
 
-            return slots.ToReadOnly();
+            return slots.Distinct().ToReadOnly();
         }
 
         private static ReadOnlyCollection<MemberInfo> JsonSlotsForThisVeryT(this Type t, JsonSlots options)
@@ -38,19 +38,19 @@ namespace XenoGears.Formats.Configuration.Default.Annotations
             }
             else if (options == Annotations.JsonSlots.OptOutPublic)
             {
-                return t.GetProperties(BF.PublicInstance).Where(pi => !pi.HasAttr<JsonExcludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.PublicInstance | BF.DeclOnly).Where(pi => !pi.HasAttr<JsonExcludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else if (options == Annotations.JsonSlots.OptOutNonPublic)
             {
-                return t.GetProperties(BF.AllInstance).Where(pi => !pi.HasAttr<JsonExcludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.AllInstance | BF.DeclOnly).Where(pi => !pi.HasAttr<JsonExcludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else if (options == Annotations.JsonSlots.OptInPublic)
             {
-                return t.GetProperties(BF.PublicInstance).Where(pi => pi.HasAttr<JsonIncludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.PublicInstance | BF.DeclOnly).Where(pi => pi.HasAttr<JsonIncludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else if (options == Annotations.JsonSlots.OptInNonPublic)
             {
-                return t.GetProperties(BF.AllInstance).Where(pi => pi.HasAttr<JsonIncludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
+                return t.GetProperties(BF.AllInstance | BF.DeclOnly).Where(pi => pi.HasAttr<JsonIncludeAttribute>() && pi.GetIndexParameters().IsEmpty()).Cast<MemberInfo>().ToReadOnly();
             }
             else
             {

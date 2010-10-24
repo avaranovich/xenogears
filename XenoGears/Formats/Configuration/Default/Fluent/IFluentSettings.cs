@@ -47,6 +47,8 @@ namespace XenoGears.Formats.Configuration.Default.Fluent
         T NotProperties(IEnumerable<PropertyInfo> properties);
         T NotProperties(Func<Type, IEnumerable<PropertyInfo>, IEnumerable<PropertyInfo>> properties);
         T NotProperties(Func<PropertyInfo, bool> properties);
+        T LowercaseSlotNames();
+        T VerbatimSlotNames();
         T IsNotObject { get; }
 
         T IsList { get; }
