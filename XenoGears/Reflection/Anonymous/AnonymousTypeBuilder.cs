@@ -159,7 +159,7 @@ namespace XenoGears.Reflection.Anonymous
                 var type2 = type.MakeGenericType(new Type[] { builder3.FieldType });
                 var getMethod = type.GetProperty("Default", BindingFlags.Public | BindingFlags.Static).GetGetMethod();
                 var method = TypeBuilder.GetMethod(type2, getMethod);
-                iLGenerator.Emit(OpCodes.Brfalse_S, label);
+                iLGenerator.Emit(OpCodes.Brfalse, label);
                 iLGenerator.EmitCall(OpCodes.Call, method, null);
                 iLGenerator.Emit(OpCodes.Ldarg_0);
                 iLGenerator.Emit(OpCodes.Ldfld, builder3);
@@ -170,7 +170,7 @@ namespace XenoGears.Reflection.Anonymous
                 var methodInfo = TypeBuilder.GetMethod(type2, info3);
                 iLGenerator.EmitCall(OpCodes.Callvirt, methodInfo, null);
             }
-            iLGenerator.Emit(OpCodes.Br_S, label2);
+            iLGenerator.Emit(OpCodes.Br, label2);
             iLGenerator.MarkLabel(label);
             iLGenerator.Emit(OpCodes.Ldc_I4_0);
             iLGenerator.MarkLabel(label2);
