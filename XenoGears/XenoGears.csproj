@@ -160,6 +160,7 @@
     <Compile Include="Formats\Validators\Core\TypeValidator.cs" />
     <Compile Include="Formats\Validators\Core\Validator.cs" />
     <Compile Include="Functional\Tuples\TupleHelper.cs" />
+    <Compile Include="Functional\Types\Unit.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\LevelLogger.Pretty.cs" />
