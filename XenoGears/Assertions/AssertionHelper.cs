@@ -417,7 +417,7 @@ namespace XenoGears.Assertions
 
         public static ReadOnlyDictionary<String, String> AssertParse(this String input, String pattern)
         {
-            var names = new List<String>();
+            var names = new HashSet<String>();
             var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
             for (; m_meta.Success; m_meta = m_meta.NextMatch())
             {
@@ -431,7 +431,7 @@ namespace XenoGears.Assertions
 
         public static ReadOnlyDictionary<String, String> AssertParse(this String input, String pattern, RegexOptions options)
         {
-            var names = new List<String>();
+            var names = new HashSet<String>();
             var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
             for (; m_meta.Success; m_meta = m_meta.NextMatch())
             {

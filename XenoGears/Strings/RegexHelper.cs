@@ -82,7 +82,7 @@ namespace XenoGears.Strings
         {
             if (input == null) return null;
 
-            var names = new List<String>();
+            var names = new HashSet<String>();
             var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
             for (; m_meta.Success; m_meta = m_meta.NextMatch())
             {
@@ -168,7 +168,7 @@ namespace XenoGears.Strings
         {
             if (input == null) return null;
 
-            var names = new List<String>();
+            var names = new HashSet<String>();
             var m_meta = Regex.Match(pattern, @"\(\?\<(?<name>.*?)\>");
             for (; m_meta.Success; m_meta = m_meta.NextMatch())
             {
