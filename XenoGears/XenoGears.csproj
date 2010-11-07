@@ -209,6 +209,7 @@
     <Compile Include="Threading\NativeThread.cs" />
     <Compile Include="Threading\WorkerThread.cs" />
     <Compile Include="Threading\WorkerThreadAttribute.cs" />
+    <Compile Include="Timers\Timer.cs" />
     <Compile Include="Traits\Cloneable\ICloneable2Trait.cs" />
     <Compile Include="Traits\Disposable\DisposableAction.cs" />
     <Compile Include="Functional\EnumerableExtensions.Closure.cs" />

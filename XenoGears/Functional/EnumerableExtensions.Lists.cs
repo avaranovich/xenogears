@@ -19,6 +19,12 @@ namespace XenoGears.Functional
             return mutable;
         }
 
+        public static IList<T> RemoveFirst<T>(this IList<T> mutable)
+        {
+            if (mutable.IsNotEmpty()) mutable.RemoveAt(0);
+            return mutable;
+        }
+
         public static IList<T> RemoveLast<T>(this IList<T> mutable)
         {
             if (mutable.IsNotEmpty()) mutable.RemoveAt(mutable.Count() - 1);
