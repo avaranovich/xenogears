@@ -29,7 +29,7 @@ namespace XenoGears.Timers
         public TimeSpan Elapsed()
         {
             var elapsed = _timer.Elapsed;
-            if (_autoreset) _timer.Reset();
+            if (_autoreset) Reset();
             return elapsed;
         }
     }
