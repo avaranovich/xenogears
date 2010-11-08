@@ -115,7 +115,7 @@
     <Compile Include="Formats\Engines\Lambda\Rule.Types.cs" />
     <Compile Include="Formats\Grammar\JsonException.cs" />
     <Compile Include="Formats\Grammar\JsonReader.cs" />
-    <Compile Include="Formats\Grammar\Lexer.cs" />
+    <Compile Include="Formats\Grammar\JsonLexer.cs" />
     <Compile Include="Formats\Grammar\ParserToken.cs" />
     <Compile Include="Formats\Validators\Lambda\Rule.Properties.cs" />
     <Compile Include="Formats\Validators\Lambda\Rule.Types.cs" />
