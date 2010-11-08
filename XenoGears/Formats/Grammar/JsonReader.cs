@@ -50,7 +50,7 @@ namespace XenoGears.Formats.Grammar
         private int           current_symbol;
         private bool          end_of_json;
         private bool          end_of_input;
-        private Lexer         lexer;
+        private JsonLexer         lexer;
         private bool          parser_in_string;
         private bool          parser_return;
         private bool          read_started;
@@ -70,6 +70,20 @@ namespace XenoGears.Formats.Grammar
         public bool AllowSingleQuotedStrings {
             get { return lexer.AllowSingleQuotedStrings; }
             set { lexer.AllowSingleQuotedStrings = value; }
+        }
+
+        private bool allowUnquotedPropertyNames = true;
+        public bool AllowUnquotedPropertyNames
+        {
+            get { return allowUnquotedPropertyNames; }
+            set { allowUnquotedPropertyNames = value; }
+        }
+
+        private bool allowCommaAfterLastElement = true;
+        public bool AllowCommaAfterLastElement
+        {
+            get { return allowCommaAfterLastElement; }
+            set { allowCommaAfterLastElement = value; }
         }
 
         public bool EndOfInput {
@@ -119,7 +133,7 @@ namespace XenoGears.Formats.Grammar
             automaton_stack.Push ((int) ParserToken.End);
             automaton_stack.Push ((int) ParserToken.Text);
 
-            lexer = new Lexer (reader);
+            lexer = new JsonLexer (reader);
 
             end_of_input = false;
             end_of_json  = false;
@@ -191,6 +205,8 @@ namespace XenoGears.Formats.Grammar
                          (int) ParserToken.String,
                          ':',
                          (int) ParserToken.Value);
+            TableAddCol (ParserToken.Pair, '}',
+                         (int)ParserToken.Epsilon);
 
             TableAddRow (ParserToken.PairRest);
             TableAddCol (ParserToken.PairRest, ',',
@@ -227,6 +243,8 @@ namespace XenoGears.Formats.Grammar
                          (int) ParserToken.False);
             TableAddCol (ParserToken.Value, (int) ParserToken.Null,
                          (int) ParserToken.Null);
+            TableAddCol (ParserToken.Value, ']',
+                         (int)ParserToken.Epsilon);
 
             TableAddRow (ParserToken.ValueRest);
             TableAddCol (ParserToken.ValueRest, ',',
@@ -436,8 +454,11 @@ namespace XenoGears.Formats.Grammar
                 }
 
                 try {
+                    var comma_after_last_element = current_symbol == (int)ParserToken.Pair && current_input == '}';
+                    comma_after_last_element |= current_symbol == (int)ParserToken.Value && current_input == ']';
+                    if (comma_after_last_element && !AllowCommaAfterLastElement) throw new JsonException((ParserToken)current_input);
 
-                    entry_symbols =
+                    entry_symbols = 
                         parse_table[current_symbol][current_input];
 
                 } catch (KeyNotFoundException e) {

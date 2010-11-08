@@ -1,6 +1,6 @@
 #region Header
 /**
- * Lexer.cs
+ * JsonLexer.cs
  *   JSON lexer implementation based on a finite state machine.
  *
  * The authors disclaim copyright to this source code. For more details, see
@@ -23,12 +23,12 @@ namespace XenoGears.Formats.Grammar
     {
         public bool  Return;
         public int   NextState;
-        public Lexer L;
+        public JsonLexer L;
         public int   StateStack;
     }
 
     [DebuggerNonUserCode]
-    internal class Lexer
+    internal class JsonLexer
     {
         #region Fields
         private delegate bool StateHandler (FsmContext ctx);
@@ -77,12 +77,12 @@ namespace XenoGears.Formats.Grammar
 
 
         #region Constructors
-        static Lexer ()
+        static JsonLexer ()
         {
             PopulateFsmTables ();
         }
 
-        public Lexer (TextReader reader)
+        public JsonLexer (TextReader reader)
         {
             allow_comments = true;
             allow_single_quoted_strings = true;

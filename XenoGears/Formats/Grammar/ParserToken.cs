@@ -13,7 +13,7 @@ namespace XenoGears.Formats.Grammar
 {
     internal enum ParserToken
     {
-        // Lexer tokens
+        // JsonLexer tokens
         None = System.Char.MaxValue + 1,
         Number,
         True,
