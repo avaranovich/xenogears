@@ -64,42 +64,42 @@ namespace XenoGears.Functional
 
         public static T FirstOrDefault<T>(this IEnumerable<T> seq, T @default)
         {
-            throw new NotImplementedException();
+            return seq.ElementAtOrDefault(0, @default);
         }
 
         public static T FirstOrDefault<T>(this IEnumerable<T> seq, Func<T> @default)
         {
-            throw new NotImplementedException();
+            return seq.ElementAtOrDefault(0, @default);
         }
 
         public static T FirstOrDefault<T>(this IEnumerable<T> seq, Func<T, bool> filter, T @default)
         {
-            throw new NotImplementedException();
+            return seq.Where(filter).ElementAtOrDefault(0, @default);
         }
 
         public static T FirstOrDefault<T>(this IEnumerable<T> seq, Func<T, bool> filter, Func<T> @default)
         {
-            throw new NotImplementedException();
+            return seq.Where(filter).ElementAtOrDefault(0, @default);
         }
 
         public static T LastOrDefault<T>(this IEnumerable<T> seq, T @default)
         {
-            throw new NotImplementedException();
+            return seq.Reverse().FirstOrDefault(@default);
         }
 
         public static T LastOrDefault<T>(this IEnumerable<T> seq, Func<T> @default)
         {
-            throw new NotImplementedException();
+            return seq.Reverse().FirstOrDefault(@default);
         }
 
         public static T LastOrDefault<T>(this IEnumerable<T> seq, Func<T, bool> filter, T @default)
         {
-            throw new NotImplementedException();
+            return seq.Reverse().FirstOrDefault(filter, @default);
         }
 
         public static T LastOrDefault<T>(this IEnumerable<T> seq, Func<T, bool> filter, Func<T> @default)
         {
-            throw new NotImplementedException();
+            return seq.Reverse().FirstOrDefault(filter, @default);
         }
 
         public static T MaxOrDefault<T>(this IEnumerable<T> seq, T @default)
