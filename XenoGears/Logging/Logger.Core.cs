@@ -76,12 +76,7 @@ namespace XenoGears.Logging
             Fatal = new LevelLogger(Level.Fatal, this);
             Writer = writer ?? LogWriter.Adhoc;
 
-#if DEBUG
             MinLevel = Level.Debug;
-#else
-            MinLevel = Level.Info;
-#endif
-
             IsEnabled = true;
         }
 
