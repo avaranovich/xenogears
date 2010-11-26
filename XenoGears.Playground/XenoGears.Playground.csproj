@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7AE318A4-F8F5-4B18-B738-0E34B43C99D1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XenoGears.Playground</RootNamespace>
+    <AssemblyName>XenoGears.Playground</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>XenoGears.Playground.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\ThirdPartyStuff\nunit\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="nunit-console-runner, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyStuff\nunit\lib\nunit-console-runner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyStuff\nunit\lib\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyStuff\nunit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.util, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyStuff\nunit\lib\nunit.util.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommandLine\Config.cs" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Duped1" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Duped2" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_NonObvious_Mix1" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Invalid_Mix2" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name_Target" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name_Target_Template" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Name_Target_Vcs" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Regular" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Target" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Target_Template" />
+    <EmbeddedResource Include="CommandLine\Reference\Parse_Empty" />
+    <Compile Include="CommandLine\Tests.Core.cs" />
+    <Compile Include="CommandLine\Tests.Boilerplate.cs" />
+    <Compile Include="Dynamic\DynamicProxyTests.cs" />
+    <Compile Include="Dynamic\Expando.cs" />
+    <Compile Include="Formats\JsonTests.cs" />
+    <Compile Include="Framework\BaseTests.cs" />
+    <Compile Include="Dynamic\DotNetFrameworkTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CSharp\Domain\Company.cs" />
+    <Compile Include="CSharp\Domain\Employee.cs" />
+    <Compile Include="CSharp\Domain\IDataContext.cs" />
+    <Compile Include="CSharp\Domain\MyList.cs" />
+    <Compile Include="CSharp\DotNetFrameworkTests.cs" />
+    <Compile Include="CSharp\ExpressionTests.cs" />
+    <Compile Include="MetaTests.cs" />
+    <Compile Include="Reflection\Generic\GenericArgsMappingTests.cs" />
+    <Compile Include="Reflection\Generic\GenericTests.cs" />
+    <Compile Include="Reflection\Typed\Tests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Strings\ToStringHelperTests.cs" />
+    <Compile Include="Strings\ToStringTests.cs" />
+    <Compile Include="TestRunner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XenoGears\XenoGears.csproj">
+      <Project>{9435C2AB-D46A-481C-B485-BD74EFAE7D3E}</Project>
+      <Name>XenoGears</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Formats\Reference\Test1.in" />
+    <EmbeddedResource Include="Formats\Reference\Test1.out" />
+    <None Include="Properties\AssemblyInfo.template" />
+    <None Include="XenoGears.Playground.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CommandLine\Reference\Help" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>"$(ProjectDir)..\ThirdPartyStuff\autoversioner\AutoVersioner.exe" "$(ProjectDir)$(ProjectFileName)" "$(ProjectDir)Properties\AssemblyInfo.template" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,1 @@
+I took the idea and initial implementation of fluent emits from my senior colleague - Alex Skakoun. Thanks, Alex. This is pure win!

@@ -1,0 +1,31 @@
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using XenoGears.Config.Codebase;
+using XenoGears.Web.Rest.Annotations;
+using XenoGears.Web.Rest.Security;
+using XenoGears.Versioning;
+
+[assembly: AssemblyProduct("XenoGears")]
+[assembly: AssemblyTitle("XenoGears (" +
+    "built from $"CODEBASE"$ (rev=$REVISION$, hash=$CODEHASH$), " +
+    "built at $TIMESTAMP$, " +
+    "built by $USERHASH$, " +
+    "built on $MACHINEHASH$)")]
+[assembly: AssemblyCopyright("Copyright © 2009-2010 xeno.by")]
+
+[assembly: ComVisible(false)]
+[assembly: InternalsVisibleTo("XenoGears.Playground, PublicKey=00240000048000009400000006020000002400005253413100040000010001004758ec27ce2eb2f37b6257498a93bf0e342ef561ae96c56c43a7804e2f40fee1e385e9acbed64f3d0ba38f774a2627d670299e2e17bb8aada8811e52a950cb3a59489998eb6274eb2b54c4179f9ff9ab375ba9a3c6664a0b58dd4c362fed1afb7acb8b873765ae59a97a1486bd60b1403680c80526234b68a66e8ae940740db6")]
+[assembly: InternalsVisibleTo("XenoGears.AnonymousTypes, PublicKey=00240000048000009400000006020000002400005253413100040000010001004758ec27ce2eb2f37b6257498a93bf0e342ef561ae96c56c43a7804e2f40fee1e385e9acbed64f3d0ba38f774a2627d670299e2e17bb8aada8811e52a950cb3a59489998eb6274eb2b54c4179f9ff9ab375ba9a3c6664a0b58dd4c362fed1afb7acb8b873765ae59a97a1486bd60b1403680c80526234b68a66e8ae940740db6")]
+[assembly: InternalsVisibleTo("XenoGears.Demiurge, PublicKey=00240000048000009400000006020000002400005253413100040000010001004758ec27ce2eb2f37b6257498a93bf0e342ef561ae96c56c43a7804e2f40fee1e385e9acbed64f3d0ba38f774a2627d670299e2e17bb8aada8811e52a950cb3a59489998eb6274eb2b54c4179f9ff9ab375ba9a3c6664a0b58dd4c362fed1afb7acb8b873765ae59a97a1486bd60b1403680c80526234b68a66e8ae940740db6")]
+
+[assembly: RestResource(Allow = RestMethods.ReadWrite)]
+[assembly: ConfigCodebase]
+[assembly: SecurityCodebase]
+
+[assembly: Guid("257084bf-3ae8-4744-8c53-7d5bd0614bb4")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyBuiltFrom(Repository = "$"CODEBASE"$", Revision = "$REVISION$", CodebaseHash = "$CODEHASH$")]
+[assembly: AssemblyBuiltAt(Timestamp = "$TIMESTAMP$")]
+[assembly: AssemblyBuiltBy(UserHash = "$USERHASH$")]
+[assembly: AssemblyBuiltOn(MachineHash = "$MACHINEHASH$")]

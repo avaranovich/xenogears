@@ -1,0 +1,77 @@
+﻿Deserializing Foo::Ok
+Validating Foo::Ok
+AfterDeserialize Foo::Bars
+Deserializing Foo::Ok
+Validating Foo::Ok
+AfterDeserialize Foo
+Validating Foo
+Deserializing Foo::Ok
+Validating Foo::Ok
+AfterDeserialize Foo::Bars
+AfterDeserialize Foo
+Validating Foo
+AfterDeserialize Foo
+Validating Foo
+Deserializing Foo::Ok
+Validating Foo::Ok
+AfterDeserialize Foo
+Validating Foo
+
+FINAL RESULT:
+Validating Foo
+Validating Foo::Ok
+Serializing Foo::Ok
+Validating Foo
+Validating Foo::Ok
+Serializing Foo::Ok
+Validating Foo
+Validating Foo::Ok
+Serializing Foo::Ok
+Validating Foo
+Validating Foo::Ok
+Serializing Foo::Ok
+[
+    {
+        "bars" : 
+        {
+            "ein" : 
+            [
+                {
+                    "qux" : 1,
+                    "baz" : "e/*i,[{]}',[{]}\\,[{]}\",[{]}n//*/"
+                },
+                {
+                    "qux" : 2,
+                    "baz" : ""
+                }
+            ],
+            "zwei" : 
+            [
+                {
+                    "qux" : 1,
+                    "baz" : "null"
+                }
+            ],
+            "drei" : null
+        },
+        "ok" : false,
+        "foos" : 
+        [
+            {
+                "bars" : null,
+                "ok" : true,
+                "foos" : null
+            },
+            {
+                "bars" : {},
+                "ok" : false,
+                "foos" : null
+            }
+        ]
+    },
+    {
+        "bars" : null,
+        "ok" : true,
+        "foos" : null
+    }
+]

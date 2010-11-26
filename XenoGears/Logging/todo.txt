@@ -1,0 +1,5 @@
+﻿todo for the Logger subsystem:
+1) Pluggable and configurable log writers
+2) Non-programmatic configuration
+3) Thread-safety (maybe just have different loggers for different threads?)
+4) Assess performance and polish the implementation if necessary
