@@ -19,12 +19,7 @@ namespace XenoGears.Logging
 
         public LogWriter()
         {
-#if DEBUG
             Level = Level.Debug;
-#else
-            Level = Level.Info;
-#endif
-
             IsEnabled = true;
         }
 
