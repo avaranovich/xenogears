@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using XenoGears.Assertions;
 
 namespace XenoGears.Functional
 {
@@ -8,22 +9,39 @@ namespace XenoGears.Functional
     {
         public static T SingleOrDefault<T>(this IEnumerable<T> seq, T @default)
         {
-            throw new NotImplementedException();
+            return seq.SingleOrDefault(() => @default);
         }
 
         public static T SingleOrDefault<T>(this IEnumerable<T> seq, Func<T> @default)
         {
-            throw new NotImplementedException();
+            var count = 0;
+            var ret_ok = false;
+            var ret = default(T);
+            foreach (var el in seq)
+            {
+                var curr = count++;
+                if (curr == 0)
+                {
+                    ret_ok = true;
+                    ret = el;
+                }
+                else
+                {
+                    throw AssertionHelper.Fail();
+                }
+            }
+
+            return ret_ok ? ret : @default();
         }
 
         public static T SingleOrDefault<T>(this IEnumerable<T> seq, Func<T, bool> filter, T @default)
         {
-            throw new NotImplementedException();
+            return seq.Where(filter).SingleOrDefault(@default);
         }
 
         public static T SingleOrDefault<T>(this IEnumerable<T> seq, Func<T, bool> filter, Func<T> @default)
         {
-            throw new NotImplementedException();
+            return seq.Where(filter).SingleOrDefault(@default);
         }
 
         public static T SingleOrDefault2<T>(this IEnumerable<T> seq, Func<T, bool> filter, T @default)
@@ -43,7 +61,24 @@ namespace XenoGears.Functional
 
         public static T SingleOrDefault2<T>(this IEnumerable<T> seq, Func<T> @default)
         {
-            throw new NotImplementedException();
+            var count = 0;
+            var ret_ok = false;
+            var ret = default(T);
+            foreach (var el in seq)
+            {
+                var curr = count++;
+                if (curr == 0)
+                {
+                    ret_ok = true;
+                    ret = el;
+                }
+                else
+                {
+                    ret_ok = false;
+                }
+            }
+
+            return ret_ok ? ret : @default();
         }
 
         public static T ElementAtOrDefault<T>(this IEnumerable<T> seq, int i, T @default)
