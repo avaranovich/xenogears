@@ -14,7 +14,7 @@ namespace XenoGears.Web.Helpers
                 // todo. this creates a potential security hole!
                 // note. though I had to do this since commented line ain't work
 //                var customErrorsDisabled = !HttpContext.Current.IsCustomErrorEnabled;
-                var customErrorsDisabled = Debug.Disabled;
+                var customErrorsDisabled = Debug.Enabled;
 
                 return debugEnabled && customErrorsDisabled;
             }
